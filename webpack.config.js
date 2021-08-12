@@ -51,11 +51,15 @@ module.exports = {
 				"lang",
 				"partials",
 				"favicon.json",
-			].map((dir) => path.resolve(__dirname, "src", dir)),
+			].map((dir) => ({
+				from: path.resolve(__dirname, "src", dir),
+				to: path.resolve(__dirname, "dist", dir),
+			})),
 		}),
 	],
 	devServer: {
 		contentBase: path.join(__dirname, "dist"),
+		writeToDisk: true,
 		compress: true,
 		port: 3000,
 	},
