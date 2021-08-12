@@ -1,0 +1,37 @@
+// variables
+@import "variables";
+// base
+$icon-font-path: "~bootstrap/assets/fonts/bootstrap/";
+
+@import "~bootstrap";
+@import "../../bower_components/sass-mediaqueries/media-queries";
+
+$fa-font-path: "~font-awesome/assets/fonts/font-awesome/";
+@import "~font-awesome/assets/stylesheets/font-awesome";
+
+@import "../../bower_components/lkmx-inspinia/assets/scss/inspinia";
+@import "inspinia-overrides";
+@import "mixins";
+// paldi
+@import "base";
+@import "error";
+@import "test";
+// views
+@import "views/access/login-forgot";
+@import "views/console/quote-new";
+@import "views/console/order-details";
+@import "views/console/order-list";
+@import "views/console/moldings-view";
+@import "views/console/clients-users";
+@import "views/console/others";
+// general
+@import "general/forms";
+@import "general/ibox-panel";
+@import "general/navbar";
+@import "general/buttons";
+@import "general/table";
+@import "general/datatables-tweaks";
+@import "general/print";
+@import "general/dropdowns";
+@import "general/order-details";
+@import "general/quote-new";

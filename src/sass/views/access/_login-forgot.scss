@@ -1,0 +1,68 @@
+.access-view {
+    #logo {
+        display: block;
+        width: 100px;
+        height: 100px;
+        margin: 3rem auto;
+    }
+    form {
+        color: white;
+        .forgot-password {
+            a {
+                color: white;
+            }
+        }
+    }
+    .login-view,
+    .forgot-password-view {
+        max-width: 400px;
+        border: 0 !important;
+        fieldset {
+            border: 0;
+            h1 {
+                color: white;
+                margin-bottom: $global-margin * 2;
+                font-weight: 400;
+            }
+        }
+    }
+    .signup-view {
+        max-width: 800px;
+    }
+    .login-view,
+    .signup-view,
+    .forgot-password-view {
+        margin: 0 auto;
+        padding: 0 20px 20px 20px;
+    }
+    .btn-paldi.btn-primary {
+        color: white;
+        background-color: $paldi-orange;
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:focus {
+            border-color: black;
+            background-color: black;
+        }
+    }
+    p {
+        color: black;
+        a {
+            color: white;
+        }
+    }
+    a {
+        // font-weight: 600;
+        color: black;
+        &:not(.btn):hover {
+            text-decoration: underline;
+        }
+    }
+    .error {
+        padding: 10px 0;
+        background: transparent;
+        color: $mt-red;
+        @extend .bg-danger;
+    }
+}

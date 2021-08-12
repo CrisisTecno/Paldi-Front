@@ -1,0 +1,44 @@
+{
+  "name": "angular-pageslide-directive",
+  "author": "Daniele Piccone <mail@danielepiccone.com>",
+  "main": "dist/angular-pageslide-directive.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:danielepiccone/ng-pageslide.git"
+  },
+  "homepage": "https://github.com/danielepiccone/ng-pageslide",
+  "keywords": [
+    "angular",
+    "pageslide",
+    "offcanvas",
+    "modal",
+    "pane"
+  ],
+  "version": "2.2.0",
+  "license": "MIT",
+  "devDependencies": {
+    "angular": "1.x",
+    "angular-mocks": "1.x",
+    "grunt": "^1.0.2",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-karma": "^2.0.0",
+    "http-server": "^0.11.1",
+    "jasmine-core": "^3.1.0",
+    "karma": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-coveralls": "^1.1.2",
+    "karma-jasmine": "^1.1.1",
+    "karma-phantomjs-launcher": "^1.0.4"
+  },
+  "peerDependencies": {
+    "angular": "1.x"
+  },
+  "scripts": {
+    "prepublish": "grunt",
+    "test": "grunt test",
+    "examples": "http-server ./examples"
+  }
+}

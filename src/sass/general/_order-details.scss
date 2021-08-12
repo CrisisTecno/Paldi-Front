@@ -1,0 +1,151 @@
+.status-block {
+    padding: 5px;
+    border-radius: 1px;
+    &:hover {
+        color: white;
+    }
+}
+
+.status-circle {
+    margin: 0px 5px;
+    text-align: center;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-tag{
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 1px;
+    margin-right: 1rem;
+
+    &.QUOTE{
+        border: 1px solid #839192;
+        color: #839192;
+    }
+    &.PENDING{
+        border: 1px solid #D4AC0D;
+        color: #D4AC0D;
+    }
+    &.REJECTED{
+        border: 1px solid #CB4335;
+        color: #CB4335;
+    }
+    &.LINE{
+        border: 1px solid #28B463;
+        color: #28B463;
+    }
+    &.BACKORDER{
+        border: 1px solid #CA6F1E;
+        color: #CA6F1E;
+    }
+    &.PRODUCTION{
+        border: 1px solid #2E86C1;
+        color: #2E86C1;
+    }
+    &.TRANSIT{
+        border: 1px solid #138D75;
+        color: #138D75;
+    }
+    &.FINISHED{
+        border: 1px solid #17A589;
+        color: #17A589;
+    }
+    &.INSTALLED_INCOMPLETE{
+        border: 1px solid #616A6B;
+        color: #616A6B;
+    }
+    &.INSTALLED_NONCONFORM{
+        border: 1px solid #273746;
+        color: #273746;
+    }
+    &.INSTALLED{
+        border: 1px solid #884EA0;
+        color: #884EA0;
+    }
+    &.CANCELED{
+        border: 1px solid #000000;
+        color: #000000;
+    }
+    &.ORDER_CANCELED{
+        border: 1px solid #000000;
+        color: #000000;
+    }
+    &.PROGRAMMED{
+        border: 1px solid #b8e05c;
+        color: #b8e05c;
+    }
+    &.source{
+        border: 1px solid #56b3ff;
+        color: #56b3ff;
+    }
+    &.Nueva{
+        border: 1px solid #f4d942;
+        color: #f4d942;
+    }
+    &.Duplicada{
+        border: 1px solid #ad5bff;
+        color: #ad5bff;
+    }
+    &.Seguimiento{
+        border: 1px solid #c44411;
+        color: #c44411;
+    }
+    &.Venta{
+        border: 1px solid #b2305d;
+        color: #b2305d;
+    }
+    &.ORDER{
+        border: 1px solid $paldi-orange;
+        color: $paldi-dark-color;
+    }
+    &.ORDER:hover{
+        background-color: $paldi-orange;
+        border: 1px solid $paldi-orange;
+        color: $paldi-clear-color;
+        cursor: pointer;
+    }
+
+}
+
+.order-cycle{
+    &.START{
+        color: $paldi-blue-link;
+    }
+    &.END{
+        color: $paldi-grey-mid;
+    }
+    &.LATE{
+        color: $mt-red;
+    }
+}
+
+.order-cycle-details{
+    &.END{
+        color: $paldi-grey-mid;
+    }
+    &.LATE{
+        color: $mt-red;
+    }
+}
+
+.order-total{
+    &.END{
+        color: $paldi-grey-mid;
+    }
+}
+
+.order-details-view {
+	.client-data{
+		table {
+			tfoot {
+				td {
+					color: lighten($paldi-grey-soft, 50%);
+				}
+			}
+		}
+	}
+}

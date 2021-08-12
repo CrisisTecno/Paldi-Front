@@ -1,0 +1,24 @@
+@media print {
+    html,
+    body,
+    #print-preview {
+        background: white !important;
+        #wrapper {
+            background: white !important;
+        }
+        .footer {
+            display: none;
+            table {
+                tbody {
+                    tr {
+                        td {
+                            &::before {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

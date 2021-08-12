@@ -1,0 +1,37 @@
+// Error handling
+@mixin in-error($error-color-base) {
+    border-color: $error-color-base !important;
+    background-color: lighten($error-color-base, 36%);
+    &:focus {
+        border-color: $error-color-base !important;
+    }
+
+    & ~ small.error-message {
+        display: block;
+    }
+}
+
+
+form {
+    .input-group {
+        .input-group-btn {
+            vertical-align: top !important;
+        }
+    }
+    .form-group {
+        small.error-message {
+            @extend .error;
+            //display: none;
+        }
+
+        .ng-invalid.ng-touched {
+            @include in-error($brand-danger);
+        }
+    }
+
+    &.ng-submitted {
+        .ng-invalid {
+            @include in-error($brand-danger);
+        }
+    }
+}

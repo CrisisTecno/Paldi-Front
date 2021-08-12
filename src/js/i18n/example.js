@@ -1,0 +1,1 @@
+var exampleI18n;

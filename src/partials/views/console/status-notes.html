@@ -1,0 +1,15 @@
+<div>
+    <form name="notesForm" role="form" novalidate ng-submit="changeStatus(notesForm, notes)" autocomplete="off">
+
+        <div class="form-group notes">
+            <label>Observaciones</label>
+            <textarea required="" name="notes" ng-model="notes" class="form-control" ng-required="newStatus == 'PENDING' || newStatus == 'PRODUCTION' || newStatus == 'INSTALLED_INCOMPLETE' || newStatus == 'INSTALLED_NONCONFORM'"></textarea>
+        </div>
+
+        <div>
+            <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Aceptar</button>
+        </div>
+
+    </form>
+</div>

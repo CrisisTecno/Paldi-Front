@@ -1,0 +1,48 @@
+// Lists
+.client-list-view {
+    .table-filter {
+        margin-bottom: -83px !important;
+        padding-top: 15px;
+    }
+}
+
+// Summary
+.client-details-view,
+.user-details-view {
+    .data-summary {
+        h3 {
+            margin-bottom: $global-margin;
+            padding-bottom: $global-padding;
+            padding-left: $global-padding;
+            border-color: lighten($paldi-grey-soft, 60%) !important;
+            border-bottom: 1px solid;
+            i {
+                margin-right: $global-margin;
+                color: rgba(0, 0, 0, .5);
+            }
+        }
+        ul {
+            margin-bottom: $global-margin * 3;
+            padding-left: $global-padding;
+            li {
+                margin-bottom: $global-margin / 2;
+                list-style: none;
+                span {
+                    display: inline-block;
+                    width: 150px;
+                    margin-right: $global-margin;
+                    color: rgba(0, 0, 0, .5);
+                }
+                &.email {
+                    a {
+                        color: $paldi-orange;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+    button.delete {
+        margin-right: $global-margin * 4;
+    }
+}

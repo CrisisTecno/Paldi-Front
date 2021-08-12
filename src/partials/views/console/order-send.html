@@ -1,0 +1,8 @@
+<div class="ibox">
+	<h3>Enviar como Orden</h3>
+	<div>
+		<button class="btn btn-danger" ng-click="closeThisDialog()">Cancelar</button>
+		<button class="btn btn-default" ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER') && order.status != 'PENDING'" ng-click="closeThisDialog();changeStatusDialog('PENDING')">Sin anticipo</button>
+    	<button class="btn btn-success" ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'ADMIN')" ng-click="closeThisDialog();paymentDialog('advance')">Con anticipo</button>
+	</div>
+</div>

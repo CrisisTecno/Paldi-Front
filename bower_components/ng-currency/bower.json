@@ -1,0 +1,26 @@
+{
+  "name": "ng-currency",
+  "version": "0.0.0-semantically-released.0",
+  "main": "dist/ng-currency.js",
+  "description": "Directive that works in conjunction with currency filter.",
+  "homepage": "http://alaguirre.com",
+  "authors": [
+    "Luis Aguirre <luis@alaguirre.com>",
+    "Nick Woodward <nick@salte.io>"
+  ],
+  "keywords": [
+    "currency",
+    "directive",
+    "filter"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "devDependencies": {
+    "angular": ">=1.3.4"
+  }
+}

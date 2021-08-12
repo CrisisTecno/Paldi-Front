@@ -1,0 +1,39 @@
+.side-details {
+    overflow-y: scroll;
+
+    .ibox{
+        margin-bottom: 0;
+    }
+    
+
+    ul{
+        padding-left: 1rem;
+        li{
+            list-style-type: none;
+            padding-bottom: $global-padding / 3;
+
+            small {
+                font-size: 0.8rem;
+                letter-spacing: 0.02rem;
+                font-weight: 300;
+            }
+
+            span{
+                font-size: 0.8rem;
+                letter-spacing: 0.02rem;
+                font-weight: 400;
+            }
+        }
+    }
+
+    .order-payment{
+        hr{
+            width: 30%;
+        }
+    }
+
+    .btn{
+        width: 48%;
+    }
+
+}

@@ -1,0 +1,227 @@
+fieldset {
+    margin-bottom: $global-margin * 2;
+    padding: $global-padding;
+    border: 1px solid;
+    border-color: lighten($paldi-grey-soft, 60%);
+    /*-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5 px;*/
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+    legend {
+        font-size: 1rem !important;
+        line-height: 2;
+        width: auto;
+        padding-right: $global-margin * 2;
+        padding-left: $global-margin;
+        border-bottom: 0;
+        background: white;
+    }
+}
+
+label {
+    font-weight: 400;
+    color: lighten($paldi-grey-soft, 10%);
+    font-size: .85rem;
+    margin-bottom: $global-margin / 2;
+    // padding-left: $global-padding / 2;
+}
+
+input, select {
+    height: 42px !important;
+}
+
+input,
+select,
+textarea,
+.form-control {
+    height: auto;
+    font-size: 1rem;
+    padding: .5rem 1rem;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    letter-spacing: $global-letter-spacing;
+    color: black !important;
+    // -webkit-appearance: none;
+    border-color: lighten($paldi-grey-soft, 40%);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    /*-webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+    border-color: $paldi-grey-light;*/
+    &::-webkit-input-placeholder {
+        letter-spacing: .2rem;
+    }
+    &:focus,
+    &:active {
+        border-color: $paldi-orange !important;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 133, 108, .6) !important;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 133, 108, .6) !important;
+    }
+}
+
+.form-group {
+    vertical-align: bottom;
+    select {
+        height: 44px !important;
+        padding: 0 1rem !important;
+    }
+}
+
+small.error-message {
+    color: $mt-red;
+}
+
+// formas especificas
+// product
+.product-type {
+    .form-group {
+        width: 31%;
+        margin-right: 1.6%;
+        display: inline-block;
+        margin-bottom: $global-margin * 2;
+        @include max-screen(768px) {
+            width: 100%;
+        }
+        &.notes {
+            width: 100%;
+        }
+    }
+    textarea {
+        .form-group & {
+            width: 100% !important;
+        }
+    }
+    .total-configuration {
+        label {
+            display: block;
+        }
+        span {
+            display: inline-block;
+        }
+        input {
+            width: 80%;
+            display: inline-block;
+            background: transparent;
+            border: 0;
+            font-size: 1.4rem;
+            padding: 0 !important;
+        }
+    }
+}
+
+.input-group {
+    .btn-calendar {
+
+    }
+    .form-control {
+        position: static;
+    }
+}
+
+// New quote: Adding plus, Adding Motor
+.form-adding {
+    label.title {
+        color: black;
+        display: block;
+        padding-left: $global-padding / 2;
+        border-left: 3px solid;
+        border-bottom: 0;
+        margin-top: $global-margin * 2;
+        margin-bottom: $global-margin * 2;
+        border-color: $paldi-orange;
+        font-size: 1.2rem;
+        font-weight: 400;
+        margin-bottom: $global-margin * 2;
+    }
+    .form-group {
+        width: 100%;
+    }
+}
+
+// new client, user
+.user-new-view,
+.client-new-view {
+    .form-group {
+        width: 48%;
+        margin-right: 1.6%;
+        display: inline-block;
+        margin-bottom: $global-margin * 2;
+        @include max-screen(768px) {
+            width: 100%;
+        }
+        &.notes {
+            width: 100%;
+        }
+    }
+}
+
+.client-new-view {
+    .form-group {
+        width: 50%;
+        margin-bottom: $global-margin;
+    }
+}
+
+.uib-time input{
+    width: 100px;
+}
+
+.uib-datepicker {
+    .uib-title {
+        .uib-day {
+            button {
+
+            }
+        }
+        .uib-month {
+            button {
+                
+            }
+        }
+        .uib-year {
+            button {
+                
+            }
+        }
+    }
+
+    .uib-daypicker {
+        .calendar-table {
+            thead {
+
+            }
+            tbody {
+                tr {
+                    &:hover {
+                        color: inherit;
+                    }
+                    &.uib-weeks {
+                        button {
+                            &:hover {
+                            background-color: $mt-cyan;
+                            color: white;
+                        }
+                        }
+                    }
+                    td {
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+.uib-datepicker-popup {
+    padding: $global-padding;
+    .dropdown-menu {
+
+    }
+    .uib-button-bar {
+
+    }
+}

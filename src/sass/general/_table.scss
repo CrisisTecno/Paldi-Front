@@ -1,0 +1,110 @@
+table {
+    border: 0 !important;
+    border-collapse: collapse;
+    overflow-x: auto;
+    thead {
+        th {
+            font-weight: 400 !important;
+            color: lighten($paldi-grey-soft, 10%);
+            font-size: .85rem;
+        }
+    }
+    tbody {
+        tr {
+            &:hover {
+                 color: white;
+            }
+            td {
+                font-size: .85rem;
+                a {
+                    font-size: .85rem;
+                    &:hover {
+                        color: white !important;
+                    }
+                }
+                &.table-actions {
+                    button {
+                        margin-bottom: $global-margin / 2;
+                    }
+                }
+            }
+        }
+        .not-hover {
+            &:hover {
+                color: inherit !important;
+            }
+        }
+    }
+}
+
+// Data tables
+.table-filter {
+    width: 200px;
+    margin-bottom: -103px;
+    z-index: 2;
+    position: relative;
+    select {
+        border-radius: 1px !important;
+        height: 40px;
+    }
+}
+
+.dataTables_wrapper {
+    select,
+    input {
+        font-size: 1rem;
+        padding: 1.25rem 1rem;
+        letter-spacing: $global-letter-spacing;
+        color: black !important;
+        border-color: lighten($paldi-grey-soft, 40%) !important;
+        border: 1px solid;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .dataTables_filter {
+        margin-right: 0;
+        input {
+            margin-top: 6px;
+            margin-left: 0 !important;
+            display: block !important;
+        }
+    }
+    .dataTables_length {
+        margin-left: 0;
+        display: none;
+    }
+    .paginate_button {
+        min-width: 0 !important;
+        padding: 0.5 !important;
+        margin: 8px 0 0 $global-margin;
+        @extend .btn;
+        @extend .btn-default;
+        &:hover {
+            background: transparent !important;
+            border: 1px solid $mt-blue !important;
+            color: $mt-blue;
+        }
+        &.current {
+            //@extend .btn-default;
+            //@extend .btn;
+            background: $mt-blue !important;
+            border: 1px solid $mt-blue !important;
+            color: white;
+        }
+        &.previous {
+            @extend .btn;
+            @extend .btn-default;
+        }
+        &.next {
+            @extend .btn;
+            @extend .btn-default;
+        }
+    }
+    .ellipsis {
+        min-width: 0 !important;
+        padding: 0.5 !important;
+        margin: 8px 0 0 $global-margin;
+        vertical-align: bottom;
+    }
+}

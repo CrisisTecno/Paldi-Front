@@ -1,0 +1,39 @@
+.quote-view {
+    .test-box {
+        // border: 1px solid black;
+        margin-top: 1rem;
+        padding: 1rem;
+    }
+    .test-drop {
+        li {
+            border-bottom: 1px solid black;
+        }
+        p {
+            padding-left: 10px;
+            margin: 0;
+            font-size: 0.7rem;
+            height: 0.7rem;
+            padding: 0;
+            line-height: 0.8rem;
+        }
+    }
+    textarea {
+        // resize: none;
+        width: 100%;
+    }
+}
+
+
+
+.dropdown-menu{
+    overflow: hidden;
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: lighten($paldi-orange, 10%);
+    td {
+        a {
+            color: white !important;
+        }
+    }
+}

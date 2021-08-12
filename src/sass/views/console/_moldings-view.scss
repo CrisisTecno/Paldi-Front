@@ -1,0 +1,17 @@
+.status-block {
+  color: white;
+  text-decoration: none;
+  padding: 3px 6px 3px 6px;
+  border-radius: 3px;
+
+  &.DISABLED{
+    color: white;
+    background-color: #839192;
+  }
+
+  &.ACTIVE{
+    color: white;
+    background-color: #2E86C1;
+  }
+}
+

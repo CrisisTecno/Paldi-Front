@@ -1,0 +1,10 @@
+.ibox,
+.quote,
+.quote-totals {
+    // box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+    // margin-bottom: $global-margin * 4;
+    .ibox-title {
+        border: 0;
+        background: $paldi-grey-light
+    }
+}

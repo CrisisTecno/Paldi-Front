@@ -1,0 +1,290 @@
+<div class="quote-view">
+    <div class="quote">
+        <div class="ibox-title">
+            <h3 ng-hide="isCustomOrder">Cotizar</h3>
+            <h3 ng-show="isCustomOrder">Orden Manual</h3>
+        </div>
+        <div class="ibox-content">
+            <!--/////////////////////// Cliente ///////////////////////-->
+            <fieldset>
+                <legend>Cliente</legend>
+                <div ng-show="clientStep=='loaded'">
+                    <label>Nombre del cliente</label>
+                    <input id="client" type="text" name="client" ng-model="quote.client" class="form-control" required="" uib-typeahead="client.name + ' ' + client.lastName for client in findClients($viewValue)" typeahead-editable="false" typeahead-on-select="selectClient($item)" typeahead-input-formatter="$model.name + ' ' + $model.lastName" typeahead-template-url="partials/views/console/client-typeahead.html" typeahead-loading="clientsLoading" typeahead-no-results="clientsNotFound">
+                    <small ng-if="clientsLoading">Buscando...</small>
+                    <small class="error-message" ng-if="clientsNotFound">No se encontraron clientes</small>
+                    <button class="btn btn-link" type="button" ng-click="addNewClient()">+ Agregar nuevo Cliente </button>
+                    <small class="error-message" ng-if="checkForm && (quote.client=='' || quote.client == null)">Campo requerido</small>
+                </div>
+                <div ng-show="clientStep=='new'">
+                    <div ng-include="'partials/views/console/quote/client-new.html'"></div>
+                </div>
+                <div ng-show="clientStep=='loading'">
+                    <h2>Loading</h2>
+                </div>
+                <div ng-show="clientStep=='selected'">
+                    <!--ul class="client-data">
+                        <li><small>Tipo de Cliente:</small> {{pretty('clientType', quote.client.type)}}</li>
+                        <li><small>Nombre:</small> {{quote.client.name + ' ' + quote.client.lastName}}</li>
+                        <li><small>E-mail:</small> {{quote.client.email}}</li>
+                        <li><small>Teléfono:</small> {{quote.client.phoneNumber}}</li>
+                        <li><small>Domicilio:</small> {{quote.client.address}}</li>
+                        <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom'"><small>Descuento:</small>
+                            <input type="number" ng-model="quote.discountPercent" ng-change="validateDiscounts()">% (Max {{quote.clientMaxDiscount}}%)</li>
+                    </ul-->
+                    <div class="margin-bottom">
+                        <div class="pull-left" style="width:27%;">
+                            <ul class="client-data">
+                                <li><small>Tipo de Cliente:</small></li>
+                                <li><small>Nombre:</small></li>
+                                <li><small>E-mail:</small></li>
+                                <li><small>Teléfono:</small></li>
+                                <li><small>Domicilio:</small></li>
+                                <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom' && !isMultiple"><small>Descuento:</small></li>
+                                <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"><small>Desc. Balance:</small></li>
+                                <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple  && productsSorted[1].products.length > 0"><small>Desc. Shutters:</small></li>
+                                <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[3].products.length > 0"><small>Desc. Persianas:</small></li>
+                                <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[4].products.length > 0"><small>Desc. Filtrasol:</small></li>
+                            </ul>
+                        </div>
+                        <div class="pull-left" style="width:60%;">
+                            <ul class="client-data">
+                                <li>{{pretty('clientType', quote.client.type)}}</li>
+                                <li>{{quote.client.name + ' ' + quote.client.lastName}}</li>
+                                <li>{{quote.client.email}}</li>
+                                <li>{{quote.client.phoneNumber}}</li>
+                                <li>{{quote.client.address}}</li>
+                                <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom' && !isMultiple"><input type="number" min=0 max='{{quote.clientMaxDiscount}}' ng-model="quote.discountPercent" ng-change="validateDiscounts()">% (Max {{quote.clientMaxDiscount}}%)</li>
+                                <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"><input type="number" min=0 max='{{quote.clientMaxDiscount}}' ng-model="quote.discountPercentBalance" ng-change="validateDiscounts()">% (Max {{quote.clientMaxDiscount}}%)</li>
+                                <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[1].products.length > 0"><input type="number" min=0 max='{{quote.clientMaxDiscount}}' ng-model="quote.discountPercentShutter" ng-change="validateDiscounts()">% (Max {{quote.clientMaxDiscount}}%)</li>
+                                <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[3].products.length > 0"><input type="number" min=0 max='{{quote.clientMaxDiscount}}' ng-model="quote.discountPercentEnrollable" ng-change="validateDiscounts()">% (Max {{quote.clientMaxDiscount}}%)</li>
+                                <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[4].products.length > 0"><input type="number" min=0 max='{{currentUser.canAdmin ? quote.clientMaxDiscount  : 15}}' ng-model="quote.discountPercentFiltrasol" ng-change="validateDiscounts()">% (Max {{currentUser.canAdmin ? quote.clientMaxDiscount  : 15}}%)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary-left" ng-if="editing == false" ng-click="changeClient()">Cambiar Cliente</button>
+                </div>
+                </fieldset>
+                <!--/////////////////////// Detalles ///////////////////////-->
+                <fieldset>
+                    <legend>Detalles</legend>
+                    <div class="detail-options" ng-show="product=='' || isCustomOrder">
+                        <div class="form-group proyect-name">
+                            <label>Proyecto:</label>
+                            <input type="text" name="project" class="form-control" ng-model="quote.project" required>
+                            <small class="error-message" ng-if="checkForm && (quote.project=='' || quote.project == null)">Campo requerido</small>
+                        </div>
+                        <div class="form-group proyect-name">
+                            <label>Origen</label>
+                            <select name="type" ng-model="quote.source" class="form-control" required="">
+                                <option value="Tienda">Tienda</option>
+                                <option value="Recomendación">Recomendación</option>
+                                <option value="Cliente">Cliente</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="Prospección">Prospección</option>
+                            </select>
+                            <small class="error-message" ng-if="checkForm && (quote.source=='' || quote.source == null)">Campo requerido</small>
+                        </div>
+                        <div class="form-group proyect-name">
+                            <label>Ciudad</label>
+                            <select name="type" ng-model="quote.city" class="form-control" required="">
+                                <option value="Ensenada">Ensenada</option>
+                                <option value="Tijuana">Tijuana</option>
+                                <option value="Mexicali">Mexicali</option>
+                                <option value="Rosarito">Rosarito</option>
+                                <option value="Tecate">Tecate</option>
+                            </select>
+                            <small class="error-message" ng-if="checkForm && (quote.city=='' || quote.city == null)">Campo requerido</small>
+                        </div>
+                        <br>
+                        <div ng-hide="isCustomOrder || editSimpleQuote" style="margin-bottom: 20px;">
+                            <label>Agregar:</label>
+                            <button class="btn btn-default" ng-click="addProduct('Balance')" ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter'|| quote.type=='Enrollable'||quote.type=='Balance' ||quote.type=='Mixta'">Balance</button>
+                            <button class="btn btn-default" ng-click="addProduct('Shutter')" ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta'">Shutters</button>
+                            <button class="btn btn-default" ng-click="addProduct('Toldo')" ng-show="!quote.type || quote.type=='Toldo'">Productos para el Exterior</button>
+                            <button class="btn btn-default" ng-click="addProduct('Enrollable')" ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta'">Persianas</button>
+                            <button class="btn btn-default" ng-click="addProduct('Filtrasol')" ng-show="!quote.type || quote.type=='Filtrasol'|| quote.type=='Shutter' || quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta'">Filtrasol</button>
+                            <button class="btn btn-default" ng-click="addProduct('Piso')" ng-show="!quote.type || quote.type=='Piso'">Pisos</button>
+                        </div>
+
+                        <div ng-hide="isCustomOrder || !editSimpleQuote" style="margin-bottom: 20px;">
+                            <label>Agregar:</label>
+                            <button class="btn btn-default" ng-click="addProduct('Balance')" ng-show="!quote.type || quote.type=='Balance'">Balance</button>
+                            <button class="btn btn-default" ng-click="addProduct('Shutter')"  ng-show="!quote.type || quote.type=='Shutter'">Shutters</button>
+                            <button class="btn btn-default" ng-click="addProduct('Toldo')" ng-show="!quote.type || quote.type=='Toldo'">Productos para el Exterior</button>
+                            <button class="btn btn-default" ng-click="addProduct('Enrollable')"  ng-show="!quote.type || quote.type=='Enrollable'">Persianas</button>
+                            <button class="btn btn-default" ng-click="addProduct('Filtrasol')"  ng-show="!quote.type || quote.type=='Filtrasol'">Filtrasol</button>
+                            <button class="btn btn-default" ng-click="addProduct('Piso')" ng-show="!quote.type || quote.type=='Piso'">Pisos</button>
+                        </div>
+
+
+                    </div>
+                    <div ng-show="quote.products.length > 0 && product == '' && !isCustomOrder">
+                        <fieldset>
+                            <legend>Productos</legend>
+                            <div ng-repeat="(indexList, productTypeList) in productsSorted">
+                                <div ng-if="productTypeList.products.length > 0">
+                                    <label ng-if="productTypeList.type == 'Enrollable'">Persianas</label>
+                                    <label ng-if="productTypeList.type != 'Enrollable'">{{ productTypeList.type}}</label>
+                                    <table class="table table-striped  table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Cant.</th>
+                                            <th>Ubicación</th>
+                                            <th>Tipo</th>
+                                            <th>Total</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="(indexProduct, p) in productTypeList.products">
+                                            <td>{{p.quantity}}</td>
+                                            <td>{{p.location}}</td>
+                                            <td>{{p.type}}</td>
+                                            <td>{{p.total | currency}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-edit" ng-click="editProduct(p, indexList, indexProduct)" title="Editar"><i class="fa fa-pencil fa-lg"></i></button>
+                                                <button type="button" class="btn btn-remove" ng-click="removeProduct(p, indexList, indexProduct)" title="Remover">X</i></button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div ng-if="productTypeList.hasPlus">
+                                        <label>Adicionales</label>
+                                        <table class="table table-striped  table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Cant</th>
+                                                <th>Nombre</th>
+                                                <th>Precio</th>
+                                                <th>Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody ng-repeat="p in productTypeList.products">
+                                            <tr ng-repeat="plus in p.plusList">
+                                                <td>{{plus.quantity}}</td>
+                                                <td>{{plus.name}}</td>
+                                                <td>{{plus.price | currency}} {{pretty('plusPriceType', plus.priceType)}}</td>
+                                                <td>{{plus.total | currency}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div ng-show="hasInstallationPlus">
+                                        <label>Adicionales de Instalación</label>
+                                        <table class="table table-striped  table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Cant</th>
+                                                <th>Nombre</th>
+                                                <th>Precio</th>
+                                                <th>Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody ng-repeat="p in quote.products">
+                                            <tr ng-repeat="plus in p.installationPlusList">
+                                                <td>{{plus.quantity}}</td>
+                                                <td>{{plus.name}}</td>
+                                                <td>{{plus.price | currency}} {{pretty('plusPriceType', plus.priceType)}}</td>
+                                                <td>{{plus.total | currency}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div ng-show="productTypeList.hasMotor">
+                                        <label>Motorización</label>
+                                        <table class="table table-striped  table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Cant</th>
+                                                <th>Nombre</th>
+                                                <th>Precio</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody ng-repeat="p in productTypeList.products">
+                                            <tr ng-repeat="motor in p.motorList">
+                                                <td>{{motor.quantity}}</td>
+                                                <td>{{motor.name}}</td>
+                                                <td>{{motor.price * motor.quantity | currency}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div ng-show="quote.products.length > 0 && product == '' && isCustomOrder">
+                        <label>Orden</label>
+                        <div ng-repeat="(indexList, productTypeList) in productsSorted">
+                            <div ng-if="productTypeList.products.length > 0">
+                                <table class="table table-striped  table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Vendedor</th>
+                                            <th>Tipo</th>
+                                            <th>Precio</th>
+                                            <th>Fecha Compromiso</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="(indexProduct, p) in productTypeList.products">
+                                            <td>{{p.seller.name}} {{p.seller.lastName}}</td>
+                                            <td>{{p.type}}</td>
+                                            <td>{{p.price | currency}}</td>
+                                            <td>{{ date | date : 'shortDate'}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-default" ng-click="editProduct(p, indexList, indexProduct)">Editar</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-type">
+                        <div ng-if="product">
+                            <div ng-include="getTemplate(product)"></div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <!--/////////////////////// Totales ///////////////////////-->
+        </div>
+        <div class="quote-totals" ui-scrollpoint="59">
+            <div class="ibox-title">
+                <h3>Totales</h3>
+            </div>
+            <div class="ibox-content">
+                <ul>
+                    <li><small>Productos:</small> <span>{{quote.productsTotal | currency}}</span></li>
+                    <li ng-show="quote.plusTotal"><small>Adicionales: </small><span>{{quote.plusTotal | currency}}</span></li>
+                    <li ng-show="quote.motorTotal"><small>Motorización: </small><span>{{quote.motorTotal | currency}}</span></li>
+                    <li ng-show="quote.discountPercent || quote.discountPercentBalance || quote.discountPercentShutter || quote.discountPercentEnrollable || quote.discountPercentFiltrasol"><small>Descuento: </small><span>{{quote.discount | currency}}</span></li>
+                    <li ng-show="quote.installationTotal"><small>Instalación: </small> <span>{{quote.installationTotal | currency}}</span></li>
+
+                    <li><small>Sub-Total:</small> <span>{{quote.subTotal | currency}}</span></li>
+                    <li><small>IVA:</small> <span>{{quote.iva | currency}}</span></li>
+                    <li><small>TOTAL:</small> <span>{{quote.total | currency}}</span></li>
+                </ul>
+                <ul ng-show="false">
+                    <li>Anticipo: </li>
+                    <li>Saldo: </li>
+                </ul>
+
+                <!--/////////////////////// Notas ///////////////////////-->
+                <fieldset>
+                    <legend>Anotaciones</legend>
+                    <label>Notas</label>
+                    <textarea type="text" ng-model="quote.notes" ng-disabled="quote.products.length<=0"></textarea>
+                    <small class="error-message" ng-if="checkForm && (quote.notes == '' || quote.notes == null)">Campo requerido</small>
+                </fieldset>
+                <button class="btn btn-primary" ng-click="save()" ng-disabled="saveDisabled || product" ng-show="!saveDisabled && quote.products.length>0">Guardar</button>
+                <img ng-show="saveDisabled" class="spinner-img" src="img/spinner.gif">
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,214 @@
+.commissions-view {
+
+  .consultant-view{
+    margin-bottom: 15px;
+  }
+
+  .month-selected {
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
+
+  .comment-button {
+    background-color: transparent;
+    border: none;
+    color: $paldi-dark-softer-color;
+  }
+
+  .comment-button:hover {
+    color: $paldi-dark-color;
+
+  }
+
+  .comment-button:focus {
+
+    border: none;
+    box-shadow: none;
+    outline: none;
+    color: $paldi-dark-color;
+
+  }
+
+  .comment-popup {
+    background-color: $paldi-clear-color;
+    width: 300px;
+    height: 300px ;
+    min-width: 300px;
+    min-height: 300px;
+    right: 0;
+    bottom: 0;
+    border: 1pt solid #939b9c;
+    animation: fadein 0.2s;
+    margin-right: auto;
+    position:fixed;
+  }
+
+
+
+
+  @keyframes fadein {
+    from {
+      opacity: 0.5;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+
+  .comment-head {
+    border-bottom: 1pt solid #939b9c;
+    height: 10%;
+
+    .close-button {
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+      outline: none;
+      color: $paldi-dark-color;
+      float: right;
+      padding: 5px;
+
+    }
+
+    .comment-title {
+      float: left;
+      padding: 5px;
+      font-size: 14px;
+
+    }
+
+  }
+
+  .comment-head:hover {
+    background-color: transparent;
+    color: $paldi-dark-color;
+  }
+
+  .comment-comments {
+    height: 50%;
+    overflow-y: scroll;
+
+    div {
+      display: block;
+      width: 95%;
+      resize: none;
+      margin: 5px;
+
+      .comments-user{
+        font-weight: bold;
+        font-size: 13px;
+        color: $paldi-dark-color;
+
+      }
+
+      .comments-previous-comment{
+        font-size: 13px;
+        color: $paldi-dark-color;
+        text-align: justify;
+      }
+
+      .comments-date{
+        font-size: 11px;
+        color: $paldi-dark-soft-color;
+      }
+
+
+    }
+
+  }
+
+  .comment-comments:hover {
+    background-color: transparent;
+    color: $paldi-dark-color;
+  }
+  .comment-nocomments {
+    height: 50%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    width: 90%;
+    padding-top: 15%;
+    text-align: center;
+
+
+
+  }
+
+  .comment-nocomments:hover {
+    background-color: transparent;
+    color: $paldi-dark-color;
+  }
+
+  .comment-body {
+    height: 25%;
+    padding-top: 10px;
+
+    textarea {
+      border: 1pt solid #939b9c;
+      box-shadow: none;
+      outline: none;
+      border-radius: 0;
+      width: 90%;
+      display: block;
+      margin: auto;
+      resize: none;
+      background-color: white;
+      font-weight: normal;
+      height: 89%;
+
+
+    }
+
+    textarea:focus {
+      outline: none !important;
+      box-shadow: none !important;
+
+    }
+
+  }
+
+  .comment-submit {
+
+    button {
+
+      border: none;
+      box-shadow: none;
+      outline: none;
+      display: block;
+      margin-right: auto;
+      margin-left: auto;
+
+    }
+
+  }
+}
+
+.commissions-table {
+  position: relative;
+}
+
+
+.payments-view {
+  .date-description {
+    margin-top: 3rem;
+  }
+
+  .month-selected {
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
+}
+
+.table-totals {
+  width: 40%;
+
+  p {
+    letter-spacing: 0;
+  }
+
+  tr:hover {
+    border: 0;
+    color: #092a4a;
+  }
+}

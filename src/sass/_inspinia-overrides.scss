@@ -1,0 +1,168 @@
+$inspinia-topbar-fg: black;
+$inspinia-topbar-bg: $paldi-color;
+$inspinia-topbar-selected-bg: black;
+$inspinia-topbar-selected-fg: white;
+$inspinia-sidebar-bg: $paldi-dark-color;
+$inspinia-sidebar-selected-border: $paldi-color;
+body.paldi-skin {
+    background-color: $paldi-blue;
+    #wrapper {
+        background-color: $paldi-blue;
+    }
+    .dropdown-menu {
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .dropdown-notifications {
+        @extend .dropdown-messages;
+        padding: 0;
+        li:not(.divider) {
+            font-size: 0.90rem;
+            padding: 1rem;
+        }
+        li.divider {
+            margin: 0;
+        }
+    }
+    .navbar-static-top {
+        margin-bottom: 0;
+        background: $inspinia-topbar-bg;
+        // background-color: #ff846b;
+        .navbar-top-links {
+            a {
+                color: $inspinia-topbar-fg;
+            }
+            li.open > a {
+                color: $inspinia-topbar-selected-fg;
+                background-color: $inspinia-topbar-selected-bg;
+            }
+        }
+    }
+    .navbar-static-side {
+        color: white;
+        li.selected {
+            border-right: 5px solid $inspinia-sidebar-selected-border;
+        }
+        li > a {
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            font-size: 0.65rem;
+            .long {
+                font-size: 0.75rem;
+                letter-spacing: 5px;
+            }
+        }
+        li > ul > li > a {
+            font-weight: 300;
+            text-transform: none;
+            letter-spacing: 0;
+            font-size: 0.9rem;
+        }
+        .nav-header {
+            background-color: $inspinia-sidebar-bg;
+            background-image: none;
+        }
+        .navbar-default .nav > li > a {
+            color: $paldi-mid-clear-color;
+            &:hover {
+                background-color: $paldi-dark-soft-color;
+            }
+        }
+    }
+    &.mini-navbar .navbar-static-side {
+        .nav-second-level {
+            padding: 0;
+            width: 150px;
+        }
+    }
+    // Custom style
+    .minimalize-styl-2 {
+        margin: 14px 5px 5px 30px;
+    }
+    .paldi-skin.fixed-nav .minimalize-styl-2 {
+        margin: 14px 5px 5px 15px;
+    }
+    // .spin-icon {
+    //   background: $skin-1-color !important;
+    // }
+    .breadcrumb {
+        background: transparent;
+    }
+    .page-heading {
+        border: none;
+    }
+    .nav > li.active {
+        background: darken($inspinia-sidebar-bg, 2%);
+    }
+    .navbar-minimalize {
+        color: black;
+        background: $paldi-color;
+        border-color: $paldi-color;
+        &:active {
+            background-color: darken($paldi-color, 5%);
+            border-color: darken($paldi-color, 5%);
+            box-shadow: none;
+            color: black;
+        }
+    }
+    .dashboard-header {
+        background: transparent;
+        border-bottom: none !important;
+        border-top: none;
+        padding: 20px 30px 10px 30px;
+    }
+    .fixed-nav.navbar-fixed-top {
+        background: #000;
+    }
+    .wrapper-content {
+        padding: 15px 15px;
+    }
+    #page-wrapper {
+        background: $paldi-clear-color;
+        @include max-screen(768px) {
+            width: 100%;
+            padding: 0;
+        }
+    }
+    .ibox-title,
+    .ibox-content {
+        // border-width: 1px;
+    }
+    .ibox-content:last-child {
+        // border-style: solid solid solid solid;
+    }
+    .nav > li.active {
+        border: none;
+    }
+    .nav-header {
+        padding: 35px 25px 25px 25px;
+        a.dropdown-toggle {
+            margin-top: 10px;
+            .text-muted {
+                color: #222;
+                opacity: 0.8;
+            }
+        }
+    }
+    .profile-element {
+        text-align: left;
+    }
+    .img-circle {
+        border-radius: 5px;
+    }
+    .nav.nav-tabs > li.active {
+        background: transparent;
+        * > a {
+            color: #222;
+        }
+    }
+    .label-danger {
+        background-color: #ff0000;
+    }
+    .footer {
+        font-size: 0.85rem;
+        a {
+            font-weight: 500;
+        }
+    }
+}

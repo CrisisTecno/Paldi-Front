@@ -1,0 +1,9 @@
+.dataTable {
+    tr {
+        td {
+            &::before {
+                padding: 2px 0 0 2px;
+            }
+        }
+    }
+}

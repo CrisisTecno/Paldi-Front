@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="paldi-app">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title ng-bind="$state.current.title + ' | Paldi'"></title>
+	<!-- build:css styles/vendor.css -->
+	<!-- bower:css -->
+	<!-- endbower -->
+	<!-- endbuild -->
+
+	<!-- build:css styles/app.css -->
+	<!-- inject:css -->
+	<!-- endinject -->
+	<!-- endbuild -->
+</head>
+
+<body class="paldi-skin">
+	<flash-message></flash-message>
+	<ui-view></ui-view>
+
+	<!-- build:js scripts/vendor.js -->
+	<!-- bower:js -->
+	<!-- endbower -->
+	<!-- endbuild -->
+
+	<!-- build:js scripts/app.js -->
+	<!-- inject:js -->
+	<!-- endinject -->
+	<!-- endbuild -->
+
+
+</body>
+
+</html>

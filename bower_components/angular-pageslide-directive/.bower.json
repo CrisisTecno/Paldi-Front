@@ -1,0 +1,44 @@
+{
+  "name": "angular-pageslide-directive",
+  "main": "dist/angular-pageslide-directive.js",
+  "authors": [
+    "Daniele Piccone <mail@danielepiccone.com> (http://www.danielepiccone.com)",
+    "Tim Borny <bornytm@gmail.com>"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dpiccone/ng-pageslide.git"
+  },
+  "dependencies": {
+    "angular": "1.x"
+  },
+  "devDependencies": {
+    "angular": "1.x",
+    "angular-mocks": "1.x",
+    "grunt": "^1.0.2",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-karma": "^2.0.0",
+    "http-server": "^0.11.1",
+    "jasmine-core": "^3.1.0",
+    "karma": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-coveralls": "^1.1.2",
+    "karma-jasmine": "^1.1.1",
+    "karma-phantomjs-launcher": "^1.0.4"
+  },
+  "homepage": "https://github.com/dpiccone/ng-pageslide",
+  "version": "2.2.0",
+  "_release": "2.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.2.0",
+    "commit": "37861fca58c074ae59287dcce581be947cf89a37"
+  },
+  "_source": "https://github.com/dpiccone/ng-pageslide.git",
+  "_target": "^2.1.4",
+  "_originalSource": "angular-pageslide-directive"
+}

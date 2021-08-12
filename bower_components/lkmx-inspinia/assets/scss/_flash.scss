@@ -1,0 +1,36 @@
+#flash-message {
+    width: 100%;
+    position: fixed;
+    z-index: 10000;
+    font-size: 1rem;
+    padding: 1rem;
+
+    color: white;
+    background-color: #6e91a5;    
+
+    &.error {
+        background-color: #ec172e;
+    }
+
+    &.success {
+        background-color: #00d522;
+    }
+
+    span {
+        max-width: 800px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .close-button {
+        position: absolute;
+        color: white;
+        font-size: 2rem;
+        line-height: 1rem;
+        top: 1rem;
+        right: 1rem;
+        font-weight: 300;
+
+    }
+}
+

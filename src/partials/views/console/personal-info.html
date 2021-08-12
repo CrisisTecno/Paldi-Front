@@ -1,0 +1,60 @@
+<div class="personal-info-view">
+	<div class="ibox float-e-margins col-lg-8">
+
+		<div class="ibox-title"><h3>Información Personal</h3></div>
+		<div class="ibox-content">
+
+			<fieldset>
+				<form class="form-horizontal" name="formUser" novalidate>
+
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Nombre</label>
+						<div class="col-lg-10">
+							<input class="form-control" ng-model="model.name" type="text" name="name" required ng-disabled="!isEditing" />
+							<small class="alert" ng-if="formUser.$validated && formUser.name.$error.required">Campo requerido</small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Apellidos</label>
+						<div class="col-lg-10">
+							<input class="form-control" ng-model="model.lastName" type="text" name="lastName" required ng-disabled="!isEditing">
+							<small class="alert" ng-if="formUser.$validated && formUser.lastName.$error.required">Campo requerido</small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-2 control-label">E-mail</label>
+						<div class="col-lg-10">
+							<input class="form-control" ng-model="model.email" type="email" name="email" required disabled>
+							<small class="alert" ng-if="formUser.$validated && formUser.email.$error.required">Campo requerido</small>
+						</div>
+					</div>
+
+					<div class="form-group">
+                            <label class="col-lg-2 control-label">Teléfono</label>
+                            <div class="col-lg-10">
+                            	<input type="tel" maxlength="10" pattern="[0-9]{10}" name="phoneNumber" ng-model="model.phoneNumber" class="form-control" required ng-disabled="!isEditing">
+                            	<small class="alert" ng-if="formUser.$validated && formUser.phoneNumber.$error.required">Campo requerido</small>
+								<small class="error-message" ng-if="formUser.phoneNumber.$error.pattern">El número de teléfono debe tener 10 dígitos</small>
+                            </div>
+                        </div>
+
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Rol</label>
+						<div class="col-lg-10">
+							<input class="form-control" ng-model="model.role" placeholder="Rol" type="text" disabled>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-4 col-sm-offset-8">
+							<button class="btn btn-white pull-right" ng-click="cancel(formUser)" ng-if="isEditing">Cancelar</button>
+							<button class="btn btn-success pull-right" ng-click="edit(model, formUser)">{{isEditing? 'Guardar' : 'Editar'}}</button>
+						</div>
+					</div>
+				</form>
+			</fieldset>
+		</div>
+	</div>
+</div>

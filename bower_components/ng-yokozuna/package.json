@@ -1,0 +1,21 @@
+{
+  "name": "ng-yokozuna",
+  "version": "0.2.3",
+  "description": "",
+  "main": "src/ng-yokozuna.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lkmx/ng-yokozuna.git"
+  },
+  "author": "victor.valle@lkmx.io",
+  "license": "Commercial",
+  "bugs": {
+    "url": "https://github.com/lkmx/ng-yokozuna/issues"
+  },
+  "homepage": "https://github.com/lkmx/ng-yokozuna",
+  "dependencies": {
+  }
+}

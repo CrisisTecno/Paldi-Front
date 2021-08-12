@@ -1,0 +1,228 @@
+// Lists
+.order-list-view {
+    .table-filter {
+        margin-bottom: -83px !important;
+        padding-top: 15px;
+        @include screen(320px, 535px) {
+            margin-bottom: -22px !important;
+            margin-top: -65px;
+            position: absolute !important;
+        }
+    }
+}
+
+//===================================================
+.status-block{
+    color: white;
+    text-decoration: none;
+    padding: 3px 6px 3px 6px;
+    border-radius: 3px;
+
+    &.QUOTE{
+        background-color: #839192;
+    }
+    &.PENDING{
+        background-color: #D4AC0D;
+    }
+    &.REJECTED{
+        background-color: #CB4335;
+    }
+    &.LINE{
+        background-color: #28B463;
+    }
+    &.BACKORDER{
+        background-color: #CA6F1E;
+    }
+    &.PRODUCTION{
+        background-color: #2E86C1;
+    }
+    &.TRANSIT{
+        background-color: #138D75;
+    }
+    &.FINISHED{
+        background-color: #17A589;
+    }
+    &.INSTALLED_INCOMPLETE{
+        background-color: #616A6B;
+    }
+    &.INSTALLED_NONCONFORM{
+        background-color: #273746;
+    }
+    &.INSTALLED{
+        background-color: #884EA0;
+    }
+    &.CANCELED{
+        background-color: #000000;
+        color: white;
+    }
+    &.ORDER_CANCELED{
+        background-color: #000000;
+        color: white;
+    }
+    &.PROGRAMMED{
+        background-color: #b8e05c;
+    }
+    &.source{
+        background-color: #56b3ff;
+        float: right;
+    }
+    &.Nueva{
+        background-color: #f4d942;
+    }
+    &.Duplicada{
+        background-color: #ad5bff;
+    }
+    &.Seguimiento{
+        background-color: #c44411;
+    }
+    &.Venta{
+        background-color: #b2305d;
+    }
+}
+.details-title {
+    padding-left: $global-padding / 2;
+    border-left: 3px solid;
+    border-bottom: 0;
+    margin-top: $global-margin;
+    margin-bottom: 1rem !important;
+    border-color: $paldi-orange;
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: $global-margin * 2;
+}
+
+.status-select{
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+}
+
+.status-reason{
+    margin-bottom: 2rem;
+}
+.status-buttons{
+    min-height: 10rem;
+}
+
+.btn-square {
+    width: 14rem;
+    height: 3.2rem;
+    margin-bottom: .5rem;
+    line-height: 40px;
+    text-align: left;
+    display: block;
+    .btn-icon {
+        min-width: 36px;
+        font-size: 1.2rem;
+        margin-right: 0.4rem;
+        text-align: center;
+        padding-top: 10px;
+        float: left;
+    }    
+}
+
+//===================================================
+
+
+.order-details-view {
+    label{
+        margin-bottom: 0;
+    }
+    ul {
+        padding-left: 0;
+        list-style: none;
+        vertical-align: bottom;
+        li {
+            margin-bottom: .3rem;
+        }
+    }
+    .client-data {
+        h1 {
+            font-size: 1.2rem;
+            display: block;
+            border-bottom: 4px solid;
+            text-align: right;
+            border-color: $paldi-orange;
+            margin-bottom: $global-margin * 2;
+        }
+        table {
+            width: 100%;
+            margin-bottom: $global-margin * 1.5;
+            tbody {
+                td {
+                    padding-bottom: $global-padding / 3 !important;
+                    font-size: .9rem;
+                    &:first-child {
+                        width: 33%;
+                    }
+                    &:last-child {
+                        width: 33%;
+                    }
+                }
+            }
+            tfoot {
+                border-top: 1px solid !important;
+                border-color: lighten($paldi-grey-soft, 50%) !important;
+                td {
+                    padding-top: $global-padding / 3 !important;
+                    font-size: .8rem;
+                    font-weight: 600;
+                }
+            }
+        }
+        // @extend .row;
+        small,
+        i {
+            color: lighten($paldi-grey-soft, 20%);
+            // margin-right: $global-margin / 2;
+        }
+        .name-address {
+            .title {
+                font-weight: 700;
+                color: $paldi-blue;
+            }
+            @extend .col-lg-6;
+            @extend .col-md-6;
+            .data-client-type {
+                color: $mt-yellow;
+                font-weight: 700;
+                font-size: 1rem;
+            }
+        }
+        .contact-info {
+            .title {
+                font-weight: 700;
+                color: $paldi-blue;
+            }
+            text-align: right;
+            @extend .col-lg-6;
+            @extend .col-md-6;
+        }
+    }
+    .details-title {
+        padding-left: $global-padding / 2;
+        border-left: 3px solid;
+        border-bottom: 0;
+        margin-top: $global-margin;
+        margin-bottom: 0 !important;
+        border-color: $paldi-orange;
+        font-size: 1.2rem;
+        font-weight: 400;
+        margin-bottom: $global-margin * 2;
+    }
+    .order-notes {
+        margin-top: $global-margin;
+        margin-bottom: $global-margin * 4;
+        h3 {
+            margin-bottom: $global-margin * 2 !important;
+        }
+        p {
+            background: $paldi-grey-light;
+            padding: $global-padding $global-padding * 2;
+        }
+    }
+
+    .dataTables_wrapper {
+        padding: 0.2px;
+    }
+
+}

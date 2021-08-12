@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="yokozunaTestApp">
+<head>
+	<meta charset="UTF-8">
+	<title>ng-yokozuna</title>
+	<style>
+		div * {
+			display: block;
+		}
+
+		[ng-cloak] {
+			display: none !important;
+		}
+	</style>
+</head>
+<body>
+
+	<ul ng-controller="NavCtrl" ng-cloak>
+		<li ykzn-not-logged><a href="#/login">Log in</a></li>
+		<li ykzn-logged><a href="#/ondemand">On demand</a></li>
+		<li ykzn-logged><a href="#/resolved">Resolved</a></li>
+		<li ykzn-logged><a href="" ng-click="logout()">Log out</a></li>
+	</ul>
+	
+	<ui-view></ui-view>
+	
+	
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="src/ng-yokozuna.js"></script>
+	<script>
+		var testApp = angular.module('yokozunaTestApp', ['ui.router', 'ng-yokozuna'])
+			.config(function(yokozunaConfigProvider) {
+				yokozunaConfigProvider.setLoginState('login');
+				yokozunaConfigProvider.setURL('http://localhost:8008');
+			})
+			.config(function($stateProvider, $urlRouterProvider) {
+				$stateProvider
+
+				.state('login', {
+					url: '/login',
+					templateUrl: '/login.html',
+					controller: 'LoginCtrl',
+				})
+
+				.state('ondemand', {
+					url: '/ondemand',
+					templateUrl: '/ondemand.html',
+					controller: 'OnDemandCtrl',
+				})
+
+				.state('resolved', {
+					url: '/resolved',
+					templateUrl: '/resolved.html',
+					controller: 'ResolvedCtrl',
+					resolve: {
+						greeting: function($http) {
+							return $http.get('http://localhost:8080/hello', { authentication: 'yokozuna' }).then(function(response) {
+								return response.data;
+							});
+						}
+					}
+				})
+				;
+
+				$urlRouterProvider.otherwise('/ondemand');
+			})
+			.controller('LoginCtrl', function($scope, $state, yokozuna) {
+				$scope.login = function(username, password) {
+					yokozuna.login(username, password).then(function() {
+						$state.go('ondemand');
+					}, function(err) {
+						$scope.message = 'Wrong credentials';
+					});
+				};
+			})
+			.controller('ResolvedCtrl', function($scope, greeting) {
+				$scope.message = greeting.message;
+			})
+			.controller('OnDemandCtrl', function($scope, $http) {
+				$scope.invoke = function() {
+					$http.get('http://localhost:8080/hello', { authentication: 'yokozuna' }).success(function(response) {
+						$scope.greeting = response.message;
+					});
+				}
+			})
+			.controller('NavCtrl', function($scope, $state, yokozuna) {
+				$scope.logout = function() {
+					yokozuna.logout().then(function() {
+						$state.go('login');
+					});
+				}
+			});
+	</script>
+	<script type="text/ng-template" id="/login.html">
+		<div class="login">
+			<h1>Log in</h1>
+			<p>{{ message }}</p>
+			<input type="text" ng-model="username">
+			<input type="password" ng-model="password">
+			<button ng-click="login(username, password)">Log in</button>
+		</div>
+	</script>
+	<script type="text/ng-template" id="/ondemand.html">
+		<div class="ondemand">
+			<h1>On demand</h1>
+			<p>Greeting: {{ greeting }}</p>
+			<button ng-click="invoke()">Invoke</button>
+		</div>
+	</script>
+	<script type="text/ng-template" id="/resolved.html">
+		<div class="resolved">
+			<h1>Pre-resolved</h1>
+			<p>This message was retrieved automatically: {{ message }}</p>
+		</div>
+	</script>
+
+</body>
+</html>

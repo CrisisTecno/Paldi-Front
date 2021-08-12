@@ -1,0 +1,110 @@
+.btn {
+    // border-radius: 0;
+    letter-spacing: 0.05rem;
+    transition: .3s;
+    &.btn-link {
+        color: $mt-blue;
+        &:hover {
+            color: darken($mt-blue, 20%);
+        }
+    }
+    &.btn-primary, &.btn-today {
+        background: $paldi-orange;
+        border-color: $paldi-orange;
+        &:hover {
+            background: darken($paldi-orange, 10%);
+            border-color: darken($paldi-orange, 10%);
+        }
+    }
+
+    &.btn-close, &.btn-remove {
+        background: white;
+        border-color: $paldi-orange;
+        color: $paldi-orange !important;
+        &:hover {
+            background: darken($paldi-orange, 10%);
+            border-color: darken($paldi-orange, 10%);
+            color: white !important;
+        }
+    }
+
+    &.btn-view-details, &.btn-edit {
+        background: white;
+        border-color: #999;
+        color: #1c84c6 !important;
+        height: 33px !important;
+        &:hover {
+            background: darken(#1c84c6, 10%);
+            border-color: darken(#1c84c6, 10%);
+            color: white !important;
+            i {
+                color: white !important;
+            }
+        }
+    }
+
+     &.btn-remove, &.btn-edit {
+        padding: 6px 12px !important;
+        height: auto !important;
+    }
+
+    &.btn-info {
+        background-color: #999;
+        border-color: #999;
+        color: white !important;
+    }
+}
+
+    .btn-primary-left, .btn-primary-right, .btn-primary-actions {
+        background-color: $mt-blue;
+        border-color: $mt-blue;
+        color: #fff;
+    }
+    .btn-secondary, .btn-secondary-left, .btn-secondary-right, .btn-secondary-actions, .btn-calendar {
+        background-color: transparent;
+        border-color: #999;
+        color: $mt-blue;
+    }
+    .btn-tertiary, .btn-tertiary-left, .btn-tertiary-right, .btn-tertiary-actions {
+        background-color: transparent;
+        border-color: transparent;
+        color: #999;
+    }
+
+    .btn-primary-right, .btn-secondary-right, .btn-tertiary-right {
+        margin-left: $global-margin;
+    }
+    .btn-primary-left, .btn-secondary-left, .btn-tertiary-left {
+        margin-right: $global-margin;
+    }
+
+    .btn-today {
+        margin-right: $global-margin;
+        color: white !important;
+        &:hover {
+            color: white !important;
+        }
+    }
+
+    .btn-secondary {
+        &:hover {
+            background-color: #999;
+        }
+    }
+
+    .btn-primary-actions, .btn-secondary-actions, .btn-tertiary-actions {
+        font-size: 14px;
+    }
+
+    .btn-calendar {
+        height: 42px;
+        width: 100px;
+    }
+
+    .btn-primary-left, .btn-primary-right, .btn-secondary-left, .btn-secondary-right, .btn-tertiary-left, .btn-tertiary-right {
+        @include screen(320px, 535px) {
+            display: block;
+            margin-bottom: $global-margin;
+        }
+    }
+

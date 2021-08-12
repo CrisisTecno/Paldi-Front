@@ -1,0 +1,131 @@
+<div class="order-list-view">
+    <div class="ibox">
+        <div class="ibox-title"><h3>Órdenes</h3></div>
+        <div class="ibox-content">
+            <button ng-if="currentUser.role == 'CONSULTANT'" ng-repeat="orderType in orderTypes" class="btn" ng-class="(orderType.value == selectedType)? 'btn-today' : 'btn-secondary-left'" ng-click="orderTypeChange(orderType.value)">{{orderType.label}}</button>
+
+            <a ng-if="currentUser.canAdmin" class="btn btn-primary-left" ui-sref="console.quote-new-manual">Registro Orden Manual</a>
+            <a ng-if="(currentUser.canAdmin || currentUser.canManage || currentUser.role == 'BUYER') && !isEmpty" class="btn btn-secondary-left" href="{{downloadLink}}" download="Ordenes.xlsx" ng-hide="statusList.length < 1">Descargar órdenes</a>
+
+            <br>
+            <br>
+            <br>
+            <div  class="table-filter" ng-if="ready" ng-dropdown-multiselect="" options="availableStatusList" selected-model="statusList" extra-settings="dropdownSettings" events="dropdownEvents" translation-texts="dropdownTranslations"></div>
+            
+            <p class="input-group pull-left" style="width: 25%; margin-right: 1rem;">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-calendar" ng-click="openStartDate()">Desde <i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+                <input name="startDate" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="startDate" is-open="startDatePopup.opened" datepicker-options="startDateOptions" required="true" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" alt-input-formats="altInputFormats" ng-change="startDateChange()"/>
+            </p>
+
+            <p class="input-group" style="width: 25%; margin-right: 1rem;">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-calendar" ng-click="openEndDate()">Hasta <i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+                <input name="endDate" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="endDate" is-open="endDatePopup.opened" datepicker-options="endDateOptions" required="true" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" alt-input-formats="altInputFormats" ng-change="endDateChange()"/>
+            </p>
+
+            <div ng-if="ready">
+                <table class="table table-striped table-hover" datatable="" dt-options="tableOptions" dt-columns="tableColumns" id="table">
+                    <pageslide ps-open="toggle" ps-auto-close="true" ps-push="true" ps-side="right" ps-click-outside="false" ps-speed="0.3" class="side-details">
+                        <div class="ibox">
+
+                            <div class="ibox-content">
+                                <div>
+                                    <button class="btn btn-close" ng-click="toggleDetails()">X</button>
+                                    <button class="btn btn-view-details" ui-sref="console.order-details({orderId: selectedOrder.id})"><a title="Ver más información del orden"><i class="fa fa-file-text"></i></a></button>
+                                </div>
+                                <br>
+                                <h3 class="details-title">Detalles de orden</h3>
+                                <hr>
+
+                                <ul>
+                                    <li ng-show="!isSuborder"><small>No. de Orden:</small> <span>{{selectedOrder.orderNo}}</span></li>
+                                    <li ng-show="isSuborder"><small>No. de Orden:</small> <span>{{selectedOrder.orderNo}} - {{selectedOrder.suborderNo}}</span></li>
+                                    <li><small>Estado:</small> <span>{{pretty('orderStatus', selectedOrder.status)}}</span></li>
+                                    <li><small>Proyecto:</small> <span>{{selectedOrder.project}}</span></li>
+                                    <li><small>Cliente:</small> <span>{{selectedOrder.client.name}} {{selectedOrder.client.lastName}}</span></li>
+                                    <li><small>Tipo de Cliente:</small> <span>{{pretty('clientType', selectedOrder.client.type)}}</span></li>
+                                    <li><small>Ciudad:</small> <span>{{selectedOrder.city}}</span></li>
+                                    <li><small>Vendedor:</small> <span>{{selectedOrder.user.name}} {{selectedOrder.user.lastName}}</span></li>
+                                    <li ng-if="selectedOrder.type === 'Mixta'"><small>Tipo:</small> <span>{{selectedOrder.mixedLabel}}</span></li>
+                                    <li ng-if="selectedOrder.type === 'Custom' "><small>Tipo:</small> <span >{{pretty('productType', selectedOrder.products[0].type)}}</span></li>
+                                    <li ng-if="selectedOrder.type !== 'Custom' && selectedOrder.type !== 'Mixta'"><small>Tipo:</small> <span >{{pretty('productType', selectedOrder.type)}}</span></li>
+
+                                    <li><small>Cant. de productos:</small> <span>{{productsQuantity}}</span></li>
+
+                                    <li><small>Fecha:</small> <span>{{selectedOrder.date | date : 'dd MMM, yyyy'}}</span></li>
+                                    <li ng-show="selectedOrder.commitmentDate"><small>Fecha Compromiso:</small> <span>{{selectedOrder.commitmentDate | date : 'dd MMM, yyyy'}}</span></li>
+                                    <li ng-show="selectedOrder.productionDate"><small>Entrada a Producción:</small> <span>{{selectedOrder.productionDate | date : 'dd MMM, yyyy'}}</span></li>
+                                    <li ng-show="selectedOrder.endProductionDate"><small>Salida de Producción:</small> <span>{{selectedOrder.endProductionDate | date : 'dd MMM, yyyy'}}</span></li>
+                                    <li ng-show="selectedOrder.transitDate"><small>Fecha de Embarque:</small> <span>{{selectedOrder.transitDate | date : 'dd MMM, yyyy'}}</span></li>
+                                    <li ng-show="selectedOrder.arrivalDate"><small>Fecha de Llegada:</small> <span>{{selectedOrder.arrivalDate | date : 'dd MMM, yyyy'}}</span></li>
+                                    <li ng-show="selectedOrder.programmedDate"><small>Fecha de Programación de instalación:</small> <span>{{selectedOrder.programmedDate | date : 'dd MMM, yyyy'}}</span></li>
+                                    <li ng-show="selectedOrder.installationDate"><small>Fecha de Instalacion:</small> <span>{{selectedOrder.installationDate | date : 'dd MMM, yyyy'}}</span></li>
+                                </ul>
+
+                                <hr>
+                                <h3 class="details-title">Observaciones</h3>
+                                <hr>
+
+                                <ul><li>
+                                    <span>{{selectedOrder.notes}}</span> 
+                                </li></ul>
+
+
+                                <hr>
+                                <h3 class="details-title">Totales</h3>
+                                <hr>
+
+                                <ul>
+                                    <li><small>Productos:</small> <span>{{selectedOrder.productsTotal | currency}}</span></li>
+                                    <li ng-show="selectedOrder.plusTotal"><small>Adicionales: </small><span>{{selectedOrder.plusTotal | currency}}</span></li>
+                                    <li ng-show="selectedOrder.motorTotal"><small>Motorización: </small><span>{{selectedOrder.motorTotal | currency}}</span></li>
+                                    <li ng-show="selectedOrder.discountPercent"><small>Descuento ({{selectedOrder.discountPercent}}%): </small><span>{{selectedOrder.discount | currency}}</span></li>
+                                    <li ng-show="selectedOrder.installationTotal"><small>Instalación: </small> <span>{{selectedOrder.installationTotal | currency}}</span></li>
+                                    <li><small>Sub-Total:</small> <span>{{selectedOrder.subTotal | currency}}</span></li>
+                                    <li><small>IVA:</small> <span>{{selectedOrder.iva | currency}}</span></li>
+                                    <li><small>TOTAL:</small> <span>{{selectedOrder.total | currency}}</span></li>
+                                    <li ng-show="!isSuborder"><small>Saldo:</small> <span>{{selectedOrder.balance | currency}}</span></li>
+                                </ul>
+                                
+
+                                <hr ng-if="selectedOrder.payments.length > 0">
+                                <h3 class="details-title" ng-if="selectedOrder.payments.length > 0">Pagos</h3>
+                                <hr>
+
+                                <ul ng-repeat="payment in selectedOrder.payments" class="order-payment">
+                                    <li><small>No. Folio:</small> <span>{{payment.folio}}</span></li>
+                                    <li><small>Fecha:</small> <span>{{payment.date | date : 'dd/MM/yyyy HH:mm'}}</span></li>
+                                    <li><small>Monto:</small> <span>{{payment.advance | currency}}</span></li>
+                                    <hr>
+                                </ul>
+
+
+                                <!--hr>
+                                <h3>Acciones</h3>
+                                <button class="btn btn-success" ng-show="permissions.canSend" ng-click="change('line')">Enviar como Orden</button>
+                                <button class="btn btn-success" ng-show="permissions.canApprove" ng-click="change('approved')">Aprobar Orden</button>
+                                <button class="btn btn-danger"  ng-show="permissions.canApprove" ng-click="change('rejected')">Rechazar Orden</button>
+
+                                <button class="btn btn-success" ng-show="permissions.canPay" ng-click="change('pay')">Aprobar Orden</button>
+                                <button class="btn btn-warning" ng-show="permissions.canBackorder" ng-click="change('backorder')">Enviar a Backorder</button>
+                                <button class="btn btn-success" ng-show="permissions.canProduction" ng-click="change('production')">Enviar a Producción</button>
+                                <button class="btn btn-success" ng-show="permissions.canTransit" ng-click="change('transit')">Enviar a Tránsito</button>
+                                <button class="btn btn-success" ng-show="permissions.canFinish" ng-click="change('finished')">Terminar</button>
+
+                                <button class="btn btn-success" ng-show="permissions.canInstall" ng-click="change('installed')">Instalada</button>
+                                <button class="btn btn-warning" ng-show="permissions.canPartialInstall" ng-click="change('incomplete')">Instalada parcial</button>
+                                <button class="btn btn-danger"  ng-show="permissions.canPartialInstall" ng-click="change('nonConform')">Instalada inconforme</button>
+                                <hr-->
+                            </div>
+                        </div>
+                    </pageslide>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
