@@ -2,6 +2,7 @@
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
+const copyPlugin = require("copy-webpack-plugin");
 /* global __dirname module require */
 /* eslint comma-dangle: ["error", "never"] */
 const path = require("path");
@@ -40,6 +41,17 @@ module.exports = {
 			$: "jquery",
 			jQuery: "jquery",
 			"window.jQuery": "jquery",
+		}),
+		new copyPlugin({
+			patterns: [
+				"assets",
+				"icons",
+				"img",
+				"json",
+				"lang",
+				"partials",
+				"favicon.json",
+			].map((dir) => path.resolve(__dirname, "src", dir)),
 		}),
 	],
 	devServer: {
