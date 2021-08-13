@@ -1,11 +1,13 @@
 "use strict";
 
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const copyPlugin = require("copy-webpack-plugin");
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 /* global __dirname module require */
 /* eslint comma-dangle: ["error", "never"] */
-const path = require("path");
+
+const filesToCopy = require("./config").filesToDist;
 
 module.exports = {
 	mode: "development",
@@ -45,16 +47,7 @@ module.exports = {
 			swal: "sweetalert",
 		}),
 		new copyPlugin({
-			patterns: [
-				"assets",
-				"icons",
-				"img",
-				"json",
-				"lang",
-				"partials",
-				"fonts",
-				"favicon.json",
-			].map((dir) => ({
+			patterns: filesToCopy.map((dir) => ({
 				from: path.resolve(__dirname, "src", dir),
 				to: path.resolve(__dirname, "dist", dir),
 			})),
@@ -88,20 +81,7 @@ module.exports = {
 			},
 			{
 				test: /\.css$/i,
-				use: [
-					{
-						loader: "style-loader",
-						options: { injectType: "linkTag" },
-					},
-					{
-						loader: "file-loader",
-						options: {
-							outputPath: "css/",
-							name: "[name].css",
-						},
-					},
-					"css-loader",
-				],
+				use: ["style-loader", "css-loader"],
 			},
 		],
 	},
