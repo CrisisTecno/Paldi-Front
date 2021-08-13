@@ -52,6 +52,7 @@ module.exports = {
 				"json",
 				"lang",
 				"partials",
+				"fonts",
 				"favicon.json",
 			].map((dir) => ({
 				from: path.resolve(__dirname, "src", dir),
@@ -70,39 +71,36 @@ module.exports = {
 			{
 				test: /\.s[ac]ss$/i,
 				use: [
-					// {
-					// 	loader: "file-loader",
-					// 	options: {
-					// 		outputPath: "css/",
-					// 		name: "[name].min.css",
-					// 	},
-					// },
-					// Creates `style` nodes from JS strings
-					"style-loader",
-					// Translates CSS into CommonJS
-					"css-loader",
-					// Compiles Sass to CSS
-					// "resolve-url-loader",
+					{
+						loader: "style-loader",
+						options: { injectType: "linkTag" },
+					},
+					{
+						loader: "file-loader",
+						options: {
+							outputPath: "css/",
+							name: "[name].min.css",
+						},
+					},
+
 					"sass-loader",
 				],
 			},
 			{
 				test: /\.css$/i,
 				use: [
-					// {
-					// 	loader: "file-loader",
-					// 	options: {
-					// 		outputPath: "css/",
-					// 		name: "[name].min.css",
-					// 	},
-					// },
-					// Creates `style` nodes from JS strings
-					"style-loader",
-					// Translates CSS into CommonJS
+					{
+						loader: "style-loader",
+						options: { injectType: "linkTag" },
+					},
+					{
+						loader: "file-loader",
+						options: {
+							outputPath: "css/",
+							name: "[name].css",
+						},
+					},
 					"css-loader",
-					// // Compiles Sass to CSS
-					// // "resolve-url-loader",
-					// "sass-loader",
 				],
 			},
 		],
