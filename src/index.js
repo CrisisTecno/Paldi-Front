@@ -1,5 +1,5 @@
 import "sweetalert/dist/sweetalert.css";
-import "./sass/style.scss";
+import "bootstrap";
 
 export { globals } from "./js/config/envs/prod";
 
