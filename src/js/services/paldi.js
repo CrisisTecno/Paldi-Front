@@ -1,5 +1,6 @@
 import { pdApp } from "./index";
 import { globals } from "./index";
+import moment from "moment";
 
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 	var service = {};

@@ -65,7 +65,7 @@ pdApp.controller(
 			} else {
 				sort = newSort;
 			}
-			pastSort = newSort;
+			var pastSort = newSort;
 
 			if ($scope.endDate) {
 				$scope.endDate = moment($scope.endDate).endOf("day").toDate();

@@ -1,4 +1,5 @@
 import { pdApp } from "./index";
+import { globals } from "./index";
 
 pdApp.controller(
 	"PaymentsCtrl",

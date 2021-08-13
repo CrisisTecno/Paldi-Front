@@ -1,157 +1,213 @@
 <div class="quote-view">
-    <h3 class="form-title">Filtrasol</h3>
-    <small class="error-message alert" ng-if="filtrasol.doable==false">No realizable</small>
-    <form name="filtrasolForm" role="form" novalidate ng-submit="addProduct('Filtrasol', filtrasolForm, filtrasol)" autocomplete="off">
-        <div class="form-group">
-            <label>Cant.</label>
-            <input type="number" min="1" value="1" step="1" name="quantity" ng-model="filtrasol.quantity" class="form-control" ng-change="updatePrices('Filtrasol', filtrasol)" pattern="[0-9]*" required="">
-            <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.quantity.$error.required">Campo requerido</small>
-        </div>
-        <div class="form-group">
-            <label>Ubicación</label>
-            <input type="text" name="location" ng-model="filtrasol.location" class="form-control" required="">
-            <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.location.$error.required">Campo requerido</small>
-        </div>
-        <div class="form-group">
-            <label>Tipo</label>
-            <select name="type" ng-model="filtrasol.type" ng-change="updateType('Filtrasol', filtrasol, color)" class="form-control" required="">
-                <option value="Filtrasol Eclisse">Eclisse</option>
-                <option value="Filtrasol Enrollables">Enrollables</option>
-                <option value="Filtrasol Panel Deslizante">Panel Deslizante</option>
-                <option value="Filtrasol Triple Shade">Triple Shade</option>
-            </select>
-            <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.type.$error.required">Campo requerido</small>
-        </div>
+  <h3 class="form-title">Filtrasol</h3>
+  <small class="error-message alert" ng-if="filtrasol.doable==false">No realizable</small>
+  <form name="filtrasolForm" role="form" novalidate ng-submit="addProduct('Filtrasol', filtrasolForm, filtrasol)"
+    autocomplete="off">
+    <div class="form-group">
+      <label>Cant.</label>
+      <input type="number" min="1" value="1" step="1" name="quantity" ng-model="filtrasol.quantity" class="form-control"
+        ng-change="updatePrices('Filtrasol', filtrasol)" pattern="[0-9]*" required="">
+      <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.quantity.$error.required">Campo
+        requerido</small>
+    </div>
+    <div class="form-group">
+      <label>Ubicación</label>
+      <input type="text" name="location" ng-model="filtrasol.location" class="form-control" required="">
+      <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.location.$error.required">Campo
+        requerido</small>
+    </div>
+    <div class="form-group">
+      <label>Tipo</label>
+      <select name="type" ng-model="filtrasol.type" ng-change="updateType('Filtrasol', filtrasol, color)"
+        class="form-control" required="">
+        <option value="Filtrasol Eclisse">Eclisse</option>
+        <option value="Filtrasol Enrollables">Enrollables</option>
+        <option value="Filtrasol Panel Deslizante">Panel Deslizante</option>
+        <option value="Filtrasol Triple Shade">Triple Shade</option>
+      </select>
+      <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.type.$error.required">Campo
+        requerido</small>
+    </div>
 
-        <div class="form-group">
-            <label ng-hide="showSpinner" ng-hide="productMeta">Color</label>
-            <label ng-show="productMeta && !showSpinner">{{productMeta.colorLabel}}</label>
-            <input ng-hide="showSpinner" type="text" name="color" id="color" ng-model="color" ng-disabled="!filtrasol.type" class="form-control" required="" uib-typeahead="color.label for color in filtrasol.colors | filter: $viewValue | limitTo:12" typeahead-on-select="colorSelected($item, 'Filtrasol', filtrasol)" typeahead-editable="false">
-            <small ng-hide="showSpinner" class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.color.$error.required">Campo requerido</small>
-            <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
-        </div>
-        <div class="form-group">
-            <label>Config</label>
-            <select name="config" ng-model="filtrasol.config" class="form-control" ng-disabled="!filtrasol.type" required="">
-                <option ng-repeat="config in productMeta.configs" value="{{config}}">{{config}}</option>
-            </select>
-            <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.config.$error.required">Campo requerido</small>
-        </div>
-        <div class="form-group">
-            <label>Ancho (metros)</label>
-            <input type="number" name="width" id="width" ng-model="filtrasol.width" ng-disabled="!color" min="0.1" class="form-control" ng-change="changeWidth('Filtrasol', filtrasol)" required="" step="0.1">
-            <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.width.$error.required">Campo requerido</small>
-        </div>
-        <div class="form-group">
-            <label>Alto (metros)</label>
-            <input type="number" name="height" id="height" ng-model="filtrasol.height" ng-disabled="!color" min="0.1" class="form-control" ng-change="changeHeight('Filtrasol', filtrasol)" required="" step="0.1">
-            <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.height.$error.required">Campo requerido</small>
-        </div>
-        <div class="form-group">
-            <label>m²</label>
-            <input type="number" name="m2" ng-model="filtrasol.m2" disabled="disabled" min="0" class="form-control" required="" placeholder="{{filtrasol.m2 | number:2}}">
-            <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.m2.$error.required">Campo requerido</small>
-        </div>
-        <div class="form-group" ng-show="filtrasol.type=='Filtrasols' || filtrasol.type == 'Solar Screen' || filtrasol.type == 'Solar Blackout'">
-            <label>Caída</label>
-            <select name="drop" ng-model="filtrasol.drop" class="form-control" ng-required="filtrasol.type=='Filtrasols' || filtrasol.type == 'Solar Screen' || filtrasol.type == 'Solar Blackout'">
-                <option value="Atras">Atras</option>
-                <option value="Enfrente">Enfrente</option>
-            </select>
-            <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.drop.$error.required">Campo requerido</small>
-        </div>
-        <div class="form-group">
-            <label>Mando</label>
-            <select name="control" ng-model="filtrasol.control" class="form-control" required="" ng-change="hasControl(filtrasol.control)">
-                <option value="Izquierda">Izquierda</option>
-                <option value="Derecha">Derecha</option>
-                <option value="N/A">N/A</option>
-            </select>
-            <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.control.$error.required">Campo requerido</small>
-        </div>
-        <div ng-hide="filtrasol.control == 'N/A' || !filtrasol.control">
-            <label>Altura de Mando</label>
-            <div>
-                <label>
-                    <input type="checkbox" name="controlHeightCheckbox" id="controlHeightCheckbox" ng-model="controlHeightCheckbox" ng-change="controlHeightChange()" checked> Estándar</label>
-            </div>
-            <input type="number" name="controlHeight" id="controlHeight" step="0.1" class="form-control" ng-model="filtrasol.controlHeight" ng-hide="controlHeightCheckbox == true">
-        </div>
+    <div class="form-group">
+      <label ng-hide="showSpinner" ng-hide="productMeta">Color</label>
+      <label ng-show="productMeta && !showSpinner">{{productMeta.colorLabel}}</label>
+      <input ng-hide="showSpinner" type="text" name="color" id="color" ng-model="color" ng-disabled="!filtrasol.type"
+        class="form-control" required=""
+        uib-typeahead="color.label for color in filtrasol.colors | filter: $viewValue | limitTo:12"
+        typeahead-on-select="colorSelected($item, 'Filtrasol', filtrasol)" typeahead-editable="false">
+      <small ng-hide="showSpinner" class="error-message"
+        ng-if="filtrasolForm.$validated && filtrasolForm.color.$error.required">Campo requerido</small>
+      <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
+    </div>
+    <div class="form-group">
+      <label>Config</label>
+      <select name="config" ng-model="filtrasol.config" class="form-control" ng-disabled="!filtrasol.type" required="">
+        <option ng-repeat="config in productMeta.configs" value="{{config}}">{{config}}</option>
+      </select>
+      <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.config.$error.required">Campo
+        requerido</small>
+    </div>
+    <div class="form-group">
+      <label>Ancho (metros)</label>
+      <input type="number" name="width" id="width" ng-model="filtrasol.width" ng-disabled="!color" min="0.1"
+        class="form-control" ng-change="changeWidth('Filtrasol', filtrasol)" required="" step="0.1">
+      <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.width.$error.required">Campo
+        requerido</small>
+    </div>
 
-        
-        
-        <div ng-show="addingPlus == false && filtrasol.plusList.length > 0">
-        <hr/>
-            <button type="button" class="btn btn-default" ng-click="addPlus()">Agregar Adicional</button>
-        <hr/>
-        </div>
-        <div class="form-adding" ng-show="addingPlus == true && filtrasol.plusList.length > 0">
-            <label class="title">Adicional:</label>
-            <div class="form-group">
-                <label>Cantidad</label>
-                <input type="number" ng-model="filtrasol.plusQuantity" name="plusQuantity" id="plusQuantity" class="form-control" pattern="[0-9]*">
-            </div>
-            <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" ng-model="filtrasol.plus" name="plus" id="plus" class="form-control" uib-typeahead="plus as plus.label for plus in filtrasol.plusList | filter:$viewValue | limitTo:12" typeahead-editable="false">
-            </div>
-            <div>
-                <button type="button" class="btn btn-secondary-left" ng-click="addPlus(filtrasol.plus, filtrasol.plusQuantity)">Agregar</button>
-                <button type="button" class="btn btn-tertiary-left" ng-click="cancelPlus()">Cancelar</button>
-            <hr/>
-            </div>
-        </div>
-        <div ng-show="plusList.length > 0">
-            <div ng-include="'partials/views/console/quote/additional-details.html'"></div>
-        </div>
+    <div class="form-group">
+      <label>Alto (metros)</label>
+      <input type="number" name="height" id="height" ng-model="filtrasol.height" ng-disabled="!color" min="0.1"
+        class="form-control" ng-change="changeHeight('Filtrasol', filtrasol)" required="" step="0.1">
+      <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.height.$error.required">Campo
+        requerido</small>
+    </div>
+
+    <div class="form-group">
+      <label>m²</label>
+      <input type="number" name="m2" ng-model="filtrasol.m2" disabled="disabled" min="0" class="form-control"
+        required="" placeholder="{{filtrasol.m2 | number:2}}">
+      <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.m2.$error.required">Campo
+        requerido</small>
+    </div>
+    <div class="form-group"
+      ng-show="filtrasol.type=='Filtrasols' || filtrasol.type == 'Solar Screen' || filtrasol.type == 'Solar Blackout'">
+      <label>Caída</label>
+      <select name="drop" ng-model="filtrasol.drop" class="form-control"
+        ng-required="filtrasol.type=='Filtrasols' || filtrasol.type == 'Solar Screen' || filtrasol.type == 'Solar Blackout'">
+        <option value="Atras">Atras</option>
+        <option value="Enfrente">Enfrente</option>
+      </select>
+      <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.drop.$error.required">Campo
+        requerido</small>
+    </div>
+    <div class="form-group">
+      <label>Mando</label>
+      <select name="control" ng-model="filtrasol.control" class="form-control" required=""
+        ng-change="hasControl(filtrasol.control)">
+        <option value="Izquierda">Izquierda</option>
+        <option value="Derecha">Derecha</option>
+        <option value="N/A">N/A</option>
+      </select>
+      <small class="error-message" ng-if="filtrasolForm.$validated && filtrasolForm.control.$error.required">Campo
+        requerido</small>
+    </div>
+    <div ng-hide="filtrasol.control == 'N/A' || !filtrasol.control">
+      <label>Altura de Mando</label>
+      <div>
+        <label>
+          <input type="checkbox" name="controlHeightCheckbox" id="controlHeightCheckbox"
+            ng-model="controlHeightCheckbox" ng-change="controlHeightChange()" checked> Estándar</label>
+      </div>
+      <input type="number" name="controlHeight" id="controlHeight" step="0.1" class="form-control"
+        ng-model="filtrasol.controlHeight" ng-hide="controlHeightCheckbox == true">
+    </div>
+
+    <div ng-show="valid">
+      <hr />
+      <button type="button" class="btn btn-default" ng-show="!rotated" ng-disabled="!color" style="align-content: center;"
+        ng-click="changeRotation('Filtrasol', filtrasol, this)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise"  style="padding-top: 0.3em"
+          viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+          <path
+            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+        </svg>Girar textil</button>
+      <button type="button" class="btn btn-primary" ng-show="rotated" ng-disabled="!color" style="align-content: center;" 
+        ng-click="changeRotation('Filtrasol', filtrasol, this)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise"  style="padding-top: 0.3em"
+          viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+          <path
+            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+        </svg>Cancelar giro de textil
+      </button>
+    </div>
+
+    <div ng-show="addingPlus == false && filtrasol.plusList.length > 0">
+      <hr />
+      <button type="button" class="btn btn-default" ng-click="addPlus()">Agregar Adicional</button>
+      <hr />
+    </div>
+    <div class="form-adding" ng-show="addingPlus == true && filtrasol.plusList.length > 0">
+      <label class="title">Adicional:</label>
+      <div class="form-group">
+        <label>Cantidad</label>
+        <input type="number" ng-model="filtrasol.plusQuantity" name="plusQuantity" id="plusQuantity"
+          class="form-control" pattern="[0-9]*">
+      </div>
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" ng-model="filtrasol.plus" name="plus" id="plus" class="form-control"
+          uib-typeahead="plus as plus.label for plus in filtrasol.plusList | filter:$viewValue | limitTo:12"
+          typeahead-editable="false">
+      </div>
+      <div>
+        <button type="button" class="btn btn-secondary-left"
+          ng-click="addPlus(filtrasol.plus, filtrasol.plusQuantity)">Agregar</button>
+        <button type="button" class="btn btn-tertiary-left" ng-click="cancelPlus()">Cancelar</button>
+        <hr />
+      </div>
+    </div>
+    <div ng-show="plusList.length > 0">
+      <div ng-include="'partials/views/console/quote/additional-details.html'"></div>
+    </div>
 
 
-        
-        <div ng-show="addingMotor == false && filtrasol.motorList.length > 0">
-            <button type="button" class="btn btn-default" ng-click="addMotor()">Agregar Motorización</button>
-        <hr/>
-        </div>
-        <div class="form-adding" ng-show="addingMotor == true && filtrasol.motorList.length > 0">
-            <label class="title">Motorización:</label>
-            <div class="form-group">
-                <label>Cantidad</label>
-                <input type="number" ng-model="filtrasol.motorQuantity" name="motorQuantity" id="motorQuantity" class="form-control" pattern="[0-9]*">
-            </div>
-            <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" ng-model="filtrasol.motor" name="motor" id="motor" class="form-control" uib-typeahead="motor as motor.label for motor in filtrasol.motorList | filter:$viewValue | limitTo:12" typeahead-editable="false">
-            </div>
-            <div>
-                <button type="button" class="btn btn-secondary-left" ng-click="addMotor(filtrasol.motor, filtrasol.motorQuantity)">Agregar</button>
-                <button type="button" class="btn btn-tertiary-left" ng-click="cancelMotor()">Cancelar</button>
-            <hr/>
-            </div>
-        </div>
-        <div ng-show="motorList.length > 0">
-            <div ng-include="'partials/views/console/quote/motor-details.html'"></div>
-        </div>
 
-        <div class="form-group notes">
-            <label>Observaciones</label>
-            <textarea name="notes" ng-model="filtrasol.notes" class="form-control"></textarea>
-        </div>
-        <div class="total-configuration">
-            <div class="form-group" ng-show="filtrasol.unit">
-                <label>Precio Metro</label>
-                <input ng-currency type="text" name="unit" ng-model="filtrasol.unit" class="form-control" disabled="disabled" placeholder="{{filtrasol.unit}}">
-            </div>
-            <div class="form-group" ng-show="filtrasol.price">
-                <label>Precio Unitario</label>
-                <input ng-currency type="text" name="price" ng-model="filtrasol.price" class="form-control" disabled="disabled" placeholder="{{filtrasol.price}}">
-            </div>
-            <div class="form-group" ng-show="filtrasol.total">
-                <label>Total</label>
-                <input ng-currency type="text" name="total" ng-model="filtrasol.total" class="form-control" disabled="disabled" placeholder="{{filtrasol.total}}">
-            </div>
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary-left" ">Agregar</button>
-            <button type="button" class="btn btn-tertiary-left" ng-click="cancelProduct()">Cancelar</button>
-        </div>
-     </form>
+    <div ng-show="addingMotor == false && filtrasol.motorList.length > 0">
+      <button type="button" class="btn btn-default" ng-click="addMotor()">Agregar Motorización</button>
+      <hr />
+    </div>
+    <div class="form-adding" ng-show="addingMotor == true && filtrasol.motorList.length > 0">
+      <label class="title">Motorización:</label>
+      <div class="form-group">
+        <label>Cantidad</label>
+        <input type="number" ng-model="filtrasol.motorQuantity" name="motorQuantity" id="motorQuantity"
+          class="form-control" pattern="[0-9]*">
+      </div>
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" ng-model="filtrasol.motor" name="motor" id="motor" class="form-control"
+          uib-typeahead="motor as motor.label for motor in filtrasol.motorList | filter:$viewValue | limitTo:12"
+          typeahead-editable="false">
+      </div>
+      <div>
+        <button type="button" class="btn btn-secondary-left"
+          ng-click="addMotor(filtrasol.motor, filtrasol.motorQuantity)">Agregar</button>
+        <button type="button" class="btn btn-tertiary-left" ng-click="cancelMotor()">Cancelar</button>
+        <hr />
+      </div>
+    </div>
+    <div ng-show="motorList.length > 0">
+      <div ng-include="'partials/views/console/quote/motor-details.html'"></div>
+    </div>
+
+    <div class="form-group notes">
+      <label>Observaciones</label>
+      <textarea name="notes" ng-model="filtrasol.notes" class="form-control"></textarea>
+    </div>
+    <div class="total-configuration">
+      <div class="form-group" ng-show="filtrasol.unit">
+        <label>Precio Metro</label>
+        <input ng-currency type="text" name="unit" ng-model="filtrasol.unit" class="form-control" disabled="disabled"
+          placeholder="{{filtrasol.unit}}">
+      </div>
+      <div class="form-group" ng-show="filtrasol.price">
+        <label>Precio Unitario</label>
+        <input ng-currency type="text" name="price" ng-model="filtrasol.price" class="form-control" disabled="disabled"
+          placeholder="{{filtrasol.price}}">
+      </div>
+      <div class="form-group" ng-show="filtrasol.total">
+        <label>Total</label>
+        <input ng-currency type="text" name="total" ng-model="filtrasol.total" class="form-control" disabled="disabled"
+          placeholder="{{filtrasol.total}}">
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary-left" ">Agregar</button>
+            <button type=" button" class="btn btn-tertiary-left" ng-click="cancelProduct()">Cancelar</button>
+    </div>
+  </form>
 </div>

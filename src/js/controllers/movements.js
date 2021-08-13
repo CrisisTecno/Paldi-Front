@@ -22,6 +22,7 @@ pdApp.controller(
 		var outStatusList = statusLists.outStatusList;
 		var invStatusList = statusLists.invStatusList;
 
+		var cleanStatusList = [];
 		var cleanInStatusList = [];
 		var cleanOutStatusList = [];
 		var cleanInvStatusList = [];
@@ -75,6 +76,7 @@ pdApp.controller(
 
 		var statusChange = function () {
 			cleanStatusList = [];
+
 			angular.forEach($scope.statusList, function (status) {
 				cleanStatusList.push(status.id);
 			});

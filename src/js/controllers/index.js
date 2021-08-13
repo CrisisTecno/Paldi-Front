@@ -1,4 +1,5 @@
 export { pdApp } from "../../pdApp";
+export { globals } from "../../index";
 
 import "./bills";
 import "./change-password";

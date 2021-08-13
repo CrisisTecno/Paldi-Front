@@ -9,7 +9,7 @@ const path = require("path");
 
 module.exports = {
 	mode: "development",
-	entry: "./src/index.js",
+	entry: ["./src/index.js", "./src/sass/style.scss"],
 	output: {
 		filename: "main.js",
 		path: path.resolve(__dirname, "dist"),
@@ -41,6 +41,8 @@ module.exports = {
 			$: "jquery",
 			jQuery: "jquery",
 			"window.jQuery": "jquery",
+			moment: "moment",
+			swal: "sweetalert",
 		}),
 		new copyPlugin({
 			patterns: [
@@ -68,6 +70,13 @@ module.exports = {
 			{
 				test: /\.s[ac]ss$/i,
 				use: [
+					// {
+					// 	loader: "file-loader",
+					// 	options: {
+					// 		outputPath: "css/",
+					// 		name: "[name].min.css",
+					// 	},
+					// },
 					// Creates `style` nodes from JS strings
 					"style-loader",
 					// Translates CSS into CommonJS
@@ -75,6 +84,25 @@ module.exports = {
 					// Compiles Sass to CSS
 					// "resolve-url-loader",
 					"sass-loader",
+				],
+			},
+			{
+				test: /\.css$/i,
+				use: [
+					// {
+					// 	loader: "file-loader",
+					// 	options: {
+					// 		outputPath: "css/",
+					// 		name: "[name].min.css",
+					// 	},
+					// },
+					// Creates `style` nodes from JS strings
+					"style-loader",
+					// Translates CSS into CommonJS
+					"css-loader",
+					// // Compiles Sass to CSS
+					// // "resolve-url-loader",
+					// "sass-loader",
 				],
 			},
 		],

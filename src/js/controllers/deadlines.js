@@ -42,7 +42,7 @@ pdApp.controller(
 
 		var loadDays = function () {
 			$scope.days = [];
-			ignoredDay = null;
+			var ignoredDay = null;
 			var i = 0;
 			while ($scope.days.length < 7) {
 				var day = moment();

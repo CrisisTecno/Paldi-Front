@@ -165,6 +165,10 @@ pdApp.controller(
 		$scope.productsMixed = [];
 
 		$scope.addProduct = function (product, form, model) {
+			//console.log("what is this 6")
+			//console.log(product)
+			//console.log(form)
+			//console.log(model)
 			if (form) {
 				var sellerValid = true;
 				$scope.updatePrices(product, model);
@@ -208,6 +212,7 @@ pdApp.controller(
 					model.plusList = $scope.plusList;
 					model.motorList = $scope.motorList;
 					model.installationPlusList = $scope.installationPlusList;
+					model.rotated = $scope.rotated;
 
 					if (
 						(product == "Enrollable" || product == "Filtrasol") &&
@@ -302,6 +307,10 @@ pdApp.controller(
 		};
 
 		$scope.cancelProduct = function () {
+			$scope.valid = false;
+			$scope.rotated = false;
+			//console.log($scope)
+
 			$scope.product = "";
 			$scope.plusList = [];
 			$scope.motorList = [];
@@ -422,6 +431,17 @@ pdApp.controller(
 
 			$scope.product = product.productType;
 			$scope.quote.type = product.productType;
+
+			$scope.valid = product.rotated === true;
+			$scope.valid |=
+				product.productType === "Filtrasol" &&
+				product.type === "Filtrasol Enrollables";
+			$scope.valid |=
+				product.productType === "Enrollable" &&
+				product.type === "Enrollables";
+
+			$scope.rotated = product.rotated;
+
 			switch (product.productType) {
 				case "Enrollable":
 					$scope.enrollable = angular.copy(product);
@@ -1007,6 +1027,7 @@ pdApp.controller(
 		//---------------------------------------------------------------------------------------------//
 
 		$scope.save = function (client) {
+			//console.log($scope.quote)
 			$scope.checkForm = true;
 			if (
 				$scope.quote.notes != "" &&
@@ -1222,11 +1243,68 @@ pdApp.controller(
 			}
 		};
 
+		$scope.rotate = (product, model) => {
+			$scope.rotated = !$scope.rotated;
+			let temp = model.height;
+			model.height = model.width - 0.3;
+			model.width = temp;
+			$scope.changeWidth(product, model);
+			$scope.changeHeight(product, model);
+
+			$scope.$apply();
+		};
+
+		$scope.changeRotation = function (product, model, element) {
+			const rotate = (confirmation) => {
+				if (confirmation) {
+					$scope.rotate(product, model);
+
+					swal({
+						title: "Textil Girado",
+						type: "success",
+						confirmButtonText: "Aceptar",
+					});
+				}
+			};
+			if ($scope.rotated)
+				swal(
+					{
+						title: "¿Seguro que desea regresar el textil a la orientación inicial?",
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#DD6B55",
+						confirmButtonText: "Confirmar",
+						cancelButtonText: "Cancelar",
+						closeOnConfirm: false,
+						closeOnCancel: true,
+					},
+					rotate
+				);
+			else
+				swal(
+					{
+						title: "¿Seguro que desea girar el textil?",
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#DD6B55",
+						confirmButtonText: "Confirmar",
+						cancelButtonText: "Cancelar",
+						closeOnConfirm: false,
+						closeOnCancel: true,
+					},
+					rotate
+				);
+		};
+
 		$scope.changeWidth = function (product, model) {
 			if (model.width) {
 				model.width = parseFloat(
 					model.width.toString().match(/.*\..{0,3}|.*/)[0]
 				);
+				if ($scope.rotated) {
+					$scope.updatePrices(product, model);
+					return;
+				}
 
 				if (
 					$scope.color.maxWidth &&
@@ -1249,13 +1327,20 @@ pdApp.controller(
 				model.height = parseFloat(
 					model.height.toString().match(/.*\..{0,3}|.*/)[0]
 				);
-
-				if (
+				if ($scope.rotated)
+					if (
+						$scope.color.maxHeight &&
+						model.height > $scope.color.maxWidth - 0.3
+					)
+						model.height = $scope.color.maxWidth - 0.3;
+					else {
+					}
+				else if (
 					$scope.color.maxHeight &&
 					model.height > $scope.color.maxHeight
-				) {
+				)
 					model.height = $scope.color.maxHeight;
-				}
+
 				if (
 					$scope.color.minHeight &&
 					model.height < $scope.color.minHeight
@@ -1300,6 +1385,10 @@ pdApp.controller(
 		};
 
 		$scope.updateType = function (product, model, color) {
+			if ($scope.rotated) {
+				$scope.rotate(product, model);
+			}
+
 			if (model.type) {
 				if (product == "Enrollable") {
 					$scope.productMeta = $scope.enrollablesMeta[model.type];
@@ -1357,6 +1446,15 @@ pdApp.controller(
 				colorPriceService.getInstallationPlusList(product, model);
 				colorPriceService.getPlusColorsList(product, model);
 			}
+			//console.log(product)
+			//console.log(model)
+			$scope.rotated = false;
+			$scope.valid =
+				product === "Filtrasol" &&
+				model.type === "Filtrasol Enrollables";
+			$scope.valid |=
+				product === "Enrollable" && model.type === "Enrollables";
+			//console.log($scope.valid)
 		};
 
 		$scope.updateTypeNoErasing = function (product, model) {

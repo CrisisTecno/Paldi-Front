@@ -1,4 +1,5 @@
 import { pdApp } from "./index";
+import moment from "moment";
 
 pdApp.controller(
 	"CommissionsCtrl",

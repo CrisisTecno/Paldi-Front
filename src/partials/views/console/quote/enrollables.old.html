@@ -74,14 +74,37 @@
       <small class="error-message" ng-if="enrollableForm.$validated && enrollableForm.width.$error.required">Campo
         requerido</small>
     </div>
-
     <div class="form-group">
-      <label>Alto (metros)</label>
-      <input type="number" name="height" id="height" ng-model="enrollable.height" ng-disabled="!color" min="0.1"
-        class="form-control" ng-change="changeHeight('Enrollable', enrollable)" required="" step="0.1">
-      <small class="error-message" ng-if="enrollableForm.$validated && enrollableForm.height.$error.required">Campo
-        requerido</small>
+      <div>
+        <label>Alto (metros)</label>
+        <div style="display: flex; align-content:flex-end;">
+          <div style="flex-grow: 1;">
+            <input type="number" name="width" id="width" ng-model="enrollable.width" ng-disabled="!color" min="0.1"
+              class="form-control" ng-change="changeWidth('Enrollable', enrollable)" required="" step="0.1">
+            <small class="error-message" ng-if="enrollableForm.$validated && enrollableForm.width.$error.required">Campo
+              requerido</small>
+          </div>
+          <button type="button" class="btn btn-secondary btn-lg"
+            ng-click="changeRotation('Enrollable', enrollable, this)" ng-show="valid">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-arrow-clockwise" viewBox="0 0 16 16" ng-show="!rotated">
+              <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+              <path
+                d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16" ng-show="rotated">
+              <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" />
+              <path
+                d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
+            </svg>
+          </button>
+        </div>
+      </div>
     </div>
+
+
+
     <div class="form-group">
       <label>m²</label>
       <input type="number" name="m2" ng-model="enrollable.m2" disabled="disabled" min="0" class="form-control"
@@ -120,26 +143,6 @@
       </div>
       <input type="number" name="controlHeight" id="controlHeight" step="0.1" class="form-control"
         ng-model="enrollable.controlHeight" ng-hide="controlHeightCheckbox == true">
-    </div>
-
-    <div ng-show="valid">
-      <hr />
-      <button type="button" class="btn btn-default" ng-show="!rotated" ng-disabled="!color" style="align-content: center;"
-        ng-click="changeRotation('Enrollable', enrollable, this)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise"  style="padding-top: 0.3em"
-          viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
-          <path
-            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-        </svg>Girar textil</button>
-      <button type="button" class="btn btn-primary" ng-show="rotated" ng-disabled="!color" style="align-content: center;"
-        ng-click="changeRotation('Enrollable', enrollable, this)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" style="padding-top: 0.3em"
-          viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
-          <path
-            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-        </svg>Cancelar giro de textil</button>
     </div>
 
     <div ng-show="addingPlus == false && enrollable.plusList.length > 0">
