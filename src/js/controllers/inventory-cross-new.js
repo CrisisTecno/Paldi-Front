@@ -76,7 +76,7 @@ pdApp.controller(
 				$scope.products[i].type = "IN";
 			}
 			colorPriceService.addProducts($scope.products).then(
-				function (data) {
+				function (_data) {
 					$scope.dialog.close();
 					swal(
 						{

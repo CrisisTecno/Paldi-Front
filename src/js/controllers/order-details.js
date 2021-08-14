@@ -141,7 +141,7 @@ pdApp.controller(
 					$timeout(function () {
 						$scope.loadAdditionals();
 					}, 200);
-					console.log(paldiService.orders);
+					// console.log(paldiService.orders);
 					$scope.order.pdfLink =
 						paldiService.orders.getPdfLink(order);
 					$scope.order.pdfOrderLink =
