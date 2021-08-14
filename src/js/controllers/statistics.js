@@ -171,7 +171,7 @@ pdApp.controller("StatisticsCtrl", function ($scope, paldiService, $filter) {
 		var processedKeys = [];
 		var processedAmounts = [];
 		Object.keys(data).forEach(function (key) {
-			dataObj = { count: data[key].count, amount: data[key].amount };
+			var dataObj = { count: data[key].count, amount: data[key].amount };
 			processedData.push(dataObj.count);
 			processedAmounts.push(
 				!isNaN(dataObj.amount) ? dataObj.amount.toFixed(2) : 0

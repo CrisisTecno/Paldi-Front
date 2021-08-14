@@ -4,8 +4,6 @@ const webpack = require("webpack");
 const copyPlugin = require("copy-webpack-plugin");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-/* global __dirname module require */
-/* eslint comma-dangle: ["error", "never"] */
 
 const filesToCopy = require("./config").filesToDist;
 
