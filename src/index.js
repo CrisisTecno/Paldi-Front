@@ -1,7 +1,7 @@
 import "sweetalert/dist/sweetalert.css";
 import "./sass/style.scss";
 
-export { globals } from "./js/config/envs/prod";
+export { globals } from "./js/config/envs/local";
 
 import "./pdApp";
 import "./js/run/run";

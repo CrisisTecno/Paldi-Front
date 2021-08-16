@@ -5,3 +5,5 @@ var globals = {
     version: '3.3.6',
     iva: 0.08
 };
+
+export {globals}
