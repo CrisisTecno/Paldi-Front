@@ -1,11 +1,11 @@
 "use strict";
 
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const copyPlugin = require("copy-webpack-plugin");
-/* global __dirname module require */
-/* eslint comma-dangle: ["error", "never"] */
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+const filesToCopy = require("./config").filesToDist;
 
 module.exports = {
 	mode: "development",
@@ -45,15 +45,7 @@ module.exports = {
 			swal: "sweetalert",
 		}),
 		new copyPlugin({
-			patterns: [
-				"assets",
-				"icons",
-				"img",
-				"json",
-				"lang",
-				"partials",
-				"favicon.json",
-			].map((dir) => ({
+			patterns: filesToCopy.map((dir) => ({
 				from: path.resolve(__dirname, "src", dir),
 				to: path.resolve(__dirname, "dist", dir),
 			})),
@@ -70,40 +62,24 @@ module.exports = {
 			{
 				test: /\.s[ac]ss$/i,
 				use: [
-					// {
-					// 	loader: "file-loader",
-					// 	options: {
-					// 		outputPath: "css/",
-					// 		name: "[name].min.css",
-					// 	},
-					// },
-					// Creates `style` nodes from JS strings
-					"style-loader",
-					// Translates CSS into CommonJS
-					"css-loader",
-					// Compiles Sass to CSS
-					// "resolve-url-loader",
+					{
+						loader: "style-loader",
+						options: { injectType: "linkTag" },
+					},
+					{
+						loader: "file-loader",
+						options: {
+							outputPath: "css/",
+							name: "[name].min.css",
+						},
+					},
+
 					"sass-loader",
 				],
 			},
 			{
 				test: /\.css$/i,
-				use: [
-					// {
-					// 	loader: "file-loader",
-					// 	options: {
-					// 		outputPath: "css/",
-					// 		name: "[name].min.css",
-					// 	},
-					// },
-					// Creates `style` nodes from JS strings
-					"style-loader",
-					// Translates CSS into CommonJS
-					"css-loader",
-					// // Compiles Sass to CSS
-					// // "resolve-url-loader",
-					// "sass-loader",
-				],
+				use: ["style-loader", "css-loader"],
 			},
 		],
 	},

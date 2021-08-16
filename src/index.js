@@ -1,5 +1,7 @@
 import "sweetalert/dist/sweetalert.css";
-import "./sass/style.scss";
+import "ng-dialog/css/ngDialog.min.css";
+import "ng-dialog/css/ngDialog-theme-default.min.css";
+import "bootstrap";
 
 export { globals } from "./js/config/envs/local";
 

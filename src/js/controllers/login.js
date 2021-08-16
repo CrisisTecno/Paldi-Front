@@ -1,4 +1,4 @@
-import { pdApp } from "./index";
+import { pdApp, globals } from "./index";
 
 pdApp.controller(
 	"LogInCtrl",
@@ -11,6 +11,7 @@ pdApp.controller(
 		yokozuna,
 		sessionHelper
 	) {
+		$scope.env = globals.env;
 		$scope.login = function (username, password) {
 			$scope.loginForm.$validated = true;
 			yokozuna.login(username, password).then(
