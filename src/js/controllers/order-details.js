@@ -1,5 +1,7 @@
 import { pdApp } from "./index";
 
+import { getConfirmPayment } from './order-details/confirm-payment'
+
 pdApp.controller(
 	"OrderDetailsCtrl",
 	function (
@@ -173,6 +175,9 @@ pdApp.controller(
 				}
 			);
 		};
+    $scope.loadOrder = loadOrder
+    $scope.paldiService = paldiService
+    $scope.ngDialog = ngDialog
 
 		$scope.showLog = false;
 		$scope.isPaying = false;
@@ -334,6 +339,7 @@ pdApp.controller(
 					});
 				});
 		};
+    $scope.createSuborders = createSuborders
 
 		//========================= PAYMENTS ===========================
 
@@ -361,172 +367,10 @@ pdApp.controller(
 		};
 
 		$scope.pay = function (form, model) {
+      const  confirmPayment = getConfirmPayment(this, $scope)
 			if (form.$valid) {
 				$scope.dialog.close();
-				var currency = model.currency == "PESOS" ? "M.N." : "Dlls";
-				swal(
-					{
-						title:
-							"¿Seguro que deseas enviar la orden con $" +
-							model.advance +
-							" " +
-							currency +
-							"?",
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#DD6B55",
-						confirmButtonText: "Aceptar",
-						cancelButtonText: "Cancelar",
-						closeOnConfirm: true,
-						closeOnCancel: false,
-					},
-					function (isConfirm) {
-						if (isConfirm && !$scope.isPaying) {
-							$scope.isPaying = true;
-							var updatedOrder = $scope.order;
-							updatedOrder.payment = {
-								advance:
-									model.currency == "DOLLARS"
-										? parseFloat(
-												model.advance *
-													model.exchangeRate
-										  ).toFixed(2)
-										: model.advance,
-								advanceDollars:
-									model.currency == "DOLLARS"
-										? model.advance
-										: null,
-								notes: model.notes,
-								currency: model.currency,
-								exchangeRate:
-									model.currency == "DOLLARS"
-										? model.exchangeRate
-										: null,
-								paymentType: model.type,
-								bankPaymentType:
-									model.type == "BANK"
-										? model.bankType
-										: null,
-								date: new Date(),
-								user: $scope.currentUser,
-								isDiscountPayment: model.isDiscountPayment,
-								sendToClient: model.sendToClient,
-							};
-							if ($scope.paymentType == "payment") {
-								var payment = updatedOrder.payment;
-								paldiService.payments
-									.pay($scope.order.id, payment)
-									.then(
-										function (order) {
-											swal({
-												title: "Pago Enviado",
-												type: "success",
-												confirmButtonText: "Aceptar",
-											});
-											$scope.isPaying = false;
-											loadOrder();
-										},
-										function (error) {
-											console.error(error);
-											swal({
-												title: "Ocurrió un error",
-												type: "error",
-												confirmButtonText: "Aceptar",
-											});
-											$scope.isPaying = false;
-											loadOrder();
-										}
-									);
-							} else if ($scope.paymentType == "advance") {
-								if ($scope.productType == "Custom") {
-									$scope.dateDialog("commitment");
-									$scope.updatedCustomOrder = updatedOrder;
-								} else {
-									var updateOrder = function () {
-										paldiService.orders
-											.updateStatus(updatedOrder, "LINE")
-											.then(
-												function (order) {
-													swal({
-														title: "Orden Enviada",
-														text: "Se envió la cotización como orden",
-														type: "success",
-														confirmButtonText:
-															"Aceptar",
-													});
-													$scope.isPaying = false;
-
-													if (
-														order.type === "Mixta"
-													) {
-														createSuborders(
-															model,
-															order
-														);
-														$state.go(
-															"console.order-list"
-														);
-													}
-
-													loadOrder();
-												},
-												function (error) {
-													console.error(error);
-													$scope.isPaying = false;
-													if (
-														error.data.exception ==
-														"io.lkmx.paldi.quote.components.error.InventoryNotEnoughException"
-													) {
-														swal({
-															title: "No hay inventario suficiente",
-															type: "error",
-															confirmButtonText:
-																"Aceptar",
-														});
-													} else {
-														swal({
-															title: "Ocurrió un error",
-															type: "error",
-															confirmButtonText:
-																"Aceptar",
-														});
-														loadOrder();
-													}
-												}
-											);
-									};
-
-									paldiService.orders
-										.get(updatedOrder.id)
-										.then(function (order) {
-											if (order.quote) {
-												updateOrder();
-											} else {
-												loadOrder();
-												$timeout(function () {
-													swal({
-														type: "error",
-														title: "Ocurrió un error",
-														text: "Cotización ya es una orden.",
-														confirmButtonText:
-															"Cerrar",
-													});
-												}, 400);
-											}
-										});
-								}
-							}
-							$scope.paymentType = "";
-						} else {
-							$scope.paymentType = "";
-							swal({
-								title: "Cancelado",
-								type: "error",
-								confirmButtonText: "Aceptar",
-							});
-						}
-					}
-				);
+        confirmPayment(model)
 			} else {
 				form.$validated = true;
 			}
