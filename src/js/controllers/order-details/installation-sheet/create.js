@@ -62,12 +62,7 @@ export const showCreateInstallationSheetDialog = (
 			try {
 				await $scope.paldiService.installationSheet.create(sheetData);
 				$scope.dialog.close();
-				showSwal(
-					"messages.installationSheet.create",
-					function (isConfirm) {
-						callback();
-					}
-				);
+				callback();
 			} catch (error) {
 				console.log(error);
 				if (
