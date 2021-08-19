@@ -1,11 +1,149 @@
 <div>
-  <h3 class="form-title">Pago</h3>
-  <form name="paymentForm" role="form" novalidate ng-submit="installationSheet.save" autocomplete="off">
+  <h3 class="form-title">Hoja de Instalación</h3>
+  <form name="installationForm" role="form" novalidate
+    ng-submit="installationSheet.save(installationForm)" autocomplete="off">
 
-    <div>
-      <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">Cancelar</button>
-      <button type="submit" class="btn btn-primary">Crear hoja de instalacion</button>
+    <div class="form-group">
+      <label>No Orden</label>
+      <input name="noOrder" class="form-control"
+        ng-model="installationSheet.orderNo" disabled>
+      <small class="error-message"
+        ng-if="installationForm.$validated && installationForm.noOrder.$error.required">Campo
+        requerido</small>
     </div>
+
+    <div class="form-group">
+      <label>Persona que recibe la orden</label>
+      <input name="receivingPerson" class="form-control"
+        ng-model="installationSheet.receivingPerson">
+      <small class="error-message"
+        ng-if="installationForm.$validated && installationForm.receivingPerson.$error.required">Campo
+        requerido</small>
+    </div>
+
+    <!-- TODO: add validation -->
+    <div class="form-group">
+      <label>Celular</label>
+      <input name="telephone" class="form-control"
+        ng-model="installationSheet.telephone">
+      <small class="error-message"
+        ng-if="installationForm.$validated && installationForm.telephone.$error.required">Campo
+        requerido</small>
+    </div>
+
+
+    <div class="form-group">
+      <label>Dirección de entrega</label>
+      <input name="address" class="form-control"
+        ng-model="installationSheet.address">
+      <small class="error-message"
+        ng-if="installationForm.$validated && installationForm.address.$error.required">Campo
+        requerido</small>
+    </div>
+
+    <div class="form-group">
+      <label>Código Postal</label>
+      <input name="postalCode" class="form-control"
+        ng-model="installationSheet.postalCode">
+      <small class="error-message"
+        ng-if="installationForm.$validated && installationForm.postalCode.$error.required">Campo
+        requerido</small>
+    </div>
+
+    <div class="form-group notes">
+      <label>Referencia adicional de la dirección</label>
+      <textarea name="addressReference"
+        ng-model="installationSheet.addressReference"
+        class="form-control"></textarea>
+    </div>
+
+
+    <div class="form-group">
+      <label>Herramientas externas</label>
+      <div class="form-group">
+        <label>
+          <input name="rotomartillo" type="checkbox"
+            ng-model="installationSheet.extras.rotomartillo"
+            ng-change="installationSheet.onChangeCheck(installationForm, 'rotomartillo')">
+          Rotomartillo
+        </label>
+
+        <label>
+          <input name="andamios" type="checkbox"
+            ng-model="installationSheet.extras.andamios"
+            ng-change="installationSheet.onChangeCheck(installationForm, 'andamios')">
+          Andamios
+        </label>
+
+        <label>
+          <input name="bomberoStaircase" type="checkbox"
+            ng-model="installationSheet.extras.bomberoStaircase"
+            ng-change="installationSheet.onChangeCheck(installationForm, 'bomberoStaircase')">
+          Escalera de Bombero
+        </label>
+
+        <div ng-repeat="x in installationSheet.otherExtra">
+          <label><input name="{{x}}" type="checkbox"
+              ng-model="installationSheet.extras.{{x}}"
+              ng-change="installationSheet.onChangeCheck(installationForm, {{x}})">{{x}}</label>
+        </div>
+
+
+        <div class="form-group">
+          <input name="extra" type="text"
+            ng-model="installationSheet.extraText">
+          <button type="button"
+            class="btn btn-primary-actions btn-sm btn-square"
+            ng-click="installationSheet.addOtherExtra(installationSheet.extraText)">
+            Añadir extra </button>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="form-group">
+        <label>Material en donde se va a instalar </label>
+        <div class="form-group">
+          <label>
+            <input name="madera" type="checkbox"
+              ng-model="installationSheet.material.madera"
+              ng-change="installationSheet.onChangeCheck(installationForm, 'madera')">
+            Madera
+          </label>
+
+          <label>
+            <input name="tablaroca" type="checkbox"
+              ng-model="installationSheet.material.tablaroca"
+              ng-change="installationSheet.onChangeCheck(installationForm, 'tablaroca')">
+            Tabla Roca
+          </label>
+
+          <label>
+            <input name="aluminio" type="checkbox"
+              ng-model="installationSheet.material.aluminio"
+              ng-change="installationSheet.onChangeCheck(installationForm, 'aluminio')">
+            Aluminio
+          </label>
+
+        </div>
+
+        <!-- <div class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox" aria-label="...">
+        </span>
+        <input type="text" class="form-control" aria-label="...">
+      </div> -->
+
+
+
+
+        <div>
+          <button type="button" class="btn btn-default"
+            ng-click="closeThisDialog('')">Cancelar</button>
+          <button type="submit" class="btn btn-primary"> Pagar </button>
+        </div>
 
   </form>
 </div>

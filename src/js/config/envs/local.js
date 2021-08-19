@@ -1,9 +1,10 @@
-var env = 'local';
+var env = "local";
 
 var globals = {
-  apiURL: 'http://localhost:8888',
-  version: '3.3.6',
-  iva: 0.08
+	apiURL: "http://cotizadorpaldi.com.mx:9999", //"https://paldi.staging.lkmx.io:8888",
+	version: "3.3.6",
+	iva: 0.08,
+	env: "Development",
 };
 
-export { globals }
+export { globals };

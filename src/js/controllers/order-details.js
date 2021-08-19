@@ -1,6 +1,7 @@
 import { pdApp } from "./index";
 
-import { getConfirmPayment } from './order-details/confirm-payment'
+import { getConfirmPayment } from "./order-details/confirm-payment";
+import { showSwal } from "../utils/swal/show";
 
 pdApp.controller(
 	"OrderDetailsCtrl",
@@ -175,9 +176,9 @@ pdApp.controller(
 				}
 			);
 		};
-    $scope.loadOrder = loadOrder
-    $scope.paldiService = paldiService
-    $scope.ngDialog = ngDialog
+		$scope.loadOrder = loadOrder;
+		$scope.paldiService = paldiService;
+		$scope.ngDialog = ngDialog;
 
 		$scope.showLog = false;
 		$scope.isPaying = false;
@@ -277,6 +278,33 @@ pdApp.controller(
 			);
 		};
 
+		$scope.downloadInstallationSheet = async () => {
+			const id = $scope.order.id;
+
+			function downloadURI(uri, name) {
+				let link = document.createElement("a");
+				link.download = name;
+				link.href = uri;
+				link.target = "_blank";
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+			}
+
+			try {
+				await $scope.paldiService.installationSheet.exists(id);
+				// TODO : FIX FIX FIX TOO DIRTY :(
+				downloadURI(
+					`http://cotizadorpaldi.com.mx:9999/newapi/installation/sheet/download/${id}.pdf`,
+					`orden_${$scope.order.number}.pdf`
+				);
+			} catch {
+				showSwal("messages.error");
+			}
+			// a hacer algo fast
+			console.log("test", id);
+		};
+
 		var createSuborders = function (model, order) {
 			paldiService.orders
 				.getByOrderParent($scope.order.id)
@@ -339,7 +367,7 @@ pdApp.controller(
 					});
 				});
 		};
-    $scope.createSuborders = createSuborders
+		$scope.createSuborders = createSuborders;
 
 		//========================= PAYMENTS ===========================
 
@@ -367,10 +395,10 @@ pdApp.controller(
 		};
 
 		$scope.pay = function (form, model) {
-      const  confirmPayment = getConfirmPayment(this, $scope)
+			const confirmPayment = getConfirmPayment(this, $scope);
 			if (form.$valid) {
 				$scope.dialog.close();
-        confirmPayment(model)
+				confirmPayment(model);
 			} else {
 				form.$validated = true;
 			}

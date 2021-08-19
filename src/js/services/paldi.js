@@ -30,6 +30,26 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 		},
 	};
 
+	service.installationSheet = {
+		create: function (data) {
+			return $http.post(
+				globals.apiURL + "/newapi/installation/sheet/create",
+				data,
+				{
+					authentication: "yokozuna",
+				}
+			);
+		},
+		exists: function (id) {
+			return $http.post(
+				globals.apiURL + `/newapi/installation/sheet/exists/${id}`,
+				{
+					authentication: "yokozuna",
+				}
+			);
+		},
+	};
+
 	//--------------- USERS ---------------
 	service.users = {
 		whoAmI: function () {

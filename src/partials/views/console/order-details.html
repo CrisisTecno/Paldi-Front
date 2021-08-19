@@ -616,9 +616,12 @@
               class="btn-icon glyphicon glyphicon-calendar "></span>Fecha de
             Inst.
           </button>
+
+
           <!-- TODO: retire the inline-style -->
           <div class="dropdown show" style="width: min-content;"
             ng-show="currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'ADMIN' || currentUser.role == 'INSTALLATION_MANAGER'">
+
             <button
               class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square"
               type="button" id="dropdownMenuButton" data-toggle="dropdown"
@@ -641,6 +644,35 @@
               </a>
             </div>
           </div>
+
+          <!-- SEGUNDO BOTON -->
+          <div class="dropdown show" style="width: min-content;"
+            ng-show="true || currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'ADMIN' || currentUser.role == 'INSTALLATION_MANAGER'">
+
+            <button
+              class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square"
+              type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <span class="btn-icon glyphicon glyphicon-menu-down"></span>Orden
+              de instalacion
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <!-- <a class="dropdown-item"
+                ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN'"
+                ng-click="sendToSpecialEmail(order)"><span
+                  class="btn-icon glyphicon glyphicon-envelope"></span>Enviar
+              </a> -->
+              <!-- ng-show="currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'INSTALLATION_MANAGER' || currentUser.role == 'ADMIN'"
+                download -->
+              <div class="dropdown-divider"></div>
+              <a ng-click="downloadInstallationSheet()" class="dropdown-item">
+                <span
+                  class="btn-icon glyphicon glyphicon glyphicon-save"></span>Descargar
+              </a>
+            </div>
+          </div>
+
+
           <button type="button"
             class="btn btn-secondary-actions btn-sm btn-square"
             ng-show="permissions.canInstall  && !isMaster"
