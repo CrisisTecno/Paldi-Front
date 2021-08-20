@@ -4,6 +4,7 @@ import { getConfirmPayment } from "./order-details/confirm-payment";
 import { showSwal } from "../utils/swal/show";
 import { merge } from "../utils/merge";
 
+
 pdApp.controller(
   "OrderDetailsCtrl",
   function (
@@ -22,26 +23,17 @@ pdApp.controller(
     orderService,
   ) {
 
-    var loadOrder = async function () {
+    const loadOrder = async function () {
       var id = $stateParams.orderId;
-      console.log(orderService)
       merge($scope, orderService.getInitialLoadOrderObject())
       merge($scope, await orderService.details.getOrderObject(id, $scope.productsSorted))
-      const order = $scope.order
 
-      $timeout(function () {
-        $scope.loadAdditionals();
-      }, 200);
-      $timeout(function () {
-        $scope.permissions = permissionsHelper.get(
-          order,
-          $rootScope.currentUser
-        );
-        $scope.canManagePayments =
-          $scope.currentUser.role != "MANAGER" &&
-          $scope.currentUser.role != "INSTALLATION_MANAGER";
-      }, 400);
-    };
+      $scope.permissions = permissionsHelper.get($scope.order, $rootScope.currentUser);
+      $scope.canManagePayments = ["MANAGER", "INSTALLATION_MANAGER"].includes($scope.currentUser.role)
+
+      $timeout(() => $scope.loadAdditionals(), 0)
+    }
+
 
     $scope.loadOrder = loadOrder;
     $scope.paldiService = paldiService;
@@ -955,212 +947,6 @@ pdApp.controller(
       return $scope.productsSorted.findIndex(function (t) {
         return t.type === type;
       });
-    };
-
-    var getCycleDays = function (currentDate, startDate, endDate) {
-      var cycle = 0;
-      var days;
-      var daysExcludingWeekends = 0;
-      var START_CYCLE = 1;
-
-      if (startDate) {
-        if (!endDate) {
-          cycle = currentDate.diff(startDate, "days");
-        } else {
-          cycle = endDate.diff(startDate, "days");
-        }
-        days = cycle <= 0 ? 0 : cycle;
-        daysExcludingWeekends = getDaysExcludingWeekends(
-          startDate,
-          days
-        );
-        daysExcludingWeekends += START_CYCLE;
-
-        return daysExcludingWeekends;
-      } else {
-        return " - ";
-      }
-    };
-
-    var getRemainingDays = function (startDate, commitmentDate, endDate) {
-      var currentDate = moment();
-      var days = 0;
-      var daysLeft = 0;
-      var comparisonDate;
-      if (startDate && commitmentDate) {
-        days = commitmentDate.diff(startDate, "days");
-        if (!endDate) {
-          comparisonDate = angular.copy(currentDate);
-        } else {
-          comparisonDate = angular.copy(endDate);
-        }
-        days = getDaysExcludingWeekends(startDate, days);
-        daysLeft = getDaysLeft(startDate, comparisonDate, days);
-        return daysLeft;
-      } else {
-        return " - ";
-      }
-    };
-
-    var getDaysExcludingWeekends = function (startDate, days) {
-      var daysExcludingWeekends = angular.copy(days);
-      var date = angular.copy(startDate);
-      for (var i = 0; i < days; i++) {
-        date = date.add(1, "days");
-        if (date.isoWeekday() === 6 || date.isoWeekday() === 7) {
-          daysExcludingWeekends--;
-        }
-      }
-      return daysExcludingWeekends;
-    };
-
-    var getDaysLeft = function (startDate, comparisonDate, commitmentDays) {
-      var leftDays = angular.copy(commitmentDays);
-      var date = angular.copy(startDate);
-      var passedDays = comparisonDate.diff(date, "days");
-      for (var i = 0; i < passedDays; i++) {
-        date = date.add(1, "days");
-        if (date.isoWeekday() !== 6 && date.isoWeekday() !== 7) {
-          leftDays -= 1;
-        }
-      }
-      return leftDays;
-    };
-
-    var getDPFCDays = function (startDate, commitmentDate, endDate) {
-      var days;
-      var absDays;
-      var START_CYCLE = 1;
-      var dpfcDays;
-
-      if (startDate && commitmentDate) {
-        days = getRemainingDays(startDate, commitmentDate, endDate);
-        $scope.dpfcStatus = getCountdownStatus(
-          startDate,
-          days,
-          commitmentDate,
-          endDate
-        );
-        $scope.dpfcTotalStatus = getCountdownStatus(
-          startDate,
-          days,
-          commitmentDate,
-          endDate
-        );
-        absDays = isNaN(days) ? days : Math.abs(days);
-        var businessDays = commitmentDate.diff(startDate, "days");
-        businessDays = getDaysExcludingWeekends(
-          startDate,
-          businessDays
-        );
-        var totalDays = businessDays + START_CYCLE - days;
-        dpfcDays = absDays + "/" + (businessDays + START_CYCLE);
-
-        if (endDate === null) {
-          dpfcDays = absDays;
-        } else {
-          dpfcDays = totalDays;
-        }
-        $scope.dpfcTotalDays = businessDays + START_CYCLE;
-      } else {
-        dpfcDays = " - ";
-      }
-      return dpfcDays;
-    };
-
-    var getProductionDays = function (startDate, commitmentDate, endDate) {
-      var days;
-
-      var START_CYCLE = 1;
-      var productionDays;
-      if (startDate && commitmentDate) {
-        days = getRemainingDays(startDate, commitmentDate, endDate);
-        $scope.productionStatus = getCountdownStatus(
-          startDate,
-          days,
-          commitmentDate,
-          endDate
-        );
-        $scope.productionTotalStatus = getCountdownStatus(
-          startDate,
-          days,
-          commitmentDate,
-          endDate
-        );
-        var absDays = isNaN(days) ? days : Math.abs(days);
-        var businessDays = commitmentDate.diff(startDate, "days");
-        businessDays = getDaysExcludingWeekends(
-          startDate,
-          businessDays
-        );
-        var totalDays = businessDays + START_CYCLE - days;
-        if (endDate === null) {
-          productionDays = absDays;
-        } else {
-          productionDays = totalDays;
-        }
-        $scope.productionTotalDays = businessDays + START_CYCLE;
-      } else {
-        productionDays = "-";
-      }
-      return productionDays;
-    };
-
-    var getCountdownStatus = function (
-      startCycle,
-      days,
-      commitmentDate,
-      endDate
-    ) {
-      var status = "";
-      if (startCycle && commitmentDate) {
-        if (!endDate) {
-          status = days >= 0 ? "START" : "LATE";
-        } else {
-          status = "END";
-        }
-      } else {
-        status = "";
-      }
-      return status;
-    };
-
-    var getTransitDays = function (
-      currentDate,
-      startDate,
-      endDate,
-      commitmentDate
-    ) {
-      var cycle = 0;
-      var days;
-      var daysExcludingWeekends = 0;
-      var transitDays;
-      var START_CYCLE = 1;
-
-      if (startDate && commitmentDate) {
-        if (!endDate) {
-          cycle = currentDate.diff(startDate, "days");
-        } else {
-          cycle = endDate.diff(startDate, "days");
-        }
-        var businessDays = commitmentDate.diff(startDate, "days");
-        businessDays = getDaysExcludingWeekends(
-          startDate,
-          businessDays
-        );
-        days = cycle <= 0 ? 0 : cycle;
-        daysExcludingWeekends = getDaysExcludingWeekends(
-          startDate,
-          days
-        );
-        daysExcludingWeekends += START_CYCLE;
-        transitDays =
-          daysExcludingWeekends + "/" + (businessDays + START_CYCLE);
-
-        return transitDays;
-      } else {
-        return " - ";
-      }
     };
 
     var getMaxDate = function (limitDays) {

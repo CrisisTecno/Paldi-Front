@@ -8,13 +8,21 @@ export const buildGetOrderObject = (paldiService) => {
   const loadMixedOrder = buildLoadMixedOrder(paldiService)
 
   const getOrderObject = async (id, sortedProducts) => {
-    const order = await paldiService.orders.get(id)
+    let order
+    try {
+      order = await paldiService.orders.get(id)
+    } catch { 
+      return { step: "empty" }
+    }
 
     return {
       order: {
         ...order,
         pdfLink: paldiService.orders.getPdfLink(order),
-        pdfOrderLink: paldiService.orders.getPdfOrderLink(order),
+        pdfOrderLink: await paldiService.orders.getPdfOrderLink(order),
+        events: await paldiService.orders.getLog(id),
+        installationPlusTotal: order.installationPlusTotal ? order.installationPlusTotal: 0,
+        payments: order.payments ? await paldiService.orders.getReceiptLinks(order) : undefined,
       },
       quoteStatus: order.quoteStatus,
       quoteSubStatus: order.quoteSubStatus,
