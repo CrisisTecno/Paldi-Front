@@ -31,7 +31,7 @@ pdApp.controller(
       $scope.permissions = permissionsHelper.get($scope.order, $rootScope.currentUser);
       $scope.canManagePayments = ["MANAGER", "INSTALLATION_MANAGER"].includes($scope.currentUser.role)
 
-      $timeout(() => $scope.loadAdditionals(), 0)
+      $scope.$evalAsync(() => $scope.loadAdditionals())
     }
 
 

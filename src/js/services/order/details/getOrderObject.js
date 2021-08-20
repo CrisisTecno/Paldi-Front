@@ -82,6 +82,8 @@ const buildLoadMixedOrder = (paldiService) => async (id, order, sortedProducts) 
 }
 
 /// SIDE EFFECTS !!! -> Edits $scope.sortedProducts
+/// AN ALTERNATIVE IS REQUIRED
+/// IDK WHAT TO DO
 const addProduct = (product, order, sortedProducts) => {
   const isMixedWithPersianasAndFiltrasol = order.mixedLabel != undefined &&
     order.mixedLabel.indexOf("Persianas") != -1 &&
