@@ -26,33 +26,12 @@ pdApp.controller(
       var id = $stateParams.orderId;
       console.log(orderService)
       merge($scope, orderService.getInitialLoadOrderObject())
-
       merge($scope, await orderService.details.getOrderObject(id, $scope.productsSorted))
       const order = $scope.order
 
-      $scope.client = order.client;
-      $scope.step = order ? "loaded" : "empty";
-      $scope.productType = order.type;
-      $scope.order.type = $scope.productType;
       $timeout(function () {
         $scope.loadAdditionals();
       }, 200);
-      // console.log(paldiService.orders);
-      $scope.order.pdfLink =
-        paldiService.orders.getPdfLink(order);
-      $scope.order.pdfOrderLink =
-        paldiService.orders.getPdfOrderLink(order);
-      if (order.payments) {
-        $scope.order.payments =
-          paldiService.orders.getReceiptLinks(order);
-      }
-      paldiService.orders.getLog(order.id).then(function (log) {
-        $scope.order.events = log;
-      });
-      $scope.order.installationPlusTotal =
-        order.installationPlusTotal
-          ? order.installationPlusTotal
-          : 0;
       $timeout(function () {
         $scope.permissions = permissionsHelper.get(
           order,
@@ -62,11 +41,8 @@ pdApp.controller(
           $scope.currentUser.role != "MANAGER" &&
           $scope.currentUser.role != "INSTALLATION_MANAGER";
       }, 400);
-      function d(error) {
-        $scope.step = "empty";
-        //console.log(error);
-      }
     };
+
     $scope.loadOrder = loadOrder;
     $scope.paldiService = paldiService;
     $scope.ngDialog = ngDialog;

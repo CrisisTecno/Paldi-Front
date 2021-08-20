@@ -11,7 +11,11 @@ export const buildGetOrderObject = (paldiService) => {
     const order = await paldiService.orders.get(id)
 
     return {
-      order: order,
+      order: {
+        ...order,
+        pdfLink: paldiService.orders.getPdfLink(order),
+        pdfOrderLink: paldiService.orders.getPdfOrderLink(order),
+      },
       quoteStatus: order.quoteStatus,
       quoteSubStatus: order.quoteSubStatus,
       products: order.products,
@@ -19,6 +23,9 @@ export const buildGetOrderObject = (paldiService) => {
       isMaster: order.type === 'Mixta',
       mixedLabel: order.mixedLabel ?? "Mixta",
       isSubOrder: order.orderParent,
+      client: order.client,
+      step: order ? "loaded" : "empty",
+      productType: order.type,
       ...(order.type === "Mixta" ? await loadMixedOrder(order.id, order, sortedProducts) : loadNormalOrder(order, sortedProducts)),
       ...buildMoments(order)
     }
