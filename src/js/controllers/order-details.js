@@ -2,7 +2,8 @@ import { pdApp } from "./index";
 
 import { getConfirmPayment } from "./order-details/confirm-payment";
 import { showSwal } from "../utils/swal/show";
-import { merge } from "../utils/merge";
+import { merge, mergeDeep } from "../utils/merge";
+import { showCreateInstallationSheetDialog } from "./order-details/installation-sheet/create";
 
 
 pdApp.controller(
@@ -21,15 +22,24 @@ pdApp.controller(
     permissionsHelper,
     ngDialog,
     orderService,
+    permissionService
   ) {
 
     const loadOrder = async function () {
       var id = $stateParams.orderId;
-      merge($scope, orderService.getInitialLoadOrderObject())
-      merge($scope, await orderService.details.getOrderObject(id, $scope.productsSorted))
+      mergeDeep($scope, orderService.getInitialLoadOrderObject())
+      mergeDeep($scope, await orderService.details.getOrderObject(id, $scope.productsSorted))
 
       $scope.permissions = permissionsHelper.get($scope.order, $rootScope.currentUser);
       $scope.canManagePayments = ["MANAGER", "INSTALLATION_MANAGER"].includes($scope.currentUser.role)
+
+      $scope.perms = permissionService.setDependencies([
+        ['user', $rootScope.currentUser],
+        ['order', $scope.order],
+        ['installationSheet', $scope.installationSheet]
+      ])
+      console.log($scope.perms)
+
 
       $scope.$evalAsync(() => $scope.loadAdditionals())
     }
@@ -97,8 +107,6 @@ pdApp.controller(
       } else {
         objName = "orden";
       }
-      //console.log(order)
-
       swal(
         {
           title:
@@ -137,32 +145,15 @@ pdApp.controller(
       );
     };
 
-    $scope.downloadInstallationSheet = async () => {
-      const id = $scope.order.id;
+    $scope.createInstallationSheet = () => {
+      showCreateInstallationSheetDialog($scope, () => {
+        showSwal("messages.installation_sheet.created")
+      })
+    }
 
-      function downloadURI(uri, name) {
-        let link = document.createElement("a");
-        link.download = name;
-        link.href = uri;
-        link.target = "_blank";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
+    $scope.editInstallationSheet = () => {
 
-      try {
-        await $scope.paldiService.installationSheet.exists(id);
-        // TODO : FIX FIX FIX TOO DIRTY :(
-        downloadURI(
-          `http://cotizadorpaldi.com.mx:9999/newapi/installation/sheet/download/${id}.pdf`,
-          `orden_${$scope.order.number}.pdf`
-        );
-      } catch {
-        showSwal("messages.error");
-      }
-      // a hacer algo fast
-      console.log("test", id);
-    };
+    }
 
     var createSuborders = function (model, order) {
       paldiService.orders
@@ -381,6 +372,11 @@ pdApp.controller(
           function (isConfirm) {
             if (isConfirm) {
               $scope.newStatus = status;
+              console.log($scope.newStatus)
+              if (status === 'PENDING') {
+                showCreateInstallationSheetDialog($scope, () => showSwal('messages.installation_sheet.created', () => $scope.statusNotesDialog()))
+                return
+              }
               if (
                 $scope.newStatus != "TRANSIT" &&
                 $scope.newStatus != "PRODUCTION"

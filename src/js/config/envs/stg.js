@@ -1,7 +1,7 @@
 var env = 'staging';
 
 var globals = {
-    apiURL: 'http://paldi.staging.lkmx.io:8888',
+    apiURL: 'http://cotizadorpaldi.com.mx:9999',
     version: '3.3.6',
     iva: 0.08
 };

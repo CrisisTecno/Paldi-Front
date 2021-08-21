@@ -4,7 +4,6 @@ import { showSwal } from "../../../utils/swal/show";
 
 export const showCreateInstallationSheetDialog = (
 	$scope,
-	updatedOrder,
 	callback
 ) => {
 	attachTo(
@@ -117,7 +116,7 @@ export const showCreateInstallationSheetDialog = (
 			delete $scope.installationSheet[objName][otherName];
 		},
 	};
-
+  console.log($scope)
 	$scope.dialog = $scope.ngDialog.open({
 		template: "partials/views/console/installation-sheet/form-create.html",
 		scope: $scope,

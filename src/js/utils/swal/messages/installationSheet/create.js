@@ -1,4 +1,4 @@
-export const installationSheetCreated = (callback) => {
+export const created = (callback) => {
 	swal(
 		{
 			title: "Hoja de instalacion creada",

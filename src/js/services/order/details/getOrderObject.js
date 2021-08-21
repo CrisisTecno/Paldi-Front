@@ -11,7 +11,7 @@ export const buildGetOrderObject = (paldiService) => {
     let order
     try {
       order = await paldiService.orders.get(id)
-    } catch { 
+    } catch {
       return { step: "empty" }
     }
 
@@ -20,9 +20,13 @@ export const buildGetOrderObject = (paldiService) => {
         ...order,
         pdfLink: paldiService.orders.getPdfLink(order),
         pdfOrderLink: await paldiService.orders.getPdfOrderLink(order),
+        pdfInstallationSheetLink: await paldiService.orders.getPdfInstallationSheetLink(order),
         events: await paldiService.orders.getLog(id),
-        installationPlusTotal: order.installationPlusTotal ? order.installationPlusTotal: 0,
+        installationPlusTotal: order.installationPlusTotal ? order.installationPlusTotal : 0,
         payments: order.payments ? await paldiService.orders.getReceiptLinks(order) : undefined,
+      },
+      installationSheet: {
+        pdfLink: await paldiService.orders.getPdfInstallationSheetLink(order),
       },
       quoteStatus: order.quoteStatus,
       quoteSubStatus: order.quoteSubStatus,
@@ -37,7 +41,6 @@ export const buildGetOrderObject = (paldiService) => {
       ...(order.type === "Mixta" ? await loadMixedOrder(order.id, order, sortedProducts) : loadNormalOrder(order, sortedProducts)),
       ...buildMoments(order)
     }
-
   }
   return getOrderObject
 }
@@ -61,10 +64,10 @@ const buildMoments = (order) => {
   keys.forEach(([scopeKey, key]) => { result[scopeKey] = order[key] ? moment(order[key]) : null })
   result = {
     ...result,
-    cycleDays: getCycleDays(order.currentDate, order.cycleStartDate, order.cycleFinishDate),
-    transitDays: getTransitDays(order.currentDate, order.transitStartDate, order.transitFinishDate, order.transitLimitDate),
-    ...getDPFCDays(order.cycleStartDate, order.commitmentDate, order.cycleFinishDate),
-    ...getProductionDays(order.productionStartDate, order.productionLimitDate, order.productionFinishDate)
+    cycleDays: getCycleDays(result.currentDate, result.cycleStartDate, result.cycleFinishDate),
+    transitDays: getTransitDays(result.currentDate, result.transitStartDate, result.transitFinishDate, result.transitLimitDate),
+    ...getDPFCDays(result.cycleStartDate, result.commitmentDate, result.cycleFinishDate),
+    ...getProductionDays(result.productionStartDate, result.productionLimitDate, result.productionFinishDate)
   }
 }
 

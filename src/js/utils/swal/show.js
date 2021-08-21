@@ -29,7 +29,7 @@ const swals = {
 			success: success,
 		},
 		orders: orders,
-		installationSheet: installationSheet,
+		installation_sheet: installationSheet,
 	},
 };
 
