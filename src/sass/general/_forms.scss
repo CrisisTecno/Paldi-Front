@@ -23,13 +23,18 @@ fieldset {
 label {
     font-weight: 400;
     color: lighten($paldi-grey-soft, 10%);
-    font-size: .85rem;
+    font-size: 0.85rem;
     margin-bottom: $global-margin / 2;
     // padding-left: $global-padding / 2;
 }
 
-input, select {
+input,
+select {
     height: 42px !important;
+}
+// TODO: REMOVE
+label.normal-height-checkbox > input[type="checkbox"] {
+    height: min-content !important;
 }
 
 input,
@@ -38,8 +43,8 @@ textarea,
 .form-control {
     height: auto;
     font-size: 1rem;
-    padding: .5rem 1rem;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    padding: 0.5rem 1rem;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     letter-spacing: $global-letter-spacing;
     color: black !important;
     // -webkit-appearance: none;
@@ -52,14 +57,14 @@ textarea,
     border-radius: 0 !important;
     border-color: $paldi-grey-light;*/
     &::-webkit-input-placeholder {
-        letter-spacing: .2rem;
+        letter-spacing: 0.2rem;
     }
     &:focus,
     &:active {
         border-color: $paldi-orange !important;
         outline: 0;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 133, 108, .6) !important;
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 133, 108, .6) !important;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 133, 108, 0.6) !important;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 133, 108, 0.6) !important;
     }
 }
 
@@ -115,7 +120,6 @@ small.error-message {
 
 .input-group {
     .btn-calendar {
-
     }
     .form-control {
         position: static;
@@ -166,7 +170,7 @@ small.error-message {
     }
 }
 
-.uib-time input{
+.uib-time input {
     width: 100px;
 }
 
@@ -174,17 +178,14 @@ small.error-message {
     .uib-title {
         .uib-day {
             button {
-
             }
         }
         .uib-month {
             button {
-                
             }
         }
         .uib-year {
             button {
-                
             }
         }
     }
@@ -192,7 +193,6 @@ small.error-message {
     .uib-daypicker {
         .calendar-table {
             thead {
-
             }
             tbody {
                 tr {
@@ -202,13 +202,12 @@ small.error-message {
                     &.uib-weeks {
                         button {
                             &:hover {
-                            background-color: $mt-cyan;
-                            color: white;
-                        }
+                                background-color: $mt-cyan;
+                                color: white;
+                            }
                         }
                     }
                     td {
-
                     }
                 }
             }
@@ -219,9 +218,7 @@ small.error-message {
 .uib-datepicker-popup {
     padding: $global-padding;
     .dropdown-menu {
-
     }
     .uib-button-bar {
-
     }
 }
