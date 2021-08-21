@@ -21,6 +21,7 @@ pdApp.controller(
     permissionsHelper,
     ngDialog,
     orderService,
+    permissionService
   ) {
 
     const loadOrder = async function () {
@@ -30,6 +31,14 @@ pdApp.controller(
 
       $scope.permissions = permissionsHelper.get($scope.order, $rootScope.currentUser);
       $scope.canManagePayments = ["MANAGER", "INSTALLATION_MANAGER"].includes($scope.currentUser.role)
+
+      $scope.perms = permissionService.setDependencies([
+        ['user', $rootScope.currentUser],
+        ['order', $scope.order],
+        ['installationSheet', $scope.installationSheet]
+      ])
+      console.log($scope.perms)
+
 
       $scope.$evalAsync(() => $scope.loadAdditionals())
     }
@@ -137,32 +146,9 @@ pdApp.controller(
       );
     };
 
-    $scope.downloadInstallationSheet = async () => {
-      const id = $scope.order.id;
+    $scope.editInstallationSheet = () => {
 
-      function downloadURI(uri, name) {
-        let link = document.createElement("a");
-        link.download = name;
-        link.href = uri;
-        link.target = "_blank";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-
-      try {
-        await $scope.paldiService.installationSheet.exists(id);
-        // TODO : FIX FIX FIX TOO DIRTY :(
-        downloadURI(
-          `http://cotizadorpaldi.com.mx:9999/newapi/installation/sheet/download/${id}.pdf`,
-          `orden_${$scope.order.number}.pdf`
-        );
-      } catch {
-        showSwal("messages.error");
-      }
-      // a hacer algo fast
-      console.log("test", id);
-    };
+    }
 
     var createSuborders = function (model, order) {
       paldiService.orders

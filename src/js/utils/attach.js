@@ -7,10 +7,10 @@ export const attachTo = (base, route, value) => {
 
   for (let i = 0; i < split_route.length - 1; i++) {
     const key = split_route[i]
-    actual[key] = actual[key] && {}
+    actual[key] = actual[key] ? actual[key] : {}
     prev = actual
     actual = actual[key]
   }
-  prev[split_route[split_route.length-1]] = value
+  actual[split_route[split_route.length-1]] = value
   return base
 }

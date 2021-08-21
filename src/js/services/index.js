@@ -10,6 +10,7 @@ import "./session";
 import "./status";
 
 import "./order"
+import "./permission"
 
 // Internal Services
 import "./order/details/index"
