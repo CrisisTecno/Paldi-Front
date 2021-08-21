@@ -4,14 +4,22 @@
 export const permissionsMap = {
   order: {
     installation_sheet: {
-      edit: (user, order) => (
-        [INSTALLATION_MANAGER, SUPER_ADMIN, SALES_MANAGER].includes(user.role)
-        && (![PROGRAMMED, INSTALLED, INSTALLED_INCOMPLETE, INSTALLED_NONCONFORM].includes(order.status))
-      ),
-      download: (installationSheet) => !!installationSheet.pdfLink,
+      download: function (installationSheet) {
+        return installationSheet.pdfLink ? true : false
+      },
+      edit: function (user, order, installationSheet) {
+        return [INSTALLATION_MANAGER, SUPER_ADMIN, SALES_MANAGER].includes(user.role)
+          && (![PROGRAMMED, INSTALLED, INSTALLED_INCOMPLETE, INSTALLED_NONCONFORM].includes(order.status))
+          && this.download(installationSheet)
+      },
+      create: function (installationSheet) {
+        return !this.download(installationSheet)
+      },
       view_button: function (user, order, installationSheet) {
-        return this.download(installationSheet) || this.edit(user, order)
-      }
+        return this.create(installationSheet)
+          || this.download(installationSheet)
+          || this.edit(user, order, installationSheet)
+      },
     }
   }
 }

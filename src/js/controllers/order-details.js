@@ -2,7 +2,7 @@ import { pdApp } from "./index";
 
 import { getConfirmPayment } from "./order-details/confirm-payment";
 import { showSwal } from "../utils/swal/show";
-import { merge } from "../utils/merge";
+import { merge, mergeDeep } from "../utils/merge";
 
 
 pdApp.controller(
@@ -26,8 +26,8 @@ pdApp.controller(
 
     const loadOrder = async function () {
       var id = $stateParams.orderId;
-      merge($scope, orderService.getInitialLoadOrderObject())
-      merge($scope, await orderService.details.getOrderObject(id, $scope.productsSorted))
+      mergeDeep($scope, orderService.getInitialLoadOrderObject())
+      mergeDeep($scope, await orderService.details.getOrderObject(id, $scope.productsSorted))
 
       $scope.permissions = permissionsHelper.get($scope.order, $rootScope.currentUser);
       $scope.canManagePayments = ["MANAGER", "INSTALLATION_MANAGER"].includes($scope.currentUser.role)
@@ -106,8 +106,6 @@ pdApp.controller(
       } else {
         objName = "orden";
       }
-      //console.log(order)
-
       swal(
         {
           title:

@@ -582,6 +582,9 @@
             </button>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a ng-show="perms.order.installation_sheet.create" ng-click="editInstallationSheet()" class="dropdown-item">
+                <span class="btn-icon glyphicon glyphicon glyphicon-plus"></span>Crear
+              </a>
               <a ng-show="perms.order.installation_sheet.edit" ng-click="editInstallationSheet()" class="dropdown-item">
                 <span class="btn-icon glyphicon glyphicon glyphicon-edit"></span>Editar
               </a>
