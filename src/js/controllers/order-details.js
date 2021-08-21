@@ -3,6 +3,7 @@ import { pdApp } from "./index";
 import { getConfirmPayment } from "./order-details/confirm-payment";
 import { showSwal } from "../utils/swal/show";
 import { merge, mergeDeep } from "../utils/merge";
+import { showCreateInstallationSheetDialog } from "./order-details/installation-sheet/create";
 
 
 pdApp.controller(
@@ -143,6 +144,12 @@ pdApp.controller(
         }
       );
     };
+
+    $scope.createInstallationSheet = () => {
+      showCreateInstallationSheetDialog($scope, () => {
+        showSwal("messages.installation_sheet.created")
+      })
+    }
 
     $scope.editInstallationSheet = () => {
 
@@ -365,6 +372,11 @@ pdApp.controller(
           function (isConfirm) {
             if (isConfirm) {
               $scope.newStatus = status;
+              console.log($scope.newStatus)
+              if (status === 'PENDING') {
+                showCreateInstallationSheetDialog($scope, () => showSwal('messages.installation_sheet.created', () => $scope.statusNotesDialog()))
+                return
+              }
               if (
                 $scope.newStatus != "TRANSIT" &&
                 $scope.newStatus != "PRODUCTION"
