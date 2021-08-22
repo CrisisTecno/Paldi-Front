@@ -510,7 +510,7 @@
 
         <div class="status-buttons"
           ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida' || order.status == 'ORDER_CANCELED' ">
-          <button type="button" class="btn btn-primary-actions btn-sm btn-square" ng-show="permissions.canSend"
+          <button type="button" class="btn btn-primary-actions btn-sm btn-square" ng-show="perms.canSend"
             ng-click="sendToOrderDialog()"><span class="btn-icon glyphicon glyphicon-log-in  "></span>Enviar
             como Orden
           </button>

@@ -2,1416 +2,1441 @@ import { pdApp } from "./index";
 import { globals } from "./index";
 import moment from "moment";
 
+// TODO: Agregar esto a un modulo
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
-  var service = {};
+	var service = {};
 
-  //--------------- PASSWORD ---------------
-  service.password = {
-    forgotPassword: function (email) {
-      return $http
-        .post(globals.apiURL + "/quotes/users/forgot-password", {
-          email: email,
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+	//--------------- PASSWORD ---------------
+	service.password = {
+		forgotPassword: function (email) {
+			return $http
+				.post(globals.apiURL + "/quotes/users/forgot-password", {
+					email: email,
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    changePassword: function (obj, id) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/users/" + id + "/password",
-          obj,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-  };
+		changePassword: function (obj, id) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/users/" + id + "/password",
+					obj,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+	};
 
-  service.installationSheet = {
-    create: function (data) {
-      return $http.post(
-        globals.apiURL + "/newapi/installation/sheet/create",
-        data,
-        {
-          authentication: "yokozuna",
-        }
-      );
-    },
-    exists: async function (id) {
-      try {
-        await $http.post(globals.apiURL + `/newapi/installation/sheet/exists/${id}`, { authentication: "yokozuna" });
-        return true;
-      } catch {
-        return false;
-      }
-    },
-  };
+	service.installationSheet = {
+		create: function (data) {
+			return $http.post(
+				globals.apiURL + "/newapi/installation/sheet/create",
+				data,
+				{
+					authentication: "yokozuna",
+				}
+			);
+		},
+		edit: function (data) {
+			return $http.post(
+				globals.apiURL + "/newapi/installation/sheet/edit",
+				data,
+				{ authentication: "yokozuna" }
+			);
+		},
+		fetchState: async (id) => {
+			try {
+				const result = await $http.post(
+					globals.apiURL + "/newapi/installation/sheet/get",
+					{ order_id: id },
+					{ authentication: "yokozuna" }
+				);
 
-  //--------------- USERS ---------------
-  service.users = {
-    whoAmI: function () {
-      return $http
-        .get(globals.apiURL + "/me/user", {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+				return result.data;
+			} catch (e) {
+				console.log(e);
+				return e;
+			}
+		},
+		exists: async function (id) {
+			try {
+				await $http.post(
+					globals.apiURL + `/newapi/installation/sheet/exists/${id}`,
+					{ authentication: "yokozuna" }
+				);
+				return true;
+			} catch {
+				return false;
+			}
+		},
+	};
 
-    get: function (id) {
-      return $http
-        .get(globals.apiURL + "/quotes/users/" + id, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+	//--------------- USERS ---------------
+	service.users = {
+		whoAmI: function () {
+			return $http
+				.get(globals.apiURL + "/me/user", {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    getByRole: function (role) {
-      return $http
-        .get(globals.apiURL + "/quotes/users/role/" + role, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		get: function (id) {
+			return $http
+				.get(globals.apiURL + "/quotes/users/" + id, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    findByRole: function (role, search) {
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/users/role/" +
-          role +
-          "/search/" +
-          search,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		getByRole: function (role) {
+			return $http
+				.get(globals.apiURL + "/quotes/users/role/" + role, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    findByRoleAndHasWarehouse: function (role, search) {
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/users/role/" +
-          role +
-          "/warehouse/search/" +
-          search,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		findByRole: function (role, search) {
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/users/role/" +
+						role +
+						"/search/" +
+						search,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    list: function (page, size, sort) {
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/users?page=" +
-          page +
-          "&size=" +
-          size +
-          "&sort=" +
-          sort,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		findByRoleAndHasWarehouse: function (role, search) {
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/users/role/" +
+						role +
+						"/warehouse/search/" +
+						search,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    search: function (page, size, sort, search) {
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/users/search/" +
-          search +
-          "?page=" +
-          page +
-          "&size=" +
-          size +
-          "&sort=" +
-          sort,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		list: function (page, size, sort) {
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/users?page=" +
+						page +
+						"&size=" +
+						size +
+						"&sort=" +
+						sort,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    save: function (user) {
-      return $http
-        .post(globals.apiURL + "/quotes/users", user, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		search: function (page, size, sort, search) {
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/users/search/" +
+						search +
+						"?page=" +
+						page +
+						"&size=" +
+						size +
+						"&sort=" +
+						sort,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    update: function (user) {
-      return $http
-        .put(globals.apiURL + "/quotes/users/" + user.id, user, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		save: function (user) {
+			return $http
+				.post(globals.apiURL + "/quotes/users", user, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    delete: function (id) {
-      return $http
-        .delete(globals.apiURL + "/quotes/users/" + id, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		update: function (user) {
+			return $http
+				.put(globals.apiURL + "/quotes/users/" + user.id, user, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    activate: function (id) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/users/" + id + "/activate",
-          {},
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		delete: function (id) {
+			return $http
+				.delete(globals.apiURL + "/quotes/users/" + id, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    deactivate: function (id) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/users/" + id + "/deactivate",
-          {},
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-  };
+		activate: function (id) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/users/" + id + "/activate",
+					{},
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-  //--------------- CLIENTS ---------------
-  service.clients = {
-    get: function (id) {
-      return $http
-        .get(globals.apiURL + "/quotes/clients/" + id, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		deactivate: function (id) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/users/" + id + "/deactivate",
+					{},
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+	};
 
-    list: function (page, size, sort) {
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/clients?page=" +
-          page +
-          "&size=" +
-          size +
-          "&sort=" +
-          sort,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+	//--------------- CLIENTS ---------------
+	service.clients = {
+		get: function (id) {
+			return $http
+				.get(globals.apiURL + "/quotes/clients/" + id, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    save: function (client) {
-      return $http
-        .post(globals.apiURL + "/quotes/clients", client, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		list: function (page, size, sort) {
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/clients?page=" +
+						page +
+						"&size=" +
+						size +
+						"&sort=" +
+						sort,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    update: function (client) {
-      return $http
-        .put(globals.apiURL + "/quotes/clients/" + client.id, client, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		save: function (client) {
+			return $http
+				.post(globals.apiURL + "/quotes/clients", client, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    loadDiscount: function (type) {
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/clients/discount/" +
-          type +
-          "/" +
-          $rootScope.currentUser.id,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		update: function (client) {
+			return $http
+				.put(globals.apiURL + "/quotes/clients/" + client.id, client, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    search: function (page, size, sort, search) {
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/clients/search/page/" +
-          search +
-          "?page=" +
-          page +
-          "&size=" +
-          size +
-          "&sort=" +
-          sort,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		loadDiscount: function (type) {
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/clients/discount/" +
+						type +
+						"/" +
+						$rootScope.currentUser.id,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    find: function (search) {
-      return $http
-        .get(globals.apiURL + "/quotes/clients/search/" + search, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-  };
+		search: function (page, size, sort, search) {
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/clients/search/page/" +
+						search +
+						"?page=" +
+						page +
+						"&size=" +
+						size +
+						"&sort=" +
+						sort,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-  //--------------- ORDERS ---------------
-  service.orders = {
-    get: function (id) {
-      return $http
-        .get(globals.apiURL + "/quotes/orders/" + id, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		find: function (search) {
+			return $http
+				.get(globals.apiURL + "/quotes/clients/search/" + search, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+	};
 
-    getListDownloadLink: function (type, startDate, endDate, statusList) {
-      startDate = !startDate ? "*" : JSON.stringify(startDate);
-      endDate = !endDate ? "*" : JSON.stringify(endDate);
-      statusList = JSON.stringify(statusList);
-      return (
-        globals.apiURL +
-        "/quotes/orders/spreadsheet/" +
-        type +
-        "/" +
-        (type == "quotes" ? "Cotizaciones" : "Ordenes") +
-        ".xlsx?startDate=" +
-        startDate +
-        "&endDate=" +
-        endDate +
-        "&orderStatusList=" +
-        statusList
-      );
-    },
-    getPdfLink: function (order) {
-      if (
-        order.status == "QUOTE" ||
-        order.status == "PENDING" ||
-        order.status == "REJECTED"
-      ) {
-        return (
-          globals.apiURL +
-          "/quotes/orders/" +
-          order.id +
-          "/download/cotizacion_no_" +
-          order.orderNo +
-          ".pdf"
-        );
-      } else {
-        return (
-          globals.apiURL +
-          "/quotes/orders/" +
-          order.id +
-          "/download/orden_no_" +
-          order.orderNo +
-          ".pdf"
-        );
-      }
-    },
-    getPdfInstallationSheetLink: async function (order) {
-      if (await service.installationSheet.exists(order.id))
-        return `${globals.apiURL}/newapi/installation/sheet/download/${order.id}.pdf`
-    },
-    getPdfOrderLink: function (order) {
-      if (
-        order.status == "QUOTE" ||
-        order.status == "PENDING" ||
-        order.status == "REJECTED"
-      ) {
-        return (
-          globals.apiURL +
-          "/quotes/orders/" +
-          order.id +
-          "/downloadorder/cotizacion_no_" +
-          order.orderNo +
-          ".pdf"
-        );
-      } else {
-        return (
-          globals.apiURL +
-          "/quotes/orders/" +
-          order.id +
-          "/downloadorder/orden_no_" +
-          order.orderNo +
-          ".pdf"
-        );
-      }
-    },
+	//--------------- ORDERS ---------------
+	service.orders = {
+		get: function (id) {
+			return $http
+				.get(globals.apiURL + "/quotes/orders/" + id, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    getReceiptLinks: function (order) {
-      return order.payments.map(function (elem) {
-        elem.receiptLink =
-          globals.apiURL +
-          "/quotes/orders/" +
-          order.id +
-          "/receipt/" +
-          elem.id +
-          "/Recibo_" +
-          elem.folio +
-          ".pdf";
-        return elem;
-      });
-    },
+		getListDownloadLink: function (type, startDate, endDate, statusList) {
+			startDate = !startDate ? "*" : JSON.stringify(startDate);
+			endDate = !endDate ? "*" : JSON.stringify(endDate);
+			statusList = JSON.stringify(statusList);
+			return (
+				globals.apiURL +
+				"/quotes/orders/spreadsheet/" +
+				type +
+				"/" +
+				(type == "quotes" ? "Cotizaciones" : "Ordenes") +
+				".xlsx?startDate=" +
+				startDate +
+				"&endDate=" +
+				endDate +
+				"&orderStatusList=" +
+				statusList
+			);
+		},
+		getPdfLink: function (order) {
+			if (
+				order.status == "QUOTE" ||
+				order.status == "PENDING" ||
+				order.status == "REJECTED"
+			) {
+				return (
+					globals.apiURL +
+					"/quotes/orders/" +
+					order.id +
+					"/download/cotizacion_no_" +
+					order.orderNo +
+					".pdf"
+				);
+			} else {
+				return (
+					globals.apiURL +
+					"/quotes/orders/" +
+					order.id +
+					"/download/orden_no_" +
+					order.orderNo +
+					".pdf"
+				);
+			}
+		},
+		getPdfInstallationSheetLink: async function (order) {
+			if (await service.installationSheet.exists(order.id))
+				return `${globals.apiURL}/newapi/installation/sheet/download/${order.id}.pdf`;
+		},
+		getPdfOrderLink: function (order) {
+			if (
+				order.status == "QUOTE" ||
+				order.status == "PENDING" ||
+				order.status == "REJECTED"
+			) {
+				return (
+					globals.apiURL +
+					"/quotes/orders/" +
+					order.id +
+					"/downloadorder/cotizacion_no_" +
+					order.orderNo +
+					".pdf"
+				);
+			} else {
+				return (
+					globals.apiURL +
+					"/quotes/orders/" +
+					order.id +
+					"/downloadorder/orden_no_" +
+					order.orderNo +
+					".pdf"
+				);
+			}
+		},
 
-    list: function () {
-      return $http
-        .get(globals.apiURL + "/quotes/orders", {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		getReceiptLinks: function (order) {
+			return order.payments.map(function (elem) {
+				elem.receiptLink =
+					globals.apiURL +
+					"/quotes/orders/" +
+					order.id +
+					"/receipt/" +
+					elem.id +
+					"/Recibo_" +
+					elem.folio +
+					".pdf";
+				return elem;
+			});
+		},
 
-    save: function (order) {
-      return $http
-        .post(globals.apiURL + "/quotes/orders", order, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    saveSubOrder: function (order, orderType) {
-      return $http
-        .post(globals.apiURL + "/quotes/orders/suborder", order, {
-          authentication: "yokozuna",
-          params: { orderType: orderType },
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		list: function () {
+			return $http
+				.get(globals.apiURL + "/quotes/orders", {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    update: function (order) {
-      return $http
-        .put(globals.apiURL + "/quotes/orders/" + order.id, order, {
-          authentication: "yokozuna",
-          params: { user: $rootScope.currentUser.id },
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		save: function (order) {
+			return $http
+				.post(globals.apiURL + "/quotes/orders", order, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		saveSubOrder: function (order, orderType) {
+			return $http
+				.post(globals.apiURL + "/quotes/orders/suborder", order, {
+					authentication: "yokozuna",
+					params: { orderType: orderType },
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    updateSuborder: function (orderMasterId, order) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/orders/suborder/" + orderMasterId,
-          order,
-          {
-            authentication: "yokozuna",
-            params: { orderType: order.type },
-          }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		update: function (order) {
+			return $http
+				.put(globals.apiURL + "/quotes/orders/" + order.id, order, {
+					authentication: "yokozuna",
+					params: { user: $rootScope.currentUser.id },
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    deleteSuborder: function (parentOrderId, orderType) {
-      return $http
-        .delete(
-          globals.apiURL + "/quotes/orders/suborder/" + parentOrderId,
-          {
-            authentication: "yokozuna",
-            params: { orderType: orderType },
-          }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		updateSuborder: function (orderMasterId, order) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/orders/suborder/" + orderMasterId,
+					order,
+					{
+						authentication: "yokozuna",
+						params: { orderType: order.type },
+					}
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    updateStatus: function (order, status) {
-      return $http
-        .put(
-          globals.apiURL +
-          "/quotes/orders/" +
-          order.id +
-          "/" +
-          status,
-          order,
-          {
-            authentication: "yokozuna",
-            params: { user: $rootScope.currentUser.id },
-          }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		deleteSuborder: function (parentOrderId, orderType) {
+			return $http
+				.delete(
+					globals.apiURL + "/quotes/orders/suborder/" + parentOrderId,
+					{
+						authentication: "yokozuna",
+						params: { orderType: orderType },
+					}
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    updateRetroStatus: function (order, status) {
-      return $http
-        .put(
-          globals.apiURL +
-          "/quotes/orders/" +
-          order.id +
-          "/" +
-          status +
-          "/hard",
-          {},
-          {
-            authentication: "yokozuna",
-            params: { user: $rootScope.currentUser.id },
-          }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		updateStatus: function (order, status) {
+			return $http
+				.put(
+					globals.apiURL +
+						"/quotes/orders/" +
+						order.id +
+						"/" +
+						status,
+					order,
+					{
+						authentication: "yokozuna",
+						params: { user: $rootScope.currentUser.id },
+					}
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    updateProvider: function (order, providerId) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/orders/" + order.id + "/provider",
-          { providerId: providerId },
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		updateRetroStatus: function (order, status) {
+			return $http
+				.put(
+					globals.apiURL +
+						"/quotes/orders/" +
+						order.id +
+						"/" +
+						status +
+						"/hard",
+					{},
+					{
+						authentication: "yokozuna",
+						params: { user: $rootScope.currentUser.id },
+					}
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    sendOrder: function (id) {
-      return $http
-        .post(
-          globals.apiURL + "/quotes/orders/" + id + "/send",
-          {},
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    sendOrderTo: function (id, email) {
-      return $http
-        .post(
-          globals.apiURL + "/quotes/orders/" + id + "/sendto/",
-          { email: email },
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    setQuoteStatus: function (id, quoteStatus, quoteSubStatus) {
-      quoteSubStatus = !quoteSubStatus ? "" : quoteSubStatus;
-      return $http
-        .put(
-          globals.apiURL + "/quotes/orders/" + id + "/quoteStatus/",
-          {},
-          {
-            authentication: "yokozuna",
-            params: {
-              user: $rootScope.currentUser.id,
-              quoteStatus: quoteStatus,
-              quoteSubStatus: quoteSubStatus,
-            },
-          }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		updateProvider: function (order, providerId) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/orders/" + order.id + "/provider",
+					{ providerId: providerId },
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    setDate: function (id, dateType, date, notes) {
-      notes = !notes ? "" : notes;
-      return $http
-        .put(
-          globals.apiURL +
-          "/quotes/orders/" +
-          id +
-          "/date/" +
-          dateType,
-          date,
-          {
-            authentication: "yokozuna",
-            params: {
-              user: $rootScope.currentUser.id,
-              notes: notes,
-            },
-          }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+		sendOrder: function (id) {
+			return $http
+				.post(
+					globals.apiURL + "/quotes/orders/" + id + "/send",
+					{},
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		sendOrderTo: function (id, email) {
+			return $http
+				.post(
+					globals.apiURL + "/quotes/orders/" + id + "/sendto/",
+					{ email: email },
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		setQuoteStatus: function (id, quoteStatus, quoteSubStatus) {
+			quoteSubStatus = !quoteSubStatus ? "" : quoteSubStatus;
+			return $http
+				.put(
+					globals.apiURL + "/quotes/orders/" + id + "/quoteStatus/",
+					{},
+					{
+						authentication: "yokozuna",
+						params: {
+							user: $rootScope.currentUser.id,
+							quoteStatus: quoteStatus,
+							quoteSubStatus: quoteSubStatus,
+						},
+					}
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    getLog: function (id) {
-      return $http
-        .get(globals.apiURL + "/quotes/orders/" + id + "/event/log", {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    searchByStatusList: function (
-      statusList,
-      search,
-      start,
-      rows,
-      sort,
-      startDate,
-      endDate
-    ) {
-      sort = !sort ? "" : sort;
-      startDate = !startDate ? "*" : startDate;
-      endDate = !endDate ? "*" : endDate;
-      return $http
-        .get(globals.apiURL + "/quotes/orders/search/status/list", {
-          authentication: "yokozuna",
-          params: {
-            start: start,
-            rows: rows,
-            search: search,
-            sort: sort,
-            orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
-          },
-        })
-        .then(function (response) {
-          return response.data.response;
-        });
-    },
-    searchByUser: function (
-      statusList,
-      search,
-      start,
-      rows,
-      sort,
-      startDate,
-      endDate,
-      userId
-    ) {
-      sort = !sort ? "" : sort;
-      startDate = !startDate ? "*" : startDate;
-      endDate = !endDate ? "*" : endDate;
-      userId = !userId ? "" : userId;
-      return $http
-        .get(globals.apiURL + "/quotes/orders/search/user/list", {
-          authentication: "yokozuna",
-          params: {
-            start: start,
-            rows: rows,
-            search: search,
-            sort: sort,
-            orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
-            userId: userId,
-          },
-        })
-        .then(function (response) {
-          return response.data.response;
-        });
-    },
-    getCosting: function (
-      statusList,
-      start,
-      rows,
-      sort,
-      startDate,
-      endDate
-    ) {
-      sort = !sort ? "" : sort;
-      startDate = !startDate ? "*" : startDate;
-      endDate = !endDate ? "*" : endDate;
-      return $http
-        .get(globals.apiURL + "/quotes/orders/costing", {
-          authentication: "yokozuna",
-          params: {
-            start: start,
-            rows: rows,
-            sort: sort,
-            orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
-          },
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getCostingStats: function (statusList, startDate, endDate) {
-      startDate = !startDate ? "*" : startDate;
-      endDate = !endDate ? "*" : endDate;
-      return $http
-        .get(globals.apiURL + "/quotes/orders/costing/stats", {
-          authentication: "yokozuna",
-          params: {
-            orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
-          },
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getCostingDownloadLink: function (
-      statusList,
-      startDate,
-      endDate,
-      name
-    ) {
-      startDate = !startDate ? "*" : startDate.toJSON();
-      endDate = !endDate ? "*" : endDate.toJSON();
-      return (
-        globals.apiURL +
-        "/quotes/orders/costing/spreadsheet/" +
-        name +
-        ".xlsx?startDate=" +
-        startDate +
-        "&endDate=" +
-        endDate +
-        "&orderStatusList=" +
-        JSON.stringify(statusList)
-      );
-    },
-    getByOrderParent: function (orderParentId) {
-      return $http
-        .get(
-          globals.apiURL + "/quotes/orders/suborder/" + orderParentId,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getLimitDays: function (id, status) {
-      return $http
-        .get(
-          globals.apiURL + "/quotes/orders/" + id + "/days/" + status,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-  };
-  //------------------------- PAYMENTS ------------------
-  service.payments = {
-    getPayments: function (page, start, end, size, sort) {
-      return $http
-        .get(globals.apiURL + "/quotes/payments/", {
-          authentication: "yokozuna",
-          params: {
-            startDate: start,
-            endDate: end,
-            page: page,
-            size: size,
-            sort: sort,
-          },
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    pay: function (id, payment) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/orders/" + id + "/payment",
-          payment,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getPaymentsDownloadLink: function (startDate, endDate, name) {
-      return (
-        globals.apiURL +
-        "/quotes/payments/spreadsheet/" +
-        name +
-        ".xlsx?startDate=" +
-        startDate +
-        "&endDate=" +
-        endDate
-      );
-    },
-    cancel: function (cancelRequest) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/payments/cancel",
-          cancelRequest,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-  };
+		setDate: function (id, dateType, date, notes) {
+			notes = !notes ? "" : notes;
+			return $http
+				.put(
+					globals.apiURL +
+						"/quotes/orders/" +
+						id +
+						"/date/" +
+						dateType,
+					date,
+					{
+						authentication: "yokozuna",
+						params: {
+							user: $rootScope.currentUser.id,
+							notes: notes,
+						},
+					}
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-  //------------------------- INVENTORY ------------------
-  service.inventory = {
-    addMovements: function (products) {
-      return $http
-        .post(
-          globals.apiURL + "/quotes/inventory/movements",
-          products,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response;
-        });
-    },
-    loadInventory: function (warehouse, color) {
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/inventory/entries/" +
-          warehouse.id +
-          "/" +
-          color.id,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response;
-        });
-    },
-    getMovements: function (
-      productType,
-      page,
-      size,
-      sort,
-      types,
-      warehouses,
-      startDate,
-      endDate
-    ) {
-      startDate = !startDate ? "" : startDate;
-      endDate = !endDate ? "" : endDate;
-      sort = !sort ? "" : sort;
-      return $http
-        .get(globals.apiURL + "/quotes/inventory/movements/filter", {
-          authentication: "yokozuna",
-          params: {
-            productType: productType,
-            page: page,
-            size: size,
-            sort: sort,
-            warehouseId: JSON.stringify(warehouses),
-            types: JSON.stringify(types),
-            startDate: startDate,
-            endDate: endDate,
-          },
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getMovementsByType: function (
-      productType,
-      page,
-      size,
-      sort,
-      types,
-      warehouses,
-      startDate,
-      endDate
-    ) {
-      startDate = !startDate ? "" : startDate;
-      endDate = !endDate ? "" : endDate;
-      sort = !sort ? "" : sort;
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/inventory/movements/" +
-          productType,
-          {
-            authentication: "yokozuna",
-            params: {
-              page: page,
-              size: size,
-              sort: sort,
-              warehouseId: JSON.stringify(warehouses),
-              types: JSON.stringify(types),
-              startDate: startDate,
-              endDate: endDate,
-            },
-          }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getEntries: function (page, size, sort, warehouses) {
-      return $http
-        .get(globals.apiURL + "/quotes/inventory/entries/filter", {
-          authentication: "yokozuna",
-          params: {
-            page: page,
-            size: size,
-            sort: sort,
-            warehouseId: JSON.stringify(warehouses),
-          },
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getEntriesByType: function (productType, page, size, sort, warehouses) {
-      return $http
-        .get(globals.apiURL + "/quotes/inventory/entries/type", {
-          authentication: "yokozuna",
-          params: {
-            productType: productType,
-            page: page,
-            size: size,
-            sort: sort,
-            warehouseId: JSON.stringify(warehouses),
-          },
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getMovementsDownloadLink: function (
-      startDate,
-      endDate,
-      cleanTypeList,
-      cleanWarehouseList
-    ) {
-      startDate = !startDate ? "" : JSON.parse(JSON.stringify(startDate));
-      endDate = !endDate ? "" : JSON.parse(JSON.stringify(endDate));
-      cleanTypeList = JSON.stringify(cleanTypeList);
-      cleanWarehouseList = JSON.stringify(cleanWarehouseList);
-      return (
-        globals.apiURL +
-        "/quotes/inventory/movements/spreadsheet/reporte_movimientos_inventario.xlsx?startDate=" +
-        startDate +
-        "&endDate=" +
-        endDate +
-        "&types=" +
-        cleanTypeList +
-        "&warehouseId=" +
-        cleanWarehouseList
-      );
-    },
-    getEntriesDownloadLink: function (cleanWarehouseList) {
-      cleanWarehouseList = JSON.stringify(cleanWarehouseList);
-      return (
-        globals.apiURL +
-        "/quotes/inventory/entries/spreadsheet/reporte_inventario.xlsx?warehouseId=" +
-        cleanWarehouseList
-      );
-    },
-    hasExistencies: function (productId) {
-      return $http.get(
-        globals.apiURL + "/quotes/inventory/entries/" + productId,
-        { authentication: "yokozuna" }
-      );
-    },
-  };
+		getLog: function (id) {
+			return $http
+				.get(globals.apiURL + "/quotes/orders/" + id + "/event/log", {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		searchByStatusList: function (
+			statusList,
+			search,
+			start,
+			rows,
+			sort,
+			startDate,
+			endDate
+		) {
+			sort = !sort ? "" : sort;
+			startDate = !startDate ? "*" : startDate;
+			endDate = !endDate ? "*" : endDate;
+			return $http
+				.get(globals.apiURL + "/quotes/orders/search/status/list", {
+					authentication: "yokozuna",
+					params: {
+						start: start,
+						rows: rows,
+						search: search,
+						sort: sort,
+						orderStatusList: JSON.stringify(statusList),
+						startDate: startDate,
+						endDate: endDate,
+					},
+				})
+				.then(function (response) {
+					return response.data.response;
+				});
+		},
+		searchByUser: function (
+			statusList,
+			search,
+			start,
+			rows,
+			sort,
+			startDate,
+			endDate,
+			userId
+		) {
+			sort = !sort ? "" : sort;
+			startDate = !startDate ? "*" : startDate;
+			endDate = !endDate ? "*" : endDate;
+			userId = !userId ? "" : userId;
+			return $http
+				.get(globals.apiURL + "/quotes/orders/search/user/list", {
+					authentication: "yokozuna",
+					params: {
+						start: start,
+						rows: rows,
+						search: search,
+						sort: sort,
+						orderStatusList: JSON.stringify(statusList),
+						startDate: startDate,
+						endDate: endDate,
+						userId: userId,
+					},
+				})
+				.then(function (response) {
+					return response.data.response;
+				});
+		},
+		getCosting: function (
+			statusList,
+			start,
+			rows,
+			sort,
+			startDate,
+			endDate
+		) {
+			sort = !sort ? "" : sort;
+			startDate = !startDate ? "*" : startDate;
+			endDate = !endDate ? "*" : endDate;
+			return $http
+				.get(globals.apiURL + "/quotes/orders/costing", {
+					authentication: "yokozuna",
+					params: {
+						start: start,
+						rows: rows,
+						sort: sort,
+						orderStatusList: JSON.stringify(statusList),
+						startDate: startDate,
+						endDate: endDate,
+					},
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getCostingStats: function (statusList, startDate, endDate) {
+			startDate = !startDate ? "*" : startDate;
+			endDate = !endDate ? "*" : endDate;
+			return $http
+				.get(globals.apiURL + "/quotes/orders/costing/stats", {
+					authentication: "yokozuna",
+					params: {
+						orderStatusList: JSON.stringify(statusList),
+						startDate: startDate,
+						endDate: endDate,
+					},
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getCostingDownloadLink: function (
+			statusList,
+			startDate,
+			endDate,
+			name
+		) {
+			startDate = !startDate ? "*" : startDate.toJSON();
+			endDate = !endDate ? "*" : endDate.toJSON();
+			return (
+				globals.apiURL +
+				"/quotes/orders/costing/spreadsheet/" +
+				name +
+				".xlsx?startDate=" +
+				startDate +
+				"&endDate=" +
+				endDate +
+				"&orderStatusList=" +
+				JSON.stringify(statusList)
+			);
+		},
+		getByOrderParent: function (orderParentId) {
+			return $http
+				.get(
+					globals.apiURL + "/quotes/orders/suborder/" + orderParentId,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getLimitDays: function (id, status) {
+			return $http
+				.get(
+					globals.apiURL + "/quotes/orders/" + id + "/days/" + status,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+	};
+	//------------------------- PAYMENTS ------------------
+	service.payments = {
+		getPayments: function (page, start, end, size, sort) {
+			return $http
+				.get(globals.apiURL + "/quotes/payments/", {
+					authentication: "yokozuna",
+					params: {
+						startDate: start,
+						endDate: end,
+						page: page,
+						size: size,
+						sort: sort,
+					},
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		pay: function (id, payment) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/orders/" + id + "/payment",
+					payment,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getPaymentsDownloadLink: function (startDate, endDate, name) {
+			return (
+				globals.apiURL +
+				"/quotes/payments/spreadsheet/" +
+				name +
+				".xlsx?startDate=" +
+				startDate +
+				"&endDate=" +
+				endDate
+			);
+		},
+		cancel: function (cancelRequest) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/payments/cancel",
+					cancelRequest,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+	};
 
-  //------------------------- DEADLINES -----------------
-  service.deadlines = {
-    getDeadlines: function (deadlineType, status, start, rows, sort) {
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/deadlines/type/" +
-          deadlineType +
-          "/status/" +
-          status,
-          {
-            authentication: "yokozuna",
-            params: { start: start, rows: rows, sort: sort },
-          }
-        )
-        .then(function (response) {
-          return response.data.response;
-        });
-    },
+	//------------------------- INVENTORY ------------------
+	service.inventory = {
+		addMovements: function (products) {
+			return $http
+				.post(
+					globals.apiURL + "/quotes/inventory/movements",
+					products,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response;
+				});
+		},
+		loadInventory: function (warehouse, color) {
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/inventory/entries/" +
+						warehouse.id +
+						"/" +
+						color.id,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response;
+				});
+		},
+		getMovements: function (
+			productType,
+			page,
+			size,
+			sort,
+			types,
+			warehouses,
+			startDate,
+			endDate
+		) {
+			startDate = !startDate ? "" : startDate;
+			endDate = !endDate ? "" : endDate;
+			sort = !sort ? "" : sort;
+			return $http
+				.get(globals.apiURL + "/quotes/inventory/movements/filter", {
+					authentication: "yokozuna",
+					params: {
+						productType: productType,
+						page: page,
+						size: size,
+						sort: sort,
+						warehouseId: JSON.stringify(warehouses),
+						types: JSON.stringify(types),
+						startDate: startDate,
+						endDate: endDate,
+					},
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getMovementsByType: function (
+			productType,
+			page,
+			size,
+			sort,
+			types,
+			warehouses,
+			startDate,
+			endDate
+		) {
+			startDate = !startDate ? "" : startDate;
+			endDate = !endDate ? "" : endDate;
+			sort = !sort ? "" : sort;
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/inventory/movements/" +
+						productType,
+					{
+						authentication: "yokozuna",
+						params: {
+							page: page,
+							size: size,
+							sort: sort,
+							warehouseId: JSON.stringify(warehouses),
+							types: JSON.stringify(types),
+							startDate: startDate,
+							endDate: endDate,
+						},
+					}
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getEntries: function (page, size, sort, warehouses) {
+			return $http
+				.get(globals.apiURL + "/quotes/inventory/entries/filter", {
+					authentication: "yokozuna",
+					params: {
+						page: page,
+						size: size,
+						sort: sort,
+						warehouseId: JSON.stringify(warehouses),
+					},
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getEntriesByType: function (productType, page, size, sort, warehouses) {
+			return $http
+				.get(globals.apiURL + "/quotes/inventory/entries/type", {
+					authentication: "yokozuna",
+					params: {
+						productType: productType,
+						page: page,
+						size: size,
+						sort: sort,
+						warehouseId: JSON.stringify(warehouses),
+					},
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getMovementsDownloadLink: function (
+			startDate,
+			endDate,
+			cleanTypeList,
+			cleanWarehouseList
+		) {
+			startDate = !startDate ? "" : JSON.parse(JSON.stringify(startDate));
+			endDate = !endDate ? "" : JSON.parse(JSON.stringify(endDate));
+			cleanTypeList = JSON.stringify(cleanTypeList);
+			cleanWarehouseList = JSON.stringify(cleanWarehouseList);
+			return (
+				globals.apiURL +
+				"/quotes/inventory/movements/spreadsheet/reporte_movimientos_inventario.xlsx?startDate=" +
+				startDate +
+				"&endDate=" +
+				endDate +
+				"&types=" +
+				cleanTypeList +
+				"&warehouseId=" +
+				cleanWarehouseList
+			);
+		},
+		getEntriesDownloadLink: function (cleanWarehouseList) {
+			cleanWarehouseList = JSON.stringify(cleanWarehouseList);
+			return (
+				globals.apiURL +
+				"/quotes/inventory/entries/spreadsheet/reporte_inventario.xlsx?warehouseId=" +
+				cleanWarehouseList
+			);
+		},
+		hasExistencies: function (productId) {
+			return $http.get(
+				globals.apiURL + "/quotes/inventory/entries/" + productId,
+				{ authentication: "yokozuna" }
+			);
+		},
+	};
 
-    getPastDeadlines: function (status, page, size, sort) {
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/deadlines/PAST/status/" +
-          status +
-          "?page=" +
-          page +
-          "&size=" +
-          size +
-          "&sort=" +
-          sort,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getDeadlinesDownloadLink: function (type) {
-      return (
-        globals.apiURL +
-        "/quotes/deadlines/spreadsheet/" +
-        type +
-        "/Operaciones.xlsx"
-      );
-    },
-  };
-  //------------------------- STATISTICS ----------------
-  service.statistics = {
-    getByDateRangeAndCity: function (city, startDate, endDate) {
-      return $http
-        .get(globals.apiURL + "/quotes/statistics/", {
-          authentication: "yokozuna",
-          params: { start: startDate, end: endDate, city: city },
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-  };
+	//------------------------- DEADLINES -----------------
+	service.deadlines = {
+		getDeadlines: function (deadlineType, status, start, rows, sort) {
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/deadlines/type/" +
+						deadlineType +
+						"/status/" +
+						status,
+					{
+						authentication: "yokozuna",
+						params: { start: start, rows: rows, sort: sort },
+					}
+				)
+				.then(function (response) {
+					return response.data.response;
+				});
+		},
 
-  //------------------------- COMMISSIONS ----------------
-  service.commissions = {
-    getBySeller: function (sellerId, start, end, sortName, sortDir) {
-      return $http
-        .get(
-          globals.apiURL + "/quotes/commissions/seller/" + sellerId,
-          {
-            authentication: "yokozuna",
-            params: {
-              startDate: start,
-              endDate: end,
-              sortName: sortName,
-              sortDir: sortDir,
-            },
-          }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    updateCommissionPercent: function (id, percent) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/commissions/" + id + "/percent",
-          percent,
-          { authentication: "yokozuna", params: { percent: percent } }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getDownloadLink: function (sellerId, startDate, endDate, name) {
-      return (
-        globals.apiURL +
-        "/quotes/commissions/seller/" +
-        sellerId +
-        "/download/" +
-        name +
-        ".xlsx?startDate=" +
-        startDate +
-        "&endDate=" +
-        endDate
-      );
-    },
-  };
+		getPastDeadlines: function (status, page, size, sort) {
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/deadlines/PAST/status/" +
+						status +
+						"?page=" +
+						page +
+						"&size=" +
+						size +
+						"&sort=" +
+						sort,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getDeadlinesDownloadLink: function (type) {
+			return (
+				globals.apiURL +
+				"/quotes/deadlines/spreadsheet/" +
+				type +
+				"/Operaciones.xlsx"
+			);
+		},
+	};
+	//------------------------- STATISTICS ----------------
+	service.statistics = {
+		getByDateRangeAndCity: function (city, startDate, endDate) {
+			return $http
+				.get(globals.apiURL + "/quotes/statistics/", {
+					authentication: "yokozuna",
+					params: { start: startDate, end: endDate, city: city },
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+	};
 
-  //----------------------------- BILLS ----------------
-  service.bills = {
-    getPendingBills: function (
-      search,
-      orderStatusList,
-      start,
-      page,
-      rows,
-      sort,
-      startDate,
-      endDate
-    ) {
-      sort = !sort ? "" : sort;
-      startDate = !startDate
-        ? JSON.stringify(moment().year(2018).startOf("year"))
-        : JSON.stringify(startDate);
-      endDate = !endDate ? "*" : JSON.stringify(endDate);
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/bills/missing" +
-          "?page=" +
-          page +
-          "&start=" +
-          start +
-          "&rows=" +
-          rows +
-          "&sort=" +
-          sort +
-          "&search=" +
-          search +
-          "&startDate=" +
-          startDate +
-          "&endDate=" +
-          endDate +
-          "&orderStatusList=" +
-          JSON.stringify(orderStatusList),
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data.response;
-        });
-    },
-    getPendingBillsDownloadLink: function (
-      search,
-      startDate,
-      endDate,
-      statusList
-    ) {
-      startDate = !startDate
-        ? JSON.stringify(moment().year(2018).startOf("year"))
-        : JSON.stringify(startDate);
-      endDate = !endDate ? "*" : JSON.stringify(endDate);
-      return (
-        globals.apiURL +
-        "/quotes/bills/spreadsheet/Facturas.xlsx?startDate=" +
-        startDate +
-        "&endDate=" +
-        endDate +
-        "&search=" +
-        search +
-        "&orderStatusList=" +
-        JSON.stringify(statusList)
-      );
-    },
-    getBillsByOrder: function (orderId) {
-      return $http
-        .get(globals.apiURL + "/quotes/bills/" + orderId, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+	//------------------------- COMMISSIONS ----------------
+	service.commissions = {
+		getBySeller: function (sellerId, start, end, sortName, sortDir) {
+			return $http
+				.get(
+					globals.apiURL + "/quotes/commissions/seller/" + sellerId,
+					{
+						authentication: "yokozuna",
+						params: {
+							startDate: start,
+							endDate: end,
+							sortName: sortName,
+							sortDir: sortDir,
+						},
+					}
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		updateCommissionPercent: function (id, percent) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/commissions/" + id + "/percent",
+					percent,
+					{ authentication: "yokozuna", params: { percent: percent } }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getDownloadLink: function (sellerId, startDate, endDate, name) {
+			return (
+				globals.apiURL +
+				"/quotes/commissions/seller/" +
+				sellerId +
+				"/download/" +
+				name +
+				".xlsx?startDate=" +
+				startDate +
+				"&endDate=" +
+				endDate
+			);
+		},
+	};
 
-    uploadBill: function (orderId, formData) {
-      return $http
-        .post(globals.apiURL + "/quotes/bills/" + orderId, formData, {
-          authentication: "yokozuna",
-          headers: { "Content-Type": undefined },
-          transformRequest: angular.identity,
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    deleteBill: function (id) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/bills/delete/" + id,
-          {},
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    needsBill: function (orderId, needsBill) {
-      return $http
-        .put(
-          globals.apiURL +
-          "/quotes/bills/" +
-          orderId +
-          "/needsBill/" +
-          needsBill,
-          {},
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getBillLinks: function (bills) {
-      return bills.map(function (elem) {
-        elem.downloadLink =
-          globals.apiURL +
-          "/quotes/bills/" +
-          elem.id +
-          "/download/" +
-          elem.filename;
-        return elem;
-      });
-    },
-  };
+	//----------------------------- BILLS ----------------
+	service.bills = {
+		getPendingBills: function (
+			search,
+			orderStatusList,
+			start,
+			page,
+			rows,
+			sort,
+			startDate,
+			endDate
+		) {
+			sort = !sort ? "" : sort;
+			startDate = !startDate
+				? JSON.stringify(moment().year(2018).startOf("year"))
+				: JSON.stringify(startDate);
+			endDate = !endDate ? "*" : JSON.stringify(endDate);
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/bills/missing" +
+						"?page=" +
+						page +
+						"&start=" +
+						start +
+						"&rows=" +
+						rows +
+						"&sort=" +
+						sort +
+						"&search=" +
+						search +
+						"&startDate=" +
+						startDate +
+						"&endDate=" +
+						endDate +
+						"&orderStatusList=" +
+						JSON.stringify(orderStatusList),
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data.response;
+				});
+		},
+		getPendingBillsDownloadLink: function (
+			search,
+			startDate,
+			endDate,
+			statusList
+		) {
+			startDate = !startDate
+				? JSON.stringify(moment().year(2018).startOf("year"))
+				: JSON.stringify(startDate);
+			endDate = !endDate ? "*" : JSON.stringify(endDate);
+			return (
+				globals.apiURL +
+				"/quotes/bills/spreadsheet/Facturas.xlsx?startDate=" +
+				startDate +
+				"&endDate=" +
+				endDate +
+				"&search=" +
+				search +
+				"&orderStatusList=" +
+				JSON.stringify(statusList)
+			);
+		},
+		getBillsByOrder: function (orderId) {
+			return $http
+				.get(globals.apiURL + "/quotes/bills/" + orderId, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-  //----------------------------- CATALOG ----------------
-  service.catalog = {
-    getAll: function (start, rows, sort) {
-      return $http
-        .get(globals.apiURL + "/pricing/catalog", {
-          authentication: "yokozuna",
-          params: { page: start, rows: rows, sort: sort },
-        })
-        .then((response) => {
-          return response.data;
-        });
-    },
-    upload: function (formData) {
-      return $http
-        .post(globals.apiURL + "/pricing/catalog", formData, {
-          authentication: "yokozuna",
-          headers: { "Content-Type": undefined },
-          transformRequest: angular.identity,
-        })
-        .then((response) => {
-          return response.data;
-        });
-    },
-    getFile: function (id) {
-      return $http
-        .get(globals.apiURL + "/pricing/catalog/" + id, {
-          authentication: "yokozuna",
-          responseType: "blob",
-        })
-        .then((response) => {
-          return response.data;
-        });
-    },
-    getStatus: function () {
-      return $http
-        .get(globals.apiURL + "/pricing/catalog/status", {
-          authentication: "yokozuna",
-        })
-        .then((response) => {
-          return response.data;
-        });
-    },
-  };
+		uploadBill: function (orderId, formData) {
+			return $http
+				.post(globals.apiURL + "/quotes/bills/" + orderId, formData, {
+					authentication: "yokozuna",
+					headers: { "Content-Type": undefined },
+					transformRequest: angular.identity,
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		deleteBill: function (id) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/bills/delete/" + id,
+					{},
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		needsBill: function (orderId, needsBill) {
+			return $http
+				.put(
+					globals.apiURL +
+						"/quotes/bills/" +
+						orderId +
+						"/needsBill/" +
+						needsBill,
+					{},
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getBillLinks: function (bills) {
+			return bills.map(function (elem) {
+				elem.downloadLink =
+					globals.apiURL +
+					"/quotes/bills/" +
+					elem.id +
+					"/download/" +
+					elem.filename;
+				return elem;
+			});
+		},
+	};
 
-  //------------------- MOVEMENTS --------------
-  service.movements = {
-    getMovements: function (
-      statusList,
-      type,
-      search,
-      start,
-      rows,
-      sort,
-      startDate,
-      endDate
-    ) {
-      sort = !sort ? "" : sort;
-      startDate = !startDate ? "*" : startDate;
-      endDate = !endDate ? "*" : endDate;
-      return $http
-        .get(globals.apiURL + "/quotes/movements", {
-          authentication: "yokozuna",
-          params: {
-            search: search,
-            startDate: startDate,
-            endDate: endDate,
-            start: start,
-            rows: rows,
-            sort: sort,
-            type: type,
-            orderStatusList: JSON.stringify(statusList),
-          },
-        })
-        .then(function (response) {
-          return response.data.response;
-        });
-    },
-    getMovementsDownloadLink: function (
-      search,
-      startDate,
-      endDate,
-      inList,
-      outList,
-      invList
-    ) {
-      startDate = !startDate ? "*" : JSON.stringify(startDate);
-      endDate = !endDate ? "*" : JSON.stringify(endDate);
-      return (
-        globals.apiURL +
-        "/quotes/movements/spreadsheet/Movimientos.xlsx?startDate=" +
-        startDate +
-        "&endDate=" +
-        endDate +
-        "&search=" +
-        search +
-        "&inStatusList=" +
-        JSON.stringify(inList) +
-        "&outStatusList=" +
-        JSON.stringify(outList) +
-        "&invStatusList=" +
-        JSON.stringify(invList)
-      );
-    },
-  };
-  //------------------- WAREHOUSES -------------
-  service.warehouses = {
-    getAll: function (page, size, sort) {
-      return $http
-        .get(
-          globals.apiURL +
-          "/quotes/warehouses/?page=" +
-          page +
-          "&size=" +
-          size +
-          "&sort=" +
-          sort,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    getList: function () {
-      return $http
-        .get(globals.apiURL + "/quotes/warehouses/list", {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    get: function (id) {
-      return $http
-        .get(globals.apiURL + "/quotes/warehouses/" + id, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    save: function (warehouse) {
-      return $http
-        .post(globals.apiURL + "/quotes/warehouses", warehouse, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    delete: function (id) {
-      return $http
-        .delete(
-          globals.apiURL + "/quotes/warehouses/" + id + "/delete",
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+	//----------------------------- CATALOG ----------------
+	service.catalog = {
+		getAll: function (start, rows, sort) {
+			return $http
+				.get(globals.apiURL + "/pricing/catalog", {
+					authentication: "yokozuna",
+					params: { page: start, rows: rows, sort: sort },
+				})
+				.then((response) => {
+					return response.data;
+				});
+		},
+		upload: function (formData) {
+			return $http
+				.post(globals.apiURL + "/pricing/catalog", formData, {
+					authentication: "yokozuna",
+					headers: { "Content-Type": undefined },
+					transformRequest: angular.identity,
+				})
+				.then((response) => {
+					return response.data;
+				});
+		},
+		getFile: function (id) {
+			return $http
+				.get(globals.apiURL + "/pricing/catalog/" + id, {
+					authentication: "yokozuna",
+					responseType: "blob",
+				})
+				.then((response) => {
+					return response.data;
+				});
+		},
+		getStatus: function () {
+			return $http
+				.get(globals.apiURL + "/pricing/catalog/status", {
+					authentication: "yokozuna",
+				})
+				.then((response) => {
+					return response.data;
+				});
+		},
+	};
 
-    activate: function (id) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/warehouses/" + id + "/activate",
-          {},
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
+	//------------------- MOVEMENTS --------------
+	service.movements = {
+		getMovements: function (
+			statusList,
+			type,
+			search,
+			start,
+			rows,
+			sort,
+			startDate,
+			endDate
+		) {
+			sort = !sort ? "" : sort;
+			startDate = !startDate ? "*" : startDate;
+			endDate = !endDate ? "*" : endDate;
+			return $http
+				.get(globals.apiURL + "/quotes/movements", {
+					authentication: "yokozuna",
+					params: {
+						search: search,
+						startDate: startDate,
+						endDate: endDate,
+						start: start,
+						rows: rows,
+						sort: sort,
+						type: type,
+						orderStatusList: JSON.stringify(statusList),
+					},
+				})
+				.then(function (response) {
+					return response.data.response;
+				});
+		},
+		getMovementsDownloadLink: function (
+			search,
+			startDate,
+			endDate,
+			inList,
+			outList,
+			invList
+		) {
+			startDate = !startDate ? "*" : JSON.stringify(startDate);
+			endDate = !endDate ? "*" : JSON.stringify(endDate);
+			return (
+				globals.apiURL +
+				"/quotes/movements/spreadsheet/Movimientos.xlsx?startDate=" +
+				startDate +
+				"&endDate=" +
+				endDate +
+				"&search=" +
+				search +
+				"&inStatusList=" +
+				JSON.stringify(inList) +
+				"&outStatusList=" +
+				JSON.stringify(outList) +
+				"&invStatusList=" +
+				JSON.stringify(invList)
+			);
+		},
+	};
+	//------------------- WAREHOUSES -------------
+	service.warehouses = {
+		getAll: function (page, size, sort) {
+			return $http
+				.get(
+					globals.apiURL +
+						"/quotes/warehouses/?page=" +
+						page +
+						"&size=" +
+						size +
+						"&sort=" +
+						sort,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		getList: function () {
+			return $http
+				.get(globals.apiURL + "/quotes/warehouses/list", {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		get: function (id) {
+			return $http
+				.get(globals.apiURL + "/quotes/warehouses/" + id, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		save: function (warehouse) {
+			return $http
+				.post(globals.apiURL + "/quotes/warehouses", warehouse, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		delete: function (id) {
+			return $http
+				.delete(
+					globals.apiURL + "/quotes/warehouses/" + id + "/delete",
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-    deactivate: function (id) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/warehouses/" + id + "/deactivate",
-          {},
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    update: function (warehouse) {
-      return $http
-        .put(
-          globals.apiURL + "/quotes/warehouses/" + warehouse.id,
-          warehouse,
-          { authentication: "yokozuna" }
-        )
-        .then(function (response) {
-          return response.data;
-        });
-    },
-  };
+		activate: function (id) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/warehouses/" + id + "/activate",
+					{},
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-  //------------------- COMMENTS -------------
+		deactivate: function (id) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/warehouses/" + id + "/deactivate",
+					{},
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		update: function (warehouse) {
+			return $http
+				.put(
+					globals.apiURL + "/quotes/warehouses/" + warehouse.id,
+					warehouse,
+					{ authentication: "yokozuna" }
+				)
+				.then(function (response) {
+					return response.data;
+				});
+		},
+	};
 
-  service.notes = {
-    get: function (id) {
-      return $http
-        .get(globals.apiURL + "/quotes/comments/" + id, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-    list: function (id) {
-      return $http
-        .get(globals.apiURL + "/quotes/comments/" + id, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
+	//------------------- COMMENTS -------------
 
-    save: function (comment) {
-      return $http
-        .post(globals.apiURL + "/quotes/comments", comment, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
-    },
-  };
+	service.notes = {
+		get: function (id) {
+			return $http
+				.get(globals.apiURL + "/quotes/comments/" + id, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+		list: function (id) {
+			return $http
+				.get(globals.apiURL + "/quotes/comments/" + id, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
 
-  return service;
+		save: function (comment) {
+			return $http
+				.post(globals.apiURL + "/quotes/comments", comment, {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					return response.data;
+				});
+		},
+	};
+
+	return service;
 });

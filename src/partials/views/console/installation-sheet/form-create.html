@@ -29,6 +29,9 @@
       <small class="error-message"
         ng-if="installationForm.$validated && installationForm.telephone.$error.required">Campo
         requerido</small>
+      <small class="error-message"
+        ng-if="installationForm.telephone.$error.pattern">El número de teléfono
+        debe tener 10 dígitos</small>
     </div>
 
 
@@ -176,7 +179,9 @@
       <div>
         <button type="button" class="btn btn-default"
           ng-click="closeThisDialog('')">Cancelar</button>
-        <button type="submit" class="btn btn-primary"> Crear </button>
+        <button type="submit" class="btn btn-primary">
+          {{installationSheet.mode === "create" ? "Crear" : "Actualizar"}}
+        </button>
       </div>
 
   </form>

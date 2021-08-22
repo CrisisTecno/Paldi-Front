@@ -2,9 +2,12 @@ import { attachTo } from "../../../utils/attach";
 
 import { showSwal } from "../../../utils/swal/show";
 
-export const showCreateInstallationSheetDialog = (
+import { formatTelephone, deformatTelephone } from "./formatTelephone";
+
+export const showCreateInstallationSheetDialog = async (
 	$scope,
-	callback
+	callback,
+	mode = "create"
 ) => {
 	attachTo(
 		$scope,
@@ -12,14 +15,39 @@ export const showCreateInstallationSheetDialog = (
 		getInstallationSheetSaveHandler($scope)
 	);
 
+	const savedOrder = await $scope.paldiService.installationSheet.fetchState(
+		$scope.order.id
+	);
+
+	const otherExtraNames = [...getExtraNames(savedOrder?.tools)];
+	const otherMaterialNames = [...getExtraNames(savedOrder?.material)];
+
+	const otherExtraNamesObject = {};
+	otherExtraNames.forEach((name) => {
+		otherExtraNamesObject[name] = true;
+	});
+
+	const otherMaterialNamesObject = {};
+	otherMaterialNames.forEach((name) => {
+		otherMaterialNamesObject[name] = true;
+	});
+
 	// TODO: Ojo, esto no se hace
 	// eu sabes como verificar numeros de telefono? 8)
 	$scope.installationSheet = {
+		mode,
 		orderNo: $scope.order.orderNo,
-		extras: {},
-		otherExtra: [],
-		materials: {},
-		otherMaterials: [],
+
+		receivingPerson: savedOrder?.data?.receiver,
+		telephone: deformatTelephone(savedOrder?.data?.phone_number),
+		address: savedOrder?.data?.address,
+		addressReference: savedOrder?.data?.address_guide,
+		postalCode: savedOrder?.data?.cp,
+
+		extras: { ...savedOrder?.tools, ...otherExtraNamesObject },
+		otherExtra: [...otherExtraNames],
+		materials: { ...savedOrder?.material, ...otherMaterialNamesObject },
+		otherMaterials: [...otherMaterialNames],
 		// TODO: este es el onsubmit, te trae un form de angular, pero si usas
 		// installationForm.propertyName te regresa el valor del coso
 		// le puse installationSheet.postalCode
@@ -40,6 +68,8 @@ export const showCreateInstallationSheetDialog = (
 
 			const order = $scope.order;
 			const sheetData = {
+				// type: "installation_sheet",
+				// identifier: order.id,
 				// luego se hace esto bonito 8)
 				order_id: order.id,
 				data: {
@@ -71,21 +101,29 @@ export const showCreateInstallationSheetDialog = (
 				},
 			};
 
-			// try {
-			// 	await $scope.paldiService.installationSheet.create(sheetData);
-			// 	$scope.dialog.close();
-			// 	callback();
-			// } catch (error) {
-			// 	console.log(error);
-			// 	if (
-			// 		error.data.code ===
-			// 		"api.errors.installation.sheet.duplicated"
-			// 	) {
-			// 		callback();
-			// 		return;
-			// 	}
-			// 	showSwal("messages.error");
-			// }
+			try {
+				if (mode === "create") {
+					await $scope.paldiService.installationSheet.create(
+						sheetData
+					);
+					$scope.dialog.close();
+					callback();
+				} else {
+					await $scope.paldiService.installationSheet.edit(sheetData);
+					$scope.dialog.close();
+					callback();
+				}
+			} catch (error) {
+				console.log(error);
+				if (
+					error.data.code ===
+					"api.errors.installation.sheet.duplicated" // esto solo es porque soy chido programando 8)
+				) {
+					callback();
+					return;
+				}
+				showSwal("messages.error");
+			}
 		}, // mando el post aqui asi nomas sin miedo al esito? 8)
 		addOtherExtra: (otherName, arrayName) => {
 			if (
@@ -102,11 +140,11 @@ export const showCreateInstallationSheetDialog = (
 			$scope.installationSheet[objName][otherName] = true;
 		},
 		onChangeCheck: (installationForm, changedName, arrayName) => {
-			console.log(
-				installationForm,
-				changedName,
-				$scope.installationSheet
-			);
+			// console.log(
+			// 	installationForm,
+			// 	changedName,
+			// 	$scope.installationSheet
+			// );
 		},
 		removeOtherExtra: (otherName, arrayName) => {
 			$scope.installationSheet[arrayName] = $scope.installationSheet[
@@ -116,7 +154,7 @@ export const showCreateInstallationSheetDialog = (
 			delete $scope.installationSheet[objName][otherName];
 		},
 	};
-  console.log($scope)
+	// console.log($scope);
 	$scope.dialog = $scope.ngDialog.open({
 		template: "partials/views/console/installation-sheet/form-create.html",
 		scope: $scope,
@@ -131,47 +169,9 @@ const getInstallationSheetSaveHandler = ($scope) => (form, data) => {
 	console.log({ form, data });
 };
 
-const formatTelephone = (tel) => {
-	if (!tel) {
-		return "";
-	}
+const getExtraNames = (obj) => {
+	const otherKeys = Object.keys(obj).filter((key) => key.includes("other_"));
 
-	var value = tel.toString().trim().replace(/^\+/, "");
-
-	if (value.match(/[^0-9]/)) {
-		return tel;
-	}
-
-	var country, city, number;
-
-	switch (value.length) {
-		case 10: // +1PPP####### -> C (PPP) ###-####
-			country = 1;
-			city = value.slice(0, 3);
-			number = value.slice(3);
-			break;
-
-		case 11: // +CPPP####### -> CCC (PP) ###-####
-			country = value[0];
-			city = value.slice(1, 4);
-			number = value.slice(4);
-			break;
-
-		case 12: // +CCCPP####### -> CCC (PP) ###-####
-			country = value.slice(0, 3);
-			city = value.slice(3, 5);
-			number = value.slice(5);
-			break;
-
-		default:
-			return tel;
-	}
-
-	if (country == 1) {
-		country = "";
-	}
-
-	number = number.slice(0, 3) + "-" + number.slice(3);
-
-	return (country + " (" + city + ") " + number).trim();
+	const res = otherKeys.map((keyName) => obj[keyName]);
+	return res;
 };
