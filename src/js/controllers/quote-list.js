@@ -42,6 +42,7 @@ pdApp.controller(
 			{ label: "Venta Perdida", value: "LOST_SALE" },
 			{ label: "Pendiente", value: "PENDING" },
 			{ label: "Rechazada", value: "REJECTED" },
+			{ label: "Eliminada", value: "DELETED_QUOTE" },
 		];
 
 		$scope.quotesTypes = [
@@ -110,7 +111,12 @@ pdApp.controller(
 
 		var pastSort = "";
 
-		var serverData = function (sSource, aoData, fnCallback, oSettings) {
+		var serverData = async function (
+			sSource,
+			aoData,
+			fnCallback,
+			oSettings
+		) {
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var size = aoData[4].value;
@@ -128,63 +134,70 @@ pdApp.controller(
 			}
 			pastSort = newSort;
 
+			let result;
 			if (cleanStatusList.length == 0) {
-				var result = {
+				result = {
 					draw: draw,
 					recordsTotal: 0,
 					recordsFiltered: 0,
 					data: [],
 				};
-				$scope.isEmpty = true;
-				fnCallback(result);
 			} else {
+				let data;
 				if ($scope.selectedType !== "consultant") {
-					paldiService.orders
-						.searchByStatusList(
-							cleanStatusList,
-							sear,
-							page * size,
-							size,
-							sort,
-							$scope.startDate,
-							$scope.endDate
-						)
-						.then(function (data) {
-							var result = {
-								draw: draw,
-								recordsTotal: data.numFound,
-								recordsFiltered: data.numFound,
-								data: data.docs,
-							};
-							$scope.isEmpty =
-								result.recordsTotal > 0 ? false : true;
-							fnCallback(result);
-						});
+					data = await paldiService.orders.searchByStatusList(
+						cleanStatusList,
+						sear,
+						page * size,
+						size,
+						sort,
+						$scope.startDate,
+						$scope.endDate
+					);
 				} else {
-					paldiService.orders
-						.searchByUser(
-							cleanStatusList,
-							sear,
-							page * size,
-							size,
-							sort,
-							$scope.startDate,
-							$scope.endDate,
-							$scope.currentUser.id
-						)
-						.then(function (data) {
-							var result = {
-								draw: draw,
-								recordsTotal: data.numFound,
-								recordsFiltered: data.numFound,
-								data: data.docs,
-							};
-							$scope.isEmpty =
-								result.recordsTotal > 0 ? false : true;
-							fnCallback(result);
-						});
+					data = await paldiService.orders.searchByUser(
+						cleanStatusList,
+						sear,
+						page * size,
+						size,
+						sort,
+						$scope.startDate,
+						$scope.endDate,
+						$scope.currentUser.id
+					);
 				}
+
+				result = {
+					draw: draw,
+					recordsTotal: data.numFound,
+					recordsFiltered: data.numFound,
+					data: data.docs,
+				};
 			}
+			const ids = result.data.map(({ id }) => id);
+			const orders = await paldiService.orders.getBatchOrders(ids);
+
+			result.data = result.data
+				.map((order) => ({
+					...order,
+					real: orders.filter(({ _id }) => _id === order.id)[0],
+				}))
+				.map((order) => ({
+					...order,
+					status_s:
+						order.real.status === "DELETED"
+							? "Eliminada"
+							: order.status_s,
+					quoteStatus_txt: [
+						order.real.status === "DELETED"
+							? "Eliminada"
+							: order.status_s,
+					],
+				}));
+
+			$scope.isEmpty = result.recordsTotal > 0 ? false : true;
+			console.log(result);
+			fnCallback(result);
 		};
 
 		$scope.tableOptions = DTOptionsBuilder.newOptions()

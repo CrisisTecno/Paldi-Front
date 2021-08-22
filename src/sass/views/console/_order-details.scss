@@ -12,70 +12,73 @@
 }
 
 //===================================================
-.status-block{
+.status-block {
     color: white;
     text-decoration: none;
     padding: 3px 6px 3px 6px;
     border-radius: 3px;
 
-    &.QUOTE{
+    &.QUOTE {
         background-color: #839192;
     }
-    &.PENDING{
-        background-color: #D4AC0D;
+    &.PENDING {
+        background-color: #d4ac0d;
     }
-    &.REJECTED{
-        background-color: #CB4335;
+    &.REJECTED {
+        background-color: #cb4335;
     }
-    &.LINE{
-        background-color: #28B463;
+    &.LINE {
+        background-color: #28b463;
     }
-    &.BACKORDER{
-        background-color: #CA6F1E;
+    &.BACKORDER {
+        background-color: #ca6f1e;
     }
-    &.PRODUCTION{
-        background-color: #2E86C1;
+    &.PRODUCTION {
+        background-color: #2e86c1;
     }
-    &.TRANSIT{
-        background-color: #138D75;
+    &.TRANSIT {
+        background-color: #138d75;
     }
-    &.FINISHED{
-        background-color: #17A589;
+    &.FINISHED {
+        background-color: #17a589;
     }
-    &.INSTALLED_INCOMPLETE{
-        background-color: #616A6B;
+    &.INSTALLED_INCOMPLETE {
+        background-color: #616a6b;
     }
-    &.INSTALLED_NONCONFORM{
+    &.INSTALLED_NONCONFORM {
         background-color: #273746;
     }
-    &.INSTALLED{
-        background-color: #884EA0;
+    &.INSTALLED {
+        background-color: #884ea0;
     }
-    &.CANCELED{
+    &.CANCELED {
         background-color: #000000;
         color: white;
     }
-    &.ORDER_CANCELED{
+    &.ORDER_CANCELED {
         background-color: #000000;
         color: white;
     }
-    &.PROGRAMMED{
+    &.PROGRAMMED {
         background-color: #b8e05c;
     }
-    &.source{
+    &.source {
         background-color: #56b3ff;
         float: right;
     }
-    &.Nueva{
+    &.Nueva {
         background-color: #f4d942;
     }
-    &.Duplicada{
+    &.Eliminada {
+        background-color: #a03428;
+    }
+    &.Duplicada {
         background-color: #ad5bff;
     }
-    &.Seguimiento{
+    &.Seguimiento {
         background-color: #c44411;
     }
-    &.Venta{
+    &.Venta {
         background-color: #b2305d;
     }
 }
@@ -91,22 +94,22 @@
     margin-bottom: $global-margin * 2;
 }
 
-.status-select{
+.status-select {
     margin-right: 2rem;
     margin-bottom: 2rem;
 }
 
-.status-reason{
+.status-reason {
     margin-bottom: 2rem;
 }
-.status-buttons{
+.status-buttons {
     min-height: 10rem;
 }
 
 .btn-square {
     width: 14rem;
     height: 3.2rem;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
     line-height: 40px;
     text-align: left;
     display: block;
@@ -117,14 +120,13 @@
         text-align: center;
         padding-top: 10px;
         float: left;
-    }    
+    }
 }
 
 //===================================================
 
-
 .order-details-view {
-    label{
+    label {
         margin-bottom: 0;
     }
     ul {
@@ -132,7 +134,7 @@
         list-style: none;
         vertical-align: bottom;
         li {
-            margin-bottom: .3rem;
+            margin-bottom: 0.3rem;
         }
     }
     .client-data {
@@ -150,7 +152,7 @@
             tbody {
                 td {
                     padding-bottom: $global-padding / 3 !important;
-                    font-size: .9rem;
+                    font-size: 0.9rem;
                     &:first-child {
                         width: 33%;
                     }
@@ -164,7 +166,7 @@
                 border-color: lighten($paldi-grey-soft, 50%) !important;
                 td {
                     padding-top: $global-padding / 3 !important;
-                    font-size: .8rem;
+                    font-size: 0.8rem;
                     font-weight: 600;
                 }
             }
@@ -224,5 +226,4 @@
     .dataTables_wrapper {
         padding: 0.2px;
     }
-
 }

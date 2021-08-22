@@ -24,14 +24,13 @@
     <!-- TODO: add validation -->
     <div class="form-group">
       <label>Celular</label>
-      <input name="telephone" class="form-control" type="tel" maxlength="10"
-        pattern="[0-9]{10}" ng-model="installationSheet.telephone" required="">
+      <input name="telephone" class="form-control"
+        ng-model="installationSheet.telephone" required=""
+        ui-mask="(999) 999-9999" type="text">
       <small class="error-message"
         ng-if="installationForm.$validated && installationForm.telephone.$error.required">Campo
         requerido</small>
-      <small class="error-message"
-        ng-if="installationForm.telephone.$error.pattern">El número de teléfono
-        debe tener 10 dígitos</small>
+
     </div>
 
 

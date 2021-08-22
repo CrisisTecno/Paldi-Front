@@ -1,5 +1,5 @@
 export const deformatTelephone = (tel) => {
-	return tel.match(/\d/g).join("");
+	return tel?.match(/\d/g).join("") || "";
 };
 
 export const formatTelephone = (tel) => {

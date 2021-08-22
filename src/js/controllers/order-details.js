@@ -48,7 +48,8 @@ pdApp.controller(
 				["order", $scope.order],
 				["installationSheet", $scope.installationSheet],
 			]);
-			//	console.log($scope.perms);
+			console.log($scope.perms, $scope.permissions);
+			console.log($scope.order.status);
 
 			$scope.$evalAsync(() => $scope.loadAdditionals());
 		};

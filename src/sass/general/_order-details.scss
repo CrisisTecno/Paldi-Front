@@ -15,137 +15,141 @@
     display: inline-block;
 }
 
-.status-tag{
+.status-tag {
     color: white;
     text-decoration: none;
     padding: 5px;
     border-radius: 1px;
     margin-right: 1rem;
 
-    &.QUOTE{
+    &.QUOTE {
         border: 1px solid #839192;
         color: #839192;
     }
-    &.PENDING{
-        border: 1px solid #D4AC0D;
-        color: #D4AC0D;
+    &.PENDING {
+        border: 1px solid #d4ac0d;
+        color: #d4ac0d;
     }
-    &.REJECTED{
-        border: 1px solid #CB4335;
-        color: #CB4335;
+
+    &.REJECTED {
+        border: 1px solid #cb4335;
+        color: #cb4335;
     }
-    &.LINE{
-        border: 1px solid #28B463;
-        color: #28B463;
+    &.LINE {
+        border: 1px solid #28b463;
+        color: #28b463;
     }
-    &.BACKORDER{
-        border: 1px solid #CA6F1E;
-        color: #CA6F1E;
+    &.BACKORDER {
+        border: 1px solid #ca6f1e;
+        color: #ca6f1e;
     }
-    &.PRODUCTION{
-        border: 1px solid #2E86C1;
-        color: #2E86C1;
+    &.PRODUCTION {
+        border: 1px solid #2e86c1;
+        color: #2e86c1;
     }
-    &.TRANSIT{
-        border: 1px solid #138D75;
-        color: #138D75;
+    &.TRANSIT {
+        border: 1px solid #138d75;
+        color: #138d75;
     }
-    &.FINISHED{
-        border: 1px solid #17A589;
-        color: #17A589;
+    &.FINISHED {
+        border: 1px solid #17a589;
+        color: #17a589;
     }
-    &.INSTALLED_INCOMPLETE{
-        border: 1px solid #616A6B;
-        color: #616A6B;
+    &.INSTALLED_INCOMPLETE {
+        border: 1px solid #616a6b;
+        color: #616a6b;
     }
-    &.INSTALLED_NONCONFORM{
+    &.INSTALLED_NONCONFORM {
         border: 1px solid #273746;
         color: #273746;
     }
-    &.INSTALLED{
-        border: 1px solid #884EA0;
-        color: #884EA0;
+    &.INSTALLED {
+        border: 1px solid #884ea0;
+        color: #884ea0;
     }
-    &.CANCELED{
+    &.CANCELED {
         border: 1px solid #000000;
         color: #000000;
     }
-    &.ORDER_CANCELED{
+    &.ORDER_CANCELED {
         border: 1px solid #000000;
         color: #000000;
     }
-    &.PROGRAMMED{
+    &.PROGRAMMED {
         border: 1px solid #b8e05c;
         color: #b8e05c;
     }
-    &.source{
+    &.source {
         border: 1px solid #56b3ff;
         color: #56b3ff;
     }
-    &.Nueva{
+    &.Nueva {
         border: 1px solid #f4d942;
         color: #f4d942;
     }
-    &.Duplicada{
+    &.Duplicada {
         border: 1px solid #ad5bff;
         color: #ad5bff;
     }
-    &.Seguimiento{
+    &.Seguimiento {
         border: 1px solid #c44411;
         color: #c44411;
     }
-    &.Venta{
+    &.Venta {
         border: 1px solid #b2305d;
         color: #b2305d;
     }
-    &.ORDER{
+    &.Eliminada {
+        border: 1px solid #a03428;
+        color: #a03428;
+    }
+    &.ORDER {
         border: 1px solid $paldi-orange;
         color: $paldi-dark-color;
     }
-    &.ORDER:hover{
+    &.ORDER:hover {
         background-color: $paldi-orange;
         border: 1px solid $paldi-orange;
         color: $paldi-clear-color;
         cursor: pointer;
     }
-
 }
 
-.order-cycle{
-    &.START{
+.order-cycle {
+    &.START {
         color: $paldi-blue-link;
     }
-    &.END{
+    &.END {
         color: $paldi-grey-mid;
     }
-    &.LATE{
+    &.LATE {
         color: $mt-red;
     }
 }
 
-.order-cycle-details{
-    &.END{
+.order-cycle-details {
+    &.END {
         color: $paldi-grey-mid;
     }
-    &.LATE{
+    &.LATE {
         color: $mt-red;
     }
 }
 
-.order-total{
-    &.END{
+.order-total {
+    &.END {
         color: $paldi-grey-mid;
     }
 }
 
 .order-details-view {
-	.client-data{
-		table {
-			tfoot {
-				td {
-					color: lighten($paldi-grey-soft, 50%);
-				}
-			}
-		}
-	}
+    .client-data {
+        table {
+            tfoot {
+                td {
+                    color: lighten($paldi-grey-soft, 50%);
+                }
+            }
+        }
+    }
 }

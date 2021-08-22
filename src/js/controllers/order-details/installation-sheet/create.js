@@ -64,7 +64,7 @@ export const showCreateInstallationSheetDialog = async (
 				(materialItem) => data.materials[materialItem]
 			);
 
-			const phone = formatTelephone(data.telephone);
+			const phone = formatTelephone(data.telephone && "");
 
 			const order = $scope.order;
 			const sheetData = {
@@ -170,7 +170,10 @@ const getInstallationSheetSaveHandler = ($scope) => (form, data) => {
 };
 
 const getExtraNames = (obj) => {
-	const otherKeys = Object.keys(obj).filter((key) => key.includes("other_"));
+	// nosirbio mi jak :( ups pique ctrl z, uy si el fansiya casi, awanta
+	const otherKeys = Object.keys({ ...obj }).filter((key) =>
+		key.includes("other_")
+	);
 
 	const res = otherKeys.map((keyName) => obj[keyName]);
 	return res;

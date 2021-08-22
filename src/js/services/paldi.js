@@ -333,7 +333,20 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 					return response.data;
 				});
 		},
+		getBatchOrders: async (id_list) => {
+			try {
+				const result = await $http.post(
+					globals.apiURL + "/newapi/order/fetch/bulk",
+					{ id_list: id_list },
+					{ authentication: "yokozuna" }
+				);
 
+				return result.data;
+			} catch (e) {
+				console.log(e);
+				return e;
+			}
+		},
 		getListDownloadLink: function (type, startDate, endDate, statusList) {
 			startDate = !startDate ? "*" : JSON.stringify(startDate);
 			endDate = !endDate ? "*" : JSON.stringify(endDate);
