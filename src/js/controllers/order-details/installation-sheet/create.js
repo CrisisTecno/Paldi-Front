@@ -52,7 +52,9 @@ export const showCreateInstallationSheetDialog = async (
 		// installationForm.propertyName te regresa el valor del coso
 		// le puse installationSheet.postalCode
 		save: async (installationForm) => {
+      console.log(installationForm)
 			const data = $scope.installationSheet;
+      console.log(data)
 
 			const extras = data.extras;
 			const material = data.materials;
@@ -64,7 +66,7 @@ export const showCreateInstallationSheetDialog = async (
 				(materialItem) => data.materials[materialItem]
 			);
 
-			const phone = formatTelephone(data.telephone && "");
+			const phone = formatTelephone(data.telephone);
 
 			const order = $scope.order;
 			const sheetData = {
@@ -74,7 +76,7 @@ export const showCreateInstallationSheetDialog = async (
 				order_id: order.id,
 				data: {
 					receiver: data.receivingPerson,
-					phone_number: phone,
+					phone_number: data.telephone,
 					address: data.address,
 					address_guide: data.addressReference,
 					cp: data.postalCode,
@@ -119,6 +121,7 @@ export const showCreateInstallationSheetDialog = async (
 					error.data.code ===
 					"api.errors.installation.sheet.duplicated" // esto solo es porque soy chido programando 8)
 				) {
+          console.log("duplicated creation")
 					callback();
 					return;
 				}
