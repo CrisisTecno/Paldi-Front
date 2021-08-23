@@ -3,8 +3,8 @@ import "ng-dialog/css/ngDialog.min.css";
 import "ng-dialog/css/ngDialog-theme-default.min.css";
 import "bootstrap";
 
+// export { globals } from "./js/config/envs/local";
 export { globals } from "./js/config/envs/stg";
-// export { globals } from "./js/config/envs/stg";
 
 import "./pdApp";
 import "./js/run/run";
