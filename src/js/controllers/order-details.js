@@ -164,7 +164,7 @@ pdApp.controller(
 			showCreateInstallationSheetDialog(
 				$scope,
 				() => {
-					// showSwal("messages.installation_sheet.edited");
+					showSwal("messages.installation_sheet.edited");
 				},
 				"edit"
 			);
