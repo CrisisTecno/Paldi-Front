@@ -325,6 +325,17 @@ const pdApp = angular
 			});
 
 		$urlRouterProvider.otherwise("/access/login");
-	});
+	})
+  .controller('placesAutocompleteCtrl', ['$scope', function($scope){
+
+    // Define options
+    $scope.autocompleteOptions = {};
+
+    // Listen to change event
+    $scope.$on('gmPlacesAutocomplete::placeChanged', function(){
+      console.log('Place has changed');
+    });
+
+}]);;
 
 export { pdApp };

@@ -42,7 +42,8 @@ const getPaymentInfo = ($scope, model) => ({
 const performPayment = async (context, $scope, updatedOrder) => {
 	const payment = updatedOrder.payment;
 	try {
-		await context.paldiService.payments.pay($scope.order.id, payment);
+		const result = await context.paldiService.payments.pay($scope.order.id, payment);
+    
 		showSwal("messages.payment.success");
 	} catch {
 		showSwal("messages.error");

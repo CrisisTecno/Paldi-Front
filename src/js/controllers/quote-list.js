@@ -184,15 +184,15 @@ pdApp.controller(
 				}))
 				.map((order) => ({
 					...order,
-					// status_s:
-					// 	order.real.status === "DELETED"
-					// 		? "Eliminada"
-					// 		: order.status_s,
-					// quoteStatus_txt: [
-					// 	order.real.status === "DELETED"
-					// 		? "Eliminada"
-					// 		: order.status_s,
-					// ],
+					status_s:
+						order.real.status === "DELETED"
+							? "Eliminada"
+							: order.status_s,
+					quoteStatus_txt: [
+						order.real.status === "DELETED"
+							? "Eliminada"
+							: order.status_s,
+					],
 				}));
 
 			$scope.isEmpty = result.recordsTotal > 0 ? false : true;

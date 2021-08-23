@@ -36,6 +36,7 @@
 
     <div class="form-group">
       <label>Dirección de entrega</label>
+      <input type="text" gm-places-autocomplete="autocompleteOptions" ng-model="autocompleteModel" />
       <input name="address" class="form-control"
         ng-model="installationSheet.address" required="">
       <small class="error-message"
@@ -95,6 +96,9 @@
 
       <!-- TODO: fix inline css -->
       <div class="form-group" style="margin-top: 0.5rem;">
+        <label class="checkbox-inline normal-height-checkbox">
+          Agregar herramienta para la instalación:
+        </label>
         <div class="input-group">
           <input name="extra" type="text" ng-model="installationSheet.extraText"
             class="form-control">
@@ -149,6 +153,9 @@
 
       <div class="form-group">
         <!-- TODO: fix inline css -->
+        <label class="checkbox-inline normal-height-checkbox">
+          Agregar material de instalación adicional:
+        </label>
         <div class="form-group" style="margin-top: 0.5rem;">
           <div class="input-group">
             <input name="extraMaterial" type="text"

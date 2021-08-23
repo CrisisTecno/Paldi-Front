@@ -19,6 +19,21 @@ export const showCreateInstallationSheetDialog = async (
     $scope.order.id
   );
 
+  $scope.$on('gmPlacesAutocomplete::placeChanged', function () {
+
+    // Get place
+    console.dir(autocompleteModel.getPlace());
+
+    // Get bounds
+    console.dir(autocompleteModel.getBounds());
+    var location = $scope.autocomplete.getPlace().geometry.location;
+    $scope.installationSheet.lat = location.lat();
+    $scope.installationSheet.lng = location.lng();
+    $scope.$apply();
+
+  });
+
+
   //console.log(savedOrder);
 
   const otherExtraNames = [...getExtraNames(savedOrder?.tools)];
@@ -36,7 +51,7 @@ export const showCreateInstallationSheetDialog = async (
   });
 
   //esperate, me voy a aventar el mega hack - va, solo bua logger cosas
- // console.log(savedOrder.tools)
+  // console.log(savedOrder.tools)
   //console.log(otherMaterialNames)
   //console.log(otherExtraNames)
   // TODO: Ojo, esto no se hace
@@ -52,7 +67,7 @@ export const showCreateInstallationSheetDialog = async (
     postalCode: savedOrder?.data?.cp,
 
     extras: { ...savedOrder?.tools, ...otherExtraNamesObject },
-   // extras: {  ...otherExtraNamesObject },
+    // extras: {  ...otherExtraNamesObject },
     otherExtra: [...otherExtraNames],
     materials: { ...savedOrder?.material, ...otherMaterialNamesObject },
     //materials: { ...otherMaterialNamesObject },
@@ -61,9 +76,9 @@ export const showCreateInstallationSheetDialog = async (
     // installationForm.propertyName te regresa el valor del coso
     // le puse installationSheet.postalCode
     save: async (installationForm) => {
-    //  console.log(installationForm)
+      //  console.log(installationForm)
       const data = $scope.installationSheet;
-    // console.log(data)
+      // console.log(data)
 
       const extras = data.extras;
       const material = data.materials;
@@ -115,34 +130,19 @@ export const showCreateInstallationSheetDialog = async (
         },
       };
 
-
-//console.log(sheetData)
-
-      try {
-        if (mode === "create") {
-          await $scope.paldiService.installationSheet.create(
-            sheetData
-          );
-          $scope.dialog.close();
-          callback();
-        } else {
-          await $scope.paldiService.installationSheet.edit(sheetData);
-          $scope.dialog.close();
-          callback();
-        }
-      } catch (error) {
-        console.log(error);
-        if (
-          error.data.code ===
-          "api.errors.installation.sheet.duplicated" // esto solo es porque soy chido programando 8)
-        ) {
-          console.log("duplicated creation")
-          callback();
-          return;
-        }
-        showSwal("messages.error");
+      const response = await $scope.paldiService.installationSheet.create(sheetData);
+      if (!["api.errors.installation.sheet.duplicated", "api.success.installation.sheet.create"].includes(response.data.code)) {
+        return showSwal("messages.error");
       }
-    }, // mando el post aqui asi nomas sin miedo al esito? 8)
+      if (response.data.code === "api.errors.installation.sheet.duplicated") {
+        await $scope.paldiService.installationSheet.edit(sheetData);
+        if (response.data.code !== "api.success.installation.sheet.edit")
+          return showSwal("messages.error")
+      }
+      $scope.dialog.close()
+      callback()
+
+    },
     addOtherExtra: (otherName, arrayName) => {
       if (
         !otherName ||
@@ -166,24 +166,17 @@ export const showCreateInstallationSheetDialog = async (
     },
     removeOtherExtra: (otherName, arrayName) => {
       const objName = getObjName(arrayName);
-		// console.log(otherName, $scope.installationSheet[arrayName], $scope.installationSheet[objName]);
-		
+      // console.log(otherName, $scope.installationSheet[arrayName], $scope.installationSheet[objName]);
 
+      const otherPositionIdx = Object.values($scope.installationSheet[objName]).findIndex((value) => value === otherName);
 
+      const otherNameInInstallationSheet = Object.keys($scope.installationSheet[objName])[otherPositionIdx]
 
-		const otherPositionIdx = Object.values($scope.installationSheet[objName]).findIndex((value) => value === otherName);
-
-		const otherNameInInstallationSheet = Object.keys($scope.installationSheet[objName])[otherPositionIdx]
-
-
-
-      $scope.installationSheet[arrayName] = $scope.installationSheet[
-        arrayName
-      ].filter((extra) => extra !== otherName);
+      $scope.installationSheet[arrayName] = $scope.installationSheet[arrayName].filter((extra) => extra !== otherName);
       delete $scope.installationSheet[objName][otherName];
-	delete $scope.installationSheet[objName][otherNameInInstallationSheet];
+      delete $scope.installationSheet[objName][otherNameInInstallationSheet];
 
-		// console.log(otherName, $scope.installationSheet[arrayName], $scope.installationSheet[objName]);
+      // console.log(otherName, $scope.installationSheet[arrayName], $scope.installationSheet[objName]);
 
     },
   };
@@ -207,9 +200,9 @@ const getExtraNames = (obj) => {
   const otherKeys = Object.keys({ ...obj }).filter((key) =>
     key.includes("other_")
   )
-  
+
 
   const res = Array.from(new Set(otherKeys.map((keyName) => obj[keyName]))).filter((val) => val !== "");
-  
+
   return res;
 };

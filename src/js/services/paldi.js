@@ -63,15 +63,11 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 			}
 		},
 		exists: async function (id) {
-			try {
-				await $http.post(
+				const response = await $http.post(
 					globals.apiURL + `/newapi/installation/sheet/exists/${id}`,
 					{ authentication: "yokozuna" }
 				);
-				return true;
-			} catch {
-				return false;
-			}
+				return response?.data?.code === 'api.errors.installation.sheet.found'
 		},
 	};
 
