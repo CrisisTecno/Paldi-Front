@@ -1,0 +1,23 @@
+{
+  "name": "angularjs-google-maps",
+  "version": "0.5.0",
+  "main": "dist/angularjs-google-maps.js",
+  "dependencies": {
+    "angular": "~1.0.8"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.0.8",
+    "angular-scenario": "~1.0.8"
+  },
+  "homepage": "https://github.com/jvandemo/angularjs-google-maps",
+  "_release": "0.5.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.5.0",
+    "commit": "4137c527f50afa9636224d33ed435892e588c9c2"
+  },
+  "_source": "https://github.com/jvandemo/angularjs-google-maps.git",
+  "_target": "^0.5.0",
+  "_originalSource": "angularjs-google-maps",
+  "_direct": true
+}

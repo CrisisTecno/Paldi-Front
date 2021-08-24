@@ -36,9 +36,8 @@
 
     <div class="form-group">
       <label>Dirección de entrega</label>
-      <input type="text" gm-places-autocomplete="autocompleteOptions" ng-model="autocompleteModel" />
-      <input name="address" class="form-control"
-        ng-model="installationSheet.address" required="">
+      <textarea name="address" class="form-control" googleplace
+        ng-model="installationSheet.address" required=""></textarea>
       <small class="error-message"
         ng-if="installationForm.$validated && installationForm.address.$error.required">Campo
         requerido</small>
@@ -78,9 +77,9 @@
       </label>
 
       <label class="checkbox-inline normal-height-checkbox">
-        <input name="bomberoStaircase" type="checkbox"
-          ng-model="installationSheet.extras.bomberoStaircase"
-          ng-change="installationSheet.onChangeCheck(installationForm, 'bomberoStaircase')">
+        <input name="escaleras" type="checkbox"
+          ng-model="installationSheet.extras.escaleras"
+          ng-change="installationSheet.onChangeCheck(installationForm, 'escaleras')">
         Escalera de Bombero
       </label>
 
@@ -100,8 +99,8 @@
           Agregar herramienta para la instalación:
         </label>
         <div class="input-group">
-          <input name="extra" type="text" ng-model="installationSheet.extraText"
-            class="form-control">
+          <textarea name="extra" type="text" ng-model="installationSheet.extraText"
+            class="form-control"></textarea>
 
           <span class="glyphicon glyphicon glyphicon-plus input-group-addon"
             ng-click="installationSheet.addOtherExtra(installationSheet.extraText, 'otherExtra')"
@@ -123,9 +122,9 @@
       </label>
 
       <label class="checkbox-inline normal-height-checkbox">
-        <input name="tablaroca" type="checkbox"
-          ng-model="installationSheet.materials.tablaroca"
-          ng-change="installationSheet.onChangeCheck(installationForm, 'tablaroca')">
+        <input name="tablarroca" type="checkbox"
+          ng-model="installationSheet.materials.tablarroca"
+          ng-change="installationSheet.onChangeCheck(installationForm, 'tablarroca')">
         Tabla Roca
       </label>
 
@@ -134,6 +133,12 @@
           ng-model="installationSheet.materials.aluminio"
           ng-change="installationSheet.onChangeCheck(installationForm, 'aluminio')">
         Aluminio
+      </label>
+      <label class="checkbox-inline normal-height-checkbox">
+        <input name="acero" type="checkbox"
+          ng-model="installationSheet.materials.acero"
+          ng-change="installationSheet.onChangeCheck(installationForm, 'acero')">
+        Acero
       </label>
 
 
@@ -158,9 +163,9 @@
         </label>
         <div class="form-group" style="margin-top: 0.5rem;">
           <div class="input-group">
-            <input name="extraMaterial" type="text"
+            <textarea name="extraMaterial" type="text"
               ng-model="installationSheet.extraMaterialText"
-              class="form-control">
+              class="form-control"></textarea>
 
             <span class="glyphicon glyphicon glyphicon-plus input-group-addon"
               ng-click="installationSheet.addOtherExtra(installationSheet.extraMaterialText, 'otherMaterials')"

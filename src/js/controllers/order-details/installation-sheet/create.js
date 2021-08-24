@@ -18,21 +18,15 @@ export const showCreateInstallationSheetDialog = async (
   const savedOrder = await $scope.paldiService.installationSheet.fetchState(
     $scope.order.id
   );
+  console.log("this showed")
+  $scope.installationSheet.location
 
-  $scope.$on('gmPlacesAutocomplete::placeChanged', function () {
+  $scope.autocompleteOptions = {}
 
-    // Get place
-    console.dir(autocompleteModel.getPlace());
+  $scope.gPlace
 
-    // Get bounds
-    console.dir(autocompleteModel.getBounds());
-    var location = $scope.autocomplete.getPlace().geometry.location;
-    $scope.installationSheet.lat = location.lat();
-    $scope.installationSheet.lng = location.lng();
-    $scope.$apply();
 
-  });
-
+  document.getElementById('')
 
   //console.log(savedOrder);
 
@@ -76,7 +70,7 @@ export const showCreateInstallationSheetDialog = async (
     // installationForm.propertyName te regresa el valor del coso
     // le puse installationSheet.postalCode
     save: async (installationForm) => {
-      //  console.log(installationForm)
+      console.log($scope)
       const data = $scope.installationSheet;
       // console.log(data)
 
@@ -111,7 +105,7 @@ export const showCreateInstallationSheetDialog = async (
         tools: {
           rotomartillo: extras.rotomartillo,
           andamios: extras.andamios,
-          escaleras: extras.bomberoStaircase,
+          escaleras: extras.escaleras,
           other_1: finalExtras[0] || "",
           other_2: finalExtras[1] || "",
           other_3: finalExtras[2] || "",
@@ -123,6 +117,7 @@ export const showCreateInstallationSheetDialog = async (
           acero: material.acero,
           tablarroca: material.tablarroca,
           aluminio: material.aluminio,
+          madera: material.madera,
           other_1: finalMaterials[0] || "",
           other_2: finalMaterials[1] || "",
           other_3: finalMaterials[2] || "",
@@ -130,12 +125,12 @@ export const showCreateInstallationSheetDialog = async (
         },
       };
 
-      const response = await $scope.paldiService.installationSheet.create(sheetData);
+      let response = await $scope.paldiService.installationSheet.create(sheetData);
       if (!["api.errors.installation.sheet.duplicated", "api.success.installation.sheet.create"].includes(response.data.code)) {
         return showSwal("messages.error");
       }
       if (response.data.code === "api.errors.installation.sheet.duplicated") {
-        await $scope.paldiService.installationSheet.edit(sheetData);
+        response = await $scope.paldiService.installationSheet.edit(sheetData);
         if (response.data.code !== "api.success.installation.sheet.edit")
           return showSwal("messages.error")
       }
