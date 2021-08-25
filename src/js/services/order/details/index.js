@@ -1,11 +1,11 @@
-import { buildGetOrderObject } from "./getOrderObject"
+import { buildGetOrderObject } from "./getOrderObject";
 
-angular.module('paldi-app').service('_InternalOrderDetailsService', function (
-  paldiService
-) {
-  let service = {}
+angular
+	.module("paldi-app")
+	.service("_InternalOrderDetailsService", function (paldiService) {
+		let service = {};
 
-  service.getOrderObject = buildGetOrderObject(paldiService)
+		service.getOrderObject = buildGetOrderObject(paldiService);
 
-  return service
-})
+		return service;
+	});

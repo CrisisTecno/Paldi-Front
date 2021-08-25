@@ -2,7 +2,7 @@ import { pdApp } from "./index";
 
 import { getConfirmPayment } from "./order-details/confirm-payment";
 import { showSwal } from "../utils/swal/show";
-import { merge, mergeDeep } from "../utils/merge";
+import { merge, mergeDeep, moveToScope } from "../utils/merge";
 import { showCreateInstallationSheetDialog } from "./order-details/installation-sheet/create";
 
 pdApp.controller(
@@ -25,14 +25,15 @@ pdApp.controller(
 	) {
 		const loadOrder = async function () {
 			var id = $stateParams.orderId;
+
 			mergeDeep($scope, orderService.getInitialLoadOrderObject());
-			mergeDeep(
-				$scope,
-				await orderService.details.getOrderObject(
-					id,
-					$scope.productsSorted
-				)
+
+			const dateDetails = await orderService.details.getOrderObject(
+				id,
+				$scope.productsSorted
 			);
+
+			moveToScope($scope, dateDetails);
 
 			$scope.permissions = permissionsHelper.get(
 				$scope.order,
@@ -48,8 +49,8 @@ pdApp.controller(
 				["order", $scope.order],
 				["installationSheet", $scope.installationSheet],
 			]);
-			console.log($scope.perms, $scope.permissions);
-			console.log($scope.order.status);
+			// console.log($scope.perms, $scope.permissions);
+			// console.log($scope.order.status);
 
 			$scope.$evalAsync(() => $scope.loadAdditionals());
 		};
@@ -969,7 +970,9 @@ pdApp.controller(
 			var START_CYCLE = 1;
 			var SATURDAY = 6;
 			var SUNDAY = 7;
-			var maxDate = angular.copy($scope.currentDate);
+
+			var maxDate = $scope.currentDate.clone();
+
 			var limit = limitDays;
 
 			var count = START_CYCLE;
