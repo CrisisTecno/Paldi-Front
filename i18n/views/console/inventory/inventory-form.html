@@ -1,0 +1,40 @@
+<div>
+  <h3 class="form-title">views.console.inventory.form.title</h3>
+  <form name="productForm" role="form" novalidate ng-submit="addProduct(productObj, productForm)" autocomplete="off">
+    <div class="form-group">
+      <label>views.console.inventory.form.type</label>
+      <select name="type" ng-model="productObj.type" class="form-control" ng-change="updateType('Piso', productObj)" required>
+        <option value="Laminados">views.console.inventory.form.laminated</option>
+        <option value="Vinil">views.console.inventory.form.vinyl</option>
+        <option value="Ingenieria">views.console.inventory.form.engineering</option>
+      </select>
+      <small class="error-message" ng-if="productForm.$validated && productForm.type.$error.required">views.console.inventory.form.required_field</small>
+    </div>
+    <div class="form-group">
+      <label ng-hide="showSpinner">views.console.inventory.form.color</label>
+      <input ng-hide="showSpinner" type="text" name="color" ng-model="productObj.color" id="color" ng-disabled="!productObj.type" class="form-control" value="{{modaa}}" required uib-typeahead="color.label for color in productObj.colors | filter: $viewValue" typeahead-editable="false" typeahead-on-select="productObj.color = $item">
+      <small ng-hide="showSpinner" class="error-message" ng-if="productForm.$validated && productForm.color.$error.required">views.console.inventory.form.required_field</small>
+      <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
+    </div>
+    <div class="form-group">
+      <label>views.console.inventory.form.amount views.console.inventory.form.boxes</label>
+      <input type="number" name="quantity" ng-model="productObj.quantity" class="form-control" required>
+      <small class="error-message" ng-if="productForm.$validated && productForm.name.$error.required">views.console.inventory.form.required_field</small>
+    </div>
+    <div class="form-group">
+      <label>views.console.inventory.form.priceviews.console.inventory.form.per_box</label>
+      <input type="number" name="cost" ng-model="productObj.cost" class="form-control" required>
+      <small class="error-message" ng-if="productForm.$validated && productForm.name.$error.required">views.console.inventory.form.required_field</small>
+    </div>
+    <div class="form-group">
+      <label>views.console.inventory.form.description</label>
+      <input type="text" name="description" ng-model="productObj.description" class="form-control" required>
+      <small class="error-message" ng-if="productForm.$validated && productForm.name.$error.required">views.console.inventory.form.required_field</small>
+    </div>
+    <br>
+    <div>
+      <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">views.console.inventory.form.cancel</button>
+      <button type="submit" class="btn btn-primary">views.console.inventory.form.add</button>
+    </div>
+  </form>
+</div>

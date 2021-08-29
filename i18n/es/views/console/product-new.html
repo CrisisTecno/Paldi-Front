@@ -1,0 +1,81 @@
+<div class="products-view">
+	<div class="ibox">
+
+		<div class="ibox-title">
+			<h3>Agregar {{productLabel}}</h3>
+		</div>
+		<div class="ibox-content">
+			<h4>General</h4>
+			<div class="table-filter">
+                <label>Tipo:</label>
+                <select ng-disabled="products.length > 0" name="type" ng-model="type" class="form-control">
+                	<option value="Ingenieria">Ingeniería</option>
+                	<option value="Laminados">Laminados</option>
+                	<option value="Vinil">Vinil</option>
+					<option ng-if="productType == 'moldings'" value="Generales">Generales</option>
+                </select>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+			<div ng-if="type && productType != 'moldings'">
+				<h4>Colores</h4>
+				<table id="products-table" class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Código</th>
+							<th>Línea</th>
+							<th>Precio</th>
+							<th>M² por caja</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody ng-repeat="product in products">
+						<tr>
+							<th>{{product.name}}</th>
+							<td>{{product.code}}</td>
+							<td>{{product.line}}</td>
+							<td>{{product.price}}</td>
+							<td>{{product.m2Box}}</td>
+							<td><i ng-click="removeProduct($index)" class="btn fa fa-times-circle"></i></td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<br>
+				<button type="button" class="btn btn-success" ng-click="addProductDialog()">Agregar</button>
+				<button ng-disabled="products.length < 1" type="button" class="btn btn-primary pull-right" ng-click="saveProducts()">Guardar</button>
+			</div>
+
+			<div ng-if="type && productType == 'moldings'">
+				<h4>Molduras/Adicionales</h4>
+				<table id="moldings-table" class="table table-striped table-hover">
+					<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Tipo de precio</th>
+						<th>Precio</th>
+						<th></th>
+					</tr>
+					</thead>
+					<tbody ng-repeat="product in products">
+					<tr>
+						<th>{{product.name}}</th>
+						<td>{{product.priceType | priceType}}</td>
+						<td>{{product.price}}</td>
+						<td><i ng-click="removeProduct($index)" class="btn fa fa-times-circle"></i></td>
+					</tr>
+					</tbody>
+				</table>
+				<br>
+				<br>
+				<button type="button" class="btn btn-success" ng-click="addProductDialog()">Agregar</button>
+				<button ng-disabled="products.length < 1" type="button" class="btn btn-primary pull-right" ng-click="saveProducts()">Guardar</button>
+			</div>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,86 @@
+<div class="balances-view">
+    <h3 class="form-title">Balance</h3>
+    <small class="error-message" ng-if="balance.doable==false">No realizable</small>
+    <form name="balanceForm" role="form" novalidate ng-submit="addProduct('Balance', balanceForm, balance)" autocomplete="off">
+
+        <div class="form-group">
+            <label>Cantidad</label>
+            <input type="number" min="1" value="1" name="quantity" ng-model="balance.quantity" class="form-control" ng-change="updatePrices('Balance', balance)" step="1" required pattern="[0-9]*">
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.quantity.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Ubicación</label>
+            <input type="text" name="location" ng-model="balance.location" class="form-control" required>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.location.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Tipo</label>
+            <select name="type" ng-model="balance.type" class="form-control" ng-change="updateType('Balance', balance)" required>
+                <option value="De madera">De madera</option>
+            </select>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.type.$error.required">Campo requerido</small>
+        </div>
+
+        <div class="form-group">
+            <label ng-hide="showSpinner">Color</label>
+            <input ng-hide="showSpinner" type="text" name="color" ng-model="color" id="color" ng-disabled="!balance.type" class="form-control" value="{{modaa}}" required uib-typeahead="color.label for color in balance.colors | filter: $viewValue | limitTo:12" typeahead-editable="false" typeahead-on-select="colorSelected($item, 'Balance', balance)">
+            <small ng-hide="showSpinner" class="error-message" ng-if="balanceForm.$validated && balanceForm.color.$error.required">Campo requerido</small>
+            <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
+        </div>
+
+        <div class="form-group">
+            <label>Ancho/frente (metros)</label>
+            <input type="number" name="width" id="width" ng-model="balance.width" min="0.1" class="form-control" ng-change="changeSimpleWidth('Balance', balance)" required step="0.1">
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.width.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Alto/frente (metros)</label>
+            <input type="number" name="height" id="height" ng-model="balance.height" min="0.1" class="form-control" required step="0.1" ng-change="changeSimpleHeight('Balance', balance)">
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.height.$error.required">Campo requerido</small>
+        </div>
+
+
+        <div class="form-group">
+            <label>Tapas</label>
+            <input type="number" name="tapa" ng-model="balance.tapa" min="0" class="form-control" required>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.tapa.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Retorno derecho</label>
+            <input type="number" name="retornoDerecho" ng-model="balance.retornoDerecho" min="0" class="form-control" required>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.retornoDerecho.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Retorno izquierdo</label>
+            <input type="number" name="retornoIzquierdo" ng-model="balance.retornoIzquierdo" min="0" class="form-control" required>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.retornoIzquierdo.$error.required">Campo requerido</small>
+        </div>
+
+
+        <div class="form-group notes">
+            <label>Observaciones</label>
+            <textarea name="notes" ng-model="balance.notes" class="form-control"></textarea>
+        </div>
+
+        <div class="total-configuration">
+            <div class="form-group" ng-show="balance.unit">
+                <label>Precio Metro</label>
+                <input ng-currency type="text" name="unit" ng-model="balance.unit" class="form-control" disabled="disabled" placeholder="{{balance.unit}}">
+            </div>
+            <div class="form-group" ng-show="balance.price">
+                <label>Precio Unitario</label>
+                <input ng-currency type="text" name="price" ng-model="balance.price" class="form-control" disabled="disabled" placeholder="${{balance.price}}">
+            </div>
+            <div class="form-group" ng-show="balance.total">
+                <label>Total</label>
+                <input ng-currency type="text" name="total" ng-model="balance.total" class="form-control" disabled="disabled" placeholder="{{balance.total}}">
+            </div>
+        </div>
+
+        <div>
+            <button type="button" class="btn btn-default" ng-click="cancelProduct(balanceForm)">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Agregar</button>
+        </div>
+        
+    </form>
+</div>

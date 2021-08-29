@@ -71,35 +71,28 @@
       </div>
       <!--/////////////////////// Productos ///////////////////////-->
       <br>
-      <legend class="details-title"
-        ng-if="order.status == 'QUOTE' && step=='loaded'">Detalles de cotización
+      <legend class="details-title" ng-if="order.status == 'QUOTE' && step=='loaded'">Detalles de cotización
       </legend>
-      <legend class="details-title"
-        ng-if="order.status != 'QUOTE' && step=='loaded'">Detalles de orden
+      <legend class="details-title" ng-if="order.status != 'QUOTE' && step=='loaded'">Detalles de orden
       </legend>
       <hr>
-      <div class="pull-left"
-        ng-if="isMaster && order.status != 'PENDING' &&  order.status != 'REJECTED'"
+      <div class="pull-left" ng-if="isMaster && order.status != 'PENDING' &&  order.status != 'REJECTED'"
         ng-repeat="suborder in suborders">
-        <a href="#/console/order/{{suborder.id}}"
-          ng-show="order.status != 'QUOTE'"
+        <a href="#/console/order/{{suborder.id}}" ng-show="order.status != 'QUOTE'"
           class="status-tag ORDER">#{{suborder.orderNo}}-{{suborder.suborderNo}}:
           {{suborder.type}}</a>
       </div>
       <div class="pull-left" ng-if="isSuborder">
-        <a href="#/console/order/{{order.orderParent.id}}"
-          ng-show="order.status != 'QUOTE'" class="status-tag ORDER">Orden
+        <a href="#/console/order/{{order.orderParent.id}}" ng-show="order.status != 'QUOTE'"
+          class="status-tag ORDER">Orden
           #{{order.orderNo}}</a>
       </div>
       <div class="pull-right">
-        <span ng-show="order.source"
-          class="status-tag source">{{order.source}}</span>
-        <span ng-show="order.status != 'QUOTE'"
-          class="status-tag {{order.status}}">{{pretty('orderStatus',
+        <span ng-show="order.source" class="status-tag source">{{order.source}}</span>
+        <span ng-show="order.status != 'QUOTE'" class="status-tag {{order.status}}">{{pretty('orderStatus',
           order.status)}}</span>
 
-        <span ng-show="order.status == 'QUOTE'"
-          class="status-tag {{order.quoteStatus}}">{{order.quoteStatus}}</span>
+        <span ng-show="order.status == 'QUOTE'" class="status-tag {{order.quoteStatus}}">{{order.quoteStatus}}</span>
         <span
           ng-show="['LINE', 'BACKORDER', 'PRODUCTION', 'TRANSIT', 'FINISHED'].indexOf(order.status) !== -1 && order.installationDate"
           class="status-tag PROGRAMMED">P</span>
@@ -139,11 +132,9 @@
 
       <br>
       <ul>
-        <li
-          ng-show="order.status ==  'QUOTE' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
+        <li ng-show="order.status ==  'QUOTE' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
           <label>Estado de Cotización:</label>
-          <select name="quoteStatus" ng-model="quoteStatus"
-            class="status-select">
+          <select name="quoteStatus" ng-model="quoteStatus" class="status-select">
             <option ng-if="order.quoteStatus == 'Nueva'" value="Nueva">Nueva
             </option>
             <option value="Seguimiento">Seguimiento</option>
@@ -154,8 +145,7 @@
         <li
           ng-show="order.status ==  'QUOTE' && quoteStatus == 'Venta Perdida' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
           <label>Razón:</label>
-          <select name="quoteSubStatus" ng-model="quoteSubStatus"
-            class="status-reason">
+          <select name="quoteSubStatus" ng-model="quoteSubStatus" class="status-reason">
             <option value="Precio Menor">Precio Menor</option>
             <option value="Tiempo de entrega menor">Tiempo de entrega menor
             </option>
@@ -169,8 +159,7 @@
             ng-click="changeQuoteStatusDialog(quoteStatus)">Cambiar estado
           </button>
         </li>
-        <li
-          ng-show="order.status ==  'QUOTE' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
+        <li ng-show="order.status ==  'QUOTE' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
         </li>
         <li ng-show="order.providerId">
           <small>ID de Proveedor:</small>
@@ -210,16 +199,14 @@
         </li>
         <li ng-show="dpfcDays && order.status != 'QUOTE'">
           <small>DPFC:</small>
-          <span
-            class="order-cycle-details {{dpfcStatus}}">{{dpfcDays}}</span><span
+          <span class="order-cycle-details {{dpfcStatus}}">{{dpfcDays}}</span><span
             class="order-total {{dpfcTotalStatus}}">/{{dpfcTotalDays}}</span>
 
         </li>
         <li
           ng-show="productionDays && order.status != 'QUOTE' && (currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN')">
           <small>T.Entrega. Producción:</small>
-          <span
-            class="order-cycle-details {{productionStatus}}">{{productionDays}}</span><span
+          <span class="order-cycle-details {{productionStatus}}">{{productionDays}}</span><span
             class="order-total {{productionTotalStatus}}">/{{productionTotalDays}}</span>
         </li>
         <li
@@ -230,8 +217,8 @@
       </ul>
 
       <br>
-      <button ng-if="!showLog && order.events.length > 0"
-        class="btn btn-secondary-left pull-right" ng-click="toggleLog()">Mostrar
+      <button ng-if="!showLog && order.events.length > 0" class="btn btn-secondary-left pull-right"
+        ng-click="toggleLog()">Mostrar
         Historial
       </button>
       <div ng-if="showLog">
@@ -257,54 +244,44 @@
             </tbody>
           </table>
         </div>
-        <button class="btn btn-secondary-left pull-right"
-          ng-click="toggleLog()">Ocultar Historial</button>
+        <button class="btn btn-secondary-left pull-right" ng-click="toggleLog()">Ocultar Historial</button>
       </div>
 
 
       <br><br>
       <legend class="details-title">Productos</legend>
       <hr>
-      <div id="printThisElement" ng-show="products.length>0"
-        ng-repeat="productTypeList in productsSorted">
+      <div id="printThisElement" ng-show="products.length>0" ng-repeat="productTypeList in productsSorted">
         <div ng-if="productTypeList.products.length > 0">
-          <legend class="details-title"
-            ng-if="productTypeList.type == 'Enrollable'">Persianas</legend>
-          <legend class="details-title"
-            ng-if="productTypeList.type != 'Enrollable'">{{
+          <legend class="details-title" ng-if="productTypeList.type == 'Enrollable'">Persianas</legend>
+          <legend class="details-title" ng-if="productTypeList.type != 'Enrollable'">{{
             productTypeList.type}}
           </legend>
 
 
           <!--<label ng-if="productTypeList.type != 'Enrollable'">{{ productTypeList.type}}</label>-->
           <div ng-if="productTypeList.type =='Balance'">
-            <div
-              ng-include="'partials/views/console/quote/balances-details.html'">
+            <div ng-include="'partials/views/console/quote/balances-details.html'">
             </div>
           </div>
           <div ng-if="productTypeList.type =='Shutter'">
-            <div
-              ng-include="'partials/views/console/quote/shutters-details.html'">
+            <div ng-include="'partials/views/console/quote/shutters-details.html'">
             </div>
           </div>
           <div ng-if="productTypeList.type =='Toldo'">
-            <div
-              ng-include="'partials/views/console/quote/toldos-details.html'">
+            <div ng-include="'partials/views/console/quote/toldos-details.html'">
             </div>
           </div>
           <div ng-if="productTypeList.type =='Enrollable'">
-            <div
-              ng-include="'partials/views/console/quote/enrrollables-details.html'">
+            <div ng-include="'partials/views/console/quote/enrrollables-details.html'">
             </div>
           </div>
           <div ng-if="productTypeList.type =='Filtrasol'">
-            <div
-              ng-include="'partials/views/console/quote/filtrasol-details.html' ">
+            <div ng-include="'partials/views/console/quote/filtrasol-details.html' ">
             </div>
           </div>
           <div ng-if="productTypeList.type =='Persiana o Filtrasol'">
-            <div
-              ng-include="'partials/views/console/quote/persiana-filtrasol-details.html' ">
+            <div ng-include="'partials/views/console/quote/persiana-filtrasol-details.html' ">
             </div>
           </div>
           <div ng-if="productTypeList.type =='Piso'">
@@ -312,8 +289,7 @@
             </div>
           </div>
           <div ng-if="productTypeList.type =='Custom'">
-            <div
-              ng-include="'partials/views/console/quote/custom-details.html'">
+            <div ng-include="'partials/views/console/quote/custom-details.html'">
             </div>
           </div>
 
@@ -325,14 +301,13 @@
       <div ng-if="showNotes" class="order-notes">
         <h3 class="details-title">Observaciones de producto</h3>
         <p>{{productNotes}}</p>
-        <button class="btn btn-default"
-          ng-click="showProductNotes()">Ocultar</button>
+        <button class="btn btn-default" ng-click="showProductNotes()">Ocultar</button>
       </div>
 
       <div ng-show="plusList.length > 0 && step=='loaded'">
         <legend class="details-title">Adicionales/Motorización</legend>
-        <table class="table table-striped  table-hover" datatable="ng"
-          dt-options="tableOptions" dt-column-defs="tableColumns">
+        <table class="table table-striped  table-hover" datatable="ng" dt-options="tableOptions"
+          dt-column-defs="tableColumns">
           <thead>
             <tr>
               <th>Ítem</th>
@@ -357,8 +332,8 @@
 
       <div ng-show="motorList.length > 0">
         <legend class="details-title">Motorización</legend>
-        <table class="table table-striped  table-hover" datatable="ng"
-          dt-options="tableOptions" dt-column-defs="tableColumns">
+        <table class="table table-striped  table-hover" datatable="ng" dt-options="tableOptions"
+          dt-column-defs="tableColumns">
           <thead>
             <tr>
               <th>Ítem</th>
@@ -381,8 +356,8 @@
 
       <div ng-show="installationPlusList.length > 0">
         <legend class="details-title">Adicionales de instalación</legend>
-        <table class="table table-striped  table-hover" datatable="ng"
-          dt-options="tableOptions" dt-column-defs="tableColumns">
+        <table class="table table-striped  table-hover" datatable="ng" dt-options="tableOptions"
+          dt-column-defs="tableColumns">
           <thead>
             <tr>
               <th>Ítem</th>
@@ -481,22 +456,16 @@
                   <td>{{payment.advance | currency}}</td>
                   <td>{{payment.user.name}} {{payment.user.lastName}}</td>
                   <td>{{payment.notes}}</td>
-                  <td ng-if="canManagePayments"><a
-                      class="btn btn-info pull-right"
-                      href="{{payment.receiptLink}}"
+                  <td ng-if="canManagePayments"><a class="btn btn-info pull-right" href="{{payment.receiptLink}}"
                       download="Recibo_{{payment.folio}}.pdf">Descargar
                       Recibo</a></td>
                   <td ng-if="payment.cancelled"><b>CANCELADO</b></td>
-                  <td
-                    ng-if="currentUser.canAdmin && !payment.cancelled && order.balance >= 0.1">
-                    <a class="btn btn-xs btn-danger"
-                      ng-click="cancelPaymentDialog(payment.id)">Cancelar
+                  <td ng-if="currentUser.canAdmin && !payment.cancelled && order.balance >= 0.1">
+                    <a class="btn btn-xs btn-danger" ng-click="cancelPaymentDialog(payment.id)">Cancelar
                       pago</a>
                   </td>
-                  <td
-                    ng-if="currentUser.canAdmin && !payment.cancelled && order.balance < 0.1">
-                    <a class="btn btn-xs btn-danger" ng-click=""
-                      disabled>Cancelar pago</a>
+                  <td ng-if="currentUser.canAdmin && !payment.cancelled && order.balance < 0.1">
+                    <a class="btn btn-xs btn-danger" ng-click="" disabled>Cancelar pago</a>
                   </td>
                 </tr>
               </tbody>
@@ -512,101 +481,72 @@
 
         <div class="pull-right"
           ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida' || order.status == 'ORDER_CANCELED'">
-          <a href="{{order.pdfLink}}"
-            class="btn btn-secondary-actions btn-sm btn-square"
+          <a href="{{order.pdfLink}}" class="btn btn-secondary-actions btn-sm btn-square"
             ng-show="permissions.canDownload" download><span
               class="btn-icon glyphicon glyphicon glyphicon-save"></span>Descargar
             PDF</a>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canMail" ng-click="sendToClient(order)"><span
-              class="btn-icon glyphicon glyphicon-envelope"></span>Enviar a
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canMail"
+            ng-click="sendToClient(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span>Enviar a
             Cliente
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
             ng-show="currentUser.role == 'BUYER' && currentUser.role == 'SALES_MANAGER' && currentUser.role == 'SUPERADMIN'"
-            ng-click="sendToSpecialEmail(order)"><span
-              class="btn-icon glyphicon glyphicon-envelope"></span>Enviar Orden
+            ng-click="sendToSpecialEmail(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span>Enviar Orden
             de Trabajo
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canEdit" ng-click="editOrder() "><span
-              class="btn-icon glyphicon glyphicon-pencil   "></span>Editar
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canEdit"
+            ng-click="editOrder() "><span class="btn-icon glyphicon glyphicon-pencil   "></span>Editar
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canPay  && !isSuborder"
-            ng-click="paymentDialog('payment')" style="z-index: 9999;"><span
-              class="btn-icon glyphicon glyphicon-usd"></span>Registrar Pago
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
+            ng-show="permissions.canPay  && !isSuborder" ng-click="paymentDialog('payment')"
+            style="z-index: 9999;"><span class="btn-icon glyphicon glyphicon-usd"></span>Registrar Pago
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="!order.needsBill && currentUser.role == 'SUPERADMIN'"
-            ng-click="needsBill()">
-            <span
-              class="btn-icon glyphicon glyphicon glyphicon-open-file"></span>Necesita
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
+            ng-show="!order.needsBill && currentUser.role == 'SUPERADMIN'" ng-click="needsBill()">
+            <span class="btn-icon glyphicon glyphicon glyphicon-open-file"></span>Necesita
             Factura
           </button>
         </div>
 
         <div class="status-buttons"
           ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida' || order.status == 'ORDER_CANCELED' ">
-          <button type="button"
-            class="btn btn-primary-actions btn-sm btn-square"
-            ng-show="permissions.canSend" ng-click="sendToOrderDialog()"><span
-              class="btn-icon glyphicon glyphicon-log-in  "></span>Enviar
+          <button type="button" class="btn btn-primary-actions btn-sm btn-square" ng-show="permissions.canSend"
+            ng-click="sendToOrderDialog()"><span class="btn-icon glyphicon glyphicon-log-in  "></span>Enviar
             como Orden
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canApprove "
-            ng-click="changeStatusDialog('LINE')"><span
-              class="btn-icon glyphicon glyphicon-ok      "></span>Aprobar
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canApprove "
+            ng-click="changeStatusDialog('LINE')"><span class="btn-icon glyphicon glyphicon-ok      "></span>Aprobar
             Orden
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canApprove"
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canApprove"
             ng-click="changeStatusDialog('REJECTED')"><span
               class="btn-icon glyphicon glyphicon-remove  "></span>Rechazar
             Orden
           </button>
 
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canProduction  && !isMaster"
-            ng-click="changeStatusDialog('PRODUCTION')"><span
-              class="btn-icon glyphicon glyphicon-th-large"></span>Enviar a
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
+            ng-show="permissions.canProduction  && !isMaster" ng-click="changeStatusDialog('PRODUCTION')"><span
+              class="btn-icon glyphicon glyphicon-th-large">
+            </span>Enviar a
             Producción
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canBackorder  && !isMaster"
-            ng-click="changeStatusDialog('BACKORDER')"><span
-              class="btn-icon glyphicon glyphicon-th-large"></span>Enviar a
-            Backorder
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
+            ng-show="permissions.canBackorder  && !isMaster" ng-click="changeStatusDialog('BACKORDER')">
+            <span class="btn-icon glyphicon glyphicon-th-large"></span>
+            Enviar a Backorder
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canTransit  && !isMaster"
-            ng-click="changeStatusDialog('TRANSIT')"><span
-              class="btn-icon glyphicon glyphicon-th-large"></span>Enviar a
-            Tránsito
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
+            ng-show="permissions.canTransit  && !isMaster" ng-click="changeStatusDialog('TRANSIT')">
+            <span class="btn-icon glyphicon glyphicon-th-large"></span>
+            Enviar a Tránsito
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canFinish  && !isMaster"
-            ng-click="changeStatusDialog('FINISHED')"><span
-              class="btn-icon glyphicon glyphicon-th-large"></span>Terminar
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
+            ng-show="permissions.canFinish  && !isMaster" ng-click="changeStatusDialog('FINISHED')">
+            <span class="btn-icon glyphicon glyphicon-th-large"></span>Terminar
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canSetInstallDate  && !isMaster"
-            ng-click="dateDialog('install')"><span
-              class="btn-icon glyphicon glyphicon-calendar "></span>Fecha de
-            Inst.
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
+            ng-show="permissions.canSetInstallDate  && !isMaster" ng-click="dateDialog('install')">
+            <span class="btn-icon glyphicon glyphicon-calendar "></span>Fecha de Inst.
           </button>
 
 
@@ -614,115 +554,89 @@
           <div class="dropdown show" style="width: min-content;"
             ng-show="currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'ADMIN' || currentUser.role == 'INSTALLATION_MANAGER'">
 
-            <button
-              class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square"
-              type="button" id="dropdownMenuButton" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+            <button class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square" type="button"
+              id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="btn-icon glyphicon glyphicon-menu-down"></span>Orden
               de trabajo
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item"
                 ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN'"
-                ng-click="sendToSpecialEmail(order)"><span
-                  class="btn-icon glyphicon glyphicon-envelope"></span>Enviar
+                ng-click="sendToSpecialEmail(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span>Enviar
               </a>
               <div class="dropdown-divider"></div>
               <a href="{{order.pdfOrderLink}}" class="dropdown-item"
                 ng-show="currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'INSTALLATION_MANAGER' || currentUser.role == 'ADMIN'"
                 download>
-                <span
-                  class="btn-icon glyphicon glyphicon glyphicon-save"></span>Descargar
+                <span class="btn-icon glyphicon glyphicon glyphicon-save"></span>Descargar
               </a>
             </div>
           </div>
 
           <!-- INSTALLATION SHEET BUTTON CREISI -->
-          <div ng-show="perms.order.installation_sheet.view_button"
-            class="dropdown show" style="width: min-content;">
-            <button
-              class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square"
-              type="button" id="dropdownMenuButton" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+          <div ng-show="perms.order.installation_sheet.view_button" class="dropdown show" style="width: min-content;">
+            <button class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square" type="button"
+              id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="btn-icon glyphicon glyphicon-menu-down"></span>Orden
               de instalacion
             </button>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a ng-show="perms.order.installation_sheet.create"
-                ng-click="createInstallationSheet()" class="dropdown-item">
-                <span
-                  class="btn-icon glyphicon glyphicon glyphicon-plus"></span>Crear
+              <a ng-show="perms.order.installation_sheet.create" ng-click="createInstallationSheet()"
+                class="dropdown-item">
+                <span class="btn-icon glyphicon glyphicon glyphicon-plus"></span>Crear
               </a>
-              <a ng-show="perms.order.installation_sheet.edit"
-                ng-click="editInstallationSheet()" class="dropdown-item">
-                <span
-                  class="btn-icon glyphicon glyphicon glyphicon-edit"></span>Editar
+              <a ng-show="perms.order.installation_sheet.edit" ng-click="editInstallationSheet()" class="dropdown-item">
+                <span class="btn-icon glyphicon glyphicon glyphicon-edit"></span>Editar
               </a>
               <div class="dropdown-divider"></div>
-              <a ng-show="perms.order.installation_sheet.download"
-                href="{{order.pdfInstallationSheetLink}}" target="_blank"
-                class="dropdown-item">
-                <span
-                  class="btn-icon glyphicon glyphicon glyphicon-save"></span>Descargar
+              <a ng-show="perms.order.installation_sheet.download" id="download_installation_sheet"
+                href="{{order.pdfInstallationSheetLink}}" target="_blank" class="dropdown-item">
+                <span class="btn-icon glyphicon glyphicon glyphicon-save"></span>Descargar
               </a>
             </div>
           </div>
 
 
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canInstall  && !isMaster"
-            ng-click="changeStatusDialog('INSTALLED')"><span
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
+            ng-show="permissions.canInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED')"><span
               class="btn-icon glyphicon glyphicon-th"></span>Instalada
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canPartialInstall  && !isMaster"
-            ng-click="changeStatusDialog('INSTALLED_INCOMPLETE')">
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
+            ng-show="permissions.canPartialInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED_INCOMPLETE')">
             <span class="btn-icon glyphicon glyphicon-th"></span>Instalada
             parcial
           </button>
-          <button type="button"
-            class="btn btn-secondary-actions btn-sm btn-square"
-            ng-show="permissions.canPartialInstall  && !isMaster"
-            ng-click="changeStatusDialog('INSTALLED_NONCONFORM')">
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
+            ng-show="permissions.canPartialInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED_NONCONFORM')">
             <span class="btn-icon glyphicon glyphicon-th"></span>Instalada
             inconforme
           </button>
 
-          <button type="button"
-            class="btn btn-tertiary-actions btn-sm btn-square"
-            ng-show="permissions.canUpdateProvider "
-            ng-click="updateProviderDialog()"><span
+          <button type="button" class="btn btn-tertiary-actions btn-sm btn-square"
+            ng-show="permissions.canUpdateProvider " ng-click="updateProviderDialog()"><span
               class="btn-icon glyphicon glyphicon-edit   "></span>Cambiar Id
             Proveedor
           </button>
-          <button type="button"
-            class="btn btn-tertiary-actions btn-sm btn-square"
-            ng-show="permissions.canChangeStatus   "
-            ng-click="changeStatusDialog()"><span
+          <button type="button" class="btn btn-tertiary-actions btn-sm btn-square"
+            ng-show="permissions.canChangeStatus   " ng-click="changeStatusDialog()"><span
               class="btn-icon glyphicon glyphicon-refresh   "></span>Cambiar de
             estado
           </button>
 
-          <button type="button"
-            ng-show="order.status ==  'QUOTE' && permissions.canCancel"
-            class="btn btn-tertiary-actions btn-sm btn-square"
-            ng-click="changeStatusDialog('CANCELED')"><span
+          <button type="button" ng-show="order.status ==  'QUOTE' && permissions.canCancel"
+            class="btn btn-tertiary-actions btn-sm btn-square" ng-click="changeStatusDialog('CANCELED')"><span
               class="btn-icon glyphicon glyphicon-remove   "></span>Cancelar
           </button>
 
           <button type="button"
             ng-show="order.status !=  'QUOTE' && order.orderParent == null && order.status !=  'ORDER_CANCELED' && permissions.canCancel && order.balance >= 0.1"
-            class="btn btn-tertiary-actions btn-sm btn-square"
-            ng-click="changeStatusDialog('ORDER_CANCELED')">
+            class="btn btn-tertiary-actions btn-sm btn-square" ng-click="changeStatusDialog('ORDER_CANCELED')">
             <span class="btn-icon glyphicon glyphicon-remove"></span>Cancelar
           </button>
           <button type="button"
             ng-show="order.status !=  'QUOTE' && order.status !=  'ORDER_CANCELED' && permissions.canCancel && order.balance < 0.1"
-            class="btn btn-tertiary-actions btn-sm btn-square" ng-click=""
-            disabled><span
+            class="btn btn-tertiary-actions btn-sm btn-square" ng-click="" disabled><span
               class="btn-icon glyphicon glyphicon-remove"></span>Cancelar
           </button>
         </div>

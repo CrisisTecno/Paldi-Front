@@ -1,0 +1,60 @@
+<div class="customs-view">
+    <h3 class="form-title">Personalizado</h3>
+    <form name="customForm" role="form" ng-submit="addProduct('Custom', customForm, custom)" autocomplete="off">
+
+        <div ng-show="sellerStep=='empty'">
+            <label>Vendedor</label>
+            <input id="seller" type="text" name="seller" ng-model="quote.seller" class="form-control" required="true" uib-typeahead="seller.name + ' ' + seller.lastName for seller in findSellers($viewValue)" typeahead-editable="false" typeahead-on-select="selectSeller($item)" typeahead-input-formatter="$model.name + ' ' + $model.lastName" typeahead-template-url="partials/views/console/client-typeahead.html" typeahead-loading="sellersLoading" typeahead-no-results="sellersNotFound">
+            <small ng-if="sellersLoading">Buscando...</small>
+            <small class="error-message" ng-if="sellersNotFound">No se encontraron vendedores</small>
+            <small class="error-message" ng-if="customForm.$validated && !quote.seller">Campo requerido</small>
+        </div>
+
+        <div ng-show="sellerStep=='selected'">
+            <ul class="client-data">
+                <li><small>Nombre:</small> {{quote.seller.name + ' ' + quote.seller.lastName}}</li>
+                <li><small>E-mail:</small> {{quote.seller.email}}</li>
+                <li><small>Teléfono:</small> {{quote.seller.phoneNumber}}</li>
+            </ul>
+            <button type="button" class="btn btn-default" ng-if="editing == false" ng-click="changeSeller()">Cambiar Vendedor</button>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label>Cantidad</label>
+            <input type="number" min="1" value="1" name="quantity" ng-model="custom.quantity" class="form-control" step="1" required pattern="[0-9]*">
+            <small class="error-message" ng-if="customForm.$validated && customForm.quantity.$error.required">Campo requerido</small>
+        </div>
+
+        <div class="form-group">
+            <label>Precio</label>
+            <input ng-currency type="text" name="price" ng-model="custom.price" min="0.01" class="form-control" required>
+            <small class="error-message" ng-if="customForm.$validated && customForm.price.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="customForm.$validated && customForm.price.$error.min">Precio inválido</small>
+        </div>
+
+        <div class="form-group">
+            <label>Tipo de producto</label>
+            <select name="type" ng-model="custom.type" class="form-control" required>
+                <option value="Balance">Balances</option>
+                <option value="Shutter">Shutters</option>
+                <option value="Toldo">Productos para el exterior</option>
+                <option value="Enrollable">Persianas</option>
+                <option value="Piso">Pisos</option>
+            </select>
+            <small class="error-message" ng-if="customForm.$validated && customForm.type.$error.required">Campo requerido</small>
+        </div>
+     <!--   <div>
+            <label>Fecha de Compromiso</label>
+            <div uib-datepicker ng-model="date" ng-change="dateChanged(this)"></div>
+            <small> Fecha Seleccionada: </small> 
+            <span>{{ date | date : 'shortDate'}}</span>
+            <br>
+        </div>-->
+
+        <div>
+            <button type="submit" class="btn btn-primary">Agregar</button>
+        </div>
+        
+    </form>
+</div>

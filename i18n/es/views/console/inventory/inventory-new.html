@@ -1,0 +1,49 @@
+<div class="products-view">
+  <div class="ibox">
+
+    <div class="ibox-title">
+      <h3>Agregar Entrada</h3>
+    </div>
+    <div class="ibox-content">
+      <h4>General</h4>
+      <div class="table-filter">
+        <label>Almacén:</label>
+        <select name="warehouses" id="warehouses" ng-model="warehouse" ng-disabled="products.length > 0">
+          <option ng-repeat="warehouse in warehouses" value="{{ warehouse }}">{{warehouse.name}}</option>
+        </select>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div ng-if="products.length">
+        <h4>Entradas</h4>
+        <table id="products-table" class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>views.console.cinventory.new.color</th>
+              <th>views.console.inventory.new.amountviews.console.inventory.new.boxes</th>
+              <th>views.console.inventory.new.costviews.console.inventory.new.per_box</th>
+              <th>Descripción</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="item in products">
+            <tr>
+              <td>{{item.type}}</td>
+              <td>{{item.color.name}}</td>
+              <td>{{item.quantity}}</td>
+              <td>${{item.cost}}</td>
+              <td>{{item.description}}</td>
+              <td><i ng-click="removeProduct($index)" class="btn fa fa-times-circle"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button ng-show="warehouse" type="button" class="btn btn-success" ng-click="addProductForm()">Agregar</button>
+      <button ng-hide="products.length == 0" type="button" class="btn btn-primary pull-right" ng-click="saveProducts()">Guardar</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<div>
+	<legend>modals.catalog.invalid_format</legend>
+	<input type="file" id="fileUpload" name="file" onchange="angular.element(this).scope().selectFile(this.files)" ng-disabled="uploading" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+	<br>
+	<button type="button" class="btn btn-primary" ng-click="uploadCatalog()" ng-disabled="!fileValid" ng-hide="uploading">modals.catalog.upload</button>
+	<img ng-show="uploading" class="spinner-img" src="img/spinner.gif">
+	<button type="button" class="btn btn-default" ng-hide="uploading" ng-click="closeThisDialog()">modals.catalog.cancel</button>
+</div>

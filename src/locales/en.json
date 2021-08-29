@@ -1,0 +1,5 @@
+{
+  "messages": {
+    "test": "TEST MESSAGE {{ env }}"
+  }
+}

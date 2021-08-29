@@ -5,7 +5,10 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "webpack --config webpack.config.js",
-		"dev": "webpack serve --config webpack.config.js"
+		"dev": "webpack serve --config webpack.config.js",
+		"i18n-watch": "watch 'npm run i18n' src",
+		"i18n": "static-i18n -i es -i en --localesPath src/locales/ --fixPaths false src/partials/",
+		"dev-i18": "npm-run-all --parallel dev i18n-watch"
 	},
 	"keywords": [],
 	"author": "",
@@ -18,6 +21,8 @@
 		"html-loader": "^2.1.2",
 		"html-webpack-plugin": "^5.3.2",
 		"mini-css-extract-plugin": "^2.2.0",
+		"npm-run-all": "^4.1.5",
+		"npm-watch": "^0.11.0",
 		"resolve-url-loader": "^4.0.0",
 		"sass": "1.32",
 		"sass-loader": "^12.1.0",
@@ -25,5 +30,8 @@
 		"webpack": "^5.49.0",
 		"webpack-cli": "^4.7.2",
 		"webpack-dev-server": "^3.11.2"
+	},
+	"dependencies": {
+		"static-i18n": "^0.2.10"
 	}
 }

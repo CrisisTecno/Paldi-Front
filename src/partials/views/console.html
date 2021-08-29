@@ -18,30 +18,28 @@
 					</a>
 				</li-->
 				<li class="dropdown">
-					<a class="dropdown-toggle count-info" data-toggle="dropdown" ignore-click href="">
-						{{ currentUser.name }} {{ currentUser.lastName }}
-					</a>
+					<a class="dropdown-toggle count-info" data-toggle="dropdown" ignore-click href="" data-t>views.console.dropdown</a>
 					<ul class="dropdown-menu dropdown-notifications">
 						<li>
 							<a ui-sref="console.personal-info">
-								<i class="fa fa-user fa-lg"></i> <span>Información personal<span></a>
+								<i class="fa fa-user fa-lg"></i> <span data-t>views.console.personal_info<span></a>
 						</li>
 
 						<li>
 							<a ui-sref="console.change-password">
-							<i class="fa fa-lock fa-lg"></i> <span>Cambiar contraseña<span></a>
+							<i class="fa fa-lock fa-lg"></i> <span data-t>views.console.change_password<span></a>
 						</li>
 
 						<li ng-if="currentUser.role == 'SUPERADMIN'">
 							<a ui-sref="console.exchange-rate">
-							<i class="fa fa-money fa-lg"></i> <span>Tipo de Cambio: {{currentExchangeRate | currency}}<span></a>
+							<i class="fa fa-money fa-lg"></i> <span data-t>views.console.exchange_rate<span></a>
 						</li>
 
 						<li class="divider"></li>
 
 						<li ng-controller="LogInCtrl">
 							<a href="" ng-click="logout()">
-							<i class="sign-out"></i> <span>Cerrar sesión</span></a>
+							<i class="sign-out"></i> <span data-t>views.console.logout</span></a>
 						</li>
 					</ul>
 				</li>

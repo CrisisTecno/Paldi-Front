@@ -1,0 +1,9 @@
+version: '2'
+services:
+  console:
+    container_name: console-translation
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+        - ./dist:/usr/share/nginx/html

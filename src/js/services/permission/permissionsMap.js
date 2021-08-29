@@ -16,9 +16,9 @@ export const permissionsMap = {
           && this.download(installationSheet)
       },
       create: function (user, order, installationSheet) {
-        // return (!this.download(installationSheet)) && this.edit_base(user, order)
-        //   && ![QUOTE, PENDING, REJECTED, DELETED].includes(order.status)
-        return false
+        return (!this.download(installationSheet)) && this.edit_base(user, order)
+          && ![QUOTE, PENDING, REJECTED, DELETED].includes(order.status)
+        // return false
       },
       view_button: function (user, order, installationSheet) {
         return this.create(user, order, installationSheet)

@@ -1,0 +1,38 @@
+<table class="table table-striped  table-hover" datatable="ng" dt-options="tableOptions" dt-column-defs="tableColumns">
+    <thead>
+        <tr>
+            <th>Ítem.</th>
+            <th>Cant.</th>
+            <th>Ubicación</th>
+            <th>Tipo</th>
+
+            <th>Color</th>
+            <th>Ancho</th>
+            <th>Alto</th>
+            <th>m²</th>
+
+            <th>Precio Unitario</th>
+            <th>Total</th>
+            
+            <th>Obs.</th>
+        </tr>
+    </thead>
+    <tbody ng-repeat="p in productTypeList.products">
+        <tr>
+            <td>{{p.item}}</td>
+            <td>{{p.quantity}}</td>
+            <td>{{p.location}}</td>
+            <td>{{p.type}}</td>
+
+            <td>{{pretty( "color", p.color ) }}</td>
+            <td>{{p.width}}</td>
+            <td>{{p.height}}</td>
+            <td>{{p.m2}}</td>
+
+            <td>{{p.price | currency}}</td>
+            <td>{{p.total | currency}}</td>
+
+            <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)">Ver</button></td>
+        </tr>
+    </tbody>
+</table>

@@ -387,8 +387,13 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 			}
 		},
 		getPdfInstallationSheetLink: async function (order) {
-			if (await service.installationSheet.exists(order.id))
+      console.log(await service.installationSheet.exists(order.id))
+			if (await service.installationSheet.exists(order.id)) {
+        console.log("returning")
+        console.log(`${globals.apiURL}/newapi/installation/sheet/download/${order.id}.pdf`)
 				return `${globals.apiURL}/newapi/installation/sheet/download/${order.id}.pdf`;
+      }
+      return ""
 		},
 		getPdfOrderLink: function (order) {
 			if (

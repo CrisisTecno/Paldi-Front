@@ -19,6 +19,8 @@ export const showCreateInstallationSheetDialog = async (
     $scope.order.id
   );
   console.log("this showed")
+  console.log(savedOrder)
+  console.log($scope)
   $scope.installationSheet.location
 
   $scope.autocompleteOptions = {}
