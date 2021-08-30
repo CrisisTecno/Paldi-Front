@@ -124,7 +124,7 @@ pdApp.controller(
 
         $scope.installationSheet = {
           pdfLink: await paldiService.orders.getPdfInstallationSheetLink(order)
-        } 
+        }
         // console.log("pspspspspsppsp", $scope.installationSheet)
         $("#download_installation_sheet").attr('href', $scope.installationSheet.pdfLink)
 
@@ -143,7 +143,7 @@ pdApp.controller(
           //   "MANAGER",
           //   "INSTALLATION_MANAGER",
           // ].includes($scope.currentUser.role);
-          
+
           console.log($scope)
         }, 400);
 
@@ -209,49 +209,56 @@ pdApp.controller(
     };
 
     $scope.sendToSpecialEmail = function (order) {
+
       var objName;
       if (order.status == "QUOTE") {
         objName = "cotización";
       } else {
         objName = "orden";
       }
-      swal(
-        {
-          title:
-            "¿Seguro que desea enviar la " +
-            objName +
-            " al correo del proveedor?",
-          type: "input",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Enviar",
-          cancelButtonText: "Cancelar",
-          closeOnConfirm: true,
-          closeOnCancel: false,
-          inputValue: order.products[0].productType,
-        },
+      //console.log(order)
+
+      const getProviderEmail = (type) => {
+        const emails = {
+          "Persianas": "atencion.premium@gabin.com.mx",
+          "Filtrasol": "gabriela@farz.com.mx",
+        }
+        if (!type in emails)
+          return "Correo"
+        return emails[type]
+      }
+
+      swal({
+        title: "¿Seguro que desea enviar la " + objName + " al correo?",
+        type: "input",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Enviar",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: true,
+        closeOnCancel: true,
+        inputValue: getProviderEmail(order.products[0].productType)
+      },
         function (value) {
+          if (!value)
+            return
           //console.log(value)
           if (value.trim() === "") {
-            swal.showInputError(
-              "Es necesario escribir una dirección de correo"
-            );
-            return false;
+            swal.showInputError("Es necesario escribir una dirección de correo");
+            return false
           }
           var id = $stateParams.orderId;
-          paldiService.orders
-            .sendOrderTo(id, value)
-            .then(function (order) {
-              swal({
-                title: "Enviado",
-                text: "Se envió la " + objName,
-                type: "success",
-                confirmButtonText: "Aceptar",
-              });
+          paldiService.orders.sendOrderTo(id, value).then(function (order) {
+            swal({
+              title: "Enviado",
+              text: "Se envió la " + objName,
+              type: "success",
+              confirmButtonText: "Aceptar"
             });
-        }
-      );
+          });
+        });
     };
+
 
     $scope.createInstallationSheet = () => {
       showCreateInstallationSheetDialog($scope, () => {
@@ -278,10 +285,10 @@ pdApp.controller(
             var updatedOrder = suborder;
             updatedOrder.suborderNo = suborderNo;
             updatedOrder.orderNo = order.orderNo;
-  
+
             paldiService.orders.updateStatus(updatedOrder, 'LINE').then(function (order) {
               $scope.isPaying = false;
-  
+
             }, function (error) {
               console.error(error);
               $scope.isPaying = false;
@@ -291,13 +298,13 @@ pdApp.controller(
                 swal({ title: 'Ocurrió un error', type: 'error', confirmButtonText: 'Aceptar' });
                 loadOrder();
               }
-  
+
             });
-  
+
           } else {
             paldiService.orders.deleteSuborder($scope.order.id, suborder.type).then(function (order) {
               $scope.isPaying = false;
-  
+
             }, function (error) {
               console.error(error);
               $scope.isPaying = false;
@@ -307,7 +314,7 @@ pdApp.controller(
           }
           console.log(suborder)
         })
-  
+
       })
     };
     $scope.createSuborders = createSuborders;
