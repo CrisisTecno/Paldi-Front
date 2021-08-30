@@ -2,81 +2,81 @@
     <metis-item class="nav-header">
         <div class="profile-element"><img id="logo" src="img/logo.png" alt=""></div>
         <div class="logo-element"><img id="logo" src="img/logo.png" alt=""></div>
-        <dir><span class="profile-element version-number" data-t>includes.navigation.metis_version</span></dir>
+        <dir><span class="profile-element version-number">ver. {{currentVersion}}</span></dir>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'CONSULTANT'">
-        <a href="#"><i class="fa fa-file-text fa-lg"></i> <span class="nav-label"data-t>includes.navigation.sales</span><span class="fa arrow"></span></a>
+        <a href="#"><i class="fa fa-file-text fa-lg"></i> <span class="nav-label">Ventas</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'"><a ui-sref="console.quote-list" data-t>includes.navigation.quotes</a></li>
-            <li><a ui-sref="console.statistics" data-t>includes.navigation.statistics</a></li>
-            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT'"><a ui-sref="console.quote-new" data-t>includes.navigation.new_quote</a></li>
+            <li ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'"><a ui-sref="console.quote-list">Cotizaciones</a></li>
+            <li><a ui-sref="console.statistics">Estadística</a></li>
+            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT'"><a ui-sref="console.quote-new">Cotizar</a></li>
         </ul>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'CONSULTANT'">
-        <a href="#"><i class="fa fa-list fa-lg"></i> <span class="nav-label" data-t>includes.navigation.orders</span><span class="fa arrow"></span></a>
+        <a href="#"><i class="fa fa-list fa-lg"></i> <span class="nav-label">Órdenes</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li><a ui-sref="console.order-list" data-t>includes.navigation.orders</a></li>
-            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER'"><a ui-sref="console.deadlines" data-t>includes.navigation.deadlines</a></li>
-            <li ng-if="currentUser.canAdmin"><a ui-sref="console.quote-new-manual"data-t>includes.navigation.manual_new_quote</a></li>
+            <li><a ui-sref="console.order-list">Órdenes</a></li>
+            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER'"><a ui-sref="console.deadlines">Seguimiento OV</a></li>
+            <li ng-if="currentUser.canAdmin"><a ui-sref="console.quote-new-manual">Registro OV</a></li>
         </ul>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT'">
-        <a href="#"><i class="fa fa-file-text fa-lg"></i> <span class="nav-label" style="font-size: 8.8px" data-t>includes.navigation.my_sales</span><span class="fa arrow"></span></a>
+        <a href="#"><i class="fa fa-file-text fa-lg"></i> <span class="nav-label" style="font-size: 8.8px" >Mis ventas</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li><a ui-sref="console.quote-list"data-t>includes.navigation.quotes</a></li>
-            <li><a ui-sref="console.quote-new"data-t>includes.navigation.new_quote</a></li>
-            <li><a ui-sref="console.statistics"data-t>includes.navigation.statistics</a></li>
+            <li><a ui-sref="console.quote-list">Cotizaciones</a></li>
+            <li><a ui-sref="console.quote-new">Cotizar</a></li>
+            <li><a ui-sref="console.statistics">Estadística</a></li>
         </ul>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT'">
-        <a ui-sref="console.order-list"><i class="fa fa-list fa-lg"></i> <span class="nav-label" style="font-size: 8.8px"data-t>includes.navigation.my_orders</span></a>
+        <a ui-sref="console.order-list"><i class="fa fa-list fa-lg"></i> <span class="nav-label" style="font-size: 8.8px">Mis órdenes</span></a>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT'">
-        <a ui-sref="console.commissions"><i class="fa fa-suitcase fa-lg"></i> <span class="nav-label" style="font-size: 8.8px"data-t>includes.navigation.commissions</span></a>
+        <a ui-sref="console.commissions"><i class="fa fa-suitcase fa-lg"></i> <span class="nav-label" style="font-size: 8.8px">Comisiones</span></a>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'MANAGER'">
-        <a href="#"><i class="fa fa-suitcase fa-lg"></i> <span class="nav-label"data-t>includes.navigation.admin</span><span class="fa arrow"></span></a>
+        <a href="#"><i class="fa fa-suitcase fa-lg"></i> <span class="nav-label">Admin</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'" ui-sref="console.payments"data-t>includes.navigation.payments</a></li>
-            <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'CONSULTANT' " ui-sref="console.commissions"data-t>includes.navigation.commissions</a></li>
-            <li><a ui-sref="console.costing" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'"data-t>includes.navigation.costing</a></li>
-            <li><a ui-sref="console.products-catalog" ng-if="currentUser.role == 'SUPERADMIN'"data-t>includes.navigation.catalog</a></li>
+            <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'" ui-sref="console.payments">Pagos</a></li>
+            <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'CONSULTANT' " ui-sref="console.commissions">Comisiones</a></li>
+            <li><a ui-sref="console.costing" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Costeo</a></li>
+            <li><a ui-sref="console.products-catalog" ng-if="currentUser.role == 'SUPERADMIN'">Catálogo</a></li>
         </ul>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER' || true">
-        <a href="#"><i class="fa fa-check-square-o fa-lg"></i> <span class="nav-label"data-t>includes.navigation.inventory</span><span class="fa arrow"></span></a>
+        <a href="#"><i class="fa fa-check-square-o fa-lg"></i> <span class="nav-label">Inventario</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li><a ui-sref="console.inventory-movements" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER'"data-t>includes.navigation.inventory_movements_report</a></li>
-            <li><a ui-sref="console.inventory-report"data-t>includes.navigation.inventory_report</a></li>
-            <li><a ui-sref="console.inventory-in" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'"data-t>includes.navigation.inventory_in</a></li>
+            <li><a ui-sref="console.inventory-movements" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER'">Reporte Mov.</a></li>
+            <li><a ui-sref="console.inventory-report">Reporte Inv.</a></li>
+            <li><a ui-sref="console.inventory-in" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Entradas</a></li>
             <li><a ui-sref="console.inventory-cross" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Traslados</a></li>
-            <li><a ui-sref="console.inventory-adjustments" ng-if="currentUser.role == 'SUPERADMIN'"data-t>includes.navigation.inventory_adjustments</a></li>
-            <li><a ui-sref="console.products" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'"data-t>includes.navigation.products</a></li>
-            <li><a ui-sref="console.warehouses" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'"data-t>includes.navigation.warehouses</a></li>
+            <li><a ui-sref="console.inventory-adjustments" ng-if="currentUser.role == 'SUPERADMIN'">Ajustes</a></li>
+            <li><a ui-sref="console.products" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Productos</a></li>
+            <li><a ui-sref="console.warehouses" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Almacenes</a></li>
         </ul>
     </metis-item>
     <metis-item ui-sref-active="selected" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER'">
-        <a href="#"><i class="fa fa-check-square-o fa-lg"></i> <span class="nav-label"data-t>includes.navigation.pricing</span><span class="fa arrow"></span></a>
+        <a href="#"><i class="fa fa-check-square-o fa-lg"></i> <span class="nav-label">Costeo</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li><a ui-sref="console.bills"data-t>includes.navigation.bills</a></li>
-            <li><a ui-sref="console.movements"data-t>includes.navigation.movements</a></li>
+            <li><a ui-sref="console.bills">Facturas</a></li>
+            <li><a ui-sref="console.movements">Movimientos de OV</a></li>
         </ul>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'SALES_MANAGER'">
         <a ui-sref="console.client-list">
-            <i class="fa fa-address-card fa-lg"></i> <span class="nav-label"data-t>includes.navigation.clients</span></a>
+            <i class="fa fa-address-card fa-lg"></i> <span class="nav-label">Clientes</span></a>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.canAdmin">
         <a ui-sref="console.user-list">
-            <i class="fa fa-users fa-lg"></i> <span class="nav-label"data-t>includes.navigation.users</span></a>
+            <i class="fa fa-users fa-lg"></i> <span class="nav-label">Usuarios</span></a>
     </metis-item>
 </metis-menu>

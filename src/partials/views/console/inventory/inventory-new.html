@@ -2,12 +2,12 @@
   <div class="ibox">
 
     <div class="ibox-title">
-      <h3 data-t>views.console.inventory.new.title</h3>
+      <h3>Agregar Entrada</h3>
     </div>
     <div class="ibox-content">
-      <h4 data-t>views.console.inventory.new.general</h4>
+      <h4>General</h4>
       <div class="table-filter">
-        <label data-t>views.console.inventory.new.warehouse</label>
+        <label>Almacén:</label>
         <select name="warehouses" id="warehouses" ng-model="warehouse" ng-disabled="products.length > 0">
           <option ng-repeat="warehouse in warehouses" value="{{ warehouse }}">{{warehouse.name}}</option>
         </select>
@@ -18,14 +18,14 @@
       <br>
       <br>
       <div ng-if="products.length">
-        <h4 data-t>views.console.inventory.new.entries</h4>
+        <h4>Entradas</h4>
         <table id="products-table" class="table table-striped table-hover">
           <thead>
             <tr>
-              <th data-t>views.console.inventory.new.product</th>
-              <th data-t>views.console.cinventory.new.color</th>
-              <th data-t>views.console.inventory.new.amount<small data-t>views.console.inventory.new.boxes</small></th>
-              <th data-t>views.console.inventory.new.cost<small data-t>views.console.inventory.new.per_box</small></th>
+              <th>Producto</th>
+              <th>Color</th>
+              <th>Cantidad <small>(cajas)</small></th>
+              <th>Costo <small>(x/caja)</small></th>
               <th>Descripción</th>
               <th></th>
             </tr>
@@ -42,8 +42,8 @@
           </tbody>
         </table>
       </div>
-      <button ng-show="warehouse" type="button" class="btn btn-success" ng-click="addProductForm()" data-t>views.console.inventory.new.add</button>
-      <button ng-hide="products.length == 0" type="button" class="btn btn-primary pull-right" ng-click="saveProducts()" data-t>views.console.inventory.new.save</button>
+      <button ng-show="warehouse" type="button" class="btn btn-success" ng-click="addProductForm()">Agregar</button>
+      <button ng-hide="products.length == 0" type="button" class="btn btn-primary pull-right" ng-click="saveProducts()">Guardar</button>
     </div>
   </div>
 </div>

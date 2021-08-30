@@ -101,7 +101,7 @@ const buildMoments = (order) => {
 			result.productionFinishDate
 		),
 	};
-  console.log(result)
+
 	return result;
 };
 

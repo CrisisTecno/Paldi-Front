@@ -7,27 +7,13 @@ export function isObject(item) {
 	return item && typeof item === "object" && !Array.isArray(item);
 }
 
-const notAllowedTypes = [
-  moment().__proto__.constructor
-]
-
-const isAllowed = (obj) => {
-  for (const type of notAllowedTypes) {
-    if (obj instanceof type) {
-      return false
-    }
-  }
-  return true
-}
-
 export function mergeDeep(target, ...sources) {
 	if (!sources.length) return target;
 	const source = sources.shift();
 
 	if (isObject(target) && isObject(source)) {
 		for (const key in source) {
-      console.log(isAllowed(source[key]))
-			if (isObject(source[key]) && isAllowed(source[key])) {
+			if (isObject(source[key])) {
 				if (!target[key]) Object.assign(target, { [key]: {} });
 				mergeDeep(target[key], source[key]);
 			} else {

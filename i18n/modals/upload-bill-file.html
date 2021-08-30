@@ -1,9 +1,0 @@
-<div>
-	<legend>modals.bill.invalid_format</legend>
-	<input type="file" id="fileUpload" name="file" onchange="angular.element(this).scope().selectFile(this.files)">
-	<span class="text-danger" ng-if="fileEmpty">modals.bill.empty</span>
-	<br>
-	<button type="button" class="btn btn-primary" ng-click="uploadBill()" ng-disabled="!fileValid" ng-hide="uploading">modals.bill.upload_bill</button>
-	<img ng-show="uploading" class="spinner-img" src="img/spinner.gif">
-	<button type="button" class="btn btn-default" ng-hide="uploading" ng-click="closeThisDialog()">modals.bill.cancel</button>
-</div>
