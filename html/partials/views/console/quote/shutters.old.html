@@ -1,0 +1,174 @@
+<div class="quote-view">
+    <h3 class="form-title">Shutter</h3>
+    <small class="error-message" ng-if="shutter.doable==false">No realizable</small>
+    <form name="shutterForm" role="form" novalidate ng-submit="addProduct('Shutter', shutterForm, shutter)" autocomplete="off">
+        <div class="form-group">
+            <label>Cantidad</label>
+            <input type="number" min="1" value="1" step="1" name="quantity" ng-model="shutter.quantity" ng-change="updatePrices('Shutter', shutter)" class="form-control" required="" pattern="[0-9]*">
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.quantity.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Ubicación</label>
+            <input type="text" name="location" ng-model="shutter.location" class="form-control" required="">
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.location.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Tipo de Shutter</label>
+            <select name="type" ng-model="shutter.type" ng-change="updateType('Shutter', shutter)" class="form-control" required="">
+                <option value="Regular">Regular</option>
+                <option value="Arco">Arco</option>
+            </select>
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.type.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label ng-hide="showSpinner">Color</label>
+            <input ng-hide="showSpinner" type="text" name="color" id="color" ng-model="color" ng-disabled="!shutter.type" class="form-control" required="" uib-typeahead="color.label for color in shutter.colors | filter: $viewValue | limitTo:12" typeahead-editable="false" typeahead-on-select="colorSelected($item, 'Shutter', shutter)">
+            <small ng-hide="showSpinner" class="error-message" ng-if="shutterForm.$validated && shutterForm.color.$error.required">Campo requerido</small>
+            <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
+        </div>
+        <div class="form-group">
+            <label>Ancho (metros)</label>
+            <input type="number" name="width" id="width" ng-model="shutter.width" min="0.1"  ng-change="changeSimpleWidth('Shutter', shutter)" class="form-control" required="" step="0.1">
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.width.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Alto (metros)</label>
+            <input type="number" name="height" id="height" ng-model="shutter.height" min="0.1" ng-change="changeSimpleHeight('Shutter', shutter)" class="form-control" required="" step="0.1">
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.height.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group" ng-show="shutter.width && shutter.height">
+            <label>m²</label>
+            <input type="number" name="m2" ng-model="shutter.m2" disabled="disabled" min="0" class="form-control" required="" placeholder="{{shutter.m2 | number:2}}">
+        </div>
+        <div class="form-group">
+            <label>T. Instalación</label>
+            <select name="installationType" ng-model="shutter.installationType" ng-change="updatePrices('Shutter', shutter)" class="form-control" required="">
+                <option value="Por dentro">Por dentro</option>
+                <option value="Por fuera">Por fuera</option>
+            </select>
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.installationType.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Tipo de Bastón</label>
+            <select name="rodType" ng-model="shutter.rodType" ng-change="updatePrices('Shutter', shutter)" class="form-control" required="">
+                <option value="Visible">Visible</option>
+                <option value="Oculto">Oculto</option>
+            </select>
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.rodType.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Tipo de Medida</label>
+            <select name="measurementType" ng-model="shutter.measurementType" class="form-control" required="">
+                <option value="Claro de ventana">Claro de ventana</option>
+                <option value="Medida exacta">Medida exacta</option>
+            </select>
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.measurementType.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Louver</label>
+            <select name="louver" ng-model="shutter.louver" class="form-control" required="">
+                <option value="3 1/2">3 1/2</option>
+                <option value="4 1/2">4 1/2</option>
+            </select>
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.louver.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Tipo de Marco</label>
+            <select name="frameType" ng-model="shutter.frameType" ng-change="updatePrices('Shutter', shutter)" class="form-control" required="">
+                <option value="2100">2100</option>
+                <option value="2200">2200</option>
+                <option value="2300">2300</option>
+                <option value="2400">2400</option>
+                <option value="2500">2500</option>
+                <option value="2600">2600</option>
+                <option value="2700">2700</option>
+                <option value="2800">2800</option>
+            </select>
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.frameType.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Conf. del Marco</label>
+            <select name="frameConfig" ng-model="shutter.frameConfig" ng-change="updatePrices('Shutter', shutter)" class="form-control" required="">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="Sill">Sill</option>
+                <option value="Nada">Nada</option>
+            </select>
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.frameConfig.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Conf. de Paneles</label>
+            <select name="panelConfig" ng-model="shutter.panelConfig" class="form-control" required="">
+                <option value="1D">1D</option>
+                <option value="1Z">1Z</option>
+                <option value="2D">2D</option>
+                <option value="2Z">2Z</option>
+                <option value="2AZ">2AZ</option>
+                <option value="3B">3B</option>
+                <option value="3C">3C</option>
+                <option value="3E">3E</option>
+                <option value="3F">3F</option>
+                <option value="3G">3G</option>
+                <option value="3H">3H</option>
+                <option value="4B">4B</option>
+                <option value="4C">4C</option>
+                <option value="4E">4E</option>
+                <option value="4G">4G</option>
+                <option value="4F">4F</option>
+                <option value="4H">4H</option>
+                <option value="4J">4J</option>
+            </select>
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.panelConfig.$error.required">Campo requerido</small>
+        </div>
+        <div class="form-group">
+            <label>Ubicación Riel D.</label>
+            <input type="text" name="railLocation" ng-model="shutter.railLocation" class="form-control">
+            <small class="error-message" ng-if="shutterForm.$validated && shutterForm.railLocation.$error.required">Campo requerido</small>
+        </div>
+        <div ng-show="addingAdditional == false && shutter.plusList.length > 0">
+            <button type="button" class="btn btn-default" ng-click="addingAdditional = true">Agregar Adicional</button>
+        </div>
+        <div class="form-adding" ng-show="addingAdditional == true && shutter.plusList.length > 0">
+            <label class="title">Adicional:</label>
+            <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" ng-model="shutter.plus" name="plus" id="plus" class="form-control" uib-typeahead="plus as plus.label for plus in shutter.plusList | filter:$viewValue | limitTo:12" typeahead-editable="false">
+            </div>
+            <div class="form-group">
+                <label>Cantidad</label>
+                <input type="number" ng-model="shutter.plus.quantity" name="plusQuantity" id="plusQuantity" class="form-control" pattern="[0-9]*">
+            </div>
+            <div>
+                <button type="button" class="btn btn-default" ng-click="cancelPlus()">Cancel</button>
+                <button type="button" class="btn btn-primary" ng-click="addAdditional(shutter.plus); addingAdditional = false">Agregar</button>
+            </div>
+        </div>
+        <div ng-show="plusList.length > 0">
+            <div ng-include="'partials/views/console/quote/additional-details.html'"></div>
+        </div>
+        <div class="form-group notes">
+            <label>Observaciones</label>
+            <textarea name="notes" ng-model="shutter.notes" class="form-control"></textarea>
+        </div>
+        <div class="total-configuration">
+            <div class="form-group" ng-show="shutter.unit">
+                <label>Precio Metro</label>
+                <input ng-currency type="text" name="unit" ng-model="shutter.unit" class="form-control" disabled="disabled" placeholder="{{shutter.unit}}">
+            </div>
+            <div class="form-group" ng-show="shutter.price">
+                <label>Precio Unitario</label>
+                <input ng-currency type="text" name="price" ng-model="shutter.price" class="form-control" disabled="disabled" placeholder="{{shutter.price}}">
+            </div>
+            <div class="form-group" ng-show="shutter.total">
+                <label>Total</label>
+                <input ng-currency type="text" name="total" ng-model="shutter.total" class="form-control" disabled="disabled" placeholder="{{shutter.total}}">
+            </div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-default" ng-click="cancelProduct()">Cancelar</button>
+            <button type="submit" class="btn btn-primary" ">Agregar</button>
+        </div>
+        
+    </form>
+</div>

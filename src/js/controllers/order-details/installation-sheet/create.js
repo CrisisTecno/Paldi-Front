@@ -15,15 +15,18 @@ export const showCreateInstallationSheetDialog = async (
     getInstallationSheetSaveHandler($scope)
   );
 
-  const savedOrder = await $scope.paldiService.installationSheet.fetchState(
+  let savedOrder = await $scope.paldiService.installationSheet.fetchState(
     $scope.order.id
   );
-  console.log("this showed")
+  savedOrder.orderNo = $scope.order.orderNo
+  // $scope.installationSheet.orderNo = savedOrder.orderNo
   $scope.installationSheet.location
 
   $scope.autocompleteOptions = {}
 
   $scope.gPlace
+
+  console.log("Hector", {savedOrder, onScope: $scope.order});
 
 
   document.getElementById('')
@@ -52,7 +55,7 @@ export const showCreateInstallationSheetDialog = async (
   // eu sabes como verificar numeros de telefono? 8)
   $scope.installationSheet = {
     mode,
-    orderNo: $scope.order.orderNo,
+    orderNo: savedOrder.orderNo,
 
     receivingPerson: savedOrder?.data?.receiver,
     telephone: deformatTelephone(savedOrder?.data?.phone_number),

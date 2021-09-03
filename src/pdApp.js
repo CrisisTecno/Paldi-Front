@@ -334,6 +334,13 @@ const pdApp = angular
       link: function (scope, element, attrs, model) {
         var options = {
           types: [],
+          bounds: {
+            north: 32.5149 + 1,
+            south: 32.5149 - 1,
+            east: 117.0382 - 1,
+            west: 117.0382 + 1
+          },
+          strictBounds: true,
           componentRestrictions: {
             country: "MX",
           }

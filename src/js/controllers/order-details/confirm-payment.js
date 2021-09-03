@@ -43,13 +43,12 @@ const performPayment = async (context, $scope, updatedOrder) => {
 	const payment = updatedOrder.payment;
 	try {
 		const result = await context.paldiService.payments.pay($scope.order.id, payment);
-    
 		showSwal("messages.payment.success");
+    context.loadOrder();
 	} catch {
 		showSwal("messages.error");
+    $scope.isPaying = false;
 	}
-	$scope.isPaying = false;
-	context.loadOrder();
 };
 
 const performCustomAdvance = (context, $scope, updateOrder) => {
@@ -69,6 +68,8 @@ const updateOrder = async function (context, $scope, updatedOrder) {
 				context.createSuborders(model, order);
 				context.$state.go("console.order-list");
 			}
+      $scope.isPaying = false;
+      context.loadOrder();
 		};
 		// console.log("showing create installation sheet dialog");
 		showCreateInstallationSheetDialog($scope, callback);
@@ -82,9 +83,9 @@ const updateOrder = async function (context, $scope, updatedOrder) {
 		} else {
 			showSwal("messages.error");
 		}
+    $scope.isPaying = false;
+    context.loadOrder();
 	}
-	$scope.isPaying = false;
-	context.loadOrder();
 };
 
 const perfomAdvance = async (context, $scope, updatedOrder) => {
@@ -116,7 +117,6 @@ const processPayment = (context, $scope, model) => {
 const getPaymentSwalHandler = (context, $scope) =>
 	function (model, confirm) {
 		context = $scope;
-		// console.log($scope);
 		if ($scope.isPaying || !confirm) {
 			$scope.paymentType = "";
 			showSwal("messages.cancel");

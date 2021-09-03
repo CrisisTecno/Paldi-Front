@@ -125,7 +125,7 @@ pdApp.controller(
         $scope.installationSheet = {
           pdfLink: await paldiService.orders.getPdfInstallationSheetLink(order)
         }
-        // console.log("pspspspspsppsp", $scope.installationSheet)
+        console.log("pspspspspsppsp", $scope.installationSheet)
         $("#download_installation_sheet").attr('href', $scope.installationSheet.pdfLink)
 
         // console.log($scope.order.pdfInstallationSheetLink)
@@ -221,13 +221,17 @@ pdApp.controller(
       const getProviderEmail = (type) => {
         const emails = {
           "Persianas": "atencion.premium@gabin.com.mx",
+          "Enrollable": "atencion.premium@gabin.com.mx",
           "Filtrasol": "gabriela@farz.com.mx",
         }
-        if (!type in emails)
+        if (!Object.keys(emails).includes(type))
           return "Correo"
         return emails[type]
       }
-
+      console.log("------ PROVIDER EMAIL")
+      console.log(order.type)
+      console.log(getProviderEmail(order.products[0].productType))
+      
       swal({
         title: "¿Seguro que desea enviar la " + objName + " al correo?",
         type: "input",
