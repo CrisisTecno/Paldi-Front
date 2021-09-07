@@ -27,15 +27,21 @@ export function mergeDeep(target, ...sources) {
 // TODO:  Esto no deberia de existir
 export function moveToScope(scope, additionalObject) {
 	Object.keys(additionalObject).forEach((key) => {
-		// if (scope[key] !== undefined) {
+		if (scope[key] !== undefined) {
 
-		// 		console.log(
-		// 			`cuidado, estas sobreescribiendo la llave ${key}`,
-		// 			scope[key],
-		// 			additionalObject[key]
-		// 		);
+				// console.log(
+				// 	`cuidado, estas sobreescribiendo la llave ${key}`,
+				// 	scope[key],
+				// 	additionalObject[key]
+				// );
+			if(key === 'installationSheet') {
+				scope[key] = {...scope[key], ...additionalObject[key]}
+				return;
+			}
 
-		// }
+		}
+		 
 		scope[key] = additionalObject[key];
+		
 	});
 }

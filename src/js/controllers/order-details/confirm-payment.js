@@ -71,7 +71,7 @@ const updateOrder = async function (context, $scope, updatedOrder) {
 			}
 		};
 		// console.log("showing create installation sheet dialog");
-		showCreateInstallationSheetDialog($scope, callback);
+		await showCreateInstallationSheetDialog($scope, callback);
 	} catch (error) {
 		// console.log(error);
 		if (
