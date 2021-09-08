@@ -612,7 +612,7 @@
 
           <!-- TODO: retire the inline-style -->
           <div class="dropdown show" style="width: min-content;"
-            ng-show="currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'ADMIN' || currentUser.role == 'INSTALLATION_MANAGER'">
+            ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'ADMIN' || currentUser.role == 'INSTALLATION_MANAGER'">
 
             <button
               class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square"
@@ -629,10 +629,12 @@
                   class="btn-icon glyphicon glyphicon-envelope"></span>Enviar
               </a>
               <div class="dropdown-divider"></div>
-              <a href="{{order.pdfOrderLink}}"
+
+              <a href="{{order.pdfOrderLink}}" 
                 class="dropdown-item btn btn-secondary-actions btn-sm btn-square"
                 style="margin-bottom: 0;"
-                ng-show="currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'INSTALLATION_MANAGER' || currentUser.role == 'ADMIN'"
+                ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' ||currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'INSTALLATION_MANAGER' || currentUser.role == 'ADMIN'"
+
                 download>
                 <span
                   class="btn-icon glyphicon glyphicon glyphicon-save"></span>Descargar
@@ -668,6 +670,7 @@
               </a>
               <div class="dropdown-divider"></div>
               <a ng-show="perms.order.installation_sheet.download"
+
                 href="{{order.pdfInstallationSheetLink}}" target="_blank"
                 class="dropdown-item btn btn-secondary-actions btn-sm btn-square"
                 style="margin-bottom: 0;">

@@ -1,0 +1,33 @@
+<div class="login-view">
+    <fieldset>
+        <h1>Inicia Sesión</h1>
+        <p class="error" ng-if="errorMessage">{{ errorMessage }}</p>
+        <form name="loginForm" role="form" novalidate
+            ng-submit="login(username, password)">
+            <div class="form-group">
+                <label>E-mail</label>
+                <input type="email" name="username" ng-model="username"
+                    class="form-control" required="">
+                <small class="error-message"
+                    ng-if="loginForm.$validated && loginForm.username.$error.required">El
+                    correo es requerido</small>
+                <small class="error-message"
+                    ng-if="loginForm.$validated && loginForm.username.$error.email">El
+                    e-mail no es válido</small>
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" name="password" ng-model="password"
+                    class="form-control" required="">
+                <small class="error-message"
+                    ng-if="loginForm.$validated && loginForm.password.$error.required">La
+                    contraseña es requerida</small>
+            </div>
+            <button type="submit"
+                class="btn btn-paldi btn-primary block full-width m-b">Ingresar</button>
+            <p class="text-center forgot-password"><a
+                    ui-sref="access.forgot-password">¿Olvidaste tu
+                    contraseña?</a></p>
+        </form>
+    </fieldset>
+</div>

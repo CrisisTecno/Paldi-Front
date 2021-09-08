@@ -17,19 +17,15 @@ export const showCreateInstallationSheetDialog = async (
     getInstallationSheetSaveHandler($scope)
   );
 
-  const savedOrder = await $scope.paldiService.installationSheet.fetchState(
+  let savedOrder = await $scope.paldiService.installationSheet.fetchState(
     $scope.order.id
   );
-
-
-  console.log(savedOrder);
 
   $scope.installationSheet.location
 
   $scope.autocompleteOptions = {}
 
   $scope.gPlace
-  
 
   document.getElementById('')
 
@@ -49,7 +45,7 @@ export const showCreateInstallationSheetDialog = async (
 
   $scope.installationSheet = {
     mode,
-    orderNo: $scope.order.orderNo,
+    orderNo: savedOrder.orderNo,
 
     receivingPerson: savedOrder?.data?.receiver,
     telephone: deformatTelephone(savedOrder?.data?.phone_number),

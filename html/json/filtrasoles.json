@@ -1,0 +1,22 @@
+{
+	"Filtrasol Enrollables": {
+		"colorLabel" : "Textil",
+		"priceType" : "METER",
+		"configs" : ["XFM", "XDM", "XFMM", "XDMM", "XFM90", "XDM90"]
+	},
+	"Filtrasol Eclisse": {
+		"colorLabel" : "Textil",
+		"priceType" : "METER",
+		"configs" : ["XFM", "XDM", "XFMM", "XDMM", "XFM90", "XDM90"]
+	},
+	"Filtrasol Panel Deslizante": {
+		"colorLabel" : "Textil",
+		"priceType" : "METER",
+		"configs" : ["A. Izquierda", "A. Derecha", "A. ambos", "A. centro"]
+	},
+	"Filtrasol Triple Shade": {
+		"colorLabel" : "Textil",
+		"priceType" : "METER",
+		"configs" : ["XFM", "XDM", "XFMM", "XDMM", "XFM90", "XDM90"]
+	}
+}

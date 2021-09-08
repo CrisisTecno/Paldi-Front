@@ -1,0 +1,50 @@
+<div class="inventory-in-view">
+	<div class="ibox">
+		<div class="ibox-title"><h3>Registrar Entradas</h3></div>
+
+		<div class="ibox-content">
+
+			<button type="button" class="btn btn-success pull-right" ng-click="addMovementForm()">Agregar</button>
+
+			<div>
+				<label>Almacén:</label>
+				<select name="warehouses" id="repeatWarehouses" ng-model="warehouse" ng-change="updateWarehouse(warehouse)">
+					<option ng-repeat="warehouse in warehouses" value="{{warehouse}}">{{warehouse.name}}</option>
+				</select>
+				<br>
+				<small class="error-message" ng-if="validated && !warehouse"> Campo requerido</small>
+				<br>
+			</div>
+
+			<div ng-if="movements.length">
+				<h2>Entradas</h2>
+
+				<table id="products-table" class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>Descripción</th>
+							<th>Producto</th>
+							<th>Color</th>
+							<th>Cantidad</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody ng-repeat="item in movements">
+						<tr>
+							<th>{{item.description}}</th>
+							<td>{{item.type}}</td>
+							<td>{{item.product.code}}</td>
+							<td>{{item.quantity}}</td>
+							<td><i ng-click="removeMovement($index)" class="btn fa fa-times-circle"></i></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<button type="button" class="btn btn-primary pull-right" ng-click="saveInventory()">Guardar</button>
+				<br><br>
+			</div>
+
+
+		</div>
+	</div>
+</div>

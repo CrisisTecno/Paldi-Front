@@ -8,7 +8,10 @@ export const permissionsMap = {
         return installationSheet.pdfLink ? true : false
       },
       edit_base: function(user, order) {
-        return [INSTALLATION_MANAGER, SUPER_ADMIN, SALES_MANAGER].includes(user.role)
+        return [
+          INSTALLATION_MANAGER, 
+          SUPER_ADMIN, 
+          SALES_MANAGER].includes(user.role)
           && (![PROGRAMMED, INSTALLED, INSTALLED_INCOMPLETE, INSTALLED_NONCONFORM, FINISHED].includes(order.status))
       },
       edit: function (user, order, installationSheet) {
@@ -16,9 +19,8 @@ export const permissionsMap = {
           && this.download(installationSheet)
       },
       create: function (user, order, installationSheet) {
-        // return (!this.download(installationSheet)) && this.edit_base(user, order)
-        //   && ![QUOTE, PENDING, REJECTED, DELETED].includes(order.status)
-        return false
+        return (!this.download(installationSheet)) && this.edit_base(user, order)
+          && ![QUOTE, PENDING, REJECTED, DELETED].includes(order.status)
       },
       view_button: function (user, order, installationSheet) {
         return this.create(user, order, installationSheet)

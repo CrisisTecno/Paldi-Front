@@ -1,0 +1,9 @@
+version: '2'
+services:
+  console:
+    container_name: console-tj-stg
+    image: nginx
+    ports:
+      - 3432:80
+    volumes:
+        - ./dist:/usr/share/nginx/html
