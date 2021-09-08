@@ -48,11 +48,19 @@
       <div class="form-group" style="margin-top: 0.5rem;">
         <label class="checkbox-inline normal-height-checkbox"> Agregar herramienta para la instalación: </label>
         <div class="input-group">
-          <textarea name="extra" type="text" ng-model="installationSheet.extraText" class="form-control"></textarea>
-          <span class="glyphicon glyphicon glyphicon-plus input-group-addon" ng-click="installationSheet.addOtherExtra(installationSheet.extraText, 'otherExtra')" ng-disabled="installationSheet.otherExtra.length === 6" style="cursor: pointer;"></span>
+          <textarea name="extra" type="text"
+            ng-model="installationSheet.extraText"
+            class="form-control"></textarea>
+
+          <span class="glyphicon glyphicon glyphicon-plus input-group-addon"
+            ng-click="installationSheet.addOtherExtra(installationSheet.extraText, 'otherExtra')"
+            ng-disabled="installationSheet.otherExtra.length === 6"
+            style="cursor: pointer;"></span>
         </div>
       </div>
     </div>
+
+
     <label>Material en donde se va a instalar </label>
     <div class="form-group">
       <label class="checkbox-inline normal-height-checkbox">
@@ -77,15 +85,23 @@
           </div>
         </div>
       </div>
-      <!-- <div class="input-group">
-        <span class="input-group-addon">
-          <input type="checkbox" aria-label="...">
-        </span>
-        <input type="text" class="form-control" aria-label="...">
-      </div> -->
-      <div>
-        <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">Cancelar</button>
-        <button type="submit" class="btn btn-primary"> {{installationSheet.mode === "create" ? "Crear" : "Actualizar"}} </button>
-      </div>
+
+    </div>
+
+    <div class="form-group">
+      <small class="error-message" ng-show="installationSheet.extraError">
+        Es necesario específicar al menos una herramienta adicional </small>
+    </div>
+
+
+    <div>
+      <button type="button" class="btn btn-default"
+        ng-click="closeThisDialog('')">Cancelar</button>
+      <button type="submit" class="btn btn-primary">
+        {{installationSheet.mode === "create" ? "Crear" : "Actualizar"}}
+      </button>
+    </div>
+
+
   </form>
 </div>

@@ -622,14 +622,19 @@
               de trabajo
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item"
+              <a class="dropdown-item btn btn-secondary-actions btn-sm btn-square"
                 ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN'"
-                ng-click="sendToSpecialEmail(order)"><span
+                ng-click="sendToSpecialEmail(order)"
+                style="margin-bottom: 0;"><span
                   class="btn-icon glyphicon glyphicon-envelope"></span>Enviar
               </a>
               <div class="dropdown-divider"></div>
-              <a href="{{order.pdfOrderLink}}" class="dropdown-item"
+
+              <a href="{{order.pdfOrderLink}}" 
+                class="dropdown-item btn btn-secondary-actions btn-sm btn-square"
+                style="margin-bottom: 0;"
                 ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' ||currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'INSTALLATION_MANAGER' || currentUser.role == 'ADMIN'"
+
                 download>
                 <span
                   class="btn-icon glyphicon glyphicon glyphicon-save"></span>Descargar
@@ -650,19 +655,25 @@
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a ng-show="perms.order.installation_sheet.create"
-                ng-click="createInstallationSheet()" class="dropdown-item">
+                ng-click="createInstallationSheet()"
+                class="dropdown-item btn btn-secondary-actions btn-sm btn-square"
+                style="margin-bottom: 0;">
                 <span
                   class="btn-icon glyphicon glyphicon glyphicon-plus"></span>Crear
               </a>
               <a ng-show="perms.order.installation_sheet.edit"
-                ng-click="editInstallationSheet()" class="dropdown-item">
+                ng-click="editInstallationSheet()"
+                class="dropdown-item btn btn-secondary-actions btn-sm btn-square"
+                style="margin-bottom: 0;">
                 <span
                   class="btn-icon glyphicon glyphicon glyphicon-edit"></span>Editar
               </a>
               <div class="dropdown-divider"></div>
               <a ng-show="perms.order.installation_sheet.download"
-                href="{{installationSheet.pdfLink}}" target="_blank"
-                class="dropdown-item">
+
+                href="{{order.pdfInstallationSheetLink}}" target="_blank"
+                class="dropdown-item btn btn-secondary-actions btn-sm btn-square"
+                style="margin-bottom: 0;">
                 <span
                   class="btn-icon glyphicon glyphicon glyphicon-save"></span>Descargar
               </a>
