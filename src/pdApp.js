@@ -331,20 +331,21 @@ const pdApp = angular
   .directive('googleplace', function () {
     return {
       require: 'ngModel',
-      link: function (scope, element, attrs, model) {
+      link: function ($scope, element, attrs, model) {
         var options = {
           types: [],
           componentRestrictions: {
             country: "MX",
           }
         };
-        scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
 
-        google.maps.event.addListener(scope.gPlace, 'place_changed', function (v) {
-          //console.log(scope.gplace)
+
+        $scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
+
+        google.maps.event.addListener($scope.gPlace, 'place_changed', function (v) {
           //console.log(element)
           //console.log('vvvv', v)
-          scope.$apply(function () {
+          $scope.$apply(function () {
             //console.log(scope)
             //console.log(model)
             model.$setViewValue(element.val());
