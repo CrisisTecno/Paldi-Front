@@ -41,10 +41,8 @@ pdApp.controller(
       $scope.suborders = [];
       $scope.limitDays = 20;
       $scope.maxDate;
-      console.log("smth")
 
       paldiService.orders.get(id).then(async function (order) {
-        console.log("callback")
         $scope.order = order;
         $scope.quoteStatus = order.quoteStatus;
         $scope.quoteSubStatus = order.quoteSubStatus;
@@ -110,7 +108,6 @@ pdApp.controller(
         $timeout(function () {
           $scope.loadAdditionals();
         }, 200)
-        console.log("a")
 
         $scope.order.pdfLink = paldiService.orders.getPdfLink(order);
         $scope.order.pdfOrderLink = paldiService.orders.getPdfOrderLink(order);
@@ -122,17 +119,19 @@ pdApp.controller(
         });
         $scope.order.installationPlusTotal = order.installationPlusTotal ? order.installationPlusTotal : 0;
 
-        $scope.installationSheet = {
-          pdfLink: await paldiService.orders.getPdfInstallationSheetLink(order)
-        }
-        console.log("pspspspspsppsp", $scope.installationSheet)
-        $("#download_installation_sheet").attr('href', $scope.installationSheet.pdfLink)
+        const res = (await paldiService.orders.getPdfInstallationSheetLink(order))
+        $scope.order.installationSheetPdfLink = res
+        // document.getElementById('download_installation_sheet').href = $scope.installationSheet.pdfLink
+        // $("#download_installation_sheet").attr('href', $scope.installationSheet.pdfLink)
+
 
         // console.log($scope.order.pdfInstallationSheetLink)
         $scope.perms = permissionService.setDependencies([
           ["user", $rootScope.currentUser],
           ["order", $scope.order],
-          ["installationSheet", $scope.installationSheet],
+          ["installationSheet", {
+            pdfLink: res,
+          }],
         ]);
 
         console.log($scope.perms)
@@ -142,10 +141,10 @@ pdApp.controller(
           // $scope.canManagePayments = [
           //   "MANAGER",
           //   "INSTALLATION_MANAGER",
-          // ].includes($scope.currentUser.role);
-
-          console.log($scope)
-        }, 400);
+          // // ].includes($scope.currentUser.role);
+          // console.log('FINISHED LOADING SOMETHING')
+          // console.log($scope)
+        });
 
       }, function (error) {
         $scope.step = "empty";

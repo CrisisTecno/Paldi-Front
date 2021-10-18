@@ -630,11 +630,12 @@
               </a>
               <div class="dropdown-divider"></div>
 
-              <a href="{{order.pdfOrderLink}}" 
+              <a 
+                ng-href="{{order.installationSheetPdfLink}}" 
+                id="download_installation_sheet"
                 class="dropdown-item btn btn-secondary-actions btn-sm btn-square"
                 style="margin-bottom: 0;"
                 ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' ||currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'INSTALLATION_MANAGER' || currentUser.role == 'ADMIN'"
-
                 download>
                 <span
                   class="btn-icon glyphicon glyphicon glyphicon-save"></span>Descargar
@@ -671,7 +672,7 @@
               <div class="dropdown-divider"></div>
               <a ng-show="perms.order.installation_sheet.download"
 
-                href="{{order.pdfInstallationSheetLink}}" target="_blank"
+                href="{{order.installationSheetPdfLink}}" target="_blank"
                 class="dropdown-item btn btn-secondary-actions btn-sm btn-square"
                 style="margin-bottom: 0;">
                 <span

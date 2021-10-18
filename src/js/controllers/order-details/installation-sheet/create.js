@@ -61,12 +61,12 @@ export const showCreateInstallationSheetDialog = async (
       const extras = data.extras;
       const material = data.materials;
 
-      if (!isExtraPresent(extras, material)) {
-        $scope.installationSheet.extraError = true;
-        return
-      } else {
-        $scope.installationSheet.extraError = false;
-      }
+      // if (!isExtraPresent(extras, material)) {
+      //   $scope.installationSheet.extraError = true;
+      //   return
+      // } else {
+      //   $scope.installationSheet.extraError = false;
+      // }
 
       const finalExtras = data.otherExtra.filter(
         (extraItem) => data.extras[extraItem]
