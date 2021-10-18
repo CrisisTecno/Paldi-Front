@@ -51,7 +51,7 @@ const performPayment = async (context, $scope, updatedOrder) => {
 	}
 };
 
-const performCustomAdvance = (context, $scope, updateOrder) => {
+const performCustomAdvance = (context, $scope, updatedOrder) => {
 	$scope.dateDialog("commitment");
 	$scope.updatedCustomOrder = updatedOrder;
 };
@@ -71,12 +71,12 @@ const updateOrder = async function (context, $scope, updatedOrder) {
       $scope.isPaying = false;
       context.loadOrder();
 		};
-		// console.log("showing create installation sheet dialog");
+		console.log("showing create installation sheet dialog");
 		await showCreateInstallationSheetDialog($scope, callback);
 	} catch (error) {
-		// console.log(error);
+		console.log('ERROR BEFORE INSTALLATION SHEET DIALOG', error);
 		if (
-			error.data.exception ===
+			error?.data?.exception ===
 			"io.lkmx.paldi.quote.components.error.InventoryNotEnoughException"
 		) {
 			showSwal("messages.orders.notEnoughInventory");

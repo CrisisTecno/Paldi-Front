@@ -3,7 +3,46 @@ import { attachTo } from "../../../utils/attach";
 import { showSwal } from "../../../utils/swal/show";
 
 import { formatTelephone, deformatTelephone } from "./formatTelephone";
-import {getExtraNames, getInstallationSheetSaveHandler, getObjName, isExtraPresent} from "./helpers"
+import { getExtraNames, getInstallationSheetSaveHandler, getObjName, isExtraPresent } from "./helpers"
+
+const getInstallationSheetState = async ($scope, order) => {
+  const previousInstallationSheet = await $scope.paldiService.installationSheet.fetchState($scope.order.id)
+  const data = previousInstallationSheet.data ?? {}
+
+  // Joins all the elements in the following structure {name: true, ...}
+  const getAllItems = (items) => {
+    return Object.fromEntries(
+      [
+        ...Object.entries(items).filter(([k, v]) => !k.includes('other_')),
+        ...getOtherItems(items).map(v => [v, true])
+      ]
+    )
+  }
+  // only retrieves an array of extra items (names)
+  const getOtherItems = (items) => {
+    return Object.entries(items)
+      .filter(([k, _]) => k.includes('other_'))
+      .map(([_, v]) => v)
+      .filter(v => v !== "")
+  }
+
+  return {
+    orderNo: order.orderNo | order.quoteNo,
+
+    receivingPerson: data.receiver,
+    telephone: deformatTelephone(data.phone_number),
+    address: data.address,
+    addressReference: data.address_guide,
+    postalCode: data.cp,
+
+    extras: getAllItems(previousInstallationSheet.tools ?? {}),
+    otherExtra: getOtherItems(previousInstallationSheet.tools ?? {}),
+    materials: getAllItems(previousInstallationSheet.material ?? {}),
+    otherMaterials: getOtherItems(previousInstallationSheet.material ?? {}),
+
+    extraError: false,
+  }
+}
 
 
 export const showCreateInstallationSheetDialog = async (
@@ -11,53 +50,8 @@ export const showCreateInstallationSheetDialog = async (
   callback,
   mode = "create"
 ) => {
-  attachTo(
-    $scope,
-    "installationSheet.save",
-    getInstallationSheetSaveHandler($scope)
-  );
-
-  let savedOrder = await $scope.paldiService.installationSheet.fetchState(
-    $scope.order.id
-  );
-
-  $scope.installationSheet.location
-
-  $scope.autocompleteOptions = {}
-
-  $scope.gPlace
-
-  document.getElementById('')
-
-
-  const otherExtraNames = [...getExtraNames(savedOrder?.tools)];
-  const otherMaterialNames = [...getExtraNames(savedOrder?.material)];
-
-  const otherExtraNamesObject = {};
-  otherExtraNames.forEach((name) => {
-    otherExtraNamesObject[name] = true;
-  });
-
-  const otherMaterialNamesObject = {};
-  otherMaterialNames.forEach((name) => {
-    otherMaterialNamesObject[name] = true;
-  });
-
   $scope.installationSheet = {
-    mode,
-    orderNo: savedOrder.orderNo,
-
-    receivingPerson: savedOrder?.data?.receiver,
-    telephone: deformatTelephone(savedOrder?.data?.phone_number),
-    address: savedOrder?.data?.address,
-    addressReference: savedOrder?.data?.address_guide,
-    postalCode: savedOrder?.data?.cp,
-
-    extras: { ...savedOrder?.tools, ...otherExtraNamesObject },
-    otherExtra: [...otherExtraNames],
-    materials: { ...savedOrder?.material, ...otherMaterialNamesObject },
-    otherMaterials: [...otherMaterialNames],
-    extraError: false,
+    ...(await getInstallationSheetState($scope, $scope.order)),
     save: async (installationForm) => {
 
       console.log($scope)
@@ -67,14 +61,12 @@ export const showCreateInstallationSheetDialog = async (
       const extras = data.extras;
       const material = data.materials;
 
-      if(!isExtraPresent(extras, material)) {
+      if (!isExtraPresent(extras, material)) {
         $scope.installationSheet.extraError = true;
         return
       } else {
         $scope.installationSheet.extraError = false;
       }
-
-
 
       const finalExtras = data.otherExtra.filter(
         (extraItem) => data.extras[extraItem]
@@ -133,13 +125,8 @@ export const showCreateInstallationSheetDialog = async (
 
     },
     addOtherExtra: (otherName, arrayName) => {
-      if (
-        !otherName ||
-        $scope.installationSheet[arrayName].includes(otherName) ||
-        (arrayName === "otherExtra"
-          ? $scope.installationSheet[arrayName].length === 6
-          : $scope.installationSheet[arrayName].length === 4)
-      ) {
+      if (!otherName || $scope.installationSheet[arrayName].includes(otherName)
+        || (arrayName === "otherExtra" ? $scope.installationSheet[arrayName].length === 6 : $scope.installationSheet[arrayName].length === 4)) {
         return;
       }
       $scope.installationSheet[arrayName].push(otherName);
