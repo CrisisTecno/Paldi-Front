@@ -47,6 +47,7 @@
             <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'CONSULTANT' " ui-sref="console.commissions">Comisiones</a></li>
             <li><a ui-sref="console.costing" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Costeo</a></li>
             <li><a ui-sref="console.products-catalog" ng-if="currentUser.role == 'SUPERADMIN'">Catálogo</a></li>
+            <li><a ui-sref="console.reports" ng-if="currentUser.role == 'SUPERADMIN'">Reportes</a></li>
         </ul>
     </metis-item>
 

@@ -75,16 +75,18 @@ const updateOrder = async function (context, $scope, updatedOrder) {
 		await showCreateInstallationSheetDialog($scope, callback);
 	} catch (error) {
 		console.log('ERROR BEFORE INSTALLATION SHEET DIALOG', error);
+    const callback = () => {
+      $scope.isPaying = false;
+      context.loadOrder();
+    }
 		if (
 			error?.data?.exception ===
 			"io.lkmx.paldi.quote.components.error.InventoryNotEnoughException"
 		) {
-			showSwal("messages.orders.notEnoughInventory");
+			showSwal("messages.orders.notEnoughInventory", callback);
 		} else {
-			showSwal("messages.error");
+			showSwal("messages.error", callback);
 		}
-    $scope.isPaying = false;
-    context.loadOrder();
 	}
 };
 

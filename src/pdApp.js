@@ -249,6 +249,15 @@ const pdApp = angular
         roles: ["SUPERADMIN", "ADMIN", "MANAGER"],
       })
 
+      .state("console.reports", {
+        url: "/reports",
+        templateUrl: "partials/views/console/reports/index.html",
+        controller: "ReportsController",
+        title: "Reportes",
+        authRequired: true,
+        roles: ["SUPERADMIN", "ADMIN"]
+      })
+
       .state("console.product-details", {
         url: "/pisos/details/:productId",
         templateUrl: "partials/views/console/product-details.html",
