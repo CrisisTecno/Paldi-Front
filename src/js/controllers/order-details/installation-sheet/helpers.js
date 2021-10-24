@@ -5,7 +5,6 @@ export const getInstallationSheetSaveHandler = ($scope) => (form, data) => {
   console.log({ form, data });
 };
 
-// @note getExtraNames clean
 export const getExtraNames = (obj) => {
   if (!obj) {
     return []
