@@ -6,6 +6,8 @@ import {
 	installationSheet,
 } from "./messages";
 
+import { messages as reports } from "./messages/reports";
+
 export const showSwal = (tag, callback = undefined) => {
 	const swalInvoker = getSwal(tag);
 	swalInvoker(callback);
@@ -30,6 +32,7 @@ const swals = {
 		},
 		orders: orders,
 		installation_sheet: installationSheet,
+    reports: reports,
 	},
 };
 

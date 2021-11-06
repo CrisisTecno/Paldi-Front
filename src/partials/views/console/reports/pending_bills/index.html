@@ -1,0 +1,27 @@
+<div>
+  <p>Opciones del reporte:</p>
+  <ng-include src="'/partials/views/console/reports/general/date-select.html'"></ng-include>
+
+  <span>Formato: </span>
+  <select
+    ng-options="type for type in reports.selected.formats"
+    ng-model="reports.current.type"
+  >
+    <option value="" disabled hidden selected>Seleccionar</option>
+  </select>
+
+  <span>Agrupar: </span>
+  <select
+    ng-options="reports.prettyGroup(type) for type in reports.selected.groups"
+    ng-model="reports.current.group"
+  >
+    <option value="" disabled hidden selected>Seleccionar</option>
+  </select>
+
+  <br><br>
+
+  <button class="btn btn-secondary-actions" ng-click="reports.download()">Descargar Reporte</button>
+
+  <br>
+  <br>
+</div>

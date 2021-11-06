@@ -1,0 +1,40 @@
+<div>
+  <br>
+
+  <p class="input-group pull-left"
+      style="width: 25%; margin-right: 1rem;">
+      <span class="input-group-btn">
+          <button 
+            type="button" 
+            class="btn btn-calendar"
+            ng-click="reports.current.date.start.opened = true">Desde <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+      </span>
+      <input name="startDate" class="form-control"
+          uib-datepicker-popup="{{format}}" ng-model="reports.current.date.start.value"
+          is-open="reports.current.date.start.opened"
+          datepicker-options="startDateOptions"
+          close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"
+          alt-input-formats="altInputFormats"
+      />
+  </p>
+
+  <p class="input-group pull-left"
+      style="width: 25%; margin-right: 1rem;">
+      <span class="input-group-btn">
+          <button 
+            type="button" 
+            class="btn btn-calendar"
+            ng-click="reports.current.date.end.opened = true">Hasta <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+      </span>
+      <input name="startDate" class="form-control"
+          uib-datepicker-popup="{{format}}" ng-model="reports.current.date.end.value"
+          is-open="reports.current.date.end.opened"
+          datepicker-options="startDateOptions"
+          close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"
+          alt-input-formats="altInputFormats"
+      />
+  </p>
+  <br><br><br>
+</div>

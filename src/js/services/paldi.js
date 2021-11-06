@@ -1,10 +1,13 @@
 import { pdApp } from "./index";
 import { globals } from "./index";
 import moment from "moment";
+import { buildReportsService } from "./paldi/reports";
 
 // TODO: Agregar esto a un modulo
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 	var service = {};
+
+  service.reports = buildReportsService($http)
 
 	//--------------- PASSWORD ---------------
 	service.password = {
