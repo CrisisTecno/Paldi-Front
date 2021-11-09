@@ -35,8 +35,8 @@ const getPaymentInfo = ($scope, model) => ({
 	bankPaymentType: getBankPaymentType(model),
 	date: new Date(),
 	user: $scope.currentUser,
-	isDiscountPayment: model.isDiscountPayment && false,
-	sendToClient: model.sendToClient && false,
+	isDiscountPayment: model.isDiscountPayment ?? false,
+	sendToClient: model.sendToClient ?? false,
 });
 
 const performPayment = async (context, $scope, updatedOrder) => {
