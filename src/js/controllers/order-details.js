@@ -348,7 +348,7 @@ pdApp.controller(
     };
 
     $scope.pay = function (form, model) {
-      const confirmPayment = getConfirmPayment(this, $scope);
+      const confirmPayment = getConfirmPayment(this, $scope, model);
       if (form.$valid) {
         $scope.dialog.close();
         confirmPayment(model);

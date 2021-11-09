@@ -35,8 +35,8 @@ const getPaymentInfo = ($scope, model) => ({
 	bankPaymentType: getBankPaymentType(model),
 	date: new Date(),
 	user: $scope.currentUser,
-	isDiscountPayment: model.isDiscountPayment && false,
-	sendToClient: model.sendToClient && false,
+	isDiscountPayment: model.isDiscountPayment ?? false,
+	sendToClient: model.sendToClient ?? false,
 });
 
 const performPayment = async (context, $scope, updatedOrder) => {
@@ -56,7 +56,8 @@ const performCustomAdvance = (context, $scope, updatedOrder) => {
 	$scope.updatedCustomOrder = updatedOrder;
 };
 
-const updateOrder = async function (context, $scope, updatedOrder) {
+const updateOrder = async function (context, $scope, updatedOrder, model) {
+
 	try {
 		const callback = async function () {
 			const order = await context.paldiService.orders.updateStatus(
@@ -90,13 +91,13 @@ const updateOrder = async function (context, $scope, updatedOrder) {
 	}
 };
 
-const perfomAdvance = async (context, $scope, updatedOrder) => {
+const perfomAdvance = async (context, $scope, updatedOrder, model) => {
 	if ($scope.productType == "Custom")
-		return performCustomAdvance(context, $scope, updatedOrder);
+		return performCustomAdvance(context, $scope, updatedOrder, model);
 
 	const order = await context.paldiService.orders.get(updatedOrder.id);
 	if (order.quote) {
-		await updateOrder(context, $scope, updatedOrder);
+		await updateOrder(context, $scope, updatedOrder, model);
 	} else {
 		context.loadOrder();
 		context.$timeout(() => showSwal("messages.error"), 400);
@@ -110,14 +111,15 @@ const processPayment = (context, $scope, model) => {
 	updatedOrder.payment = getPaymentInfo($scope, model);
 
 	if ($scope.paymentType === "payment")
-		performPayment(context, $scope, updatedOrder);
+		performPayment(context, $scope, updatedOrder, model);
 	if ($scope.paymentType == "advance")
-		perfomAdvance(context, $scope, updatedOrder);
+		perfomAdvance(context, $scope, updatedOrder, model);
 	$scope.paymentType = "";
 };
 
-const getPaymentSwalHandler = (context, $scope) =>
-	function (model, confirm) {
+
+export const getConfirmPayment = (context, $scope, model) => {
+	function paymentSwalHandler (model, confirm) {
 		context = $scope;
 		if ($scope.isPaying || !confirm) {
 			$scope.paymentType = "";
@@ -128,8 +130,6 @@ const getPaymentSwalHandler = (context, $scope) =>
 		$scope.paymentType = "";
 	};
 
-export const getConfirmPayment = (context, $scope) => {
-	const paymentSwalHandler = getPaymentSwalHandler(context, $scope);
 	return (model) => {
 		swal(getProps(model), function (confirm) {
 			paymentSwalHandler(model, confirm);
