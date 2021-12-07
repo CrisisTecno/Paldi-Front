@@ -182,10 +182,7 @@ pdApp.controller(
 
         $scope.updatePrices(product, model);
 
-        var sellerValid = true;
-        if (product == "Custom" && !$scope.quote.seller) {
-          sellerValid = false;
-        }
+        const sellerValid = validateSeller(product, $scope);
 
         if ($scope.hasSystems) {
           if (model.system) {
@@ -1615,6 +1612,14 @@ pdApp.controller(
     }
   }
 );
+
+function validateSeller(product, $scope) {
+  let sellerValid = true;
+  if (product == "Custom" && !$scope.quote.seller) {
+    sellerValid = false;
+  }
+  return sellerValid;
+}
 
 function addNewProduct($scope, product) {
   angular.copy({}, $scope.balance);
