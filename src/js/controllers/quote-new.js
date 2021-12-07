@@ -1600,13 +1600,12 @@ function setModelControlHeight(product, $scope, model) {
 
 function setModelColor(product, model) {
   if (product != "Custom") {
-    model.color =
-      model.productType == "Toldo" ||
-        model.productType == "Enrollable" ||
-        model.productType == "Filtrasol" ||
-        model.productType == "Piso"
-        ? model.colorObj
-        : model.colorObj.code;
+    if (["Toldo", "Enrollable", "Filtrasol", "Piso"].includes(model.productType))
+      model.color = model.colorObj
+    else if (["Cortina"].includes(model.productType))
+      model.color = model.color
+    else
+      model.colorObj.code;
   }
 }
 

@@ -8,6 +8,7 @@ import { generatePisoHandlers } from './products/piso'
 import { generateBalanceHandlers } from './products/balance'
 import { generateShutterHandlers } from "./products/shutter";
 
+import { getAdditionalsSubTotal, getMotorsSubtotal } from "./totals/totals";
 
 
 pdApp.factory(
@@ -338,7 +339,10 @@ pdApp.factory(
 
     //------------------------------ Cortinas ---------------------------    
     function getCortinaPrice(model) {
+      if (!model)
+        return
       model.total = 500
+      model.price = 500
     }
 
     //------------------------------ Custom -----------------------------
