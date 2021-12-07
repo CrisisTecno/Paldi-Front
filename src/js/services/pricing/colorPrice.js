@@ -12,7 +12,7 @@ import { generateShutterHandlers } from "./products/shutter";
 
 pdApp.factory(
   "colorPriceService",
-  function ($http, $q, $filter, $rootScope, paldiService) {
+  function ($http, $q, $filter, $rootScope, paldiService, pricingService) {
     var service = {
       // Exchange Rate
       getExchangeRate: function () {
@@ -66,119 +66,14 @@ pdApp.factory(
             break;
         }
       },
+
       updateTotals: function (product, model) {
-        var productsTotal = 0;
-        var balanceTotal = 0;
-        var shutterTotal = 0;
-        var enrollableTotal = 0;
-        var filtrasolTotal = 0;
-        var plusTotal = 0;
-        var motorTotal = 0;
-        var installationTotal = 0;
-        var installationPlusTotal = 0;
-        var plusFiltrasol = 0;
-        var plusEnrollable = 0;
-
-        var pisoDiscount = false;
-
+        let pisoDiscount = false
         angular.forEach(model.products, function (product, key) {
-          // - !!!!!!!!!!! ADITIONALS !!!!!!!!!!! - //
-          angular.forEach(product.plusList, function (plus, key) {
-            switch (plus.priceType) {
-              case "PRODUCT":
-                plus.total = plus.price * plus.quantity;
-                break;
-              case "PIECE":
-                plus.total = plus.price * plus.quantity;
-                break;
-              case "WIDTH":
-                plus.total =
-                  plus.price * plus.quantity * product.width;
-                break;
-              case "HEIGHT":
-                plus.total =
-                  plus.price * plus.quantity * product.height;
-                break;
-              case "METER":
-                plus.total =
-                  plus.price * plus.quantity * product.m2;
-                break;
-            }
-
-            if (model.type === "Mixta") {
-              if (product.productType === "Enrollable") {
-                plusEnrollable += plus.total;
-              } else if (product.productType === "Filtrasol") {
-                plusFiltrasol += plus.total;
-              }
-            }
-
-            plusTotal += plus.total;
-          });
-
-          // - !!!!!!!!!!! MOTOR !!!!!!!!!!! - //
-          angular.forEach(product.motorList, function (motor, key) {
-            motor.total = motor.price * motor.quantity;
-            motorTotal += motor.total;
-          });
-
-          //=============== INSTALLATION PLUS =========================//
-          angular.forEach(
-            product.installationPlusList,
-            function (plus) {
-              if (plus.priceType == "PIECE") {
-                plus.total = plus.price * plus.quantity;
-              } else if (plus.priceType == "METER") {
-                plus.total =
-                  plus.price * plus.quantity * product.m2;
-              }
-              installationPlusTotal += plus.total;
-            }
-          );
-
-          if (model.type == "Piso") {
-            if (
-              product.type == "Laminados" &&
-              model.client &&
-              model.client.type != "DIRECT_SALE"
-            ) {
-              pisoDiscount = true;
-            }
-
-            installationTotal += product.installationPrice;
+          if (model.type == "Piso" && product.type == "Laminados" && model.client && model.client.type != "DIRECT_SALE") {
+            pisoDiscount = true;
           }
-
-          if (model.type == "Mixta") {
-            switch (product.productType) {
-              case "Balance":
-                balanceTotal += product.total;
-                break;
-              case "Shutter":
-                shutterTotal += product.total;
-                break;
-              case "Enrollable":
-                enrollableTotal += product.total;
-                break;
-              case "Filtrasol":
-                filtrasolTotal += product.total;
-                break;
-            }
-          }
-
-          productsTotal += product.total;
-        });
-
-        model.productsTotal = productsTotal;
-        model.balanceTotal = balanceTotal;
-        model.shutterTotal = shutterTotal;
-        model.enrollableTotal = enrollableTotal;
-        model.filtrasolTotal = filtrasolTotal;
-
-        model.plusTotal = plusTotal;
-        model.motorTotal = motorTotal;
-        model.installationPlusTotal = installationPlusTotal;
-        model.installationTotal =
-          installationTotal + installationPlusTotal;
+        })
 
         if ($rootScope.currentUser.canAdmin) {
           model.clientMaxDiscount = 100;
@@ -194,60 +89,28 @@ pdApp.factory(
           }
         }
 
-        if (model.type === "Mixta") {
-          model.discountPercent = 0;
-          model.balanceDiscount = model.discountPercentBalance
-            ? (model.balanceTotal * model.discountPercentBalance) /
-            100
-            : 0;
-          model.shutterDiscount = model.discountPercentShutter
-            ? (model.shutterTotal * model.discountPercentShutter) /
-            100
-            : 0;
-          model.enrollableDiscount = model.discountPercentEnrollable
-            ? ((model.enrollableTotal +
-              plusEnrollable +
-              model.motorTotal) *
-              model.discountPercentEnrollable) /
-            100
-            : 0;
-          model.filtrasolDiscount = model.discountPercentFiltrasol
-            ? ((model.filtrasolTotal + plusFiltrasol) *
-              model.discountPercentFiltrasol) /
-            100
-            : 0;
-          model.discount =
-            model.balanceDiscount +
-            model.shutterDiscount +
-            model.enrollableDiscount +
-            model.filtrasolDiscount;
-        } else if (model.type === "Piso") {
-          model.discount = model.discountPercent
-            ? ((model.productsTotal +
-              model.plusTotal +
-              model.motorTotal) *
-              model.discountPercent) /
-            100
-            : 0;
-        } else {
-          model.discount = model.discountPercent
-            ? ((model.productsTotal +
-              model.plusTotal +
-              model.motorTotal) *
-              model.discountPercent) /
-            100
-            : 0;
+        // Update Quote/Order Object
+        const totals = pricingService.getTotals(model)
+        console.log('Calculated', totals)
+        for (const [key, value] of Object.entries(totals)) {
+          model[key] = value
         }
-        model.subTotal =
-          model.productsTotal +
-          model.plusTotal +
-          model.motorTotal +
-          model.installationTotal -
-          model.discount;
-        model.iva = model.subTotal * globals.iva;
-        model.total = model.subTotal + model.iva;
 
-        roundPrices(model);
+        // Update Plus Total
+        const additionalTotals = getAdditionalsSubTotal(model)
+        model.products?.forEach((product, i) => {
+          product.plusList?.forEach((additional, j) => {
+            additional.total = additionalTotals[i][j]
+          })
+        })
+
+        // Updater Motor Total
+        const motorsTotals = getMotorsSubtotal(model)
+        model.products?.forEach((product, i) => {
+          product.motorList?.forEach((motor, j) => {
+            motor.total = motorsTotals[i][j]
+          })
+        })
       },
 
       prepare: function (product, model) {
