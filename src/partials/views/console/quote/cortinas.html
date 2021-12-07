@@ -1,0 +1,169 @@
+<div class="cortinas-view">
+  <!-- _________nofunc to updateType -->
+  <h3 class="form-title">Cortina</h3>
+  <small class="error-message" ng-if="cortina.doable==false">No realizable</small>
+  <form name="cortinaForm" role="form" novalidate ng-submit="addProduct('Cortina', cortinaForm, cortina)" autocomplete="off">
+    <div class="form-group">
+      <label>Cantidad</label>
+      <input type="number" min="1" value="1" name="quantity" ng-model="cortina.quantity" class="form-control" ng-change="updatePrices('Cortina', cortina)" step="1" required="" pattern="[0-9]*">
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
+    </div>
+    <div class="form-group">
+      <label>Ubicación</label>
+      <input type="text" name="quantity" ng-model="cortina.location" class="form-control" ng-change="updatePrices('Cortina', cortina)" step="1" required="">
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
+    </div>
+    <div class="form-group">
+      <label>Tipo</label>
+      <select name="type" ng-model="cortina.type" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+        <option value="cortina">Cortina</option>
+        <option value="cortinero">Cortinero</option>
+        <option value="cortinero_deco">Cortinero decorativo</option>
+        <option value="cortinero_motor">Cortinero motorizado</option>
+        <!-- <option value="motor">Motorización</option> -->
+      </select>
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.type.$error.required">Campo requerido</small>
+    </div>
+    <div class="form-group">
+      <label>Sistema</label>
+      <select name="type" ng-model="cortina.sistema" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+        <!-- Sistema cortina -->
+        <option value="plitz" ng-if="cortina.type == 'cortina'">Plitz Francés</option>
+        <option value="ondulada" ng-if="cortina.type == 'cortina'">Ondulada Broche</option>
+        <option value="ojillos" ng-if="cortina.type == 'cortina'">Ojillos</option>
+        <!-- Sistema cortinero -->
+        <option value="heavy_duty" ng-if="cortina.type == 'cortinero'">Heavy Duty</option>
+        <option value="flex" ng-if="cortina.type == 'cortinero'">Flex</option>
+        <!-- Sistema Cortinero Decorativo -->
+        <option value="foja" ng-if="cortina.type == 'cortinero_deco'">Forja</option>
+        <option value="varadero" ng-if="cortina.type == 'cortinero_deco'">Varadero</option>
+        <!-- Sistema Cortinero Motorizado -->
+        <option value="riel" ng-if="cortina.type == 'cortinero_motor'">Riel</option>
+      </select>
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.type.$error.required">Campo requerido</small>
+    </div>
+    <div class="form-group">
+      <label>Textil</label>
+      <input type="text" name="quantity" ng-model="cortina.textil" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
+    </div>
+    <div class="form-group">
+      <label>Ancho</label>
+      <input type="number" name="width" id="width" ng-model="cortina.width" min="0.1" class="form-control" ng-change="changeSimpleWidth('Cortina', cortina)" required="" step="0.1">
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.width.$error.required">Campo requerido</small>
+    </div>
+    <div class="form-group">
+      <label>Alto</label>
+      <input type="number" name="height" id="height" ng-model="cortina.height" min="0.1" class="form-control" required="" step="0.1" ng-change="changeSimpleHeight('Cortina', cortina)">
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.height.$error.required">Campo requerido</small>
+    </div>
+    <!-- Apertura -->
+    <div class="form-group">
+      <label>Apertura</label>
+      <select name="type" ng-model="cortina.apertura" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+        <!-- Apertura cortina -->
+        <option value="left" ng-if="cortina.type == 'cortina'">Izquiero</option>
+        <option value="right" ng-if="cortina.type == 'cortina'">Derecho</option>
+        <option value="sides" ng-if="cortina.type == 'cortina'">Extremos</option>
+        <!-- Apertura cortinero -->
+        <option value="left" ng-if="cortina.type == 'cortinero'">Izquierdo</option>
+        <option value="right" ng-if="cortina.type == 'cortinero'">Derecho</option>
+        <option value="sides" ng-if="cortina.type == 'cortinero'">Extremos</option>
+        <!-- Apertura Cortinero Decorativo -->
+        <option value="left" ng-if="cortina.type == 'cortinero_deco'">Izquierdo</option>
+        <option value="right" ng-if="cortina.type == 'cortinero_deco'">Derecho</option>
+        <option value="sides" ng-if="cortina.type == 'cortinero_deco'">Extremos</option>
+        <!-- Apertura Cortinero Motorizado -->
+        <option value="left" ng-if="cortina.type == 'cortinero_motor'">Izquierdo</option>
+        <option value="right" ng-if="cortina.type == 'cortinero_motor'">Derecho</option>
+        <option value="sides" ng-if="cortina.type == 'cortinero_motor'">Extremos</option>
+      </select>
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.type.$error.required">Campo requerido</small>
+    </div>
+    <!-- Instalación -->
+    <div class="form-group">
+      <label>Instalación</label>
+      <select name="type" ng-model="cortina.instalacion" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+        <!-- Instalación cortina -->
+        <option value="ceiling" ng-if="cortina.type == 'cortina'">Techo</option>
+        <option value="wall" ng-if="cortina.type == 'cortina'">Muro</option>
+        <!-- Instalación cortinero -->
+        <option value="ceiling" ng-if="cortina.type == 'cortinero'">Techo</option>
+        <option value="wall" ng-if="cortina.type == 'cortinero'">Muro</option>
+        <!-- Instalación Cortinero Decorativo -->
+        <option value="wall" ng-if="cortina.type == 'cortinero_deco'">Pared</option>
+        <option value="double_wall" ng-if="cortina.type == 'cortinero_deco'">Pared doble</option>
+        <!-- Instalación Cortinero Motorizado -->
+      </select>
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.type.$error.required">Campo requerido</small>
+    </div>
+    <!-- Acabado -->
+    <div class="form-group">
+      <label>Acabado</label>
+      <select name="type" ng-model="cortina.acabado" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+        <!-- Apertura cortina -->
+        <option value="plum" ng-if="cortina.type == 'cortina'">Bajo Plomo</option>
+        <option value="dolb" ng-if="cortina.type == 'cortina'">Dobladillo</option>
+        <option value="forrado" ng-if="cortina.type == 'cortina'">Forrado</option>
+        <!-- Apertura cortinero -->
+        <option value="std" ng-if="cortina.type == 'cortinero'">Estandar</option>
+        <option value="ondulado" ng-if="cortina.type == 'cortinero'">Ondulado</option>
+        <option value="curvo" ng-if="cortina.type == 'cortinero'">Curvo</option>
+        <!-- Apertura Cortinero Decorativo -->
+        <option value="ball" ng-if="cortina.type == 'cortinero_deco'">Bola</option>
+        <option value="cono" ng-if="cortina.type == 'cortinero_deco'">Cono</option>
+        <option value="tapon" ng-if="cortina.type == 'cortinero_deco'">Tapon</option>
+        <!-- Apertura Cortinero Motorizado -->
+        <option value="recto" ng-if="cortina.type == 'cortinero_motor'">Recto</option>
+        <option value="curvo" ng-if="cortina.type == 'cortinero_motor'">Curvo</option>
+      </select>
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.type.$error.required">Campo requerido</small>
+    </div>
+    <!-- Baston -->
+    <div class="form-group">
+      <label>Baston</label>
+      <select name="type" ng-model="cortina.baston" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+        <!-- Baston cortina -->
+        <option value="plum" ng-if="cortina.type == 'cortina'">Sin baston</option>
+        <option value="dolb" ng-if="cortina.type == 'cortina'">Acrilico 1</option>
+        <option value="forrado" ng-if="cortina.type == 'cortina'">Acrilico 1.2</option>
+        <!-- Baston cortinero -->
+        <option value="std" ng-if="cortina.type == 'cortinero'">Acrilico 1.5</option>
+        <option value="ondulado" ng-if="cortina.type == 'cortinero'">Acrilico 2</option>
+        <option value="curvo" ng-if="cortina.type == 'cortinero'">Acrilico 2.5</option>
+        <option value="curvo2" ng-if="cortina.type == 'cortinero'">Acrilico 3</option>
+        <!-- Baston Cortinero Decorativo -->
+        <option value="ball" ng-if="cortina.type == 'cortinero_deco'">Aluminio 1</option>
+        <option value="cono" ng-if="cortina.type == 'cortinero_deco'">Aluminio 1.2</option>
+        <option value="tapon" ng-if="cortina.type == 'cortinero_deco'">Aluminio 1.5</option>
+        <!-- Baston Cortinero Motorizado -->
+        <option value="recto" ng-if="cortina.type == 'cortinero_motor'">Aluminio 2</option>
+        <option value="curvo" ng-if="cortina.type == 'cortinero_motor'">Aluminio 2.5</option>
+        <option value="curvo2" ng-if="cortina.type == 'cortinero_motor'">Aluminio 3</option>
+      </select>
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.type.$error.required">Campo requerido</small>
+    </div>
+    <div class="form-group notes">
+      <label>Observaciones</label>
+      <textarea name="notes" ng-model="cortina.notes" class="form-control"></textarea>
+    </div>
+    <div class="total-configuration">
+      <div class="form-group" ng-show="cortina.unit">
+        <label>Precio Metro</label>
+        <input ng-currency type="text" name="unit" ng-model="cortina.unit" class="form-control" disabled="disabled" placeholder="{{cortina.unit}}">
+      </div>
+      <div class="form-group" ng-show="cortina.price">
+        <label>Precio Unitario</label>
+        <input ng-currency type="text" name="price" ng-model="cortina.price" class="form-control" disabled="disabled" placeholder="${{cortina.price}}">
+      </div>
+      <div class="form-group" ng-show="cortina.total">
+        <label>Total</label>
+        <input ng-currency type="text" name="total" ng-model="cortina.total" class="form-control" disabled="disabled" placeholder="{{cortina.total}}">
+      </div>
+    </div>
+    <div>
+      <button type="button" class="btn btn-default" ng-click="cancelProduct(cortinaForm)">Cancelar</button>
+      <button type="submit" class="btn btn-primary">Agregar</button>
+    </div>
+  </form>
+</div>

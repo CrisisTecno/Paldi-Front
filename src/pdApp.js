@@ -88,7 +88,7 @@ const pdApp = angular
         title: "Tipo de Cambio",
         authRequired: true,
       })
-
+      // @note Controller quote-new pdApp
       .state("console.quote-new", {
         url: "/new/quote",
         templateUrl: "partials/views/console/quote-new.html",
