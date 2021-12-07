@@ -184,15 +184,7 @@ pdApp.controller(
 
         const sellerValid = validateSeller(product, $scope);
 
-        if ($scope.hasSystems) {
-          if (model.system) {
-            $scope.systemsValid = true;
-          } else {
-            $scope.systemsValid = false;
-          }
-        } else {
-          $scope.systemsValid = true;
-        }
+        $scope.systemsValid = validateSystems($scope, model);
 
         if (
           form.$valid &&
@@ -204,18 +196,12 @@ pdApp.controller(
           model.productType = product;
           $scope.quote.type = product;
 
-          if (product != "Custom") {
-            model.color =
-              model.productType == "Toldo" ||
-                model.productType == "Enrollable" ||
-                model.productType == "Filtrasol" ||
-                model.productType == "Piso"
-                ? model.colorObj
-                : model.colorObj.code;
-          } else {
+          if (product === "custom") {
             model.seller = $scope.quote.seller;
-            // model.commitmentDate = $scope.date;
           }
+
+          extractModelColor(product, model);
+
           model.plusList = $scope.plusList;
           model.motorList = $scope.motorList;
           model.installationPlusList = $scope.installationPlusList;
@@ -1612,6 +1598,25 @@ pdApp.controller(
     }
   }
 );
+
+function extractModelColor(product, model) {
+  if (product != "Custom") {
+    model.color =
+      model.productType == "Toldo" ||
+        model.productType == "Enrollable" ||
+        model.productType == "Filtrasol" ||
+        model.productType == "Piso"
+        ? model.colorObj
+        : model.colorObj.code;
+  }
+}
+
+function validateSystems($scope, model) {
+  if (!$scope.hasSystems) {
+    return true
+  }
+  return !!model.system
+}
 
 function validateSeller(product, $scope) {
   let sellerValid = true;
