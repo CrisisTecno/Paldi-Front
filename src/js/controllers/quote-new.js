@@ -200,39 +200,16 @@ pdApp.controller(
             model.seller = $scope.quote.seller;
           }
 
-          extractModelColor(product, model);
+          setModelColor(product, model);
 
           model.plusList = $scope.plusList;
           model.motorList = $scope.motorList;
           model.installationPlusList = $scope.installationPlusList;
           model.rotated = $scope.rotated;
 
-          if (
-            (product == "Enrollable" || product == "Filtrasol") &&
-            $scope.controlHeightCheckbox == true
-          ) {
-            model.controlHeight = 0;
-          }
+          setModelControlHeight(product, $scope, model);
 
-          if ($scope.editFlag) {
-            $scope.quote.products.splice(
-              edittedProductIndex,
-              0,
-              angular.copy(model)
-            );
-            $scope.productsSorted[
-              editedObjectIndex
-            ].products.splice(
-              editedProductIndex,
-              0,
-              angular.copy(model)
-            );
-            editedObjectIndex = null;
-            editedProductIndex = null;
-            edittedProductIndex = null;
-          } else {
-            $scope.quote.products.push(angular.copy(model));
-          }
+          updateProductList();
 
           $scope.hasAdditionals();
           $scope.hasMultipleProducts();
@@ -253,6 +230,18 @@ pdApp.controller(
       }
 
       $scope.filterProducts();
+
+      function updateProductList() {
+        if ($scope.editFlag) {
+          $scope.quote.products.splice(edittedProductIndex, 0, angular.copy(model));
+          $scope.productsSorted[editedObjectIndex].products.splice(editedProductIndex, 0, angular.copy(model));
+          editedObjectIndex = null;
+          editedProductIndex = null;
+          edittedProductIndex = null;
+        } else {
+          $scope.quote.products.push(angular.copy(model));
+        }
+      }
     };
 
 
@@ -1599,7 +1588,16 @@ pdApp.controller(
   }
 );
 
-function extractModelColor(product, model) {
+function setModelControlHeight(product, $scope, model) {
+  if (!$scope.controlHeightCheckbox)
+    return
+  
+  if (product == "Enrollable" || product == "Filtrasol") {
+    model.controlHeight = 0;
+  }
+}
+
+function setModelColor(product, model) {
   if (product != "Custom") {
     model.color =
       model.productType == "Toldo" ||
