@@ -1,7 +1,7 @@
 export { globals } from "../../index";
 export { pdApp } from "../../pdApp";
 
-import "./colorPrice";
+import "./pricing/colorPrice";
 import "./json";
 import "./paldi";
 import "./permissions";

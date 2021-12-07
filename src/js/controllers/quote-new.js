@@ -186,13 +186,7 @@ pdApp.controller(
 
         $scope.systemsValid = validateSystems($scope, model);
 
-        if (
-          form.$valid &&
-          model.total &&
-          model.price &&
-          $scope.systemsValid &&
-          sellerValid
-        ) {
+        if (form.$valid && model.total && model.price && $scope.systemsValid && sellerValid) {
           model.productType = product;
           $scope.quote.type = product;
 
@@ -214,15 +208,22 @@ pdApp.controller(
           $scope.hasAdditionals();
           $scope.hasMultipleProducts();
           colorPriceService.updateTotals(product, $scope.quote);
+
+          // @todo Abstract product list separation
           $scope.productsSorted.forEach(function (typeList) {
             typeList.products = [];
           });
           $scope.quote.products.forEach(function (product) {
             orderProductsByType(product);
           });
+
           $scope.editFlag = false;
+
+          // clear thestate create by the quote
           $scope.cancelProduct();
+          // remove the data in $scope.{product}
           angular.copy({}, model);
+
           form.$validated = false;
         } else {
           form.$validated = true;
