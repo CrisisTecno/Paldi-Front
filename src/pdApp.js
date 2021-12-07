@@ -88,7 +88,7 @@ const pdApp = angular
         title: "Tipo de Cambio",
         authRequired: true,
       })
-
+      // @note Controller quote-new pdApp
       .state("console.quote-new", {
         url: "/new/quote",
         templateUrl: "partials/views/console/quote-new.html",
@@ -247,6 +247,15 @@ const pdApp = angular
         title: "Catálogo de productos",
         authRequired: true,
         roles: ["SUPERADMIN", "ADMIN", "MANAGER"],
+      })
+
+      .state("console.reports", {
+        url: "/reports",
+        templateUrl: "partials/views/console/reports/index.html",
+        controller: "ReportsController",
+        title: "Reportes",
+        authRequired: true,
+        roles: ["SUPERADMIN", "ADMIN"]
       })
 
       .state("console.product-details", {

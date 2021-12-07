@@ -27,6 +27,7 @@ pdApp.factory(
 			},
 
 			updatePrice: function (product, model, meta) {
+        console.log("Updating price of:", product)
 				switch (product) {
 					case "Balance":
 						getBalancePrice(model);

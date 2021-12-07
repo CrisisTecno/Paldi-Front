@@ -35,3 +35,5 @@ import "./user-list";
 import "./user-new";
 import "./warehouse-details";
 import "./warehouses";
+
+import "./reports"

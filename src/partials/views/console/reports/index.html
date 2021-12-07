@@ -1,0 +1,27 @@
+<div class="order-list-view">
+  <div class="ibox">
+    <div class="ibox-title">
+      <h3>Reportes</h3>
+    </div>
+    <div class="ibox-content">
+      <div>
+        <span>Generar reporte:</span>
+        <select 
+          ng-change="reports.updateSelected()" 
+          ng-options="report.prettyName for report in reports.list"  
+          ng-model="reports.selected" 
+        >
+          <option value="" selected>Tipo</option>
+        </select>
+      </div>
+      <div ng-if="reports.selected">
+        <ng-include src="reports.templateUrl"></ng-include>
+      </div>
+
+      <br><br>
+      Historial de reportes
+      <ng-include src="'/partials/views/console/reports/general/history-table.html'"></ng-include>
+    </div>
+  </div>
+</div>
+</div>
