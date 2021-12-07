@@ -1,9 +1,0 @@
-<div>
-	<legend>Solo se admiten archivos con formato .XML</legend>
-	<input type="file" id="fileUpload" name="file" onchange="angular.element(this).scope().selectFile(this.files)"/>
-	<span class="text-danger" ng-if="fileEmpty">El archivo está vacio</span>
-	<br>
-	<button type="button" class="btn btn-primary" ng-click="uploadBill()" ng-disabled="!fileValid" ng-hide="uploading"> Cargar factura </button>
-	<img ng-show="uploading" class="spinner-img" src="img/spinner.gif">
-	<button type="button" class="btn btn-default" ng-hide="uploading" ng-click="closeThisDialog()"> Cancelar </button>
-</div>
