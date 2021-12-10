@@ -146,6 +146,11 @@ pdApp.factory(
               product
             );
             break;
+          case "Cortina":
+            model.cortinas = filterProducts(
+              model.products,
+              product
+            )
           case "Piso":
             model.pisos = filterProducts(model.products, product);
             break;

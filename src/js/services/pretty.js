@@ -116,6 +116,7 @@ pdApp.factory("prettyHelper", function () {
 			}
 			return label;
 		},
+    
 		getSingularForm: function (label) {
 			switch (label) {
 				case "moldings":
@@ -191,7 +192,7 @@ pdApp.factory("prettyHelper", function () {
 				case "Custom":
 					return "Personalizado";
 			}
-			return "";
+			return type;
 		},
 
 		getColor: function (color) {

@@ -44,7 +44,7 @@
     </div>
     <div class="form-group">
       <label>Textil</label>
-      <input type="text" name="quantity" ng-model="cortina.color" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
+      <input type="text" name="quantity" ng-model="cortina.color.name" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
     </div>
     <div class="form-group">

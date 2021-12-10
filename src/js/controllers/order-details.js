@@ -37,6 +37,7 @@ pdApp.controller(
       $scope.productsSorted.push({ type: "Filtrasol", products: [] });
       $scope.productsSorted.push({ type: "Persiana o Filtrasol", products: [] });
       $scope.productsSorted.push({ type: "Piso", products: [] });
+      $scope.productsSorted.push({ type: "Cortina", products: [] });
       $scope.productsSorted.push({ type: "Custom", products: [] });
       $scope.suborders = [];
       $scope.limitDays = 20;
