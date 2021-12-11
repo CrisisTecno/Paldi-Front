@@ -2,16 +2,21 @@
     <thead>
         <tr>
             <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Total</th>
             
+            <th>Cantidad</th>
+            <th>Nota</th>
+            <th>Total</th>
+            <th>Precio Unitario</th>
             <th>Obs.</th>
         </tr>
     </thead>
     <tbody ng-repeat="p in products">
         <tr>
             <td>{{p.productType}}</td>
+            
             <td>{{p.quantity}}</td>
+            <td> {{p.notes}}</td>
+            <td> {{p.price | currency}}</td>
             <td>{{p.total | currency}}</td>
 
             <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)">Ver</button></td>
