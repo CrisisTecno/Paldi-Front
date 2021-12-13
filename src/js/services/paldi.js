@@ -5,9 +5,18 @@ import { buildReportsService } from "./paldi/reports";
 
 // TODO: Agregar esto a un modulo
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
-	var service = {};
+	let service = {};
 
   service.reports = buildReportsService($http)
+
+	service.products = {
+		fetchPrice: (data) => {
+			return $http.post(globals.apiURL + "/newapi/products/price", data)
+		},
+		fetchAdditionals: (data) => {
+			return $http.post(globals.apiURL + "/newapi/products/additionals", data)
+		}
+	}
 
 	//--------------- PASSWORD ---------------
 	service.password = {

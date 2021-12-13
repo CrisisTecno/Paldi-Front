@@ -343,11 +343,21 @@ pdApp.factory(
     };
 
     //------------------------------ Cortinas ---------------------------    
-    function getCortinaPrice(model) {
+    async function getCortinaPrice(model) {
       if (!model)
         return
-      model.total = 500
-      model.price = 500
+
+      const payload = {
+        product: "Cortina",
+        finish: model.finish,
+        textil: model.textil,
+        width: model.width,
+        height: model.height,
+        priceType: model.priceType,
+      }
+
+      const result = await paldiService.products.fetchPrice(payload)
+      model.price = result.price
     }
 
     //------------------------------ Custom -----------------------------
