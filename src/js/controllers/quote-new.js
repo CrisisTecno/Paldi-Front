@@ -17,9 +17,24 @@ pdApp.controller(
   ) {
     const MIXED_ORDER = "Mixta";
 
-    $scope.setupTemplate = function() {
-
+    $scope.setupTemplate = async function() {
+      // Cortina setup
+      const motorsPromise = paldiService.products.fetchAdditionals({
+        product: "Cortina",
+        group: "Motor",
+      })
+      const sistemasPromise = paldiService.products.fetchAdditionals({
+        product: "Cortina",
+        group: "Sistema",
+      })
+      const [motors, sistemas] = (await Promise.all([motorsPromise, sistemasPromise])).map(v => v.data.data.results)
+      console.log(motors, sistemas)
+      $scope.productData = $scope.productData ?? {}
+      $scope.productData.cortina = {
+        motors, sistemas
+      }
     }
+    $scope.setupTemplate()
 
     //---------------------------------------------------------------------------------------------//
     //------------------------------------------ Clients / Sellers ------------------------------------------//
