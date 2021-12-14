@@ -494,8 +494,11 @@ pdApp.controller(
           $scope.selectSeller(product.seller);
           $scope.date = product.commitmentDate;
           break;
+        case "Cortina":
+          $scope.cortina = angular.copy(product);
+          $scope.updateTypeNoErasing("Cortina",$scope.cortina);
       }
-
+      console.log(cortina)
       $scope.plusList = product.plusList;
       $scope.motorList = product.motorList;
       $scope.installationPlusList = product.installationPlusList;
@@ -1111,7 +1114,7 @@ pdApp.controller(
           return path + "pisos.html";
         case "Custom":
           return path + "custom.html";
-        case "Cortinas":
+        case "Cortina":
           return path + "cortinas.html"
       }
     };
@@ -1653,6 +1656,7 @@ function addNewProduct($scope, product) {
   angular.copy({}, $scope.custom);
   // @note scope cortina init
   angular.copy({}, $scope.cortina);
+  console.log(product)
 
   $scope.product = product;
   $scope.plusList = [];
