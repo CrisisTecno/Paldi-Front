@@ -357,6 +357,7 @@ pdApp.factory(
       }
 
       const result = await paldiService.products.fetchPrice(payload)
+      console.log("Calculated cortina price", result)
       model.price = result.price
     }
 
