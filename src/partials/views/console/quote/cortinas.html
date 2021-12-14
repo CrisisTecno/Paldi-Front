@@ -15,7 +15,7 @@
     </div>
     <div class="form-group">
       <label>Textil</label>
-      <input type="text" name="quantity" ng-model="cortina.color.name" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
+      <input ng-hide="showSpinner" type="text" name="textil"  ng-model="textil" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" uib-typehead="cortina.label for cortina.colors in cortina">
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
     </div>
     <div class="form-group">
