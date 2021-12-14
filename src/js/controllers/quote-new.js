@@ -17,6 +17,22 @@ pdApp.controller(
   ) {
     const MIXED_ORDER = "Mixta"
 
+  
+    $scope.filterColors =function(item) {
+      //console.log("Input of Filter :", item)
+      //console.log("Current Value: ", document.getElementById("cortinacolor").value )
+      let match = document.getElementById("cortinacolor").value
+      const matchval = match.toString().toLowerCase()
+      const name = item.color.toLowerCase()
+      const code = item.code.toLowerCase()
+      // console.log(matchval,name,code)
+      // console.log(name.includes(matchval))
+      // console.log(code.includes(matchval))
+      if(name.includes(matchval) || code.includes(matchval))
+        
+        return item
+  }
+
     $scope.setupTemplate = async function () {
       // Cortina setup
       const [motors, sistemas, colores, acabados] = await Promise.all([

@@ -13,11 +13,28 @@
       <input type="text" name="quantity" ng-model="cortina.location" class="form-control" ng-change="updatePrices('Cortina', cortina)" step="1" required="">
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
     </div>
+
+
     <div class="form-group">
-      <label>Textil</label>
-      <input ng-hide="showSpinner" type="text" name="textil"  ng-model="textil" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" uib-typehead="cortina.label for cortina.colors in cortina">
+      <label>Acabado</label>
+      <select id="acabadoType" name="finish" ng-model="cortina.acabado" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+        <option value={{key}} ng-repeat="(key,value) in productData.cortina.acabados">{{key}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Modelo</label>
+      <select ng-disabled="!cortina.acabado" id="acabadoType" name="finish" ng-model="cortina.modelo" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+        <option value={{acabado}} ng-repeat="acabado in productData.cortina.acabados[cortina.acabado]">{{acabado}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Color</label>
+      <input type="text" ng-disabled='!cortina.modelo ' id="cortinacolor" ng-model="cortina.color" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="" uib-typeahead="colors.color for colors in productData.cortina.colores[cortina.modelo] | filter: filterColors  |limitTo:12" >
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
     </div>
+    
     <div class="form-group">
       <label>Ancho</label>
       <input type="number" name="width" id="width" ng-model="cortina.width" min="0.1" class="form-control" ng-change="changeSimpleWidth('Cortina', cortina)" required="" step="0.1">
