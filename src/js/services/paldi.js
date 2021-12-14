@@ -10,12 +10,18 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   service.reports = buildReportsService($http)
 
 	service.products = {
-		fetchPrice: (data) => {
-			return $http.post(globals.apiURL + "/newapi/products/price", data)
+		fetchPrice: async (data) => {
+			return (await $http.post(globals.apiURL + "/newapi/products/price", data)).data.data
 		},
-		fetchAdditionals: (data) => {
-			return $http.post(globals.apiURL + "/newapi/products/additionals", data)
-		}
+		fetchAdditionals: async (data) => {
+			return (await $http.post(globals.apiURL + "/newapi/products/additionals", data)).data.data
+		},
+		fetchColors: async (data) => {
+			return (await $http.post(globals.apiURL + '/newapi/products/colors', data)).data.data
+		},
+		fetchCortinaAcabados: async () => {
+			return (await $http.post(globals.apiURL + '/newapi/products/oki', {})).data.data
+		},
 	}
 
 	//--------------- PASSWORD ---------------
