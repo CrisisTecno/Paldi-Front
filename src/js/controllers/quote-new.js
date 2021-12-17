@@ -35,7 +35,7 @@ pdApp.controller(
 
     $scope.setupTemplate = async function () {
       // Cortina setup
-      const [motors, sistemas, colores, acabados] = await Promise.all([
+      const [motors, sistemas, colores, acabados, allAdditionals] = await Promise.all([
         paldiService.products.fetchAdditionals({
           product: "Cortina",
           group: "Motor",
@@ -48,10 +48,13 @@ pdApp.controller(
           product: "Cortina",
         }),
         paldiService.products.fetchCortinaAcabados(),
+        paldiService.products.fetchAllAdditionals({
+          product: "Cortina",
+        }),
       ])
       $scope.productData = $scope.productData ?? {}
       $scope.productData.cortina = {
-        motors, sistemas, colores, acabados
+        motors, sistemas, colores, acabados, allAdditionals
       }
       console.log("Loaded product data: ", $scope.productData)
     }
@@ -579,7 +582,14 @@ pdApp.controller(
     // --------------------------------------- Additionals
     // -----------------------------------------//
     // ---------------------------------------------------------------------------------------------//
+    $scope.newPlus = function(name, additionals) {
+      $scope.addingPlus = true
+      console.log(name, additionals)
+      $scope.plusName = name
+      $scope.plusTemplate = additionals
+    }
     $scope.addPlus = function (plus, qty) {
+      console.log(plus)
       if (plus && qty > 0) {
         if (!$scope.plusList) {
           $scope.plusList = []
@@ -633,6 +643,10 @@ pdApp.controller(
           $scope.shutter.plusQuantity = ""
         }
         if ($scope.product == "Piso") {
+          $scope.piso.plus = ""
+          $scope.piso.plusQuantity = ""
+        }
+        if ($scope.product == "Cortina") {
           $scope.piso.plus = ""
           $scope.piso.plusQuantity = ""
         }
@@ -799,6 +813,10 @@ pdApp.controller(
         $scope.shutter.plusQuantity = product.quantity
       }
       if ($scope.product == "Piso") {
+        $scope.piso.plus = {label: product.name, value: product}
+        $scope.piso.plusQuantity = product.quantity
+      }
+      if ($scope.product == "Cortina") {
         $scope.piso.plus = {label: product.name, value: product}
         $scope.piso.plusQuantity = product.quantity
       }

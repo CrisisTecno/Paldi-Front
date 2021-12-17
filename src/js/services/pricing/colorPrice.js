@@ -346,7 +346,7 @@ pdApp.factory(
       const payload = {
         product: "Cortina",
         finish: model.finish,
-        textil: model.textil,
+        textil: model.sistema.system,
         width: model.width,
         height: model.height,
       }

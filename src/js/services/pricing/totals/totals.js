@@ -7,6 +7,7 @@ const calculateAdditionalSubTotal = (product, additional) => {
   switch (additional.priceType) {
     case "PRODUCT":
       return additional.price * additional.quantity
+    case "Piece":
     case "PIECE":
       return additional.price * additional.quantity
     case "WIDTH":
@@ -145,7 +146,7 @@ const getDiscounts = (order, totals) => {
 
 
 export const getTotals = (order) => {
-  console.log("Calculating totals of: ", JSON.stringify(order))
+  console.log("Calculating totals of: ", order)
 
   if (!order.products instanceof Array) {
     return

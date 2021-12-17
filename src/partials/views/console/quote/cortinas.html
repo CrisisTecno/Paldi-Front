@@ -22,7 +22,7 @@
     <div class="form-group">
       <label>Modelo</label>
       <select ng-disabled="!cortina.finish" id="acabadoType" name="finish" ng-model="cortina.textil" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
-        <option value={{acabado}} ng-repeat="acabado in productData.cortina.acabados[cortina.finish]">{{acabado}}</option>
+        <option value={{model}} ng-repeat="(model, color) in productData.cortina.colores">{{model}}</option>
       </select>
     </div>
     <div class="form-group">
@@ -40,9 +40,7 @@
       <input type="number" name="height" id="height" ng-model="cortina.height" min="0.1" class="form-control" required="" step="0.1" ng-change="changeSimpleHeight('Cortina', cortina)">
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.height.$error.required">Campo requerido</small>
     </div>
-    <!--  
-
-    <h4 class="form-title">Sistema</h4> -->
+    <!--  <h4 class="form-title">Sistema</h4> -->
     <div class="form-group">
       <label for="sistemaType">Tipo</label>
       <select id="sistemaType" ng-model="cortina.sistema.type" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
@@ -52,49 +50,62 @@
     <!--    Sistema -->
     <div class="form-group">
       <label>Sistema</label>
-      <select ng-model="cortina.sistema.system" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
-        <option ng-repeat="system in sistema.system">{{system}}</option>
+      <!-- <select id="acabadoType" name="finish" ng-model="cortina.finish" class="form-control" ng-change="updateType('Cortina', cortina)" required="">
+        <option value={{key}} ng-repeat="(key,value) in productData.cortina.acabados">{{key}}</option>
+      </select> -->
+      <select ng-model="cortina.sistema.system" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
+        <option ng-repeat="system in sistema.system" ng-if="productData.cortina.acabados[cortina.finish].includes(system)">{{system}}</option>
       </select>
-      <select ng-model="cortina.sistema.system" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" ng-if="!cortina.sistema.type" disabled>
-      </select>
+      <select class="form-control" ng-if="!cortina.sistema.type" disabled></select>
     </div>
     <!-- Apertura -->
     <div class="form-group">
       <label>Apertura</label>
-      <select ng-model="cortina.sistema.opening" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
+      <select ng-model="cortina.sistema.opening" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-required="sistema.opening.length>0" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="opening in sistema.opening">{{opening}}</option>
       </select>
-      <select ng-model="cortina.sistema.opening" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" ng-if="!cortina.sistema.type" disabled>
-      </select>
+      <select class="form-control" ng-if="!cortina.sistema.type" disabled></select>
     </div>
     <!-- Instalación -->
     <div class="form-group">
       <label>Instalación</label>
-      <select ng-model="cortina.sistema.installation" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
+      <select ng-model="cortina.sistema.installation" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-required="{{sistema.installation.length>0}}" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="installation in sistema.installation">{{installation}}</option>
       </select>
-      <select ng-model="cortina.sistema.installation" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" ng-if="!cortina.sistema.type" disabled>
-      </select>
+      <select class="form-control" ng-if="!cortina.sistema.type" disabled></select>
     </div>
     <!-- Acabado -->
     <div class="form-group">
       <label>Acabado</label>
-      <select ng-model="cortina.sistema.finish" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
+      <select ng-model="cortina.sistema.finish" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-required="sistema.finish.length>0" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="finish in sistema.finish">{{finish}}</option>
       </select>
-      <select ng-model="cortina.sistema.finish" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" ng-if="!cortina.sistema.type" disabled>
-      </select>
+      <select class="form-control" ng-if="!cortina.sistema.type" disabled></select>
     </div>
-    <!-- Baston -->
-    <div class="form-group">
-      <label>Baston</label>
-      <select ng-model="cortina.sistema.stick" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
-        <option ng-repeat="stick in sistema.stick">{{stick}}</option>
-      </select>
-      <select ng-model="cortina.sistema.stick" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" ng-if="!cortina.sistema.type" disabled>
-      </select>
+    <hr />
+    <span ng-show="addingPlus == false" ng-repeat="(name, additionals) in productData.cortina.allAdditionals">
+      <button type="button" class="btn btn-default" ng-click="newPlus(name, additionals)">Agregar {{name}}</button>
+    </span>
+    <hr />
+    <div class="form-adding" ng-show="addingPlus == true">
+      <label class="title">{{plusName}}:</label>
+      <div class="form-group">
+        <label>Cantidad</label>
+        <input type="number" ng-model="cortina.plusQuantity" name="plusQuantity" id="plusQuantity" class="form-control" pattern="[0-9]*">
+      </div>
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" ng-model="cortina.plus" name="plus" id="plus" class="form-control" uib-typeahead="{value: additional} as additional.name for additional in plusTemplate | filter:$viewValue | limitTo:12" typeahead-editable="false">
+      </div>
+      <div>
+        <button type="button" class="btn btn-secondary-left" ng-click="addPlus(cortina.plus, cortina.plusQuantity)">Agregar</button>
+        <button type="button" class="btn btn-tertiary-left" ng-click="cancelPlus()">Cancelar</button>
+        <hr />
+      </div>
     </div>
-    <br>
+    <div ng-show="plusList.length > 0">
+      <div ng-include="'partials/views/console/quote/additional-details.html'"></div>
+    </div>
     <!---Motor -->
     <div class='form-group notes'>
       <div ng-show="addingMotor == false && productData.cortina.motors.length > 0">
