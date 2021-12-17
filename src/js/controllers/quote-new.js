@@ -953,6 +953,9 @@ pdApp.controller(
       if (product === "Cortina") {
         console.log(model, $scope.productData.cortina)
         model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color === model.colorName)[0]
+        model.color.name = model.color.color
+        model.color.type = "Cortina"
+
         console.log("Translated product color: ", model.color)
       }
 
