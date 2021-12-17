@@ -1,5 +1,5 @@
 <div class="cortinas-view">
-  <!-- _________nofunc to updateType -->
+  <!-- updateType to updateType -->
   <h3 class="form-title">Cortina</h3>
   <small class="error-message" ng-if="cortina.doable==false">No realizable</small>
   <form name="cortinaForm" role="form" novalidate ng-submit="addProduct('Cortina', cortinaForm, cortina)" autocomplete="off">
@@ -17,21 +17,21 @@
 
     <div class="form-group">
       <label>Acabado</label>
-      <select id="acabadoType" name="finish" ng-model="cortina.finish" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+      <select id="acabadoType" name="finish" ng-model="cortina.finish" class="form-control" ng-change="updateType('Cortina', cortina)" required="">
         <option value={{key}} ng-repeat="(key,value) in productData.cortina.acabados">{{key}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label>Modelo</label>
-      <select ng-disabled="!cortina.finish" id="acabadoType" name="finish" ng-model="cortina.textil" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+      <select ng-disabled="!cortina.finish" id="acabadoType" name="finish" ng-model="cortina.textil" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
         <option value={{acabado}} ng-repeat="acabado in productData.cortina.acabados[cortina.finish]">{{acabado}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label>Color</label>
-      <input type="text" ng-disabled='!cortina.textil' id="cortinacolor" ng-model="cortina.color" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="" uib-typeahead="colors.color for colors in productData.cortina.colores[cortina.textil] | filter: filterColors  |limitTo:12" >
+      <input type="text" ng-disabled='!cortina.textil' id="cortinacolor" ng-model="cortina.colorName" class="form-control" ng-change="updateType('Cortina', cortina)" required="" uib-typeahead="colors.color for colors in productData.cortina.colores[cortina.textil] | filter: filterColors  |limitTo:12" >
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
     </div>
     
@@ -52,7 +52,7 @@
 
     <div class="form-group">
       <label for="sistemaType">Tipo</label>
-      <select id="sistemaType" ng-model="cortina.sistema.type" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+      <select id="sistemaType" ng-model="cortina.sistema.type" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
         <option value={{sistema.type}} ng-repeat="sistema in productData.cortina.sistemas">
           {{sistema.type}}
         </option>
@@ -62,11 +62,11 @@
 <!--    Sistema -->
     <div class="form-group">
       <label>Sistema</label>
-      <select ng-model="cortina.sistema.system" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required=""
+      <select ng-model="cortina.sistema.system" class="form-control" ng-change="updatePrices('Cortina', cortina)" required=""
               ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="system in sistema.system">{{system}}</option>
       </select>
-      <select ng-model="cortina.sistema.system" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required=""
+      <select ng-model="cortina.sistema.system" class="form-control" ng-change="updatePrices('Cortina', cortina)" required=""
               ng-if="!cortina.sistema.type" disabled>
       </select>
     </div>
@@ -74,11 +74,11 @@
     <!-- Apertura -->
     <div class="form-group">
       <label>Apertura</label>
-      <select ng-model="cortina.sistema.opening" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required=""
+      <select ng-model="cortina.sistema.opening" class="form-control" ng-change="updatePrices('Cortina', cortina)" required=""
               ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="opening in sistema.opening">{{opening}}</option>
       </select>
-      <select ng-model="cortina.sistema.opening" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required=""
+      <select ng-model="cortina.sistema.opening" class="form-control" ng-change="updatePrices('Cortina', cortina)" required=""
               ng-if="!cortina.sistema.type" disabled>
       </select>
     </div>
@@ -86,33 +86,33 @@
     <!-- Instalación -->
     <div class="form-group">
       <label>Instalación</label>
-      <select ng-model="cortina.sistema.installation" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required=""
+      <select ng-model="cortina.sistema.installation" class="form-control" ng-change="updatePrices('Cortina', cortina)" required=""
               ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="installation in sistema.installation">{{installation}}</option>
       </select>
-      <select ng-model="cortina.sistema.installation" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required=""
+      <select ng-model="cortina.sistema.installation" class="form-control" ng-change="updatePrices('Cortina', cortina)" required=""
               ng-if="!cortina.sistema.type" disabled>
       </select>
     </div>
     <!-- Acabado -->
     <div class="form-group">
       <label>Acabado</label>
-      <select ng-model="cortina.sistema.finish" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required=""
+      <select ng-model="cortina.sistema.finish" class="form-control" ng-change="updatePrices('Cortina', cortina)" required=""
               ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="finish in sistema.finish">{{finish}}</option>
       </select>
-      <select ng-model="cortina.sistema.finish" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required=""
+      <select ng-model="cortina.sistema.finish" class="form-control" ng-change="updatePrices('Cortina', cortina)" required=""
               ng-if="!cortina.sistema.type" disabled>
       </select>
     </div>
     <!-- Baston -->
     <div class="form-group">
       <label>Baston</label>
-      <select ng-model="cortina.sistema.stick" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required=""
+      <select ng-model="cortina.sistema.stick" class="form-control" ng-change="updatePrices('Cortina', cortina)" required=""
               ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="stick in sistema.stick">{{stick}}</option>
       </select>
-      <select ng-model="cortina.sistema.stick" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required=""
+      <select ng-model="cortina.sistema.stick" class="form-control" ng-change="updatePrices('Cortina', cortina)" required=""
               ng-if="!cortina.sistema.type" disabled>
       </select>
     </div>

@@ -948,6 +948,14 @@ pdApp.controller(
 
     // @note updatePrices
     $scope.updatePrices = function (product, model) {
+      // this should not be done in here, but best place to put it
+      // quick and dirty, todo: clean later
+      if (product === "Cortina") {
+        console.log(model, $scope.productData.cortina)
+        model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color === model.colorName)[0]
+        console.log("Translated product color: ", model.color)
+      }
+
       if (product == "Piso") {
         model.clientType = $scope.quote.client
           ? $scope.quote.client.type

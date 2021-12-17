@@ -152,6 +152,7 @@ pdApp.factory(
               model.products,
               product
             )
+            break;
           case "Piso":
             model.pisos = filterProducts(model.products, product);
             break;
@@ -292,26 +293,19 @@ pdApp.factory(
       getColors: function (product, model) {
         switch (product) {
           case "Balance":
-            getBalanceColors(model);
-            break;
+            return getBalanceColors(model);
           case "Toldo":
-            getToldoColors(model);
-            break;
+            return getToldoColors(model);
           case "Shutter":
-            getShutterColors(model);
-            break;
+            return getShutterColors(model);
           case "Enrollable":
-            getEnrollableColors(model);
-            break;
+            return getEnrollableColors(model);
           case "Filtrasol":
-            getFiltrasolColors(model);
-            break;
+            return getFiltrasolColors(model);
           case "Piso":
-            getPisoColors(model);
-            break;
+            return getPisoColors(model);
           case "Plus":
-            getPlusColors(model);
-            break;
+            return getPlusColors(model);
         }
       },
 
@@ -348,6 +342,7 @@ pdApp.factory(
       if (!model)
         return
 
+      console.log("Calculating cortina price for ", model)
       const payload = {
         product: "Cortina",
         finish: model.finish,
@@ -358,7 +353,11 @@ pdApp.factory(
 
       const result = await paldiService.products.fetchPrice(payload)
       console.log("Calculated cortina price", result)
+      model.m2 = Math.round(model.width * model.height * 100) / 100
       model.price = result.price
+      model.total = result.price * model.quantity
+
+      return model
     }
 
     //------------------------------ Custom -----------------------------
