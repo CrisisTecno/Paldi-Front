@@ -11,9 +11,9 @@
             <th>Color</th>
             <th>Ancho</th>
             <th>Alto</th>
-            <th>Motor</th>
-            <th>Total</th>
             <th>Precio Unitario</th>
+            <th>Total</th>
+            
             <th>Obs.</th>
         </tr>
     </thead>
@@ -24,11 +24,10 @@
             <td>{{p.location}}</td>
             <td>{{p.productType}}</td>
             <td>{{p.finish}}</td>
-            <td>{{p.model}}</td>
-            <td>{{p.color}}</td>
+            <td>{{p.color.textil}}</td>
+            <td>{{p.color.name}}</td>
             <td>{{p.width}}</td>
             <td>{{p.height}}</td>
-            <td>{{p.motor}}</td>
             <td>{{p.price | currency}}</td>
             <td>{{p.total | currency}}</td>
 
