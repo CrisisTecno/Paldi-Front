@@ -439,7 +439,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item btn btn-secondary-actions btn-sm btn-square" ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN'" ng-click="sendToSpecialEmail(order)" style="margin-bottom: 0;"><span class="btn-icon glyphicon glyphicon-envelope"></span>Enviar </a>
               <div class="dropdown-divider"></div>
-              <a ng-href="{{order.installationSheetPdfLink}}" id="download_installation_sheet" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;" ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' ||currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'INSTALLATION_MANAGER' || currentUser.role == 'ADMIN'" download>
+              <a ng-href="{{order.pdfOrderLink}}" id="download_installation_sheet" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;" ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' ||currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'INSTALLATION_MANAGER' || currentUser.role == 'ADMIN'" download>
                 <span class="btn-icon glyphicon glyphicon glyphicon-save"></span>Descargar </a>
             </div>
           </div>
