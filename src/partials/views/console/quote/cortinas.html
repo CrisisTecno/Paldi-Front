@@ -30,7 +30,7 @@
     </div>
 
     <div class="form-group">
-      <label>Textil</label>
+      <label>Color</label>
       <input type="text" ng-disabled='!cortina.textil' id="cortinacolor" ng-model="cortina.color" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="" uib-typeahead="colors.color for colors in productData.cortina.colores[cortina.textil] | filter: filterColors  |limitTo:12" >
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
     </div>
@@ -130,10 +130,10 @@
       </div>
       <div class="form-group">
           <label>Nombre</label>
-          <input type="text" ng-model="cortina.motor" name="motor" id="motor" class="form-control" uib-typeahead="motor as motor.name for motor in productData.cortina.motors | filter:$viewValue | limitTo:12" typeahead-editable="false">
+          <input type="text" ng-model="cortina.motor" name="motor" id="motor" class="form-control" uib-typeahead="motor.name for motor in productData.cortina.motors | filter:{name:$viewValue} | limitTo:12" typeahead-editable="false">
       </div>
       <div>
-          <button type="button" class="btn btn-secondary-left" ng-click="addMotor(cortina.motor, cortina.motorQuantity)">Agregar</button>
+          <button type="button" class="btn btn-secondary-left" ng-click="addMotor(cortina.motor, cortina.motorQuantity,cortina.motor)">Agregar</button>
           <button type="button" class="btn btn-tertiary-left" ng-click="cancelMotor()">Cancelar</button>
       </div>
       <hr/>

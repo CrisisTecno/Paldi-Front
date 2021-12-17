@@ -229,9 +229,9 @@ pdApp.controller(
 
         $scope.systemsValid = validateSystems($scope, model)
         console.log("Valid Systems",$scope.systemsValid)
-        console.log("Valid Form",sellerValid)
-        console.log("model Total",sellerValid)
-        console.log("Model Price",sellerValid)
+        console.log("Valid Form",form.$valid)
+        console.log("model Total",model.total)
+        console.log("Model Price",model.price)
         console.log("Valid Seller",sellerValid)
 
         if (form.$valid && model.total && model.price && $scope.systemsValid && sellerValid) {
@@ -424,7 +424,7 @@ pdApp.controller(
         colorPriceService.updateTotals($scope.quote.type, $scope.quote)
       }
 
-      // colorPriceService.updateTotals($scope.quote.type, $scope.quote);
+      colorPriceService.updateTotals($scope.quote.type, $scope.quote);
       // colorPriceService.updateTotals($scope.quote.type,
       // $scope.productsSorted[indexList].products[indexProduct]);
     }
@@ -644,15 +644,22 @@ pdApp.controller(
       $("#plusQuantity").val("")
     }
 
-    $scope.addMotor = function (motor, qty) {
+    $scope.addMotor = function (motor, qty,product=undefined) {
+      console.log(motor,qty,product)
       if (motor && qty > 0) {
+        if(product != undefined){
+          let res  = $scope.productData.cortina.motors
+          res = res.filter(v=> v.name==motor)
+          motor = {'value':res[0]}
+        }
         if (!$scope.motorList) {
           $scope.motorList = []
         }
-
+        console.log(motor)
+        
         motor.value.quantity = qty
 
-        if ($scope.motorList.length > 0) {
+        if ($scope.motorList.length > 0 && product==undefined) {
           var motorExists = false
 
           for (var i = 0; i < $scope.motorList.length; i++) {

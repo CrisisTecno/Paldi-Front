@@ -69,6 +69,7 @@ pdApp.factory(
       },
 
       updateTotals: function (product, model) {
+        console.log("TotalUpdate",model);
         let pisoDiscount = false
         angular.forEach(model.products, function (product, key) {
           if (model.type == "Piso" && product.type == "Laminados" && model.client && model.client.type != "DIRECT_SALE") {
@@ -353,7 +354,6 @@ pdApp.factory(
         textil: model.textil,
         width: model.width,
         height: model.height,
-        priceType: model.priceType,
       }
 
       const result = await paldiService.products.fetchPrice(payload)

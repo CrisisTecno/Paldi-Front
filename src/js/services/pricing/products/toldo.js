@@ -1,6 +1,6 @@
 import { pdApp, globals } from "../../index";
 
-export function generateToldoHandlers($http, $rootScope) {
+export function   generateToldoHandlers($http, $rootScope) {
   var getToldoPrice = function (toldo) {
     var isValid = true;
 
