@@ -210,6 +210,7 @@ pdApp.controller(
 
     // @note addProduct new quote
     $scope.addProduct = function (product, form, model) {
+      console.log(product,form,model)
       // addProduct(productName, undefined, undefined) is called when adding a
       // new product from the quote-new view buttons
       if (!form) {
@@ -227,8 +228,14 @@ pdApp.controller(
         const sellerValid = validateSeller(product, $scope)
 
         $scope.systemsValid = validateSystems($scope, model)
+        console.log("Valid Systems",$scope.systemsValid)
+        console.log("Valid Form",sellerValid)
+        console.log("model Total",sellerValid)
+        console.log("Model Price",sellerValid)
+        console.log("Valid Seller",sellerValid)
 
         if (form.$valid && model.total && model.price && $scope.systemsValid && sellerValid) {
+          console.log("a")
           model.productType = product
           $scope.quote.type = product
 

@@ -1,10 +1,17 @@
 <table class="table table-striped  table-hover" datatable="ng" dt-options="tableOptions" dt-column-defs="tableColumns">
     <thead>
         <tr>
-            <th>Producto</th>
+            <th>Item</th>
             
             <th>Cantidad</th>
-            <th>Nota</th>
+            <th>Ubicacion</th>
+            <th>Tipo</th>
+            <th>Acabado</th>
+            <th>Modelo</th>
+            <th>Color</th>
+            <th>Ancho</th>
+            <th>Alto</th>
+            <th>Motor</th>
             <th>Total</th>
             <th>Precio Unitario</th>
             <th>Obs.</th>
@@ -12,11 +19,17 @@
     </thead>
     <tbody ng-repeat="p in products">
         <tr>
-            <td>{{p.productType}}</td>
-            
+            <td>{{p.item}}</td>
             <td>{{p.quantity}}</td>
-            <td> {{p.notes}}</td>
-            <td> {{p.price | currency}}</td>
+            <td>{{p.location}}</td>
+            <td>{{p.productType}}</td>
+            <td>{{p.finish}}</td>
+            <td>{{p.model}}</td>
+            <td>{{p.color}}</td>
+            <td>{{p.width}}</td>
+            <td>{{p.height}}</td>
+            <td>{{p.motor}}</td>
+            <td>{{p.price | currency}}</td>
             <td>{{p.total | currency}}</td>
 
             <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)">Ver</button></td>

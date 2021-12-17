@@ -17,21 +17,21 @@
 
     <div class="form-group">
       <label>Acabado</label>
-      <select id="acabadoType" name="finish" ng-model="cortina.acabado" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+      <select id="acabadoType" name="finish" ng-model="cortina.finish" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
         <option value={{key}} ng-repeat="(key,value) in productData.cortina.acabados">{{key}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label>Modelo</label>
-      <select ng-disabled="!cortina.acabado" id="acabadoType" name="finish" ng-model="cortina.modelo" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
-        <option value={{acabado}} ng-repeat="acabado in productData.cortina.acabados[cortina.acabado]">{{acabado}}</option>
+      <select ng-disabled="!cortina.finish" id="acabadoType" name="finish" ng-model="cortina.textil" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="">
+        <option value={{acabado}} ng-repeat="acabado in productData.cortina.acabados[cortina.finish]">{{acabado}}</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label>Color</label>
-      <input type="text" ng-disabled='!cortina.modelo ' id="cortinacolor" ng-model="cortina.color" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="" uib-typeahead="colors.color for colors in productData.cortina.colores[cortina.modelo] | filter: filterColors  |limitTo:12" >
+      <label>Textil</label>
+      <input type="text" ng-disabled='!cortina.textil' id="cortinacolor" ng-model="cortina.color" class="form-control" ng-change="_________nofunc('Cortina', cortina)" required="" uib-typeahead="colors.color for colors in productData.cortina.colores[cortina.textil] | filter: filterColors  |limitTo:12" >
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
     </div>
     
@@ -45,6 +45,8 @@
       <input type="number" name="height" id="height" ng-model="cortina.height" min="0.1" class="form-control" required="" step="0.1" ng-change="changeSimpleHeight('Cortina', cortina)">
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.height.$error.required">Campo requerido</small>
     </div>
+
+ 
 
     <h4 class="form-title">Sistema</h4>
 
@@ -114,8 +116,30 @@
               ng-if="!cortina.sistema.type" disabled>
       </select>
     </div>
+    <!---Motor--->
+    <div class='form-group'> 
+    <div ng-show="addingMotor == false && productData.cortina.motors.length > 0">
+      <button type="button" class="btn btn-default" ng-click="addMotor()">Agregar Motorización</button>
+      <hr/>
+  </div>
+  <div class="form-adding" ng-show="addingMotor == true && productData.cortina.motors.length > 0">
+      <label class="title">Motorización:</label>
+      <div class="form-group">
+          <label>Cantidad</label>
+          <input type="number" ng-model="cortina.motorQuantity" name="motorQuantity" id="motorQuantity" class="form-control" pattern="[0-9]*">
+      </div>
+      <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" ng-model="cortina.motor" name="motor" id="motor" class="form-control" uib-typeahead="motor as motor.name for motor in productData.cortina.motors | filter:$viewValue | limitTo:12" typeahead-editable="false">
+      </div>
+      <div>
+          <button type="button" class="btn btn-secondary-left" ng-click="addMotor(cortina.motor, cortina.motorQuantity)">Agregar</button>
+          <button type="button" class="btn btn-tertiary-left" ng-click="cancelMotor()">Cancelar</button>
+      </div>
+      <hr/>
+  </div>
 
-
+  </div>
 
     <div class="form-group notes">
       <label>Observaciones</label>
@@ -140,4 +164,5 @@
       <button type="submit" class="btn btn-primary">Agregar</button>
     </div>
   </form>
+  
 </div>
