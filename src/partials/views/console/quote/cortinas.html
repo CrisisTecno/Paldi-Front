@@ -20,8 +20,8 @@
       </select>
     </div>
     <div class="form-group">
-      <label>Modelo</label>
-      <select ng-disabled="!cortina.finish" id="acabadoType" name="finish" ng-model="cortina.textil" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
+      <label>Textil</label>
+      <select id="acabadoType" name="finish" ng-model="cortina.textil" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
         <option value={{model}} ng-repeat="(model, color) in productData.cortina.colores">{{model}}</option>
       </select>
     </div>
@@ -43,7 +43,7 @@
     <!--  <h4 class="form-title">Sistema</h4> -->
     <div class="form-group">
       <label for="sistemaType">Tipo</label>
-      <select id="sistemaType" ng-model="cortina.sistema.type" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
+      <select id="sistemaType" ng-init="cortina.sistema.type='Cortina'" ng-model="cortina.sistema.type" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
         <option value={{sistema.type}} ng-repeat="sistema in productData.cortina.sistemas"> {{sistema.type}} </option>
       </select>
     </div>
@@ -74,9 +74,9 @@
       </select>
       <select class="form-control" ng-if="!cortina.sistema.type" disabled></select>
     </div>
-    <!-- Acabado -->
+    <!-- Bastilla -->
     <div class="form-group">
-      <label>Acabado</label>
+      <label>Bastilla</label>
       <select ng-model="cortina.sistema.finish" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-required="sistema.finish.length>0" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="finish in sistema.finish">{{finish}}</option>
       </select>
