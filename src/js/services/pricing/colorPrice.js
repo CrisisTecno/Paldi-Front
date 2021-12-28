@@ -100,6 +100,7 @@ pdApp.factory(
 
         // Update Plus Total
         const additionalTotals = getAdditionalsSubTotal(model)
+        console.log("Calculated additional totals: ", additionalTotals)
         model.products?.forEach((product, i) => {
           product.plusList?.forEach((additional, j) => {
             additional.total = additionalTotals[i][j]
@@ -346,7 +347,7 @@ pdApp.factory(
       const payload = {
         product: "Cortina",
         finish: model.finish,
-        textil: model.sistema.system,
+        textil: model.textil,
         width: model.width,
         height: model.height,
       }

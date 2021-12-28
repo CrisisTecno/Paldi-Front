@@ -17,7 +17,7 @@ const calculateAdditionalSubTotal = (product, additional) => {
     case "METER":
       return additional.price * additional.quantity * product.m2
   }
-  return 0
+  return additional.price * additional.quantity
 }
 const getAdditionalSubTotal = (product) => {
   return product.plusList.map(additional => calculateAdditionalSubTotal(product, additional))

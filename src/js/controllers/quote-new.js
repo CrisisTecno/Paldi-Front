@@ -40,7 +40,7 @@ pdApp.controller(
           product: "Cortina",
           group: "Motor",
         }),
-        paldiService.products.fetchAdditionals({
+        paldiService.products.fetchAdditional({
           product: "Cortina",
           group: "Sistema",
         }),
@@ -217,6 +217,13 @@ pdApp.controller(
       // addProduct(productName, undefined, undefined) is called when adding a
       // new product from the quote-new view buttons
       if (!form) {
+        $scope.cortina = {
+          ...$scope.cortina,
+          sistema: {
+            ...$scope.cortina?.sistema,
+            type: "Cortina",
+          }
+        }
         addNewProduct($scope, product)
       }
 
