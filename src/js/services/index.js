@@ -1,6 +1,8 @@
 export { globals } from "../../index";
 export { pdApp } from "../../pdApp";
 
+import "./data"
+
 import "./pricing/colorPrice";
 import "./pricing/totals/index"
 import "./json";
@@ -12,6 +14,7 @@ import "./status";
 
 import "./order"
 import "./permission"
+
 
 // Internal Services
 import "./order/details/index"

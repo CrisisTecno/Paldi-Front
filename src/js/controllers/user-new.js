@@ -1,8 +1,12 @@
-import { pdApp } from "./index";
+import {globals, pdApp} from "./index"
+import {
+	swalUserCreateDuplicatedEmailFactory,
+	swalUserCreateSuccess,
+} from "../utils/swals/userCreate"
+import {swalErrorFactory} from "../utils/swals/generic"
 
-pdApp.controller(
-	"UserNewCtrl",
-	function ($scope, $rootScope, $state, $timeout, paldiService) {
+pdApp.controller("UserNewCtrl",
+	function ($scope, $rootScope, $state, $timeout, paldiService, inventoryDataService) {
 		$timeout(function () {
 			if (!$scope.currentUser.canAdmin) {
 				$state.go("console.quote-list");
@@ -13,31 +17,14 @@ pdApp.controller(
 			if (form.$valid && $scope.passwordIsValid) {
 				paldiService.users.save(user).then(
 					function (user) {
-						swal({
-							title: "Usuario guardado exitosamente",
-							type: "success",
-							confirmButtonText: "Aceptar",
-						});
-
+						swal(swalUserCreateSuccess);
 						$state.go("console.user-list");
 					},
 					function (error) {
-						if (error.status == 409) {
-							swal({
-								title: "Error",
-								text:
-									"Ya existe un usuario con el E-mail: " +
-									user.email,
-								type: "error",
-								confirmButtonText: "Aceptar",
-							});
+						if (error.status === 409) {
+							swal(swalUserCreateDuplicatedEmailFactory(user));
 						} else {
-							swal({
-								title: "Error",
-								text: "Ocurrió un error: " + error.status,
-								type: "error",
-								confirmButtonText: "Aceptar",
-							});
+							swal(swalErrorFactory(error.status));
 						}
 						form.$validated = true;
 					}
@@ -56,13 +43,14 @@ pdApp.controller(
 		};
 
 		var init = function () {
-			paldiService.warehouses.getList().then(function (data) {
+			inventoryDataService.getWarehouses().then(function (data) {
 				$scope.warehouses = data;
 				$scope.warehouses.splice(0, 0, { name: "", id: "" });
 				$scope.user = { warehouseId: "" };
 			});
 		};
 
+		$scope.roles = globals.roles
 		init();
 	}
 );

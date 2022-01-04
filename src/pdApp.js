@@ -18,6 +18,8 @@ import "angularjs-google-maps/dist/angularjs-google-maps" // nomedigas que va a 
 
 import { globals } from "./index";
 
+import "./js/directives/load"
+
 const pdApp = angular
   .module("paldi-app", [
     "inspinia",
@@ -34,7 +36,10 @@ const pdApp = angular
     "angularjs-dropdown-multiselect",
     "chart.js",
     "hl.sticky",
-    "gm"
+    "gm",
+    "dataModule",
+
+    "formDirectives"
   ])
   .config(function (yokozunaConfigProvider) {
     yokozunaConfigProvider.setLoginState("access.login");
