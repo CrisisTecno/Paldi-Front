@@ -51,6 +51,7 @@ pdApp.controller("UserNewCtrl",
 		};
 
 		$scope.roles = globals.roles
+		console.log(globals.roles)
 		init();
 	}
 );

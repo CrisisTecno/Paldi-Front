@@ -155,6 +155,8 @@ pdApp.factory("prettyHelper", function () {
 					return "Super Administrador";
 				case "BUYER":
 					return "Comprador";
+				case "EXTERNAL_CONSULTANT":
+					return "Asesor Externo";
 			}
 			return "";
 		},
