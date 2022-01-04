@@ -228,7 +228,7 @@ pdApp.controller(
       }
 
       // addProduct(productName, productDetails, $scope.{product}) is called
-      // when a product is added from the views/console/quote/{product}.html
+      // when a product is added from the views/console/products/{product}.html
       if (form) {
         console.log("Handling product submit")
         console.log("Model: ", model)
@@ -1185,7 +1185,7 @@ pdApp.controller(
 
     $scope.getTemplate = function (product) {
       // console.log(product)
-      var path = "partials/views/console/quote/"
+      var path = "js/controllers/order/products/"
       switch (product) {
         case "Balance":
           return path + "balances.html"
