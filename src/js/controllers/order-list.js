@@ -37,7 +37,7 @@ pdApp.controller(
 
 		var pastSort = "";
 
-		$scope.currentUser && $scope.currentUser.role === "CONSULTANT"
+		$scope.currentUser && ($scope.currentUser.role === "CONSULTANT" || $scope.currentUser.role === "EXTERNAL_CONSULTANT")
 			? ($scope.isConsultant = true)
 			: ($scope.isConsultant = false);
 

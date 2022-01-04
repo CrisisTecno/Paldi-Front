@@ -20,11 +20,12 @@ pdApp.controller(
 			if (
 				!$scope.currentUser.canAdmin &&
 				$scope.currentUser.role !== "SALES_MANAGER" &&
-				$scope.currentUser.role !== "CONSULTANT"
+				($scope.currentUser.role !== "CONSULTANT" ||
+				$scope.currentUser.role !== "EXTERNAL_CONSULTANT") 
 			) {
 				$state.go("console.quote-list");
 			} else {
-				if ($scope.currentUser.role === "CONSULTANT") {
+				if ($scope.currentUser.role === "CONSULTANT" || $scope.currentUser.role !== "EXTERNAL_CONSULTANT" ) {
 					$scope.seller = $scope.currentUser.id;
 					paldiService.users.get($scope.seller).then(function (user) {
 						$scope.sellerName = user.name + " " + user.lastName;
@@ -538,6 +539,9 @@ pdApp.controller(
 					$scope.tableColumnsCommissions = adminColumns;
 					break;
 				case "CONSULTANT":
+					$scope.tableColumnsCommissions = consultantColumns;
+					break;
+				case "EXTERNAL_CONSULTANT":
 					$scope.tableColumnsCommissions = consultantColumns;
 					break;
 			}

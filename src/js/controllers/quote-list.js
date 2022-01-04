@@ -26,13 +26,13 @@ pdApp.controller(
 		$timeout(function () {
 			if (
 				$scope.currentUser.role !== "SUPERADMIN" &&
-				$scope.currentUser.role !== "CONSULTANT" &&
+				($scope.currentUser.role !== "CONSULTANT" || $scope.currentUser.role === "EXTERNAL_CONSULTANT") &&
 				$scope.currentUser.role !== "SALES_MANAGER"
 			) {
 				$state.go("console.quote-list");
 			}
 		}, 200);
-		$scope.currentUser && $scope.currentUser.role === "CONSULTANT"
+		$scope.currentUser && ($scope.currentUser.role === "CONSULTANT" || $scope.currentUser.role === "EXTERNAL_CONSULTANT")
 			? ($scope.isConsultant = true)
 			: ($scope.isConsultant = false);
 		$scope.availableStatusList = [
