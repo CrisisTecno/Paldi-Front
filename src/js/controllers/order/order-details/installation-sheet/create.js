@@ -1,6 +1,6 @@
-import { attachTo } from "../../../utils/attach";
+import { attachTo } from "../../../../utils/attach";
 
-import { showSwal } from "../../../utils/swal/show";
+import { showSwal } from "../../../../utils/swal/show";
 
 import { formatTelephone, deformatTelephone } from "./formatTelephone";
 import { getExtraNames, getInstallationSheetSaveHandler, getObjName, isExtraPresent } from "./helpers"

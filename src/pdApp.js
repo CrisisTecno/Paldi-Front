@@ -54,14 +54,14 @@ const pdApp = angular
       })
       .state("access.login", {
         url: "/login",
-        templateUrl: "partials/views/access/login.html",
+        templateUrl: "js/controllers/login/login.html",
         controller: "LogInCtrl",
         title: "Iniciar Sesion",
         authRequired: false,
       })
       .state("access.forgot-password", {
         url: "/forgot-password",
-        templateUrl: "partials/views/access/forgot-password.html",
+        templateUrl: "js/controllers/login/forgot-password.html",
         controller: "LogInCtrl",
         title: "Recordar password",
         authRequired: false,
@@ -81,7 +81,7 @@ const pdApp = angular
       })
       .state("console.change-password", {
         url: "/change-password",
-        templateUrl: "partials/views/console/change-password.html",
+        templateUrl: "js/controllers/login/change-password.html",
         controller: "ChangePasswordCtrl",
         title: "Cambiar password",
         authRequired: true,
@@ -125,14 +125,14 @@ const pdApp = angular
 
       .state("console.order-list", {
         url: "/order",
-        templateUrl: "partials/views/console/order-list.html",
+        templateUrl: "js/controllers/order/order-list.html",
         controller: "OrderListCtrl",
         title: "Ordenes",
         authRequired: true,
       })
       .state("console.order-details", {
         url: "/order/:orderId",
-        templateUrl: "partials/views/console/order-details.html",
+        templateUrl: "js/controllers/order/order-details.html",
         controller: "OrderDetailsCtrl",
         title: "Detalles de orden",
         authRequired: true,
@@ -140,21 +140,21 @@ const pdApp = angular
 
       .state("console.user-list", {
         url: "/user",
-        templateUrl: "partials/views/console/user-list.html",
+        templateUrl: "js/controllers/users/user-list.html",
         controller: "UserListCtrl",
         title: "Usuarios",
         authRequired: true,
       })
       .state("console.user-details", {
         url: "/user/:userId",
-        templateUrl: "partials/views/console/user-details.html",
+        templateUrl: "js/controllers/users/user-details.html",
         controller: "UserDetailsCtrl",
         title: "Detalles de usuario",
         authRequired: true,
       })
       .state("console.user-new", {
         url: "/new/user",
-        templateUrl: "partials/views/console/user-new.html",
+        templateUrl: "js/controllers/users/user-new.html",
         controller: "UserNewCtrl",
         title: "Nuevo usuario",
         authRequired: true,
@@ -214,7 +214,7 @@ const pdApp = angular
 
       .state("console.bills", {
         url: "/bills",
-        templateUrl: "partials/views/console/bills.html",
+        templateUrl: "js/controllers/costing/bills.html",
         controller: "BillsCtrl",
         title: "Facturas",
         authRequired: true,
@@ -230,7 +230,7 @@ const pdApp = angular
 
       .state("console.movements", {
         url: "/movements",
-        templateUrl: "partials/views/console/movements.html",
+        templateUrl: "js/controllers/costing/movements.html",
         controller: "MovementsCtrl",
         title: "Movimientos de OV",
         authRequired: true,
@@ -279,7 +279,7 @@ const pdApp = angular
       })
       .state("console.warehouses", {
         url: "/warehouses",
-        templateUrl: "partials/views/console/warehouses.html",
+        templateUrl: "js/controllers/inventory/warehouse/warehouses.html",
         controller: "WarehousesCtrl",
         title: "Almacenes",
         authRequired: true,
@@ -287,7 +287,7 @@ const pdApp = angular
 
       .state("console.warehouse-details", {
         url: "/warehouse/:warehouseId",
-        templateUrl: "partials/views/console/warehouse-details.html",
+        templateUrl: "js/controllers/inventory/warehouse/warehouse-details.html",
         controller: "WarehouseDetailsCtrl",
         title: "Detalles de almacén",
         authRequired: true,
@@ -303,7 +303,7 @@ const pdApp = angular
 
       .state("console.inventory-movements", {
         url: "/inventory/movements",
-        templateUrl: "partials/views/console/inventory-movements.html",
+        templateUrl: "js/controllers/inventory/inventory-movements.html",
         controller: "InventoryMovementsCtrl",
         title: "Reporte de Movimientos",
         authRequired: true,
@@ -311,7 +311,7 @@ const pdApp = angular
 
       .state("console.inventory-report", {
         url: "/inventory/report",
-        templateUrl: "partials/views/console/inventory-report.html",
+        templateUrl: "js/controllers/inventory/inventory-report.html",
         controller: "InventoryReportCtrl",
         title: "Reporte de Inventarios",
         authRequired: true,
@@ -319,14 +319,14 @@ const pdApp = angular
 
       .state("console.inventory-in", {
         url: "/inventory/in",
-        templateUrl: "partials/views/console/inventory-in.html",
+        templateUrl: "js/controllers/inventory/inventory-in.html",
         controller: "InventoryInCtrl",
         title: "Entradas",
         authRequired: true,
       })
       .state("console.inventory-cross", {
         url: "/inventory/cross",
-        templateUrl: "partials/views/console/inventory-cross.html",
+        templateUrl: "js/controllers/inventory/inventory-cross.html",
         controller: "InventoryCrossCtrl",
         title: "Traslados",
         authRequired: true,
@@ -334,7 +334,7 @@ const pdApp = angular
       .state("console.inventory-adjustments", {
         url: "/inventory/adjustments",
         templateUrl:
-          "partials/views/console/inventory-adjustments.html",
+          "js/controllers/inventory/inventory-adjustments.html",
         controller: "InventoryAdjustmentsCtrl",
         title: "Ajustes",
         authRequired: true,

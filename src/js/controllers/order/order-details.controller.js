@@ -1,8 +1,8 @@
-import { pdApp } from "./index";
+import { pdApp } from "../index";
 
 import { getConfirmPayment } from "./order-details/confirm-payment";
-import { showSwal } from "../utils/swal/show";
-import { merge, mergeDeep, moveToScope } from "../utils/merge";
+import { showSwal } from "../../utils/swal/show";
+import { merge, mergeDeep, moveToScope } from "../../utils/merge";
 import { showCreateInstallationSheetDialog } from "./order-details/installation-sheet/create";
 
 pdApp.controller(

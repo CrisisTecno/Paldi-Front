@@ -1,4 +1,4 @@
-import { showSwal } from "../../utils/swal/show";
+import { showSwal } from "../../../utils/swal/show";
 import { showCreateInstallationSheetDialog } from "./installation-sheet/create";
 
 const getAdvance = (model) =>

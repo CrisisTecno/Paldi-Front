@@ -1,7 +1,7 @@
-import { pdApp } from "./index";
+import { pdApp } from "../index";
 
 pdApp.controller(
-	"InventoryMovementsCtrl",
+	"InventoryAdjustmentsCtrl",
 	function (
 		$rootScope,
 		$state,
@@ -16,11 +16,103 @@ pdApp.controller(
 		DTColumnDefBuilder,
 		DTColumnBuilder
 	) {
+		$scope.entryTypes = [
+			{ value: "piso", label: "Pisos" },
+			{ value: "plus", label: "Molduras/Adicionales" },
+		];
+
+		//=================== Products ===================//
+
+		function capitalize(string) {
+			return (
+				string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+			);
+		}
+
+		$scope.updateWarehouse = function (warehouse) {
+			$scope.selectedWarehouse = angular.fromJson(warehouse);
+
+			if ($scope.colorSelected) {
+				loadInventory();
+			}
+		};
+
+		$scope.updateColor = function (color) {
+			$scope.colorSelected = color.value;
+
+			if ($scope.selectedWarehouse) {
+				loadInventory();
+			}
+		};
+
+		$scope.updateType = function (product, model) {
+			if (model.type) {
+				colorPriceService.getColors(product, model);
+			}
+		};
+
+		var loadInventory = function () {
+			paldiService.inventory
+				.loadInventory($scope.selectedWarehouse, $scope.colorSelected)
+				.then(
+					function (data) {
+						$scope.inventory = data.data;
+						$scope.loaded = true;
+					},
+					function (error) {
+						//console.log(error);
+					}
+				);
+		};
+
+		//=================== Save ===================//
+
+		$scope.save = function (adjustment, description) {
+			$scope.validated = true;
+			if (!description) {
+				return 0;
+			}
+
+			if (adjustment >= 0) {
+				var movements = [];
+				var mov = {
+					type: "ADJUSTMENT",
+					product: $scope.inventory.product,
+					quantity: adjustment,
+					cost: $scope.inventory.cost,
+					description: description,
+					warehouse: $scope.selectedWarehouse,
+				};
+
+				movements.push(mov);
+
+				paldiService.inventory.addMovements(movements).then(
+					function (data) {
+						swal(
+							{
+								title: "Ajuste registrado exitosamente",
+								type: "success",
+								confirmButtonText: "Aceptar",
+							},
+							function () {
+								$state.reload();
+							}
+						);
+					},
+					function (error) {
+						swal({
+							title: "Ocurrió un error",
+							type: "error",
+							confirmButtonText: "Aceptar",
+						});
+					}
+				);
+			}
+		};
+
 		//=================== Initialize ===================//
 		$scope.ready = false;
-		var cleanTypeList = [];
 		var cleanWarehouseList = [];
-		$scope.typeList = [];
 		$scope.warehouseList = [];
 
 		var getDownloadLink = function () {
@@ -28,14 +120,10 @@ pdApp.controller(
 				paldiService.inventory.getMovementsDownloadLink(
 					$scope.startDate,
 					$scope.endDate,
-					cleanTypeList,
+					["ADJUSTMENT"],
 					cleanWarehouseList
 				);
 		};
-		$scope.entryTypes = [
-			{ value: "piso", label: "Pisos" },
-			{ value: "plus", label: "Molduras/Adicionales" },
-		];
 
 		//============= Data tables =============
 
@@ -47,6 +135,7 @@ pdApp.controller(
 
 		$scope.typeChange = function (entryType) {
 			$scope.selectedType = entryType;
+			$scope.selectedTypeCap = capitalize(entryType);
 			$scope.drawTable();
 		};
 
@@ -67,10 +156,7 @@ pdApp.controller(
 			var page = aoData[3].value / size;
 
 			var processResult = function (data, fnCallback) {
-				if (
-					cleanTypeList.length == 0 ||
-					cleanWarehouseList.length == 0
-				) {
+				if (cleanWarehouseList.length == 0) {
 					var result = {
 						draw: draw,
 						recordsTotal: 0,
@@ -95,7 +181,7 @@ pdApp.controller(
 					page,
 					size,
 					sort,
-					cleanTypeList,
+					["ADJUSTMENT"],
 					cleanWarehouseList,
 					$scope.startDate,
 					$scope.endDate
@@ -123,6 +209,13 @@ pdApp.controller(
 					return $filter("date")(data.date, "dd/MM/yyyy");
 				}),
 			DTColumnBuilder.newColumn(null)
+				.withTitle("Ajuste No.")
+				.renderWith(function (data) {
+					if (data.reference) {
+						return data.reference;
+					} else return "";
+				}),
+			DTColumnBuilder.newColumn(null)
 				.withTitle("Tipo")
 				.renderWith(function (data) {
 					return data.product.type;
@@ -130,7 +223,9 @@ pdApp.controller(
 			DTColumnBuilder.newColumn(null)
 				.withTitle("Código")
 				.renderWith(function (data) {
-					return data.product.code;
+					return !data.product.code
+						? data.product.name
+						: data.product.code;
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withTitle("Color/Moldura")
@@ -170,26 +265,6 @@ pdApp.controller(
 				.renderWith(function (data) {
 					var description = data.description ? data.description : "";
 					return description;
-				}),
-			DTColumnBuilder.newColumn(null)
-				.withTitle("Referencia")
-				.renderWith(function (data) {
-					if (data.reference) {
-						switch (data.type) {
-							case "IN":
-								return "No. Factura: " + data.reference;
-							case "OUT":
-								return (
-									'<a href="#/console/order/' +
-									data.reference +
-									'">' +
-									"Ver orden" +
-									"</a>"
-								);
-							case "ADJUSTMENT":
-								return "Ajuste No. " + data.reference;
-						}
-					} else return "";
 				}),
 		];
 
@@ -242,15 +317,6 @@ pdApp.controller(
 		};
 
 		//=============================== DROPDOWN ==========================
-		$scope.typeDropdownEvents = {
-			onInitDone: function () {
-				typeChange();
-			},
-
-			onSelectionChanged: function () {
-				typeChange();
-			},
-		};
 
 		$scope.warehouseDropdownEvents = {
 			onInitDone: function () {
@@ -268,24 +334,10 @@ pdApp.controller(
 			idProp: "value",
 		};
 
-		$scope.typeDropdownTranslations = {
-			checkAll: "Seleccionar Todos",
-			uncheckAll: "Deseleccionar Todos",
-			buttonDefaultText: "Tipos de Movimientos",
-		};
-
 		$scope.warehouseDropdownTranslations = {
 			checkAll: "Seleccionar Todos",
 			uncheckAll: "Deseleccionar Todos",
 			buttonDefaultText: "Almacenes",
-		};
-
-		var typeChange = function () {
-			cleanTypeList = [];
-			angular.forEach($scope.typeList, function (type) {
-				cleanTypeList.push(type.id);
-			});
-			$scope.drawTable();
 		};
 
 		var warehouseChange = function () {
@@ -298,31 +350,11 @@ pdApp.controller(
 
 		//======================================================//
 		var init = function () {
-			$scope.availableTypesList = [
-				{ label: $scope.pretty("movementType", "IN"), value: "IN" },
-				{ label: $scope.pretty("movementType", "OUT"), value: "OUT" },
-				{
-					label: $scope.pretty("movementType", "CROSS_IN"),
-					value: "CROSS_IN",
-				},
-				{
-					label: $scope.pretty("movementType", "CROSS_OUT"),
-					value: "CROSS_OUT",
-				},
-				{
-					label: $scope.pretty("movementType", "ADJUSTMENT"),
-					value: "ADJUSTMENT",
-				},
-			];
-
-			$scope.typeList = [
-				{ id: "IN" },
-				{ id: "OUT" },
-				{ id: "CROSS_IN" },
-				{ id: "CROSS_OUT" },
-				{ id: "ADJUSTMENT" },
-			];
-
+			$timeout(function () {
+				if ($scope.currentUser.role != "SUPERADMIN") {
+					$state.go("console.order-list");
+				}
+			}, 200);
 			$scope.availableWarehousesList = [];
 			paldiService.warehouses.getList().then(function (data) {
 				data.forEach(function (element) {
@@ -332,20 +364,17 @@ pdApp.controller(
 					});
 					$scope.warehouseList.push({ id: element.id });
 				});
-
+				$scope.warehouses = data;
+				$scope.step = "list";
 				$scope.ready = true;
 			});
 		};
+		$scope.cancel = function () {
+			$scope.productObj = {};
+			$scope.warehouse = "";
+			$scope.step = "list";
+		};
 
-		$timeout(function () {
-			if (
-				!$scope.currentUser.canAdmin &&
-				$scope.currentUser.role != "MANAGER" &&
-				$scope.currentUser.role != "BUYER"
-			) {
-				$state.go("console.order-list");
-			}
-			init();
-		}, 200);
+		init();
 	}
 );
