@@ -30,19 +30,18 @@
                     <label>Contraseña</label>
                     <input type="password" name="password" ng-model="user.password" class="form-control" required="" ng-change="checkPassword(user.password)">
                     <small class="error-message" ng-if="userForm.$validated && userForm.password.$error.required">Campo requerido</small>
-                    <small class="alert" ng-if="passwordIsValid == false">Mínimo 8 caractéres, incluyendo al menos una mayúscula, una minúscula, un número y un caracter especial (! ( ) - . _ ` ~ @)</small>
+                    <small class="alert" ng-if="passwordIsValid == false">Mínimo 8 caracteres, incluyendo al menos una mayúscula, una minúscula, un número y un caracter especial (! ( ) - . _ ` ~ @)</small>
                 </div>
                 <div class="form-group">
                     <label>Permisos</label>
-                    <select name="role" ng-model="user.role" class="form-control" required="">
-                        <option value="CONSULTANT">Asesor</option>
-                        <option value="MANAGER" ng-if="currentUser.canAdmin">Gerente de Compras</option>
-                        <option value="INSTALLATION_MANAGER" ng-if="currentUser.canAdmin">Gerente de Instalación</option>
-                        <option value="SALES_MANAGER" ng-if="currentUser.canAdmin">Gerente de Ventas</option>
-                        <option value="BUYER">Comprador</option>
-                        <option value="ADMIN" ng-if="currentUser.role=='SUPERADMIN'">Admin</option>
-                        <option value="SUPERADMIN" ng-if="currentUser.canAdmin">Super Admin</option>
-                    </select>
+                    <select-object
+                        ng-model="user.role"
+                        data="roles"
+                        value-property="'name'"
+                        text-property="'text'"
+                        if-function-property="'creation_permission'"
+                        scope="currentUser"
+                    />
                     <small class="error-message" ng-if="userForm.$validated && userForm.role.$error.required">Campo requerido</small>
                 </div>
 
