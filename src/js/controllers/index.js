@@ -1,13 +1,13 @@
 export { pdApp } from "../../pdApp";
 export { globals } from "../../index";
 
-import "./bills";
+import "./costing/bills.controller";
 import "./change-password";
 import "./client-details";
 import "./client-list";
 import "./client-new";
 import "./commissions";
-import "./costing";
+import "./costing/costing.controller";
 import "./deadlines";
 import "./exchange-rate";
 import "./inventory/inventory-adjustments.controller";
@@ -16,7 +16,7 @@ import "./inventory/inventory-cross-new.controller";
 import "./inventory/inventory-in.controller";
 import "./inventory/inventory-movements.controller";
 import "./inventory/inventory-report.controller";
-import "./login";
+import "./login/login.controller";
 import "./molding-details";
 import "./movements";
 import "./order/order-details.controller";

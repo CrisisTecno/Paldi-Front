@@ -1,4 +1,4 @@
-import { pdApp, globals } from "./index";
+import { pdApp, globals } from "../index";
 
 pdApp.controller(
 	"LogInCtrl",

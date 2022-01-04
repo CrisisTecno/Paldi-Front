@@ -54,14 +54,14 @@ const pdApp = angular
       })
       .state("access.login", {
         url: "/login",
-        templateUrl: "partials/views/access/login.html",
+        templateUrl: "js/controllers/login/login.html",
         controller: "LogInCtrl",
         title: "Iniciar Sesion",
         authRequired: false,
       })
       .state("access.forgot-password", {
         url: "/forgot-password",
-        templateUrl: "partials/views/access/forgot-password.html",
+        templateUrl: "js/controllers/login/forgot-password.html",
         controller: "LogInCtrl",
         title: "Recordar password",
         authRequired: false,
@@ -81,7 +81,7 @@ const pdApp = angular
       })
       .state("console.change-password", {
         url: "/change-password",
-        templateUrl: "partials/views/console/change-password.html",
+        templateUrl: "js/controllers/login/change-password.html",
         controller: "ChangePasswordCtrl",
         title: "Cambiar password",
         authRequired: true,
@@ -214,7 +214,7 @@ const pdApp = angular
 
       .state("console.bills", {
         url: "/bills",
-        templateUrl: "partials/views/console/bills.html",
+        templateUrl: "js/controllers/costing/bills.html",
         controller: "BillsCtrl",
         title: "Facturas",
         authRequired: true,
@@ -230,7 +230,7 @@ const pdApp = angular
 
       .state("console.movements", {
         url: "/movements",
-        templateUrl: "partials/views/console/movements.html",
+        templateUrl: "js/controllers/costing/movements.html",
         controller: "MovementsCtrl",
         title: "Movimientos de OV",
         authRequired: true,
