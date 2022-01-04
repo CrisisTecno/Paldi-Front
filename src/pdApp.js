@@ -279,7 +279,7 @@ const pdApp = angular
       })
       .state("console.warehouses", {
         url: "/warehouses",
-        templateUrl: "partials/views/console/warehouses.html",
+        templateUrl: "js/controllers/warehouse/warehouses.html",
         controller: "WarehousesCtrl",
         title: "Almacenes",
         authRequired: true,
@@ -287,7 +287,7 @@ const pdApp = angular
 
       .state("console.warehouse-details", {
         url: "/warehouse/:warehouseId",
-        templateUrl: "partials/views/console/warehouse-details.html",
+        templateUrl: "js/controllers/warehouse/warehouse-details.html",
         controller: "WarehouseDetailsCtrl",
         title: "Detalles de almacén",
         authRequired: true,

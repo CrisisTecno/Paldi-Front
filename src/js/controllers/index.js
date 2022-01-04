@@ -33,7 +33,7 @@ import "./statistics";
 import "./users/user-details.controller";
 import "./users/user-list.controller";
 import "./users/user-new.controller";
-import "./warehouse-details";
-import "./warehouses";
+import "./warehouse/warehouse-details.controller";
+import "./warehouse/warehouses.controller";
 
 import "./reports"
