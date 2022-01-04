@@ -50,7 +50,7 @@ const pdApp = angular
       .state("access", {
         abstract: true,
         url: "/access",
-        templateUrl: "partials/views/access.html",
+        templateUrl: "js/controllers/login/access.html",
       })
       .state("access.login", {
         url: "/login",
@@ -70,7 +70,7 @@ const pdApp = angular
       .state("console", {
         abstract: true,
         url: "/console",
-        templateUrl: "partials/views/console.html",
+        templateUrl: "js/controllers/login/console.html",
       })
       .state("console.personal-info", {
         url: "/personal-info",
@@ -96,28 +96,28 @@ const pdApp = angular
       // @note Controller quote-new pdApp
       .state("console.quote-new", {
         url: "/new/quote",
-        templateUrl: "partials/views/console/quote-new.html",
+        templateUrl: "js/controllers/order/quote-new.html",
         controller: "QuoteNewCtrl",
         title: "Cotizar",
         authRequired: true,
       })
       .state("console.quote-new-manual", {
         url: "/new/quote/manual",
-        templateUrl: "partials/views/console/quote-new.html",
+        templateUrl: "js/controllers/order/quote-new.html",
         controller: "QuoteNewCtrl",
         title: "Cotizar",
         authRequired: true,
       })
       .state("console.quote-edit", {
         url: "/edit/quote/:orderId",
-        templateUrl: "partials/views/console/quote-new.html",
+        templateUrl: "js/controllers/order/quote-new.html",
         controller: "QuoteNewCtrl",
         title: "Cotizar",
         authRequired: true,
       })
       .state("console.quote-list", {
         url: "/quote-list",
-        templateUrl: "partials/views/console/quote-list.html",
+        templateUrl: "js/controllers/order/quote-list.html",
         controller: "QuoteListCtrl",
         title: "Cotizaciones",
         authRequired: true,
@@ -162,21 +162,21 @@ const pdApp = angular
 
       .state("console.client-list", {
         url: "/client",
-        templateUrl: "partials/views/console/client-list.html",
+        templateUrl: "js/controllers/clients/client-list.html",
         controller: "ClientListCtrl",
         title: "Clientes",
         authRequired: true,
       })
       .state("console.client-details", {
         url: "/client/:clientId",
-        templateUrl: "partials/views/console/client-details.html",
+        templateUrl: "js/controllers/clients/client-details.html",
         controller: "ClientDetailsCtrl",
         title: "Detalles del cliente",
         authRequired: true,
       })
       .state("console.client-new", {
         url: "/new/client",
-        templateUrl: "partials/views/console/client-new.html",
+        templateUrl: "js/controllers/clients/client-new.html",
         controller: "ClientNewCtrl",
         title: "Nuevo cliente",
         authRequired: true,

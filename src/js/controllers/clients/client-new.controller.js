@@ -1,4 +1,4 @@
-import { pdApp } from "./index";
+import { pdApp } from "../index";
 
 pdApp.controller("ClientNewCtrl", function ($scope, $state, paldiService) {
 	$scope.save = function (form, client) {
