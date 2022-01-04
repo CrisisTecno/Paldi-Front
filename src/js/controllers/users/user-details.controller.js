@@ -23,6 +23,7 @@ pdApp.controller(
 
 			paldiService.users.get(id).then(
 				function (user) {
+					console.log(user)
 					$scope.user = user;
 					$scope.user.warehouseId = user.warehouse
 						? user.warehouse.id
@@ -37,6 +38,7 @@ pdApp.controller(
 		};
 
 		$scope.loadUser();
+		
 
 		//================= ACTIONS =================
 		$scope.edit = function (form, user) {
@@ -183,5 +185,6 @@ pdApp.controller(
 		};
 
 		init();
+		
 	}
 );
