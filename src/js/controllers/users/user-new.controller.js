@@ -1,10 +1,11 @@
-import {globals, pdApp} from "./index"
+import {globals, pdApp} from "../index"
 import {
   swalUserCreateDuplicatedEmailFactory, swalUserCreateSuccess,
-} from "../utils/swals/userCreate"
-import {swalErrorFactory} from "../utils/swals/generic"
+} from "../../utils/swals/userCreate"
+import {swalErrorFactory} from "../../utils/swals/generic"
 
-pdApp.controller("UserNewCtrl", function ($scope,
+pdApp.controller("UserNewCtrl", function (
+  $scope,
   $rootScope,
   $state,
   $timeout,
@@ -12,13 +13,24 @@ pdApp.controller("UserNewCtrl", function ($scope,
   inventoryDataService,
   userDataService,
 ) {
+  $scope.save = saveNewUser
+  $scope.checkPassword = checkPassword
+
   $timeout(function () {
     if (!$scope.currentUser.canAdmin) {
       $state.go("console.quote-list")
     }
   }, 200)
+  init()
 
-  $scope.save = function (form, user) {
+  function checkPassword(str) {
+    // al menos un número, una mayúscula y una minúscula, 8 caracteres mínimo
+    // solo letras y números
+    var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!()-._`~@])[0-9a-zA-Z!()-._`~@]{8,}$/
+    $scope.passwordIsValid = re.test(str)
+  }
+
+  function saveNewUser(form, user) {
     if (!form.$valid || !$scope.passwordIsValid) {
       form.$validated = true
       return
@@ -42,14 +54,9 @@ pdApp.controller("UserNewCtrl", function ($scope,
       })
   }
 
-  $scope.checkPassword = function checkPassword(str) {
-    // al menos un número, una mayúscula y una minúscula, 8 caracteres mínimo
-    // solo letras y números
-    var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!()-._`~@])[0-9a-zA-Z!()-._`~@]{8,}$/
-    $scope.passwordIsValid = re.test(str)
-  }
+  function init() {
+    $scope.roles = globals.roles
 
-  var init = function () {
     inventoryDataService.getWarehouses().then(function (data) {
       $scope.warehouses = data
       $scope.warehouses.splice(0, 0, {name: "", id: ""})
@@ -57,6 +64,5 @@ pdApp.controller("UserNewCtrl", function ($scope,
     })
   }
 
-  $scope.roles = globals.roles
-  init()
+
 })

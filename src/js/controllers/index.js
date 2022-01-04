@@ -30,9 +30,9 @@ import "./products";
 import "./quote-list";
 import "./quote-new";
 import "./statistics";
-import "./user-details";
-import "./user-list";
-import "./user-new";
+import "./users/user-details.controller";
+import "./users/user-list.controller";
+import "./users/user-new.controller";
 import "./warehouse-details";
 import "./warehouses";
 

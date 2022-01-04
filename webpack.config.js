@@ -49,10 +49,7 @@ module.exports = (env) => ({
       swal: "sweetalert",
     }),
     new copyPlugin({
-      patterns: filesToCopy.map((dir) => ({
-        from: path.resolve(__dirname, "src", dir),
-        to: path.resolve(__dirname, "dist", dir),
-      })),
+      patterns: filesToCopy,
     }),
   ],
   devServer: {

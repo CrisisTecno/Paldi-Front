@@ -140,21 +140,21 @@ const pdApp = angular
 
       .state("console.user-list", {
         url: "/user",
-        templateUrl: "partials/views/console/user-list.html",
+        templateUrl: "js/controllers/users/user-list.html",
         controller: "UserListCtrl",
         title: "Usuarios",
         authRequired: true,
       })
       .state("console.user-details", {
         url: "/user/:userId",
-        templateUrl: "partials/views/console/user-details.html",
+        templateUrl: "js/controllers/users/user-details.html",
         controller: "UserDetailsCtrl",
         title: "Detalles de usuario",
         authRequired: true,
       })
       .state("console.user-new", {
         url: "/new/user",
-        templateUrl: "partials/views/console/user-new.html",
+        templateUrl: "js/controllers/users/user-new.html",
         controller: "UserNewCtrl",
         title: "Nuevo usuario",
         authRequired: true,
