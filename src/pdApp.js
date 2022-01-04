@@ -256,7 +256,7 @@ const pdApp = angular
 
       .state("console.reports", {
         url: "/reports",
-        templateUrl: "partials/views/console/reports/index.html",
+        templateUrl: "js/controllers/reports/reports.html",
         controller: "ReportsController",
         title: "Reportes",
         authRequired: true,

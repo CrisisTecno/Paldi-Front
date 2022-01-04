@@ -1,6 +1,6 @@
 import { globals, pdApp } from "..";
 import { showSwal } from "../../utils/swal/show";
-import { buildHistoryObject } from "./history";
+import { buildHistoryObject } from "./history.controller";
 
 const GROUPINGS = {
   seller: 'Vendedor',
