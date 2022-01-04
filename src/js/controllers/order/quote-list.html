@@ -3,7 +3,7 @@
         <div class="ibox-title"><h3>Cotizaciones</h3></div>
             <div class="ibox-content">
                 <button ng-if="currentUser.role != 'ADMIN'" class="btn btn-primary-left" ui-sref="console.quote-new">Cotizar</button>
-                <button ng-if="currentUser.role == 'CONSULTANT'" ng-repeat="quoteType in quotesTypes" class="btn" ng-class="(quoteType.value == selectedType)? 'btn-today' : 'btn-secondary-left'" ng-click="quoteTypeChange(quoteType.value)">{{quoteType.label}}</button>
+                <button ng-if="currentUser.role == 'CONSULTANT' || currentUser.role == 'EXTERNAL_CONSULTANT'" ng-repeat="quoteType in quotesTypes" class="btn" ng-class="(quoteType.value == selectedType)? 'btn-today' : 'btn-secondary-left'" ng-click="quoteTypeChange(quoteType.value)">{{quoteType.label}}</button>
 
                 <a ng-if="(currentUser.canAdmin || currentUser.role == 'SALES_MANAGER') && !isEmpty" class="btn btn-secondary-left" href="{{downloadLink}}" download="Cotizaciones.xlsx" ng-hide="statusList.length < 1">Descargar cotizaciones</a>
 

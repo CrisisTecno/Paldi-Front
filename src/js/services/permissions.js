@@ -41,7 +41,8 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 
 				if (
 					order.status == "QUOTE" &&
-					(user.role == "CONSULTANT" ||
+					(user.role == "CONSULTANT" || 
+					user.role == "EXTERNAL_CONSULTANT" ||
 						user.role == "SALES_MANAGER" ||
 						user.role == "SUPERADMIN")
 				) {
@@ -51,7 +52,9 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				if (
 					order.rejected < 2 &&
 					order.status == "REJECTED" &&
-					(user.role == "CONSULTANT" || user.role == "SUPERADMIN")
+					(user.role == "CONSULTANT" ||
+					user.role === "EXTERNAL_CONSULTANT" ||
+					user.role == "SUPERADMIN")
 				) {
 					canSend = true;
 				}
@@ -284,6 +287,21 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 			}
 
 			if (list == "CONSULTANT") {
+				statusList = [
+					"LINE",
+					"BACKORDER",
+					"PRODUCTION",
+					"TRANSIT",
+					"FINISHED",
+					"PROGRAMMED",
+					"INSTALLED",
+					"INSTALLED_NONCONFORM",
+					"INSTALLED_INCOMPLETE",
+					"ORDER_CANCELED",
+				];
+			}
+
+			if (list == "EXTERNAL_CONSULTANT") {
 				statusList = [
 					"LINE",
 					"BACKORDER",
