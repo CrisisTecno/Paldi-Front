@@ -4,7 +4,7 @@
             <h3>Órdenes</h3>
         </div>
         <div class="ibox-content">
-            <button ng-if="currentUser.role == 'CONSULTANT' || currentUser.role == 'EXTERNAL_CONSULTANT'"
+            <button ng-if="currentUser.role == 'CONSULTANT'"
                 ng-repeat="orderType in orderTypes" class="btn"
                 ng-class="(orderType.value == selectedType)? 'btn-today' : 'btn-secondary-left'"
                 ng-click="orderTypeChange(orderType.value)">{{orderType.label}}</button>

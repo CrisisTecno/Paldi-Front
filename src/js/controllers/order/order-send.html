@@ -4,11 +4,11 @@
 		<button class="btn btn-danger"
 			ng-click="closeThisDialog()">Cancelar</button>
 		<button class="btn btn-default"
-			ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'EXTERNAL_CONSULTANT' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER') && order.status != 'PENDING'"
+			ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER') && order.status != 'PENDING'"
 			ng-click="closeThisDialog();changeStatusDialog('PENDING')">Sin
 			anticipo</button>
 		<button class="btn btn-success"
-			ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'EXTERNAL_CONSULTANT'|| currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'ADMIN')"
+			ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'ADMIN')"
 			ng-click="closeThisDialog();paymentDialog('advance')">Con
 			anticipo</button>
 	</div>

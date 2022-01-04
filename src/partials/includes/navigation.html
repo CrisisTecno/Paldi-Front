@@ -5,16 +5,16 @@
         <dir><span class="profile-element version-number">ver. {{currentVersion}}</span></dir>
     </metis-item>
 
-    <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'CONSULTANT' || currentUser.role != 'EXTERNAL_CONSULTANT'">
+    <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'CONSULTANT'">
         <a href="#"><i class="fa fa-file-text fa-lg"></i> <span class="nav-label">Ventas</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
             <li ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'"><a ui-sref="console.quote-list">Cotizaciones</a></li>
             <li><a ui-sref="console.statistics">Estadística</a></li>
-            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT' || currentUser.role == 'EXTERNAL_CONSULTANT'"><a ui-sref="console.quote-new">Cotizar</a></li>
+            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT'"><a ui-sref="console.quote-new">Cotizar</a></li>
         </ul>
     </metis-item>
 
-    <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'CONSULTANT' || currentUser.role != 'EXTERNAL_CONSULTANT'">
+    <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'CONSULTANT'">
         <a href="#"><i class="fa fa-list fa-lg"></i> <span class="nav-label">Órdenes</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
             <li><a ui-sref="console.order-list">Órdenes</a></li>
@@ -23,7 +23,7 @@
         </ul>
     </metis-item>
 
-    <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT' || currentUser.role == 'EXTERNAL_CONSULTANT' ">
+    <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT'">
         <a href="#"><i class="fa fa-file-text fa-lg"></i> <span class="nav-label" style="font-size: 8.8px" >Mis ventas</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
             <li><a ui-sref="console.quote-list">Cotizaciones</a></li>
@@ -32,11 +32,11 @@
         </ul>
     </metis-item>
 
-    <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT' || currentUser.role == 'EXTERNAL_CONSULTANT'">
+    <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT'">
         <a ui-sref="console.order-list"><i class="fa fa-list fa-lg"></i> <span class="nav-label" style="font-size: 8.8px">Mis órdenes</span></a>
     </metis-item>
 
-    <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT' || currentUser.role == 'EXTERNAL_CONSULTANT'">
+    <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT'">
         <a ui-sref="console.commissions"><i class="fa fa-suitcase fa-lg"></i> <span class="nav-label" style="font-size: 8.8px">Comisiones</span></a>
     </metis-item>
 
@@ -44,7 +44,7 @@
         <a href="#"><i class="fa fa-suitcase fa-lg"></i> <span class="nav-label">Admin</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
             <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'" ui-sref="console.payments">Pagos</a></li>
-            <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'CONSULTANT' || currentUser.role == 'EXTERNAL_CONSULTANT'" ui-sref="console.commissions">Comisiones</a></li>
+            <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'CONSULTANT' " ui-sref="console.commissions">Comisiones</a></li>
             <li><a ui-sref="console.costing" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Costeo</a></li>
             <li><a ui-sref="console.products-catalog" ng-if="currentUser.role == 'SUPERADMIN'">Catálogo</a></li>
             <li><a ui-sref="console.reports" ng-if="currentUser.role == 'SUPERADMIN' && currentUser.canAdmin || currentUser.role == 'ADMIN'">Reportes</a></li>
