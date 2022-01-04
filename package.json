@@ -4,8 +4,12 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "webpack --config webpack.config.js",
-		"dev": "webpack serve --config webpack.config.js"
+		"build-prod": "webpack --config webpack.config.js --env stage=production",
+		"build-stg": "webpack --config webpack.config.js --env stage=staging",
+		"local-prod": "webpack serve --config webpack.config.js --env stage=production",
+		"local-stg": "webpack serve --config webpack.config.js --env stage=staging",
+		"local": "webpack serve --config webpack.config.js --env stage=local",
+		"dev": "webpack serve --config webpack.config.js --env stage=local"
 	},
 	"keywords": [],
 	"author": "",
@@ -25,5 +29,8 @@
 		"webpack": "^5.49.0",
 		"webpack-cli": "^4.7.2",
 		"webpack-dev-server": "^3.11.2"
+	},
+	"dependencies": {
+		"mongodb": "^4.2.2"
 	}
 }
