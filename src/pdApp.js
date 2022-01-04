@@ -125,14 +125,14 @@ const pdApp = angular
 
       .state("console.order-list", {
         url: "/order",
-        templateUrl: "partials/views/console/order-list.html",
+        templateUrl: "js/controllers/order/order-list.html",
         controller: "OrderListCtrl",
         title: "Ordenes",
         authRequired: true,
       })
       .state("console.order-details", {
         url: "/order/:orderId",
-        templateUrl: "partials/views/console/order-details.html",
+        templateUrl: "js/controllers/order/order-details.html",
         controller: "OrderDetailsCtrl",
         title: "Detalles de orden",
         authRequired: true,
@@ -279,7 +279,7 @@ const pdApp = angular
       })
       .state("console.warehouses", {
         url: "/warehouses",
-        templateUrl: "js/controllers/warehouse/warehouses.html",
+        templateUrl: "js/controllers/inventory/warehouse/warehouses.html",
         controller: "WarehousesCtrl",
         title: "Almacenes",
         authRequired: true,
@@ -287,7 +287,7 @@ const pdApp = angular
 
       .state("console.warehouse-details", {
         url: "/warehouse/:warehouseId",
-        templateUrl: "js/controllers/warehouse/warehouse-details.html",
+        templateUrl: "js/controllers/inventory/warehouse/warehouse-details.html",
         controller: "WarehouseDetailsCtrl",
         title: "Detalles de almacén",
         authRequired: true,

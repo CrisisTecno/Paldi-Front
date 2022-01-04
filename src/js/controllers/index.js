@@ -19,8 +19,8 @@ import "./inventory/inventory-report.controller";
 import "./login";
 import "./molding-details";
 import "./movements";
-import "./order-details";
-import "./order-list";
+import "./order/order-details.controller";
+import "./order/order-list.controller";
 import "./payments";
 import "./personal-info";
 import "./product-details";
@@ -33,7 +33,7 @@ import "./statistics";
 import "./users/user-details.controller";
 import "./users/user-list.controller";
 import "./users/user-new.controller";
-import "./warehouse/warehouse-details.controller";
-import "./warehouse/warehouses.controller";
+import "./inventory/warehouse/warehouse-details.controller";
+import "./inventory/warehouse/warehouses.controller";
 
 import "./reports"
