@@ -303,7 +303,7 @@ const pdApp = angular
 
       .state("console.inventory-movements", {
         url: "/inventory/movements",
-        templateUrl: "partials/views/console/inventory-movements.html",
+        templateUrl: "js/controllers/inventory/inventory-movements.html",
         controller: "InventoryMovementsCtrl",
         title: "Reporte de Movimientos",
         authRequired: true,
@@ -311,7 +311,7 @@ const pdApp = angular
 
       .state("console.inventory-report", {
         url: "/inventory/report",
-        templateUrl: "partials/views/console/inventory-report.html",
+        templateUrl: "js/controllers/inventory/inventory-report.html",
         controller: "InventoryReportCtrl",
         title: "Reporte de Inventarios",
         authRequired: true,
@@ -319,14 +319,14 @@ const pdApp = angular
 
       .state("console.inventory-in", {
         url: "/inventory/in",
-        templateUrl: "partials/views/console/inventory-in.html",
+        templateUrl: "js/controllers/inventory/inventory-in.html",
         controller: "InventoryInCtrl",
         title: "Entradas",
         authRequired: true,
       })
       .state("console.inventory-cross", {
         url: "/inventory/cross",
-        templateUrl: "partials/views/console/inventory-cross.html",
+        templateUrl: "js/controllers/inventory/inventory-cross.html",
         controller: "InventoryCrossCtrl",
         title: "Traslados",
         authRequired: true,
@@ -334,7 +334,7 @@ const pdApp = angular
       .state("console.inventory-adjustments", {
         url: "/inventory/adjustments",
         templateUrl:
-          "partials/views/console/inventory-adjustments.html",
+          "js/controllers/inventory/inventory-adjustments.html",
         controller: "InventoryAdjustmentsCtrl",
         title: "Ajustes",
         authRequired: true,
