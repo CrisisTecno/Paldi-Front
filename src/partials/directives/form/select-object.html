@@ -1,0 +1,9 @@
+<select ng-model="model" class="form-control">
+  <option
+      ng-repeat="entry in data"
+      value="{{entry[valueProperty]}}"
+      ng-if="evalIf(entry)"
+  >
+    {{entry[textProperty]}}
+  </option>
+</select>
