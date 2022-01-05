@@ -55,17 +55,31 @@ const default_config = {
   ],
 }
 
+const external_api = {
+  api: {
+    auth: {
+      whoami: "/auth/whoami",
+    },
+  },
+}
 
 config = {
   local: {
     ...default_config,
+    ...external_api
+  },
+  external_staging: {
+    ...default_config,
+    apiURL: "http://cotizadorpaldi.com.mx:7777",
+    ...external_api,
+    env: "staging",
   },
   staging: {
     ...default_config,
     apiURL: "http://cotizadorpaldi.com.mx:9999",
     api: {
       auth: {
-        whoami: "/auth/whoami",
+        whoami: "/me/user",
       },
     },
     env: "staging",

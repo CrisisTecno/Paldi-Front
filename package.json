@@ -6,6 +6,7 @@
 	"scripts": {
 		"build-prod": "webpack --config webpack.config.js --env stage=production",
 		"build-stg": "webpack --config webpack.config.js --env stage=staging",
+		"build-stg-external": "webpack --config webpack.config.js --env stage=external_staging",
 		"local-prod": "webpack serve --config webpack.config.js --env stage=production",
 		"local-stg": "webpack serve --config webpack.config.js --env stage=staging",
 		"local": "webpack serve --config webpack.config.js --env stage=local",
