@@ -99,7 +99,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 	service.users = {
 		whoAmI: function () {
 			return $http
-				.get(globals.apiURL + "/me/user", {
+				.get(globals.apiURL + globals.api.auth.whoami, {
 					authentication: "yokozuna",
 				})
 				.then(function (response) {

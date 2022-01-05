@@ -9,7 +9,7 @@ const default_config = {
   },
   test: [
     "asd",
-    "bsd"
+    "bsd",
   ],
 
   roles: [
@@ -51,7 +51,7 @@ const default_config = {
       name: "EXTERNAL_CONSULTANT",
       text: "Asesor Externo",
       creation_permission: currentUser => currentUser.canAdmin,
-    }
+    },
   ],
 }
 
@@ -63,11 +63,21 @@ config = {
   staging: {
     ...default_config,
     apiURL: "http://cotizadorpaldi.com.mx:9999",
+    api: {
+      auth: {
+        whoami: "/auth/whoami",
+      },
+    },
     env: "staging",
   },
   production: {
     ...default_config,
     apiURL: "https://cotizadorpaldi.com.mx/api",
+    api: {
+      auth: {
+        whoami: "/me/user",
+      },
+    },
     env: "production",
   },
 }
