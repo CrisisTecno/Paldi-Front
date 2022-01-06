@@ -72,11 +72,13 @@ pdApp.controller(
     }
 
     $scope.selectSeller = function (seller) {
+      console.log("Selected seller: ", seller)
       $scope.quote.seller = seller
       $scope.sellerStep = "selected"
     }
 
     $scope.changeSeller = function () {
+      console.log("Changed seller")
       $scope.quote.seller = null
       $scope.sellerStep = "empty"
     }
@@ -213,6 +215,7 @@ pdApp.controller(
 
     // @note addProduct new quote
     $scope.addProduct = function (product, form, model) {
+      console.log("Adding new product to quote: ", product, form, model)
       // console.log(product,form,model)
       // addProduct(productName, undefined, undefined) is called when adding a
       // new product from the quote-new view buttons
@@ -249,7 +252,7 @@ pdApp.controller(
           model.productType = product
           $scope.quote.type = product
 
-          if (product === "custom") {
+          if (product.toUpperCase() === "CUSTOM") {
             model.seller = $scope.quote.seller
           }
 
@@ -973,6 +976,8 @@ pdApp.controller(
 
     // @note updatePrices
     $scope.updatePrices = function (product, model) {
+      console.log("Updating price of: ", product, model)
+      console.log("Scope:", $scope)
       // this should not be done in here, but best place to put it
       // quick and dirty, todo: clean later
       if (product === "Cortina") {
@@ -1744,7 +1749,7 @@ function validateSystems($scope, model) {
 
 function validateSeller(product, $scope) {
   let sellerValid = true
-  if (product == "Custom" && !$scope.quote.seller) {
+  if (product === "Custom" && !$scope.quote.seller) {
     sellerValid = false
   }
   return sellerValid
