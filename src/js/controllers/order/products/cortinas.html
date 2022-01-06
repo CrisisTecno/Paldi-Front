@@ -81,7 +81,7 @@
       </div>
       <div class="form-group">
         <label>Nombre</label>
-        <input type="text" ng-model="cortina.plus" name="plus" id="plus" class="form-control" uib-typeahead="{value: additional} as additional.name for additional in plusTemplate | filter:$viewValue | limitTo:12" typeahead-editable="false">
+        <input type="text" ng-model="cortina.plus" name="plus" id="plus" class="form-control" uib-typeahead="additional.name for additional in plusTemplate | filter:$viewValue | limitTo:12" typeahead-editable="false">
       </div>
       <div>
         <button type="button" class="btn btn-secondary-left" ng-click="addPlus(cortina.plus, cortina.plusQuantity)">Agregar</button>
