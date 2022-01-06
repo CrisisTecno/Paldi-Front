@@ -22,7 +22,7 @@ filesToDist = [{
 	to({ context, absoluteFilename }) {
 		const relPath = absoluteFilename.replace(context, "").replace("src", "dist").replace(/\\/g, "/").replace("/", "")
 
-		console.log(relPath)
+		// console.log(relPath)
 		return path.resolve(__dirname, relPath)
 	},
 }, ...filesToDist]

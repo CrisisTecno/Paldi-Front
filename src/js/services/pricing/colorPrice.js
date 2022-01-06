@@ -39,7 +39,7 @@ pdApp.factory(
 
       // Update Scope
       updatePrice: function (product, model, meta) {
-        console.log("Updating price of:", product)
+        // console.log("Updating price of:", product)
         switch (product) {
           case "Balance":
             getBalancePrice(model);
@@ -69,7 +69,7 @@ pdApp.factory(
       },
 
       updateTotals: function (product, model) {
-        console.log("TotalUpdate",model);
+        // console.log("TotalUpdate",model);
         let pisoDiscount = false
         angular.forEach(model.products, function (product, key) {
           if (model.type == "Piso" && product.type == "Laminados" && model.client && model.client.type != "DIRECT_SALE") {
@@ -93,14 +93,14 @@ pdApp.factory(
 
         // Update Quote/Order Object
         const totals = pricingService.getTotals(model)
-        console.log('Calculated', totals)
+        // console.log('Calculated', totals)
         for (const [key, value] of Object.entries(totals)) {
           model[key] = value
         }
 
         // Update Plus Total
         const additionalTotals = getAdditionalsSubTotal(model)
-        console.log("Calculated additional totals: ", additionalTotals)
+        // console.log("Calculated additional totals: ", additionalTotals)
         model.products?.forEach((product, i) => {
           product.plusList?.forEach((additional, j) => {
             additional.total = additionalTotals[i][j]
@@ -343,7 +343,7 @@ pdApp.factory(
       if (!model)
         return
 
-      console.log("Calculating cortina price for ", model)
+      // console.log("Calculating cortina price for ", model)
       const payload = {
         product: "Cortina",
         finish: model.finish,
@@ -353,7 +353,7 @@ pdApp.factory(
       }
 
       const result = await paldiService.products.fetchPrice(payload)
-      console.log("Calculated cortina price", result)
+      // console.log("Calculated cortina price", result)
       model.m2 = Math.round(model.width * model.height * 100) / 100
       model.price = result.price
       model.total = result.price * model.quantity

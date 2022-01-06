@@ -23,7 +23,7 @@ pdApp.controller(
 
 			paldiService.users.get(id).then(
 				function (user) {
-					console.log(user)
+					// console.log(user)
 					$scope.user = user;
 					$scope.user.warehouseId = user.warehouse
 						? user.warehouse.id
@@ -32,7 +32,7 @@ pdApp.controller(
 				},
 				function (error) {
 					$scope.step = "empty";
-					//console.log(error);
+					// console.log(error);
 				}
 			);
 		};
@@ -54,7 +54,7 @@ pdApp.controller(
 						$state.go("console.user-list");
 					},
 					function (error) {
-						//console.log(error);
+						// console.log(error);
 					}
 				);
 			} else {
@@ -87,7 +87,7 @@ pdApp.controller(
 							},
 							function (error) {
 								$scope.step = "empty";
-								//console.log(error);
+								// console.log(error);
 							}
 						);
 					} else {
@@ -125,7 +125,7 @@ pdApp.controller(
 								});
 							},
 							function (error) {
-								//console.log(error);
+								// console.log(error);
 							}
 						);
 					} else {
@@ -163,7 +163,7 @@ pdApp.controller(
 								});
 							},
 							function (error) {
-								//console.log(error);
+								// console.log(error);
 							}
 						);
 					} else {

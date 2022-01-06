@@ -175,20 +175,20 @@ pdApp.controller(
         }
       }
       const ids = result.data.map(({id}) => id)
-      console.log(ids)
+      // console.log(ids)
       const orders = await paldiService.orders.getBatchOrders(ids)
-      console.log(orders)
+      // console.log(orders)
 
       result.data = result.data
         .map((order) => ({
           ...order,
           real: orders.filter(({_id}) => {
-            console.log(_id, order.id)
+            // console.log(_id, order.id)
             return _id === order.id
           })[0],
         }))
         .map((order) => {
-          console.log(order)
+          // console.log(order)
           return ({
             ...order,
             status_s:
@@ -204,7 +204,7 @@ pdApp.controller(
         })
 
       $scope.isEmpty = result.recordsTotal > 0 ? false : true
-      console.log(result)
+      // console.log(result)
       fnCallback(result)
     }
 

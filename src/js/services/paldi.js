@@ -82,7 +82,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
 				return result.data;
 			} catch (e) {
-				console.log(e);
+				// console.log(e);
 				return e;
 			}
 		},
@@ -103,7 +103,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 					authentication: "yokozuna",
 				})
 				.then(function (response) {
-					console.log("WHOAMI RAN: ", response)
+					// console.log("WHOAMI RAN: ", response)
 					if (response.data.role === "EXTERNAL_CONSULTANT")
 						response.data.role = "CONSULTANT"
 					return response.data;
@@ -116,7 +116,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 					authentication: "yokozuna",
 				})
 				.then(function (response) {
-					console.log("GET USER RAN: ", response)
+				 	// console.log("GET USER RAN: ", response)
 					if (response.data.role === "EXTERNAL_CONSULTANT")
 						response.data.role = "CONSULTANT"
 					return response.data;
@@ -129,7 +129,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 					authentication: "yokozuna",
 				})
 				.then(function (response) {
-					console.log("GET USER BY ROLE RAN: ", response)
+					// console.log("GET USER BY ROLE RAN: ", response)
 					return response.data;
 				});
 		},
@@ -370,7 +370,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
 				return result.data;
 			} catch (e) {
-				console.log(e);
+				// console.log(e);
 				return e;
 			}
 		},

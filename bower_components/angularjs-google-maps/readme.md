@@ -88,26 +88,26 @@ Currently working on a set of easy-to-use hierarchical directives that allow a u
 
     <!-- Draw map -->
     <gm-map>
-    
+
         <!-- Add marker to map -->
         <gm-marker="{lat: x, lng: y}">
-        
+
             <!-- Draw a circle around the marker -->
             <gm-circle="{radius: 1000}"></gm-circle>
-            
+
             <!-- Show an infoWindow when marker is clicked -->
             <gm-info-window>
                 Content of the info window
             </gm-info-window>
-            
+
         </gm-marker>
-        
+
         <!-- Add second marker to map -->
         <gm-marker="{lat: x2, lng: y2}"></gm-marker>
-        
+
         <!-- Add third marker to map -->
         <gm-marker="{lat: x3, lng: y3}"></gm-marker>
-        
+
     </gm-map>
 
 ## Change log

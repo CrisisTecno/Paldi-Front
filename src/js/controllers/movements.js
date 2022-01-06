@@ -510,7 +510,7 @@ pdApp.controller(
 						type: "error",
 						confirmButtonText: "Aceptar",
 					});
-					//console.log(error);
+					// console.log(error);
 				}
 			);
 		};
@@ -542,7 +542,7 @@ pdApp.controller(
 								}, 2000);
 							},
 							function (error) {
-								//console.log(error);
+								// console.log(error);
 							}
 						);
 					} else {
