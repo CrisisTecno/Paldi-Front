@@ -20,7 +20,7 @@ filesToDist = filesToDist.map((dir) => ({
 filesToDist = [{
 	from: "src/*/**/*.html",
 	to({ context, absoluteFilename }) {
-		const relPath = absoluteFilename.replace(context, "").replace("src", "dist").replace("/", "")
+		const relPath = absoluteFilename.replace(context, "").replace("src", "dist").replace("/", "").replace(/\\/g, "/")
 
 		console.log(relPath)
 		return path.resolve(__dirname, relPath)
