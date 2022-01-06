@@ -549,7 +549,7 @@ pdApp.controller(
           $scope.cortina = angular.copy(product);
           $scope.updateTypeNoErasing("Cortina",$scope.cortina);
       }
-      console.log(cortina)
+
       $scope.plusList = product.plusList;
       $scope.motorList = product.motorList;
       $scope.installationPlusList = product.installationPlusList;
@@ -976,6 +976,7 @@ pdApp.controller(
       // this should not be done in here, but best place to put it
       // quick and dirty, todo: clean later
       if (product === "Cortina") {
+        console.log("HELLO?, UPDATING PRICE OF CORTINA")
         console.log(model, $scope.productData.cortina)
         model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color === model.colorName)[0]
         model.color.name = model.color.color
@@ -1291,8 +1292,11 @@ pdApp.controller(
     // ---------------------------------------------------------------------------------------------//
 
     $scope.colorSelected = function (color, product, model) {
+      console.log("COLOR SELECTED EXECUTED", color, product, model)
       model.colorObj = color.value
-      model.color = color.code
+      model.color = color
+      // if (["SHUTTER"].includes(product.toUpperCase()))
+      //   model.color = color.label
       $scope.color = angular.copy(model.colorObj)
       if (model.width) {
         $scope.changeWidth(product, model)
@@ -1720,12 +1724,13 @@ function setModelColor(product, model) {
       "Enrollable",
       "Filtrasol",
       "Piso",
+      // "Shutter",
     ].includes(model.productType)) {
       model.color = model.colorObj
     } else if (["Cortina"].includes(model.productType)) {
       model.color = model.color
     } else {
-      model.colorObj.code
+      model.color = model.colorObj.code
     }
   }
 }

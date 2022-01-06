@@ -56,7 +56,7 @@ module.exports = (env) => ({
     contentBase: path.join(__dirname, "dist"),
     writeToDisk: true,
     compress: true,
-    port: 3434,
+    port: env.stage === "production" ? 3432 : 3434,
   },
   module: {
     rules: [
