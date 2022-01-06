@@ -49,11 +49,11 @@ pdApp.controller("ReportsController", function (
   controller.updateSelected = () => {
     const reportName = $scope.reports.selected.name
     $scope.reports.templateUrl = `/partials/views/console/reports/${reportName}/index.html`
-    console.log($scope.reports)
+    // console.log($scope.reports)
   }
   controller.download = () => {
-    console.log($scope.reports)
-    console.log($rootScope)
+    // console.log($scope.reports)
+    // console.log($rootScope)
 
     const selected = $scope.reports?.selected
     const current = $scope.reports?.current
@@ -80,11 +80,11 @@ pdApp.controller("ReportsController", function (
         endDate: endDate,
       }
     }
-    console.log(properties)
+    // console.log(properties)
     paldiService.reports.download(properties).success((data, status, headers) => {
       const filename = `Cuentas por cobrar de ${moment(startDate).format('yyyy-MM-DD')} a ${moment(endDate).format('yyyy-MM-Dd')}.xlsx`
       setTimeout(() => $('#reportHistory').DataTable().ajax.reload(), 100)
-      console.log(data)
+      // console.log(data)
 
       function downloadURI(uri, name) {
         const link = document.createElement("a")
@@ -101,7 +101,7 @@ pdApp.controller("ReportsController", function (
 
   }
 
-  console.log("test idk")
+  // console.log("test idk")
 
   $scope.startDateOptions = {
     formatYear: "yy",

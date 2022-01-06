@@ -72,10 +72,10 @@ const updateOrder = async function (context, $scope, updatedOrder, model) {
       $scope.isPaying = false;
       context.loadOrder();
 		};
-		console.log("showing create installation sheet dialog");
+		// console.log("showing create installation sheet dialog");
 		await showCreateInstallationSheetDialog($scope, callback);
 	} catch (error) {
-		console.log('ERROR BEFORE INSTALLATION SHEET DIALOG', error);
+		// console.log('ERROR BEFORE INSTALLATION SHEET DIALOG', error);
     const callback = () => {
       $scope.isPaying = false;
       context.loadOrder();

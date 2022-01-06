@@ -54,9 +54,9 @@ export const showCreateInstallationSheetDialog = async (
     ...(await getInstallationSheetState($scope, $scope.order)),
     save: async (installationForm) => {
 
-      console.log($scope)
+      // console.log($scope)
       const data = $scope.installationSheet;
-      console.log(data)
+      // console.log(data)
 
       const extras = data.extras;
       const material = data.materials;
@@ -147,7 +147,7 @@ export const showCreateInstallationSheetDialog = async (
     },
   };
   // console.log($scope);
-  console.log($scope);
+  // console.log($scope);
   $scope.dialog = $scope.ngDialog.open({
     template: "partials/views/console/installation-sheet/form-create.html",
     scope: $scope,

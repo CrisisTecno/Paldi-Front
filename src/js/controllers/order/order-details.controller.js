@@ -73,7 +73,7 @@ pdApp.controller(
             })
           }
         }
-        console.log(order)
+        // console.log(order)
 
         if (order.orderParent) {
           $scope.isSuborder = true;
@@ -135,7 +135,7 @@ pdApp.controller(
           }],
         ]);
 
-        console.log($scope.perms)
+        // console.log($scope.perms)
         $timeout(async function () {
           $scope.permissions = permissionsHelper.get(order, $rootScope.currentUser);
           $scope.canManagePayments = $scope.currentUser.role != 'MANAGER' && $scope.currentUser.role != 'INSTALLATION_MANAGER';
@@ -149,7 +149,7 @@ pdApp.controller(
 
       }, function (error) {
         $scope.step = "empty";
-        //console.log(error);
+        // console.log(error);
       });
     }
 
@@ -216,7 +216,7 @@ pdApp.controller(
       } else {
         objName = "orden";
       }
-      //console.log(order)
+      // console.log(order)
 
       const getProviderEmail = (type) => {
         const emails = {
@@ -228,9 +228,9 @@ pdApp.controller(
           return "Correo"
         return emails[type]
       }
-      console.log("------ PROVIDER EMAIL")
-      console.log(order.type)
-      console.log(getProviderEmail(order.products[0].productType))
+      // console.log("------ PROVIDER EMAIL")
+      // console.log(order.type)
+      // console.log(getProviderEmail(order.products[0].productType))
       
       swal({
         title: "¿Seguro que desea enviar la " + objName + " al correo?",
@@ -246,7 +246,7 @@ pdApp.controller(
         function (value) {
           if (!value)
             return
-          //console.log(value)
+          // console.log(value)
           if (value.trim() === "") {
             swal.showInputError("Es necesario escribir una dirección de correo");
             return false
@@ -316,7 +316,7 @@ pdApp.controller(
               loadOrder();
             });
           }
-          console.log(suborder)
+          // console.log(suborder)
         })
 
       })
@@ -476,7 +476,7 @@ pdApp.controller(
           function (isConfirm) {
             if (isConfirm) {
               $scope.newStatus = status;
-              //	console.log($scope.newStatus);
+              //	// console.log($scope.newStatus);
               if (status === "PENDING") {
                 showCreateInstallationSheetDialog($scope, () =>
                   showSwal(
@@ -639,7 +639,7 @@ pdApp.controller(
               }
             },
             function (error) {
-              //console.log(error);
+              // console.log(error);
 
               if (
                 error.data.exception ==
@@ -933,7 +933,7 @@ pdApp.controller(
                   loadOrder();
                 },
                 function (error) {
-                  //console.log(error);
+                  // console.log(error);
                 }
               );
           } else {

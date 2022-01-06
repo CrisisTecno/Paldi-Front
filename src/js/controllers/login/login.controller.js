@@ -70,7 +70,7 @@ pdApp.controller(
 					$state.go("access.login");
 				},
 				function (error) {
-					//console.log(error);
+					// console.log(error);
 					swal({
 						title: "Petición procesada",
 						type: "success",

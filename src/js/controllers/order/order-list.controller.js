@@ -42,7 +42,7 @@ pdApp.controller(
 			: ($scope.isConsultant = false);
 
 		var serverData = function (sSource, aoData, fnCallback, oSettings) {
-      console.log(sSource, aoData, fnCallback, oSettings)
+      // console.log(sSource, aoData, fnCallback, oSettings)
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var sort = sear

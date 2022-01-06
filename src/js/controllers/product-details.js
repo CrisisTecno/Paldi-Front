@@ -36,7 +36,7 @@ pdApp.controller(
 				},
 				function (error) {
 					$scope.step = "empty";
-					//console.log(error);
+					// console.log(error);
 				}
 			);
 		};
@@ -82,7 +82,7 @@ pdApp.controller(
 												$state.go("console.products");
 											},
 											function (error) {
-												//console.log(error);
+												// console.log(error);
 											}
 										);
 								} else {

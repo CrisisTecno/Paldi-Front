@@ -19,8 +19,8 @@ pdApp.controller(
 
   
     $scope.filterColors =function(item) {
-      //console.log("Input of Filter :", item)
-      //console.log("Current Value: ", document.getElementById("cortinacolor").value )
+      // console.log("Input of Filter :", item)
+      // console.log("Current Value: ", document.getElementById("cortinacolor").value )
       let match = document.getElementById("cortinacolor").value
       const matchval = match.toString().toLowerCase()
       const name = item.color.toLowerCase()
@@ -56,7 +56,7 @@ pdApp.controller(
       $scope.productData.cortina = {
         motors, sistemas, colores, acabados, allAdditionals
       }
-      console.log("Loaded product data: ", $scope.productData)
+      // console.log("Loaded product data: ", $scope.productData)
     }
     $scope.setupTemplate()
 
@@ -161,7 +161,7 @@ pdApp.controller(
             updateDiscount()
           },
           function (error) {
-            //console.log(error);
+            // console.log(error);
             swal({
               title: "Error",
               text:
@@ -213,7 +213,7 @@ pdApp.controller(
 
     // @note addProduct new quote
     $scope.addProduct = function (product, form, model) {
-      console.log(product,form,model)
+      // console.log(product,form,model)
       // addProduct(productName, undefined, undefined) is called when adding a
       // new product from the quote-new view buttons
       if (!form) {
@@ -230,22 +230,22 @@ pdApp.controller(
       // addProduct(productName, productDetails, $scope.{product}) is called
       // when a product is added from the views/console/products/{product}.html
       if (form) {
-        console.log("Handling product submit")
-        console.log("Model: ", model)
+        // console.log("Handling product submit")
+        // console.log("Model: ", model)
 
         $scope.updatePrices(product, model)
 
         const sellerValid = validateSeller(product, $scope)
 
         $scope.systemsValid = validateSystems($scope, model)
-        console.log("Valid Systems",$scope.systemsValid)
-        console.log("Valid Form",form.$valid)
-        console.log("model Total",model.total)
-        console.log("Model Price",model.price)
-        console.log("Valid Seller",sellerValid)
+        // console.log("Valid Systems",$scope.systemsValid)
+        // console.log("Valid Form",form.$valid)
+        // console.log("model Total",model.total)
+        // console.log("Model Price",model.price)
+        // console.log("Valid Seller",sellerValid)
 
         if (form.$valid && model.total && model.price && $scope.systemsValid && sellerValid) {
-          console.log("a")
+          // console.log("a")
           model.productType = product
           $scope.quote.type = product
 
@@ -323,7 +323,7 @@ pdApp.controller(
     $scope.cancelProduct = function () {
       $scope.valid = false
       $scope.rotated = false
-      //console.log($scope)
+      // console.log($scope)
 
       $scope.product = ""
       $scope.plusList = []
@@ -591,12 +591,12 @@ pdApp.controller(
     // ---------------------------------------------------------------------------------------------//
     $scope.newPlus = function(name, additionals) {
       $scope.addingPlus = true
-      console.log(name, additionals)
+      // console.log(name, additionals)
       $scope.plusName = name
       $scope.plusTemplate = additionals
     }
     $scope.addPlus = function (plus, qty) {
-      console.log(plus)
+      // console.log(plus)
       if (plus && qty > 0) {
         if (!$scope.plusList) {
           $scope.plusList = []
@@ -666,7 +666,7 @@ pdApp.controller(
     }
 
     $scope.addMotor = function (motor, qty,product=undefined) {
-      console.log(motor,qty,product)
+      // console.log(motor,qty,product)
       if (motor && qty > 0) {
         if(product != undefined){
           let res  = $scope.productData.cortina.motors
@@ -676,7 +676,7 @@ pdApp.controller(
         if (!$scope.motorList) {
           $scope.motorList = []
         }
-        console.log(motor)
+        // console.log(motor)
         
         motor.value.quantity = qty
 
@@ -976,13 +976,13 @@ pdApp.controller(
       // this should not be done in here, but best place to put it
       // quick and dirty, todo: clean later
       if (product === "Cortina") {
-        console.log("HELLO?, UPDATING PRICE OF CORTINA")
-        console.log(model, $scope.productData.cortina)
+        // console.log("HELLO?, UPDATING PRICE OF CORTINA")
+        // console.log(model, $scope.productData.cortina)
         model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color === model.colorName)[0]
         model.color.name = model.color.color
         model.color.type = "Cortina"
 
-        console.log("Translated product color: ", model.color)
+        // console.log("Translated product color: ", model.color)
       }
 
       if (product == "Piso") {
@@ -1086,7 +1086,7 @@ pdApp.controller(
     // ---------------------------------------------------------------------------------------------//
 
     $scope.save = function (client) {
-      //console.log($scope.quote)
+      // console.log($scope.quote)
       $scope.checkForm = true
       if (
         $scope.quote.notes != "" &&
@@ -1128,7 +1128,7 @@ pdApp.controller(
             },
             function (error) {
               $scope.saveDisabled = false
-              //console.log(error);
+              // console.log(error);
             },
           )
         } else {
@@ -1151,7 +1151,7 @@ pdApp.controller(
               },
               function (error) {
                 $scope.saveDisabled = false
-                //console.log(error);
+                // console.log(error);
               },
             )
           } else {
@@ -1176,7 +1176,7 @@ pdApp.controller(
               },
               function (error) {
                 $scope.saveDisabled = false
-                //console.log(error);
+                // console.log(error);
               },
             )
           }
@@ -1251,7 +1251,7 @@ pdApp.controller(
             },
             function (error) {
               $scope.saveDisabled = false
-              //console.log(error);
+              // console.log(error);
             },
           )
       } else {
@@ -1278,7 +1278,7 @@ pdApp.controller(
             },
             function (error) {
               $scope.saveDisabled = false
-              //console.log(error);
+              // console.log(error);
             },
           )
       } else {
@@ -1292,7 +1292,7 @@ pdApp.controller(
     // ---------------------------------------------------------------------------------------------//
 
     $scope.colorSelected = function (color, product, model) {
-      console.log("COLOR SELECTED EXECUTED", color, product, model)
+      // console.log("COLOR SELECTED EXECUTED", color, product, model)
       model.colorObj = color.value
       model.color = color
       // if (["SHUTTER"].includes(product.toUpperCase()))
@@ -1514,15 +1514,15 @@ pdApp.controller(
         colorPriceService.getInstallationPlusList(product, model)
         colorPriceService.getPlusColorsList(product, model)
       }
-      //console.log(product)
-      //console.log(model)
+      // console.log(product)
+      // console.log(model)
       $scope.rotated = false
       $scope.valid =
         product === "Filtrasol" &&
         model.type === "Filtrasol Enrollables"
       $scope.valid |=
         product === "Enrollable" && model.type === "Enrollables"
-      //console.log($scope.valid)
+      // console.log($scope.valid)
     }
 
     $scope.updateTypeNoErasing = function (product, model) {
@@ -1566,7 +1566,7 @@ pdApp.controller(
         },
         function (error) {
           $scope.step = "empty"
-          //console.log(error);
+          // console.log(error);
         },
       )
 
@@ -1576,7 +1576,7 @@ pdApp.controller(
         },
         function (error) {
           $scope.step = "empty"
-          //console.log(error);
+          // console.log(error);
         },
       )
     }
@@ -1677,7 +1677,7 @@ pdApp.controller(
           }, 200)
         },
         function (error) {
-          //console.log(error);
+          // console.log(error);
           $state.go("console.order-details", {
             orderId: $stateParams.orderId,
           })
@@ -1760,7 +1760,7 @@ function addNewProduct($scope, product) {
   angular.copy({}, $scope.custom)
   // @note scope cortina init
   angular.copy({}, $scope.cortina);
-  console.log(product)
+  // console.log(product)
 
   $scope.product = product
   $scope.plusList = []

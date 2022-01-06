@@ -37,7 +37,7 @@ pdApp.controller(
 					$rootScope.$emit("user:mightBeAvailable");
 				},
 				function (error) {
-					//console.log(error);
+					// console.log(error);
 				}
 			);
 		};

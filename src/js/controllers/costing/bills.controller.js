@@ -276,7 +276,7 @@ pdApp.controller(
 						type: "error",
 						confirmButtonText: "Aceptar",
 					});
-					//console.log(error);
+					// console.log(error);
 				}
 			);
 		};
@@ -324,7 +324,7 @@ pdApp.controller(
 								}, 1500);
 							},
 							function (error) {
-								//console.log(error);
+								// console.log(error);
 							}
 						);
 					} else {
