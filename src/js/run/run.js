@@ -15,26 +15,31 @@ pdApp.run(function (
   $rootScope.$stateParams = $stateParams
   $rootScope.currentVersion = globals.version
 
-  function loadUser() {
+  function loadUser(user) {
+    if (EXECUTION_ENV === "INTERNAL") {
+      $rootScope.currentUser = user
+      // paldiService.users
+      //   .get($rootScope.currentUser.id)
+      //   .then(function (currentUser) {
+      //     currentUser.passwordReset
+      //   })
 
+      $rootScope.currentUser.canAdmin =
+        user.role == "ADMIN" || user.role == "SUPERADMIN"
+      $rootScope.currentUser.canManage =
+        user.role == "MANAGER" ||
+        user.role == "INSTALLATION_MANAGER" ||
+        user.role == "SALES_MANAGER"
+    } else {
+      console.log("WHOAMI USER: ", $rootScope)
+      $rootScope.currentUser = user
+    }
   }
 
   var isLogged = function () {
     paldiService.users.whoAmI().then(
       function (user) {
-        $rootScope.currentUser = user
-        paldiService.users
-          .get($rootScope.currentUser.id)
-          .then(function (currentUser) {
-            currentUser.passwordReset
-          })
-
-        $rootScope.currentUser.canAdmin =
-          user.role == "ADMIN" || user.role == "SUPERADMIN"
-        $rootScope.currentUser.canManage =
-          user.role == "MANAGER" ||
-          user.role == "INSTALLATION_MANAGER" ||
-          user.role == "SALES_MANAGER"
+        loadUser(user)
         colorPriceService.getExchangeRate().then(function (rate) {
           $rootScope.currentExchangeRate = rate
         })
