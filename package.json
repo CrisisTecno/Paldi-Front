@@ -4,13 +4,14 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build-prod": "webpack --config webpack.config.js --env stage=production",
-		"build-stg": "webpack --config webpack.config.js --env stage=staging",
+		"build-prod": "webpack --config webpack.config.js --env stage=internal_production",
+		"build-stg": "webpack --config webpack.config.js --env stage=internal_staging",
 		"build-stg-external": "webpack --config webpack.config.js --env stage=external_staging",
-		"local-prod": "webpack serve --config webpack.config.js --env stage=production",
-		"local-stg": "webpack serve --config webpack.config.js --env stage=staging",
-		"local": "webpack serve --config webpack.config.js --env stage=local",
-		"dev": "webpack serve --config webpack.config.js --env stage=local"
+		"local-prod": "webpack serve --config webpack.config.js --env stage=internal_production",
+		"local-stg": "webpack serve --config webpack.config.js --env stage=internal_staging",
+		"external-local": "webpack serve --config webpack.config.js --env stage=external_local",
+		"local": "webpack serve --config webpack.config.js --env stage=internal_local",
+		"dev": "webpack serve --config webpack.config.js --env stage=internal_local"
 	},
 	"keywords": [],
 	"author": "",

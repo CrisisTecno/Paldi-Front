@@ -17,4 +17,5 @@ import "./permission"
 
 
 // Internal Services
+import "./paldi/yokozuna"
 import "./order/details/index"

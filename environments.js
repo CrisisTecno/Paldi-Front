@@ -63,8 +63,16 @@ const external_api = {
   },
 }
 
+const internal_api = {
+  api: {
+    auth: {
+      whoami: "/me/user",
+    },
+  },
+}
+
 config = {
-  local: {
+  external_local: {
     ...default_config,
     ...external_api
   },
@@ -74,24 +82,20 @@ config = {
     ...external_api,
     env: "staging",
   },
-  staging: {
+  internal_local: {
+    ...default_config,
+    ...internal_api
+  },
+  internal_staging: {
     ...default_config,
     apiURL: "http://cotizadorpaldi.com.mx:9999",
-    api: {
-      auth: {
-        whoami: "/me/user",
-      },
-    },
+    ...internal_api,
     env: "staging",
   },
-  production: {
+  internal_production: {
     ...default_config,
     apiURL: "https://cotizadorpaldi.com.mx/api",
-    api: {
-      auth: {
-        whoami: "/me/user",
-      },
-    },
+    ...internal_api,
     env: "production",
   },
 }

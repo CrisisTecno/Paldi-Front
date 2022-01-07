@@ -36,6 +36,7 @@ module.exports = (env) => ({
   plugins: [
     new webpack.DefinePlugin({
       GLOBALS: environment[env.stage],
+      EXECUTION_ENV: JSON.stringify(env.stage.toUpperCase().split("_")[0]),
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "./src/index.html"),
