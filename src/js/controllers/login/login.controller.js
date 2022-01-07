@@ -19,18 +19,6 @@ pdApp.controller(
         loginError,
       )
     }
-
-    function goIn() {
-      $scope.$emit("user:mightBeAvailable")
-      if ($rootScope.currentUser) {
-        yokozuna.goLastVisitedOrElse("console.order-list")
-      } else {
-        $timeout(function () {
-          yokozuna.goLastVisitedOrElse("console.order-list")
-        }, 2000)
-      }
-    }
-
     $scope.logout = function () {
       yokozuna.logout().then(function () {
         $scope.$emit("user:mightNotBeAvailable")
@@ -58,7 +46,18 @@ pdApp.controller(
       )
     }
 
-    function loginSuccess(data) {
+
+    function goIn() {
+      $scope.$emit("user:mightBeAvailable")
+      if ($rootScope.currentUser) {
+        yokozuna.goLastVisitedOrElse("console.order-list")
+      } else {
+        $timeout(function () {
+          yokozuna.goLastVisitedOrElse("console.order-list")
+        }, 2000)
+      }
+    }
+    function loginSuccess(data) { // @ CONDITIONAL PROXY
       if (EXECUTION_ENV === "INTERNAL") {
         paldiService.users.whoAmI().then(
           function (user) {
@@ -91,7 +90,6 @@ pdApp.controller(
       }
 
     }
-
     function loginError(err) {
       $scope.errorMessage = "Credenciales inválidas"
     }
