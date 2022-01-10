@@ -1,6 +1,6 @@
 <div class="login-view">
     <fieldset>
-        <h1>Inicia Sesión</h1>
+        <h1><%= htmlWebpackPlugin.options.stage.name %>  Inicia Sesión</h1>
         <p class="error" ng-if="errorMessage">{{ errorMessage }}</p>
         <form name="loginForm" role="form" novalidate
             ng-submit="login(username, password)">

@@ -1,4 +1,9 @@
 {
-  "watch": ["./environments.js"],
-  "exec": "webpack serve --config webpack.config.js --env stage=external_local"
+  "watch": [
+    "./environments.js",
+    "./webpack/*",
+    "./webpack.config.js",
+    "./config.js"
+  ],
+  "exec": "webpack serve --config webpack.config.js --env stage=external_local locale=en"
 }

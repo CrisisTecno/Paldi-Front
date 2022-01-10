@@ -7,7 +7,7 @@ let filesToDist = [
 	"img",
 	"json",
 	"lang",
-	"partials",
+	// "partials",
 	"fonts",
 	"favicon.json",
 ];
@@ -17,14 +17,14 @@ filesToDist = filesToDist.map((dir) => ({
 	to: path.resolve(__dirname, "dist", dir),
 }))
 
-filesToDist = [{
-	from: "src/*/**/*.html",
-	to({ context, absoluteFilename }) {
-		const relPath = absoluteFilename.replace(context, "").replace("src", "dist").replace(/\\/g, "/").replace("/", "")
-
-		// console.log(relPath)
-		return path.resolve(__dirname, relPath)
-	},
-}, ...filesToDist]
+// filesToDist = [{
+// 	from: "src/*/**/*.html",
+// 	to({ context, absoluteFilename }) {
+// 		const relPath = absoluteFilename.replace(context, "").replace("src", "dist").replace(/\\/g, "/").replace("/", "")
+//
+// 		// console.log(relPath)
+// 		return path.resolve(__dirname, relPath)
+// 	},
+// }, ...filesToDist]
 
 exports.filesToDist = filesToDist;

@@ -8,6 +8,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const filesToCopy = require("./config").filesToDist
 const environment = require("./environments")
 
+const htmlParser = require('./webpack/html-localizer')
+const {getLocalizerPlugins} = require("./webpack/html-localizer")
+
 module.exports = (env) => ({
   mode: "development",
   entry: ["./src/index.js", "./src/sass/style.scss"],
@@ -42,6 +45,7 @@ module.exports = (env) => ({
       template: path.resolve(__dirname, "./src/index.html"),
       inject: true,
     }),
+    ...getLocalizerPlugins("src", env.locale, require(`./webpack/locale-extensions/${env.stage.split("_")[1]}.js`)),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",
