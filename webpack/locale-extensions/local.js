@@ -1,5 +1,5 @@
 module.exports = {
   stage: {
-    name: "STAGING"
+    name: "LOCAL"
   }
 }

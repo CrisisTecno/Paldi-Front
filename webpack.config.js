@@ -40,6 +40,10 @@ module.exports = (env) => ({
     new webpack.DefinePlugin({
       GLOBALS: environment[env.stage],
       EXECUTION_ENV: JSON.stringify(env.stage.toUpperCase().split("_")[0]),
+      LOCALE: {
+        ...require(`./webpack/locale/${env.locale}`),
+        ...require(`./webpack/locale-extensions/${env.stage.split("_")[1]}.js`)
+      }
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "./src/index.html"),

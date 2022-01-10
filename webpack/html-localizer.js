@@ -5,6 +5,9 @@ console.log("loading html localizer")
 
 function getHtmlFiles(path) {
   const files = glob.sync(`${path}/**/*.html`)
+  for (const file of files) {
+    console.log(file)
+  }
   return files
 }
 
