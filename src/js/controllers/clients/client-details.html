@@ -48,9 +48,11 @@
           <li>
             <%= htmlWebpackPlugin.options.client.address %>
           </li>
-          <li>
-            <%= htmlWebpackPlugin.options.client.city %>
-          </li>
+          <% if (htmlWebpackPlugin.options.features.city) {%>
+            <li>
+              <%= htmlWebpackPlugin.options.client.city %>
+            </li>
+          <% } %>
           <li>
             <%= htmlWebpackPlugin.options.client.postal_code %>
           </li>
@@ -213,7 +215,7 @@
               </small>
             </div>
             <div class="form-group">
-              <label>Tipo</label>
+              <label><%= htmlWebpackPlugin.options.general.type %></label>
               <select class="form-control" name="type" ng-model="client.type" required="" selected="{{client.type}}">
                 <option value="DIRECT_SALE"> {{pretty('clientType', 'DIRECT_SALE')}} </option>
                 <option value="DISTRIBUTOR_INDEPENDENT"> {{pretty('clientType', 'DISTRIBUTOR_INDEPENDENT')}} </option>
@@ -221,20 +223,32 @@
                 <option value="PROJECTS"> {{pretty('clientType', 'PROJECTS')}} </option>
                 <option value="ARCHITECT_INTERIOR"> {{pretty('clientType', 'ARCHITECT_INTERIOR')}} </option>
               </select>
-              <small class="error-message" ng-if="clientForm.$validated && clientForm.type.$error.required">Campo requerido</small>
+              <small 
+                  class="error-message" 
+                  ng-if="clientForm.$validated && clientForm.type.$error.required">
+                <%= htmlWebpackPlugin.options.general.required_field %>
+              </small>
             </div>
           </form>
         </fieldset>
       </div>
-      <p ng-show="step=='empty'">El cliente no existe</p>
-      <p ng-show="step=='loading'">Cargando cliente</p>
-
-
+      <p ng-show="step=='empty'">
+        <%= htmlWebpackPlugin.options.client.error_not_exists %>
+      </p>
+      <p ng-show="step=='loading'">
+        <%= htmlWebpackPlugin.options.client.loading %>
+      </p>
 
       <div>
-        <button class="btn btn-primary" ng-click="step='edit'" ng-show="step=='loaded'">Editar </button>
-        <button class="btn btn-default" ng-click="loadClient()" ng-show="step=='edit'">Cancelar </button>
-        <button class="btn btn-primary" ng-click="edit(clientForm, client)" ng-show="step=='edit'">Guardar </button>
+        <button class="btn btn-primary" ng-click="step='edit'" ng-show="step=='loaded'">
+          <%= htmlWebpackPlugin.options.general.edit %>
+        </button>
+        <button class="btn btn-default" ng-click="loadClient()" ng-show="step=='edit'">
+          <%= htmlWebpackPlugin.options.general.cancel %>
+        </button>
+        <button class="btn btn-primary" ng-click="edit(clientForm, client)" ng-show="step=='edit'">
+          <%= htmlWebpackPlugin.options.general.save %>
+        </button>
       </div>
     </div>
   </div>
