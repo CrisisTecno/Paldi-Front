@@ -148,18 +148,14 @@
           <label>
             <%= htmlWebpackPlugin.options.general.type %>
           </label>
-          <!-- @note Hacer En NG-FOR -->
           <select 
               name="type" 
               ng-model="productObj.type" 
               class="form-control" 
               ng-change="updateType(selectedTypeCap, productObj)" 
-              required="" />
-            <option value="Laminados">Laminado</option>
-            <option value="Vinil">Vinil</option>
-            <option value="Ingenieria">Ingeniería</option>
+              required>
+            <%= htmlWebpackPlugin.options.inventory.product_types %>
           </select>
-
           <small 
               class="error-message" 
               ng-if="productForm.$validated && productForm.type.$error.required">

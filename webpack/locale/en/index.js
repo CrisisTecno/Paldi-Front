@@ -32,6 +32,11 @@ module.exports = {
   inventory: {
     select_product: "Select a product from a warehouse",
     empty_warehouse: "The selected warehouse is empty",
+    product_types: `
+      <option value="Laminados">Laminate</option>
+      <option value="Vinil">Vinyl</option>
+      <option value="Ingenieria">Engineering</option>
+    `,
   },
   date: {
     from: "From",
