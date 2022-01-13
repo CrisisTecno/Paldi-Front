@@ -23,16 +23,20 @@ module.exports = {
     error_not_exists: "El cliente no existe",
     error_no_clients: "No hay clientes para mostrar",
   },
-  date: {
-    from: "Desde",
-    to: "Hasta",
-    today: "Hoy",
-  },
   costing: {
     ov_movements: "Movimientos de OV",
     receipts_for: "Facturas para Orden No. {{selectedOrderNo}}",
     receipt_no: "No. de factura",
     
+  },
+  inventory: {
+    select_product: "Seleccione un producto de un almacen",
+    empty_warehohuse: "No hay existencias el almacen seleccionado",
+  },
+  date: {
+    from: "Desde",
+    to: "Hasta",
+    today: "Hoy",
   },
   general: {
     edit: "Editar",
@@ -41,6 +45,7 @@ module.exports = {
     download: "Descargar",
     close: "Cerrar",
     delete: "Eliminar",
+    back: "Regresar",
 
     add: "Agregar",
     loading: "Cargando",
@@ -63,11 +68,24 @@ module.exports = {
 
     clients: "Clientes",
     client: "Cliente",
-
     receipts: "Facturas",
     receipt: "Factura",
+    adjustments: "Ajustes",
+    adjustment: "Ajuste",
+    warehouse: "Almacén",
     cost: "Costo",
     emission_date: "Fecha de emisión",
+    color: "Color",
+    molding: "Moldura",
+    difference: "Diferencia",
+    existance: "Existencias",
+    new_value: "Valor Nuevo",
+    reason: "Justificación",
+
+    error_negative: "El valor no puede ser negativo",
+  },
+  files: {
+    movement_report: "reporte_movimientos.xlsx",
   },
   features: {
     city: true,

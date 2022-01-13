@@ -24,15 +24,19 @@ module.exports = {
     
     error_no_clients: "No clients found",
   },
-  date: {
-    from: "From",
-    to: "To",
-    today: "Today",
-  },
   costing: {
     ov_movements: "OV Movements",
     receipts_for: "Receipts for Order # {{selectedOrderNo}}",
     receipt_no: "Receipt #",
+  },
+  inventory: {
+    select_product: "Select a product from a warehouse",
+    empty_warehouse: "The selected warehouse is empty",
+  },
+  date: {
+    from: "From",
+    to: "To",
+    today: "Today",
   },
   general: {
     edit: "Edit",
@@ -41,6 +45,7 @@ module.exports = {
     download: "Download",
     close: "Close",
     delete: "Delete",
+    back: "Back",
 
     add: "Add",
     loading: "Loading",
@@ -63,11 +68,24 @@ module.exports = {
 
     clients: "Clients",
     client: "Client",
-
     receipts: "Receipts",
     receipt: "Receipt",
+    adjustments: "Adjustments",
+    adjustment: "Adjustment",
+    warehouse: "Warehouse",
     cost: "Cost",
     emission_date: "Date",
+    color: "Color",
+    molding: "Molding",
+    difference: "Difference",
+    existance: "Existance",
+    new_value: "New Value",
+    reason: "Reason",
+
+    error_negative: "The value may be positive",
+  },
+  files: {
+    movement_report: "movement_report.xlsx",
   },
   features: {
     city: false,
