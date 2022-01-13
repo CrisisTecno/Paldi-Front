@@ -24,14 +24,22 @@ module.exports = {
     
     error_no_clients: "No clients found",
   },
+  date: {
+    from: "From",
+    to: "To",
+    today: "Today",
+  },
   general: {
     edit: "Edit",
     cancel: "Cancel",
     save: "Save",
+    download: "Download",
+    close: "Close",
 
     add: "Add",
     loading: "Loading",
     new: "New",
+    clear: "Clear",
 
     name: "Name",
     last_name: "Last Name",
@@ -47,6 +55,9 @@ module.exports = {
 
     clients: "Clients",
     client: "Client",
+
+    receipts: "Receipts",
+    receipt: "Receipt",
   },
   features: {
     city: false,

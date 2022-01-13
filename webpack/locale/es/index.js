@@ -23,14 +23,22 @@ module.exports = {
     error_not_exists: "El cliente no existe",
     error_no_clients: "No hay clientes para mostrar",
   },
+  date: {
+    from: "Desde",
+    to: "Hasta",
+    today: "Hoy",
+  },
   general: {
     edit: "Editar",
     cancel: "Cancelar",
     save: "Guardar",
+    download: "Descargar",
+    close: "Cerrar",
 
     add: "Agregar",
     loading: "Cargando",
     new: "Nuevo",
+    clear: "Limpiar",
 
     name: "Nombre",
     last_name: "Apellido",
@@ -46,6 +54,9 @@ module.exports = {
 
     clients: "Clientes",
     client: "Cliente",
+
+    receipts: "Facturas",
+    receipt: "Factura",
   },
   features: {
     city: true,
