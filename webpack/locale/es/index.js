@@ -16,21 +16,34 @@ module.exports = {
     address: "<span>Dirección:</span> {{client.address}}",
     city: "<span>Ciudad:</span> {{client.city}}",
     postal_code: "<span>Código Postal:</span> {{client.postalCode}}",
+    loading: "Cargando cliente",
     error_postal_code: "El Código Postal debe tener 5 dígitos",
     error_email: "El e-mail no es válido",
-    error_phone: "El número de teléfono debe tener 10 dígitos"
+    error_phone: "El número de teléfono debe tener 10 dígitos",
+    error_not_exists: "El cliente no existe",
+    error_no_clients: "No hay clientes para mostrar",
   },
   general: {
     edit: "Editar",
+    cancel: "Cancelar",
+    save: "Guardar",
+
+    add: "Agregar",
+    loading: "Cargando",
+    new: "Nuevo",
+
     name: "Nombre",
     last_name: "Apellido",
     address: "Domicilio",
     city: "Ciudad",
     postal_code: "Código postal",
     phone: "Teléfono",
-
+    type: "Tipo",
+    all: "Todos",
 
     required_field: "Campo Requerido",
+
+    clients: "Clientes",
   },
   features: {
     city: true,
