@@ -29,17 +29,25 @@ module.exports = {
     to: "To",
     today: "Today",
   },
+  costing: {
+    ov_movements: "OV Movements",
+    receipts_for: "Receipts for Order # {{selectedOrderNo}}",
+    receipt_no: "Receipt #",
+  },
   general: {
     edit: "Edit",
     cancel: "Cancel",
     save: "Save",
     download: "Download",
     close: "Close",
+    delete: "Delete",
 
     add: "Add",
     loading: "Loading",
     new: "New",
     clear: "Clear",
+
+    no_data: "No data to show",
 
     name: "Name",
     last_name: "Last Name",
@@ -58,6 +66,8 @@ module.exports = {
 
     receipts: "Receipts",
     receipt: "Receipt",
+    cost: "Cost",
+    emission_date: "Date",
   },
   features: {
     city: false,

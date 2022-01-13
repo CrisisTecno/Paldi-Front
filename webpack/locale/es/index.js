@@ -28,17 +28,26 @@ module.exports = {
     to: "Hasta",
     today: "Hoy",
   },
+  costing: {
+    ov_movements: "Movimientos de OV",
+    receipts_for: "Facturas para Orden No. {{selectedOrderNo}}",
+    receipt_no: "No. de factura",
+    
+  },
   general: {
     edit: "Editar",
     cancel: "Cancelar",
     save: "Guardar",
     download: "Descargar",
     close: "Cerrar",
+    delete: "Eliminar",
 
     add: "Agregar",
     loading: "Cargando",
     new: "Nuevo",
     clear: "Limpiar",
+
+    no_data: "No hay datos para mostrar",
 
     name: "Nombre",
     last_name: "Apellido",
@@ -57,6 +66,8 @@ module.exports = {
 
     receipts: "Facturas",
     receipt: "Factura",
+    cost: "Costo",
+    emission_date: "Fecha de emisión",
   },
   features: {
     city: true,
