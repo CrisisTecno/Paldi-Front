@@ -37,6 +37,7 @@ module.exports = {
     address: "Domicilio",
     city: "Ciudad",
     postal_code: "Código postal",
+    email: "E-Mail",
     phone: "Teléfono",
     type: "Tipo",
     all: "Todos",
@@ -44,6 +45,7 @@ module.exports = {
     required_field: "Campo Requerido",
 
     clients: "Clientes",
+    client: "Cliente",
   },
   features: {
     city: true,
