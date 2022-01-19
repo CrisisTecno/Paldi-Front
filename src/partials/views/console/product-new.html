@@ -2,17 +2,25 @@
 	<div class="ibox">
 
 		<div class="ibox-title">
-			<h3>Agregar {{productLabel}}</h3>
+			<h3><%= htmlWebpackPlugin.options.general.add %> {{productLabel}}</h3>
 		</div>
 		<div class="ibox-content">
-			<h4>General</h4>
+			<h4><%= htmlWebpackPlugin.options.console.general %></h4>
 			<div class="table-filter">
-                <label>Tipo:</label>
+                <label><%= htmlWebpackPlugin.options.console.type %></label>
                 <select ng-disabled="products.length > 0" name="type" ng-model="type" class="form-control">
-                	<option value="Ingenieria">Ingeniería</option>
-                	<option value="Laminados">Laminados</option>
-                	<option value="Vinil">Vinil</option>
-					<option ng-if="productType == 'moldings'" value="Generales">Generales</option>
+                	<option value="Ingenieria">
+						<%= htmlWebpackPlugin.options.console.engeenering %>
+					</option>
+                	<option value="Laminados">
+						<%= htmlWebpackPlugin.options.console.laminates %>
+					</option>
+                	<option value="Vinil">
+						<%= htmlWebpackPlugin.options.console.vynil %>
+					</option>
+					<option ng-if="productType == 'moldings'" value="Generales">
+						<%= htmlWebpackPlugin.options.console.generals %>
+					</option>
                 </select>
             </div>
             <br>
@@ -21,16 +29,11 @@
             <br>
             <br>
 			<div ng-if="type && productType != 'moldings'">
-				<h4>Colores</h4>
+				<h4><%= htmlWebpackPlugin.options.console.colors %></h4>
 				<table id="products-table" class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th>Nombre</th>
-							<th>Código</th>
-							<th>Línea</th>
-							<th>Precio</th>
-							<th>M² por caja</th>
-							<th></th>
+							<%= htmlWebpackPlugin.options.console.product_table %>
 						</tr>
 					</thead>
 					<tbody ng-repeat="product in products">
@@ -46,19 +49,21 @@
 				</table>
 				<br>
 				<br>
-				<button type="button" class="btn btn-success" ng-click="addProductDialog()">Agregar</button>
-				<button ng-disabled="products.length < 1" type="button" class="btn btn-primary pull-right" ng-click="saveProducts()">Guardar</button>
+				<button type="button" class="btn btn-success" ng-click="addProductDialog()">
+					<%= htmlWebpackPlugin.options.general.add %>
+				</button>
+				<button ng-disabled="products.length < 1" type="button" class="btn btn-primary pull-right" ng-click="saveProducts()">
+					<%= htmlWebpackPlugin.options.general.save %>
+				</button>
 			</div>
 
 			<div ng-if="type && productType == 'moldings'">
-				<h4>Molduras/Adicionales</h4>
+				<h4>
+					<%= htmlWebpackPlugin.options.console.moldings %></h4>
 				<table id="moldings-table" class="table table-striped table-hover">
 					<thead>
 					<tr>
-						<th>Nombre</th>
-						<th>Tipo de precio</th>
-						<th>Precio</th>
-						<th></th>
+						<%= htmlWebpackPlugin.options.console.moldings_table %>
 					</tr>
 					</thead>
 					<tbody ng-repeat="product in products">
@@ -72,8 +77,12 @@
 				</table>
 				<br>
 				<br>
-				<button type="button" class="btn btn-success" ng-click="addProductDialog()">Agregar</button>
-				<button ng-disabled="products.length < 1" type="button" class="btn btn-primary pull-right" ng-click="saveProducts()">Guardar</button>
+				<button type="button" class="btn btn-success" ng-click="addProductDialog()">
+					<%= htmlWebpackPlugin.options.general.add %>
+				</button>
+				<button ng-disabled="products.length < 1" type="button" class="btn btn-primary pull-right" ng-click="saveProducts()">
+					<%= htmlWebpackPlugin.options.general.save %>
+				</button>
 			</div>
 
 		</div>

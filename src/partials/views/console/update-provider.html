@@ -1,16 +1,25 @@
 <div>
-    <h3 class="form-title">Actualizar Proveedor</h3>
-    <form name="providerForm" role="form" novalidate ng-submit="updateProvider(providerForm, providerId)" autocomplete="off">
+    <h3 class="form-title">
+        <%= htmlWebpackPlugin.options.console.update_provider %>
+    </h3>
+    <form name="providerForm" role="form" novalidate ng-submit="updateProvider(providerForm, providerId)" 
+    autocomplete="off">
 
         <div class="form-group">
-            <label>ID de Proveedor</label>
+            <label><%= htmlWebpackPlugin.options.console.provider_id  %></label>
             <input hard-cap="false" type="text" name="providerId" ng-model="providerId" class="form-control" required="">
-            <small class="error-message" ng-if="providerForm.$validated && providerForm.providerId.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="providerForm.$validated && providerForm.providerId.$error.required">
+                <%= htmlWebpackPlugin.options.general.required_field  %>
+            </small>
         </div>
 
         <div>
-            <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Actualizar</button>
+            <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">
+                <%= htmlWebpackPlugin.options.general.cancel %>
+            </button>
+            <button type="submit" class="btn btn-primary">
+                <%= htmlWebpackPlugin.options.general.update %>
+            </button>
         </div>
 
     </form>

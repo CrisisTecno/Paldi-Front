@@ -16,7 +16,6 @@
 		"dev-stg-external": "webpack serve --config webpack.config.js --env stage=external_staging locale=es",
 		"dev-local-internal": "webpack serve --config webpack.config.js --env stage=internal_local locale=es",
 		"dev-local-external": "webpack serve --config webpack.config.js --env stage=external_local locale=es",
-
 		"build-prod-internal-en": "webpack --config webpack.config.js --env stage=internal_production locale=en",
 		"build-prod-external-en": "webpack --config webpack.config.js --env stage=external_production locale=en",
 		"build-stg-internal-en": "webpack --config webpack.config.js --env stage=internal_staging locale=en",
@@ -46,7 +45,7 @@
 		"sass-loader": "^12.1.0",
 		"style-loader": "^3.2.1",
 		"webpack": "^5.49.0",
-		"webpack-cli": "^4.7.2",
+		"webpack-cli": "^4.9.1",
 		"webpack-dev-server": "^3.11.2"
 	},
 	"dependencies": {

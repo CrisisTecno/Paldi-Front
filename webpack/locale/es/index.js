@@ -51,6 +51,14 @@ module.exports = {
     close: "Cerrar",
     delete: "Eliminar",
     back: "Regresar",
+    update:"Actualizar",
+    accept:"Aceptar",
+    
+    erase:"Borrar",
+
+    filter:"Filtrar",
+    clean:"Limpiar",
+
 
     add: "Agregar",
     loading: "Cargando",
@@ -94,5 +102,86 @@ module.exports = {
   },
   features: {
     city: true,
+  },
+  console:{
+    update_provider: "Actualizar Proveedor",
+    provider_id: "ID de Proveedor",
+
+    observations:"Observaciones",
+
+    statistics:"Estadistícas",
+    configuration:"Configuracion",
+    city:"Ciudad",
+    time_origin:"Cotizaciones Tiempo vs Origen",
+    weekly:"Semanal",
+    monthly:"Mensual",
+    product_type:"Cotizaciones por producto",
+    origin:"Origen de Cotización",
+    state:"Estado",
+    lost_subject:"Motivo Venta Perdida",
+    stats:"Estadística de Asesores",
+    stats_heading:`
+      <th rowspan="2">Asesor</th>
+			<th colspan="2">NUEVAS</th>
+			<th colspan="2">EN SEGUIMIENTO</th>
+			<th colspan="2">CERRADAS</th>
+			<th colspan="2">PERDIDAS</th>
+			<th colspan="2">CANCELADAS</th>
+    `,
+    stats_row: `<th>Cant.</th>
+                <th>Valor</th>`,
+    efficiency:"Efectividad de Asesores",
+    efficiency_headings:`
+      <th rowspan="2">Asesor</th>
+      <th colspan="3">Tienda</th>
+      <th colspan="3">Facebook</th>
+      <th colspan="3">Prospección</th>
+      <th colspan="3">Cliente</th>
+      <th colspan="3">Recomendación</th>
+    `,
+    efficiency_rows:`
+      <th>Total</th>
+			<th>Cerr</th>
+			<th>Effect</th>
+    `,
+
+    products:"Productos",
+
+    catalog:"Catálogo de productos",
+    load_catalog:"Cargar catálogo",
+
+    general:"General",
+    type:"Tipo:",
+    engeenering:"Ingenieria",
+    laminates:"Laminados",
+    vynil:"Vinil",
+    generals:"Generales",
+    colors:"Colores",
+    product_table:`
+      <th>Nombre</th>
+      <th>Código</th>
+      <th>Línea</th>
+      <th>Precio</th>
+      <th>M² por caja</th>
+      <th></th>
+    `,
+    moldings:"Molduras/Adicionales",
+    moldings_table:`
+            <th>Nombre</th>
+						<th>Tipo de precio</th>
+						<th>Precio</th>
+						<th></th>
+    `,
+
+    product_details:"Detalles de producto",
+    name:"Nombre:",
+    code:"Código:",
+    line:"Línea:",
+    price_type:"Tipo de Precio:",
+    meters_per_box:"M² por caja:",
+    box_price:"Precio por caja:",
+    installation_per_meter:"Precio de Instalación por m",
+
+
   }
 }
