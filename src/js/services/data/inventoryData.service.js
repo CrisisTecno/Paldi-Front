@@ -1,6 +1,7 @@
 import {globals} from "../../config"
+import {pdApp} from "../../../pdApp";
 
-angular.module("dataModule")
+pdApp
   .factory("inventoryDataService", ["$http", inventoryDataService])
 
 const API_URL = globals.apiURL

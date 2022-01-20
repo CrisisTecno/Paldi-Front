@@ -669,18 +669,26 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 			sort = !sort ? "" : sort;
 			startDate = !startDate ? "*" : startDate;
 			endDate = !endDate ? "*" : endDate;
+
+			const params = {
+				start: start,
+				rows: rows,
+				search: search,
+				sort: sort,
+				orderStatusList: JSON.stringify(statusList),
+				startDate: startDate,
+				endDate: endDate,
+			}
+			if (EXECUTION_ENV === "EXTERNAL") {
+				console.log("ORDER LIST BY STATUS EXTERNAL")
+				params.byStatus=true
+				params.orderStatusList=statusList
+			}
+
 			return $http
-				.get(globals.apiURL + "/quotes/orders/search/status/list", {
+				.get(globals.apiURL + "/quotes/orders" + globals.api.orders.byStatus, {
 					authentication: "yokozuna",
-					params: {
-						start: start,
-						rows: rows,
-						search: search,
-						sort: sort,
-						orderStatusList: JSON.stringify(statusList),
-						startDate: startDate,
-						endDate: endDate,
-					},
+					params: params,
 				})
 				.then(function (response) {
 					return response.data.response;

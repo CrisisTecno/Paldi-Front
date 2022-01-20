@@ -1,6 +1,7 @@
 import {globals} from "../../config"
+import {pdApp} from "../../../pdApp";
 
-angular.module("dataModule")
+pdApp
   .factory("userDataService", ["$http", userDataService])
 
 const AUTH = {authentication: "yokozuna"}

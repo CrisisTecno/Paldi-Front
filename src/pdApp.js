@@ -37,7 +37,7 @@ const pdApp = angular
     "chart.js",
     "hl.sticky",
     "gm",
-    "dataModule",
+    // "dataModule",
 
     "formDirectives"
   ])

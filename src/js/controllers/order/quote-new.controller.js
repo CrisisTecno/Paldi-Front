@@ -452,6 +452,7 @@ pdApp.controller(
       $scope.product = product.productType
       $scope.quote.type = product.productType
 
+      console.log("Edit Product", product, indexList, indexProduct)
       $scope.valid = product.rotated === true
       $scope.valid |=
         product.productType === "Filtrasol" &&
@@ -594,12 +595,11 @@ pdApp.controller(
     // ---------------------------------------------------------------------------------------------//
     $scope.newPlus = function(name, additionals) {
       $scope.addingPlus = true
-      // console.log(name, additionals)
       $scope.plusName = name
       $scope.plusTemplate = additionals
     }
     $scope.addPlus = function (plus, qty) {
-      // console.log(plus)
+      console.log("addPlus: ", plus, qty)
       if (plus && qty > 0) {
         if (!$scope.plusList) {
           $scope.plusList = []
@@ -657,8 +657,8 @@ pdApp.controller(
           $scope.piso.plusQuantity = ""
         }
         if ($scope.product == "Cortina") {
-          $scope.piso.plus = ""
-          $scope.piso.plusQuantity = ""
+          $scope.cortina.plus = ""
+          $scope.cortina.plusQuantity = ""
         }
       }
       $scope.editingPlus = false
@@ -827,8 +827,8 @@ pdApp.controller(
         $scope.piso.plusQuantity = product.quantity
       }
       if ($scope.product == "Cortina") {
-        $scope.piso.plus = {label: product.name, value: product}
-        $scope.piso.plusQuantity = product.quantity
+        $scope.cortina.plus = {label: product.name, value: product}
+        $scope.cortina.plusQuantity = product.quantity
       }
       $timeout(function () {
         $("#plus").val(product.name)
@@ -1519,8 +1519,7 @@ pdApp.controller(
         colorPriceService.getInstallationPlusList(product, model)
         colorPriceService.getPlusColorsList(product, model)
       }
-      // console.log(product)
-      // console.log(model)
+      console.log("Update Type", product, model)
       $scope.rotated = false
       $scope.valid =
         product === "Filtrasol" &&
