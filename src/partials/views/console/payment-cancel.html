@@ -1,17 +1,27 @@
 <div>
-    <h3 class="form-title">Cancelar Pago</h3>
+    <h3 class="form-title">
+        <%= htmlWebpackPlugin.options.payments.cancel_payment %>
+    </h3>
     <form name="form" role="form" novalidate ng-submit="cancelPayment(form, notes)" autocomplete="off">
 
         <div class="form-group">
             <div class="form-group notes">
-                <label>Motivo de cancelación</label>
+                <label>
+                    <%= htmlWebpackPlugin.options.payments.cancelation_reason %>
+                </label>
                 <textarea name="notes" required ng-model="notes" class="form-control"></textarea>
-                <small class="error-message" ng-if="form.$validated && form.notes.$error.required">Campo requerido</small>
+                <small class="error-message" ng-if="form.$validated && form.notes.$error.required">
+                    <%= htmlWebpackPlugin.options.general.required_field %>
+                </small>
             </div>
 
             <div>
-                <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Aceptar</button>
+                <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">
+                    <%= htmlWebpackPlugin.options.general.cancel %>
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <%= htmlWebpackPlugin.options.general.accept %>
+                </button>
             </div>
 
         </form>

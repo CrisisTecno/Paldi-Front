@@ -1,12 +1,14 @@
 <div>
 	<div class="ibox float-e-margins col-lg-8">
 
-		<div class="ibox-title"><h3>Tipo de Cambio</h3></div>
+		<div class="ibox-title"><h3><%= htmlWebpackPlugin.options.exchange_rate.exchange_rate %></h3></div>
 		<div class="ibox-content">
 			<fieldset>
 				<form class="form-horizontal" name="exchangeRateForm" >
 					<div class="form-group">
-						<label class="col-lg-2 control-label">Nuevo tipo de cambio</label>
+						<label class="col-lg-2 control-label">
+							<%= htmlWebpackPlugin.options.exchange_rate.update_exchange %>
+						</label>
 						<div class="col-lg-10">
 							<input ng-currency class="form-control" ng-model="exchangeRate" type="text" min="0.01" step="0.01" name="exchangeRate" required placeholder="Tipo de cambio actual: {{currentExchangeRate | currency}}" />
 						</div>
@@ -14,7 +16,7 @@
 					
 					<div class="form-group">
 						<div class="col-sm-4 col-sm-offset-8">
-							<button ng-if="currentUser.role == 'SUPERADMIN'" class="btn btn-success pull-right" ng-click="changeRate(exchangeRate, exchangeRateForm)">Cambiar</button>
+							<button ng-if="currentUser.role == 'SUPERADMIN'" class="btn btn-success pull-right" ng-click="changeRate(exchangeRate, exchangeRateForm)"><%= htmlWebpackPlugin.options.general.change %></button>
 						</div>
 					</div>
 				</form>

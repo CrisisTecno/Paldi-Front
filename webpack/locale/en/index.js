@@ -21,7 +21,6 @@ module.exports = {
     error_email: "The e-mail is not valid",
     error_phone: "The phone number must be 10 digits long",
     error_not_exists: "The client does not exist",
-    
     error_no_clients: "No clients found",
   },
   costing: {
@@ -42,6 +41,8 @@ module.exports = {
     from: "From",
     to: "To",
     today: "Today",
+    select_date:"Select a date:",
+    selected_date:"Selected date:"
   },
   general: {
     edit: "Edit",
@@ -54,6 +55,7 @@ module.exports = {
 
     update:"Update",
     accept:"Accept",
+    change:"Change",
     
     erase:"Erase",
 
@@ -66,7 +68,12 @@ module.exports = {
     new: "New",
     clear: "Clear",
 
+    previous:"Previous",
+    next:"Next",
+
+    no_comment:"No comments",
     no_data: "No data to show",
+    product_not_found:"Product not found",
 
     name: "Name",
     last_name: "Last Name",
@@ -78,6 +85,8 @@ module.exports = {
     type: "Type", 
     all: "All",
 
+    phone_required:"Phone number must be at least 10 digits",
+    role:"Rol",
     required_field: "Required",
 
     clients: "Clients",
@@ -183,6 +192,111 @@ module.exports = {
     box_price:"Box price:",
     installation_per_meter:"Installation price m",
 
+    is_editing:"{{isEditing? 'Save' : 'Edit'}}",
+    payments:"Payments"
 
+  },
+  payments:{
+    payment:"Payment",
+    payment_advance:"Payment advance",
+    currency:"Currency",
+    exhange_rate:"Exchange rate",
+    currency_options:`
+
+    <option value="DOLLARS">Dollars</option>
+    `,
+    amount:"Amount",
+    min_payment:"The minimun amount is:",
+    min_percentage:"The minimun amount is 50% of the total",
+    payment_method:"PAyment method",
+    payment_options:`
+      <option value ="CASH">Cash</option>
+      <option value="CREDIT_CARD">Credit Card</option>
+      <option value="DEBIT_CARD">Debit Card</option>
+      <option value="CHECK">Check</option>
+      <option value="BANK_TRANSFER">Bank Wire Transfer</option>
+    `,
+    total:"Total",
+    products:"Products:",
+    additionals:"Additionals:",
+    motor:"Motor:",
+    discount:"Discount",
+    installation:"Installation:",
+    sub_total:"Sub-Total:",
+    tax:"TAX:",
+    total_:"Total:",
+    balance:"Balance:",
+    notes:"Notes",
+    payment_type:"Payment type",
+    sale_disccount:"Discount over sale",
+    invoice:"Send Invoice",
+    pay:"Pay",
+        
+    cancel_payment:"Cancel Payment",
+    cancelation_reason:"Cancelation reason",
+  },
+  molding:{
+    details_of:"Details of ",
+    type:"Type:",
+    name:"Name:",
+    unit:"Measurement Unit:",
+    price:"Price:",
+  },
+  exchange_rate:{
+    exchange_rate:"Tipo de cambio",
+    update_exchange:"Nuevo tipo de cambio",
+
+  },
+  deadlines:{
+    operation:"Operation",
+    overdue:"Overdue",
+    shipment:"Shipment",
+    arrival:"Arrival"
+
+  },
+  datepicker:{
+    supplier_id:"Supplier Order Id",
+    due_date:"Production due date",
+    arrival:"Arrival",
+    installation:"Installation date",
+    comments:"Comments",
+    save:"Save"
+  },
+  console_costing:{
+    cost:"Cost",
+    average:"Average",
+    min:"Minimun",
+    max:"Maximun"
+
+  },
+  commissions:{
+    commissions:"Agent's Commissions",
+    select_agent:"Select an Agent",
+    agent:"Agent :",
+    min_sale:"Minimun sale amount:",
+    total_sale:"Total Sells:",
+    total_commissions:"Total commissions:",
+    pay_commissions:"Commisions to pay",
+    order_no:"Order number ",
+
+    change_percentage:"Change Comission Percentage",
+    new_percentage:"New Percentage",
+    max_value:"The Maximum value is ",
+    min_value:"The Minimum value is 0%"
+
+  },
+  change_status:{
+    change_status:"Change Status",
+    new_status:"New Status",
+    status_options:`
+    <option ng-if="changePermissions.canLine" value="LINE">{{pretty('enOrderStatus', 'LINE')}}</option>
+    <option ng-if="changePermissions.canBackorder" value="BACKORDER">{{pretty('enOrderStatus', 'BACKORDER')}}</option>
+    <option ng-if="changePermissions.canProduction" value="PRODUCTION">{{pretty('enOrderStatus', 'PRODUCTION')}}</option>
+    <option ng-if="changePermissions.canTransit" value="TRANSIT">{{pretty('enOrderStatus', 'TRANSIT')}}</option>
+    <option ng-if="changePermissions.canFinished" value="FINISHED">{{pretty('enOrderStatus', 'FINISHED')}}</option>
+    <option ng-if="changePermissions.canProgrammed" value="PROGRAMMED">{{pretty('enOrderStatus', 'PROGRAMMED')}}</option>
+    <option ng-if="changePermissions.canIncomplete" value="INSTALLED_INCOMPLETE">{{pretty('enOrderStatus', 'INSTALLED_INCOMPLETE')}}</option>
+    <option ng-if="changePermissions.canNonConform" value="INSTALLED_NONCONFORM">{{pretty('enOrderStatus', 'INSTALLED_NONCONFORM')}}</option>          
+    `
   }
 }

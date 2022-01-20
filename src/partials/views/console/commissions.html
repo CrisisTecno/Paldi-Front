@@ -2,19 +2,30 @@
     <div class="ibox">
 
         <div class="ibox-title">
-            <a class="pull-right" ng-click="goto(next)" ng-show="next">Siguiente</a>
+            <a class="pull-right" ng-click="goto(next)" ng-show="next">
+                <%= htmlWebpackPlugin.options.general.next %>
+            </a>
             <div class="pull-right month-selected">{{currentLabel}}</div>
-            <a class="pull-right" ng-click="goto(past)">Anterior</a>
-            <h3>Comisiones</h3>
+            <a class="pull-right" ng-click="goto(past)">
+                <%= htmlWebpackPlugin.options.console_costing.previous %>
+            </a>
+            <h3>
+                <%= htmlWebpackPlugin.options.commissions.commisions %>
+            </h3>
         </div>
 
         <div class="ibox-content ">
             <a class="btn btn-success pull-right" ng-hide="!seller || (commissionsAreEmpty)"
-               href="{{downloadLink}}" download="Comisiones_{{currentLabel}}.xlsx">Descargar</a>
+               href="{{downloadLink}}" download="Comisiones_{{currentLabel}}.xlsx">
+               <%= htmlWebpackPlugin.options.general.download %></a>
                
-            <h3 ng-show="!seller  && currentUser.role != 'CONSULTANT'">Seleccione un asesor</h3>
+            <h3 ng-show="!seller  && currentUser.role != 'CONSULTANT'">
+                <%= htmlWebpackPlugin.options.commissions.select_agent %>
+            </h3>
             <div class="table-filter" ng-show="currentUser.role != 'CONSULTANT'">
-                <label>Asesor :</label>
+                <label>
+                    <%= htmlWebpackPlugin.options.commissions.agent %>
+                </label>
                 <select name="sellers" ng-model="seller" class="form-control" ng-change="selectSeller()"
                         ng-options="seller.id as seller.name + ' ' + seller.lastName for seller in sellers"></select>
 
@@ -38,10 +49,18 @@
             <table class="table-totals">
                 <tr>
                     <td>
-                        <p ng-show="minimumSale" style="line-height: 50px; padding-bottom: 10px" ><span>Monto mínimo de venta:</span></p>
-                        <p ng-show="subtotal"><span style="font-weight: bold">Venta Total:</span></p>
-                        <p ng-show="total"><span style="font-weight: bold">Total Comisiones:</span> </p>
-                        <p ng-show="commissionPaid"><span style="font-weight: bold">Total de Comisiones a Pagar {{currentMonth}}:</span> </p>
+                        <p ng-show="minimumSale" style="line-height: 50px; padding-bottom: 10px" ><span>
+                            <%= htmlWebpackPlugin.options.commissions.min_sale %>
+                        </span></p>
+                        <p ng-show="subtotal"><span style="font-weight: bold">
+                            <%= htmlWebpackPlugin.options.commissions.total_sale %>
+                        </span></p>
+                        <p ng-show="total"><span style="font-weight: bold">
+                            <%= htmlWebpackPlugin.options.commissions.total_commisions %>
+                        </span> </p>
+                        <p ng-show="commissionPaid"><span style="font-weight: bold">
+                            <%= htmlWebpackPlugin.options.commissions.pay_commisions %>
+                            {{currentMonth}}:</span> </p>
                     </td>
 
                     <td>
@@ -54,7 +73,8 @@
             </table>
             <div hl-sticky="" options="{ anchor: 'bottom' }" class="comment-popup container" ng-show="addComment">
                 <div class="row comment-head">
-                    <span class="comment-title">No. de Orden #{{orderNo}}</span>
+                    <span class="comment-title">
+                        <%= htmlWebpackPlugin.options.commissions.order_no %> #{{orderNo}}</span>
                     <button class="close-button fa fa-close " ng-click="closeCommentPopup()"></button>
                 </div>
                 <div class="row comment-comments" ng-if="comments && comments.length > 0">
@@ -68,14 +88,18 @@
 
                 </div>
                 <div class="row comment-nocomments" ng-if="comments.length <= 0">
-                    <span> No hay comentarios para mostrar</span>
+                    <span> <%= htmlWebpackPlugin.options.general.no_comment %></span>
                 </div>
                 <div class="row comment-body">
                     <textarea ng-model="comment"></textarea>
                 </div>
                 <div class="row comment-submit">
-                    <button ng-if="comment" class="btn btn-primary"  ng-click="sendComment(comment)">Enviar</button>
-                    <button ng-if="!comment || comment==''" class="comment-submit btn btn-primary" disabled ng-click="sendComment(comment)">Enviar</button>
+                    <button ng-if="comment" class="btn btn-primary"  ng-click="sendComment(comment)">
+                        <%= htmlWebpackPlugin.options.general.send %>
+                    </button>
+                    <button ng-if="!comment || comment==''" class="comment-submit btn btn-primary" disabled ng-click="sendComment(comment)">
+                        <%= htmlWebpackPlugin.options.general.send %>
+                    </button>
                 </div>
             </div>
         </div>

@@ -42,6 +42,8 @@ module.exports = {
     from: "Desde",
     to: "Hasta",
     today: "Hoy",
+    select_date:"Seleccione una fecha:",
+    selected_date:"Fecha Seleccionada",
   },
   general: {
     edit: "Editar",
@@ -53,6 +55,7 @@ module.exports = {
     back: "Regresar",
     update:"Actualizar",
     accept:"Aceptar",
+    change:"Cambiar",
     
     erase:"Borrar",
 
@@ -65,7 +68,12 @@ module.exports = {
     new: "Nuevo",
     clear: "Limpiar",
 
+    previous:"Anterior",
+    next:"Siguiente",
+
+    no_comment:"No hay comentarios para mostrar",
     no_data: "No hay datos para mostrar",
+    product_not_found:"No Se encontró el producto",
 
     name: "Nombre",
     last_name: "Apellido",
@@ -77,6 +85,8 @@ module.exports = {
     type: "Tipo",
     all: "Todos",
 
+    phone_required:"El número de teléfono debe tener 10 dígitos",
+    role:"Rol",
     required_field: "Campo Requerido",
 
     clients: "Clientes",
@@ -181,7 +191,112 @@ module.exports = {
     meters_per_box:"M² por caja:",
     box_price:"Precio por caja:",
     installation_per_meter:"Precio de Instalación por m",
+    
+    is_editing:"{{isEditing? 'Guardar' : 'Editar'}}",
+    payments:"Pagos"
 
+  },
+  payments:{
+    payment:"Pago",
+    payment_advance:"Pago de Anticipo",
+    currency:"Moneda",
+    exhange_rate:"Tipo de Cambio",
+    currency_options:`
+    <option value="PESOS">Pesos</option>
+    <option value="DOLLARS">Dollars</option>
+    `,
+    amount:"Cantidad",
+    min_payment:"El monto mínimo de pago es:",
+    min_percentage:"El monto mínimo es el 50% del total",
+    payment_method:"Forma de pago",
+    payment_options:`
+      <option value ="CASH">Efectivo</option>
+      <option value="CREDIT_CARD">Tarjeta de Crédito</option>
+      <option value="DEBIT_CARD">Tarjeta de Débito</option>
+      <option value="CHECK">Cheque</option>
+      <option value="BANK_TRANSFER">Transferencia Bancaria</option>
+    `,
+    total:"Totales",
+    products:"Productos:",
+    additionals:"Adicionales:",
+    motor:"Motorización:",
+    discount:"Descuento",
+    installation:"Instalación:",
+    sub_total:"Sub-Total:",
+    tax:"IVA:",
+    total_:"Total:",
+    balance:"Saldo:",
+    notes:"Observaciones",
+    payment_type:"Tipo de pago",
+    sale_disccount:"Descuento sobre venta",
+    invoice:"Enviar recibo al cliente",
+    pay:"Pagar",
+    
+    cancel_payment:"Cancelar Pago",
+    cancelation_reason:"Motivo de cancelación",
+  },
+  molding:{
+    details_of:"Detalles de ",
+    type:"Tipo:",
+    name:"Nombre:",
+    unit:"Unidad de medida:",
+    price:"Precio:",
+  },
+  exchange_rate:{
+    exchange_rate:"Tipo de cambio",
+    update_exchange:"Nuevo tipo de cambio",
 
+  },
+  deadlines:{
+    operation:"Operaciones",
+    overdue:"Vencidas",
+    shipment:"Embarque",
+    arrival:"Llegada"
+
+  },
+  datepicker:{
+    supplier_id:"ID del proveedor",
+    due_date:"Fecha de Salida de Producción",
+    arrival:"Fecha de Llegada",
+    installation:"Fecha de Instalación",
+    comments:"Obsevaciones",
+    save:"Capturar datos"
+  },
+  console_costing:{
+    cost:"Costeo",
+    average:"Promedio",
+    min:"Mínimo",
+    max:"Máximo"
+
+  },
+  commissions:{
+    commissions:"Comisiones",
+    select_agent:"Seleccione un asesor",
+    agent:"Asesor :",
+    min_sale:"Monto mínimo de venta:",
+    total_sale:"venta Total:",
+    total_commissions:"Total Comisiones:",
+    pay_commissions:"Total de comissiones a Pagar",
+    order_no:"No. de orden",
+
+    change_percentage:"Cambiar Porcentaje de Comisión",
+    new_percentage:"Nuevo Porcentaje",
+    max_value:"El valor máximo es de ",
+    min_value:"El valor mínimo es de 0%"
+
+  },
+  change_status:{
+    change_status:"Cambiar Estado",
+    new_status:"Nuevo Estado",
+    status_options:`
+    <option ng-if="changePermissions.canLine" value="LINE">Línea</option>
+    <option ng-if="changePermissions.canBackorder" value="BACKORDER">Backorder</option>
+    <option ng-if="changePermissions.canProduction" value="PRODUCTION">Producción</option>
+    <option ng-if="changePermissions.canTransit" value="TRANSIT">Tránsito</option>
+    <option ng-if="changePermissions.canFinished" value="FINISHED">I. Terminado</option>
+    <option ng-if="changePermissions.canProgrammed" value="PROGRAMMED">Programada</option>
+    <option ng-if="changePermissions.canIncomplete" value="INSTALLED_INCOMPLETE">Instalada Parcial</option>
+    <option ng-if="changePermissions.canNonConform" value="INSTALLED_NONCONFORM">Instalado Inconforme</option>          
+    `
   }
 }

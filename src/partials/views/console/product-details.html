@@ -43,8 +43,8 @@
             </div>
         </div>
            
-        <p ng-show="step=='empty'">No se encontró el producto</p>
-        <p ng-show="step=='loading'">Cargando...</p>
+        <p ng-show="step=='empty'"><%= htmlWebpackPlugin.options.general.product_not_found %></p>
+        <p ng-show="step=='loading'"> <%= htmlWebpackPlugin.options.general.loading %> ...</p>
     </div>
 </div>
 

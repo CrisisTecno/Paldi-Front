@@ -1,25 +1,28 @@
 <div>
-    <h3 class="form-title">Cambiar Estado</h3>
+    <h3 class="form-title">
+        <%= htmlWebpackPlugin.options.change_status.change_status %>
+    </h3>
     <form name="statusForm" role="form" novalidate ng-submit="changeOrderStatus(statusForm, status)" autocomplete="off">
 
         <div class="form-group">
-            <label>Nuevo Estado</label>
+            <label>
+                <%= htmlWebpackPlugin.options.change_status.new_status %>
+            </label>
             <select name="status" ng-model="status" class="form-control" required="">
-                <option ng-if="changePermissions.canLine" value="LINE">Línea</option>
-                <option ng-if="changePermissions.canBackorder" value="BACKORDER">Backorder</option>
-                <option ng-if="changePermissions.canProduction" value="PRODUCTION">Producción</option>
-                <option ng-if="changePermissions.canTransit" value="TRANSIT">Tránsito</option>
-                <option ng-if="changePermissions.canFinished" value="FINISHED">I. Terminado</option>
-                <option ng-if="changePermissions.canProgrammed" value="PROGRAMMED">Programada</option>
-                <option ng-if="changePermissions.canIncomplete" value="INSTALLED_INCOMPLETE">Instalada Parcial</option>
-                <option ng-if="changePermissions.canNonConform" value="INSTALLED_NONCONFORM">Instalado Inconforme</option>
+                <%= htmlWebpackPlugin.options.change_status.status_options %>    
             </select>
-            <small class="error-message" ng-if="statusForm.$validated && statusForm.status.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="statusForm.$validated && statusForm.status.$error.required">
+                <%= htmlWebpackPlugin.options.general.required_field %>
+            </small>
         </div>
             
         <div>
-            <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Cambiar</button>
+            <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">
+                <%= htmlWebpackPlugin.options.general.cancel %>
+            </button>
+            <button type="submit" class="btn btn-primary">
+                <%= htmlWebpackPlugin.options.general.change %>
+            </button>
         </div>
 
         </form>

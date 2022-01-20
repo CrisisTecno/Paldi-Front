@@ -1,23 +1,31 @@
 <div class="order-details-view">
     <div class="ibox">
         <div class="ibox-title">
-            <h3>Detalles de {{plusType | lowercase}}</h3>
+            <h3><%= htmlWebpackPlugin.options.molding.details_of %> {{plusType | lowercase}}</h3>
         </div>
         <div class="ibox-content">
             <ul>
-                <li ng-show="plus.type"><small>Tipo:</small> <span>{{plus.type}}</span></li>
-                <li ng-show="plus.name"><small>Nombre:</small> <span>{{plus.name}}</span></li>
-                <li ng-show="plus.priceType"><small>Unidad de Medida:</small> <span>{{plus.priceType | priceType}}</span></li>
-                <li ng-show="plus.price"><small>Precio:</small> <span>{{plus.price | currency}}</span></li>
+                <li ng-show="plus.type"><small><%= htmlWebpackPlugin.options.molding.type %></small> <span>{{plus.type}}</span></li>
+                <li ng-show="plus.name"><small><%= htmlWebpackPlugin.options.molding.name %>/small> <span>{{plus.name}}</span></li>
+                <li ng-show="plus.priceType"><small>
+                    <%= htmlWebpackPlugin.options.molding.unit %>
+                </small> <span>{{plus.priceType | priceType}}</span></li>
+                <li ng-show="plus.price"><small>
+                    <%= htmlWebpackPlugin.options.general.price %>
+                </small> <span>{{plus.price | currency}}</span></li>
             </ul>
             <div>
-                <button class="btn btn-danger delete" ng-click="delete()">Borrar</button>
-                <button type="button" class="btn btn-warning" ng-click="editPlusDialog()">Editar</button>
+                <button class="btn btn-danger delete" ng-click="delete()">
+                    <%= htmlWebpackPlugin.options.general.erase %>
+                </button>
+                <button type="button" class="btn btn-warning" ng-click="editPlusDialog()">
+                    <%= htmlWebpackPlugin.options.general.edit %>
+                </button>
             </div>
         </div>
            
-        <p ng-show="step=='empty'">No se encontró el producto</p>
-        <p ng-show="step=='loading'">Cargando...</p>
+        <p ng-show="step=='empty'"><%= htmlWebpackPlugin.options.general.product_not_found %></p>
+        <p ng-show="step=='loading'"><%= htmlWebpackPlugin.options.general.loading %>...</p>
     </div>
 </div>
 

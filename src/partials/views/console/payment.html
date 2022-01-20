@@ -1,86 +1,113 @@
 <div>
-    <h3 class="form-title" ng-if="paymentType == 'payment'">Pago</h3>
-    <h3 class="form-title" ng-if="paymentType == 'advance'">Pago de Anticipo</h3>
+    <h3 class="form-title" ng-if="paymentType == 'payment'">
+        <%= htmlWebpackPlugin.options.payments.payment %>
+    </h3>
+    <h3 class="form-title" ng-if="paymentType == 'advance'">
+        <%= htmlWebpackPlugin.options.payments.payment_advance %>
+    </h3>
     <form name="paymentForm" role="form" novalidate ng-submit="pay(paymentForm, payment)" autocomplete="off">
 
         <div class="form-group">
-            <label>Moneda</label>
+            <label>
+                <%= htmlWebpackPlugin.options.payments.currency %>
+            </label>
             <select name="type" ng-model="payment.currency" class="form-control" required="" ng-change="currencyChange(payment)">
-                <option value="PESOS">Pesos</option>
-                <option value="DOLLARS">Dólares</option>
+                <%= htmlWebpackPlugin.options.payments.currency_options %>
             </select>
-            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.currency.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.currency.$error.required">
+                <%= htmlWebpackPlugin.options.general.required_field %>
+            </small>
         </div>
 
          <div ng-show="payment.currency == 'DOLLARS'" class="form-group">
-            <label>Tipo de Cambio</label>
+            <label>
+                <%= htmlWebpackPlugin.options.payments.exchange_rate %>
+            </label>
             <input ng-currency type="text" name="exchangeRate" ng-model="payment.exchangeRate" min="0.01" class="form-control" ng-required="payment.currency == 'DOLLARS'" ng-change="exchangeRateChange(payment)">
-            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.exchangeRate.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.exchangeRate.$error.required">
+                <%= htmlWebpackPlugin.options.general.required_field %>
+            </small>
         </div>
 
         <div ng-show="payment.currency" class="form-group">
-            <label>Monto</label>
+            <label><%= htmlWebpackPlugin.options.payments.amount %></label>
             <input ng-currency min="{{payment.min}}" max="{{payment.max}}" hard-cap="false" type="text" name="advance" ng-model="payment.advance" class="form-control" required="" ng-disabled="payment.currency == 'DOLLARS' && !payment.exchangeRate">
-            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.advance.$error.required">Campo requerido</small>
-            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.advance.$error.min && paymentType == 'payment'">El monto mínimo de pago es: {{payment.min | currency}}</small>
-            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.advance.$error.min && paymentType == 'advance'">El monto mínimo es el 50% del total ({{payment.min | currency}})</small>
+            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.advance.$error.required">
+                <%= htmlWebpackPlugin.options.general.required_field %>
+            </small>
+            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.advance.$error.min && paymentType == 'payment'"><%= htmlWebpackPlugin.options.payments.min_payment %> {{payment.min | currency}}</small>
+            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.advance.$error.min && paymentType == 'advance'"><%= htmlWebpackPlugin.options.payments.min_percentage %> ({{payment.min | currency}})</small>
         </div>
 
         <div class="form-group">
-            <label>Forma de Pago</label>
+            <label>
+                <%= htmlWebpackPlugin.options.payments.payment_method %>
+            </label>
             <select name="type" ng-model="payment.type" class="form-control" ng-required>
-                <option value ="CASH">Efectivo</option>
-                <option value="CREDIT_CARD">Tarjeta de Crédito</option>
-                <option value="DEBIT_CARD">Tarjeta de Débito</option>
-                <option value="CHECK">Cheque</option>
-                <option value="BANK_TRANSFER">Transferencia Bancaria</option>
+                <%= htmlWebpackPlugin.options.payments.payment_options %>
             </select>
-            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.type.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="paymentForm.$validated && paymentForm.type.$error.required">
+                <%= htmlWebpackPlugin.options.general.required_field %>
+            </small>
         </div>
 
         <div class="order-notes">
-            <h3 class="details-title">Totales</h3>
+            <h3 class="details-title">
+                <%= htmlWebpackPlugin.options.payments.total %>
+            </h3>
             <div>
                 <ul>
-                    <li><small>Productos:</small> <span>{{order.productsTotal | currency}}</span></li>
-                    <li ng-show="order.plusTotal"><small>Adicionales: </small><span>{{order.plusTotal | currency}}</span></li>
-                    <li ng-show="order.motorTotal"><small>Motorización: </small><span>{{order.motorTotal | currency}}</span></li>
-                    <li ng-show="order.discountPercent"><small>Descuento ({{order.discountPercent}}%): </small><span>{{order.discount | currency}}</span></li>
-                    <li ng-show="order.installationTotal"><small>Instalación: </small> <span>{{order.installationTotal | currency}}</span></li>
-                    <li><small>Sub-Total:</small> <span>{{order.subTotal | currency}}</span></li>
-                    <li><small>IVA:</small> <span>{{order.iva | currency}}</span></li>
-                    <li><small>TOTAL:</small> <span>{{order.total | currency}}</span></li>
-                    <li><small>Saldo:</small> <span>{{order.balance | currency}}</span></li>
+                    <li><small><%= htmlWebpackPlugin.options.payments.products %></small> <span>{{order.productsTotal | currency}}</span></li>
+                    <li ng-show="order.plusTotal"><small><%= htmlWebpackPlugin.options.payments.additionals %> </small><span>{{order.plusTotal | currency}}</span></li>
+                    <li ng-show="order.motorTotal"><small><%= htmlWebpackPlugin.options.payments.mottor %> </small><span>{{order.motorTotal | currency}}</span></li>
+                    <li ng-show="order.discountPercent"><small><%= htmlWebpackPlugin.options.payments.discount %> ({{order.discountPercent}}%): </small><span>{{order.discount | currency}}</span></li>
+                    <li ng-show="order.installationTotal"><small><%= htmlWebpackPlugin.options.payments.installation %> </small> <span>{{order.installationTotal | currency}}</span></li>
+                    <li><small><%= htmlWebpackPlugin.options.payments.sub_total %></small> <span>{{order.subTotal | currency}}</span></li>
+                    <li><small><%= htmlWebpackPlugin.options.payments.tax %></small> <span>{{order.iva | currency}}</span></li>
+                    <li><small><%= htmlWebpackPlugin.options.payments.total_ %></small> <span>{{order.total | currency}}</span></li>
+                    <li><small><%= htmlWebpackPlugin.options.payments.balance %></small> <span>{{order.balance | currency}}</span></li>
                 </ul>
             </div>
 
             <div class="form-group notes">
-                <label>Observaciones</label>
+                <label>
+                    <%= htmlWebpackPlugin.options.payments.notes %>
+                </label>
                 <textarea name="notes" ng-model="payment.notes" class="form-control"></textarea>
             </div>
 
             <div>
                 <label>
-                  Tipo de pago
+                    <%= htmlWebpackPlugin.options.payments.payment_type %>
                 </label>
                 <select name="discountPayment" ng-model="payment.isDiscountPayment" class="form-control" required>
                     <option value=false>Pago</option>
-                    <option ng-if="paymentType!='advance'" value=true>Descuento sobre venta</option>
+                    <option ng-if="paymentType!='advance'" value=true>
+                        <%= htmlWebpackPlugin.options.payments.sale_disccount %>
+                    </option>
                 </select>
-                <small class="error-message" ng-if="paymentForm.$validated && paymentForm.discountPayment.$error.required">Campo requerido</small>
+                <small class="error-message" ng-if="paymentForm.$validated && paymentForm.discountPayment.$error.required">
+                    <%= htmlWebpackPlugin.options.general.required_field %>
+                </small>
             </div>
 
             <div class="form-group">
                 <label>
                 <input type="checkbox" ng-model="payment.sendToClient">
-                Enviar recibo al cliente
+                <%= htmlWebpackPlugin.options.payments.invoice %>
                 </label>
             </div>
 
             <div>
-                <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">Cancelar</button>
-                <button type="submit" class="btn btn-primary" ng-if="paymentType == 'payment'">Pagar</button>
-                <button type="submit" class="btn btn-primary" ng-if="paymentType == 'advance'">Siguiente</button>
+                <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">
+                    <%= htmlWebpackPlugin.options.general.canel %>
+                </button>
+                <button type="submit" class="btn btn-primary" ng-if="paymentType == 'payment'">
+                    <%= htmlWebpackPlugin.options.payments.payment %>
+                </button>
+                <button type="submit" class="btn btn-primary" ng-if="paymentType == 'advance'">
+                    <%= htmlWebpackPlugin.options.payments.pay %>
+                </button>
             </div>
 
         </form>
