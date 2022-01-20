@@ -4,9 +4,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 console.log("loading html localizer")
 
 function getHtmlFiles(path) {
-  const files = glob.sync(`${path}/**/*.html`)
+  const files = glob.sync(`${path}/**/*.html`).filter(v => v.replace(/\\/g, "/").split("/").length > 2)
   for (const file of files) {
-    console.log(file)
+    console.log("HTML ", file)
   }
   return files
 }
@@ -17,6 +17,7 @@ function loadLocale(name) {
 
 function generateHtmlWebpackPlugins(files, locale) {
   return files.map(file => new HtmlWebpackPlugin({
+    inject: false,
     template: file,
     filename: file.replace("src", "../dist"),
     ...locale,

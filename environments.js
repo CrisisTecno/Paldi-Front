@@ -60,6 +60,9 @@ const external_api = {
     auth: {
       whoami: "/auth/whoami",
     },
+    orders: {
+      byStatus: "/search"
+    },
   },
 }
 
@@ -67,6 +70,9 @@ const internal_api = {
   api: {
     auth: {
       whoami: "/me/user",
+    },
+    orders: {
+      byStatus: "/search/status/list"
     },
   },
 }

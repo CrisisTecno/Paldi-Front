@@ -1,4 +1,4 @@
-import { globals } from "../.."
+import {globals} from "../.."
 
 const toValue = v => isNaN(v) ? 0 : Number(v)
 
@@ -89,7 +89,7 @@ const getInstallationTotal = (order) => {
   const installationPlusTotal = getInstallationsPlusTotal(order)
 
   const isFloor = order.type == "Piso"
-  const subtotal = order.products.map(({ installationPrice }) => toValue(installationPrice) * isFloor)
+  const subtotal = order.products.map(({installationPrice}) => toValue(installationPrice) * isFloor)
 
   return {
     installationPlusTotal: toValue(installationPlusTotal),
@@ -101,7 +101,10 @@ const getInstallationTotal = (order) => {
 const getProductsTotal = (order) => {
   const productTotal = order.products.reduce((prev, prod) => prod.total + prev, 0)
 
-  const getSubProductTotal = (name) => order.products.reduce((prev, { productType, total }) => prev + ((total | 0) * (productType === name)), 0)
+  const getSubProductTotal = (name) => order.products.reduce((prev, {
+    productType,
+    total
+  }) => prev + ((total | 0) * (productType === name)), 0)
   const isMixed = order.type == "Mixta"
   return {
     productsTotal: productTotal,
@@ -132,7 +135,7 @@ const getDiscounts = (order, totals) => {
 
   const fullDiscount = order.discountPercent ? (totals.productsTotal
     + totals.plusTotal
-    // + totals.motorTotal
+    + totals.motorTotal * !IS_ZELBA
   ) * toDecimalPercent(order.discountPercent) : order.discount
 
 
