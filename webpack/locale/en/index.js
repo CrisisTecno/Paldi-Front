@@ -74,6 +74,10 @@ module.exports = {
     no_comment:"No comments",
     no_data: "No data to show",
     product_not_found:"Product not found",
+    no_user:"User not found",
+
+    activate:"Activate",
+    deactivate:"Deactivate",
 
     name: "Name",
     last_name: "Last Name",
@@ -282,7 +286,7 @@ module.exports = {
     change_percentage:"Change Comission Percentage",
     new_percentage:"New Percentage",
     max_value:"The Maximum value is ",
-    min_value:"The Minimum value is 0%"
+    min_value:"The Minimum   value is 0%"
 
   },
   change_status:{
@@ -298,5 +302,97 @@ module.exports = {
     <option ng-if="changePermissions.canIncomplete" value="INSTALLED_INCOMPLETE">{{pretty('enOrderStatus', 'INSTALLED_INCOMPLETE')}}</option>
     <option ng-if="changePermissions.canNonConform" value="INSTALLED_NONCONFORM">{{pretty('enOrderStatus', 'INSTALLED_NONCONFORM')}}</option>          
     `
+  },
+  modals:{
+    admission_xml:"Just .XML files",
+    empty_file:"This file is empty",
+    load_recipt:"Load Receipt",
+
+    admission_xlsx:"Just .xlsx files",
+    load_catalog:"Load catalog"
+    
+  },
+  navigation:{
+    manage_quotes:"Manage Quotes",
+    quotes:"Quote",
+    statistics:"Statistics",
+    new_quote:"New Quote",
+
+    orders:"Orders",
+    order_tracking:"Order tracking",
+    manual_register:"Manual Registry",
+
+    my_sells:"My sells",
+    my_orders:"My orders",
+    commissions:"Commissions",
+    payments:"Payments",
+    cost:"Cost",
+    catalog:"Catalog",
+    reports:"",
+
+    inventory_menu:`
+ 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    `,
+
+    costs:"Cost",
+    recipts:"Receipt",
+    order_movement:"Order Movement",
+    clients:"Client",
+    users:"Users",
+  },
+  users:{
+    new_user:"New User",
+    name:"Name",
+    last_name:"Last Name",
+    email:"E-Mail",
+    phone:"Phone",
+    pwd:"Password",
+    permissions:"Permissions",
+    warehouse:`
+    
+    
+    
+    `,
+    min_sale:"Minimun sale amount",
+    error_pwd:"The password must be at least 8 characters including at least one uppercase letter, and one of this characters (! ( ) - . _ ` ~ @)",
+
+    users:"Usuarios",
+
+
+    user_details:"U ser details",
+    personal_info:"Personal Info",
+    user_rol:"User Role",
+    rol:"Rol:",
+    contact_info:"Contact Information",
+    minumun_sale:"Minimum sale",
+    warehouse_info:`
+    
+    
+     
+         
+         
+     `,
+     role:"Role",
+     role_options:`
+      <option value="CONSULTANT">Sales Rep</option>
+      <option value="MANAGER" ng-if="currentUser.canAdmin">Purchasing manager</option>
+      <option value="INSTALLATION_MANAGER" ng-if="currentUser.canAdmin">Instalation manager</option>
+      <option value="SALES_MANAGER" ng-if="currentUser.canAdmin">Sales manager</option>
+      <option value="BUYER">Comprador</option>
+      <option value="ADMIN" ng-if="currentUser.role=='SUPERADMIN'">Admin</option>
+      <option value="SUPERADMIN" ng-if="currentUser.canAdmin">Super Admin</option>
+     `,
+     load_user:"Loading User",
   }
 }

@@ -1,9 +1,15 @@
 <div>
-	<legend>Solo se admiten archivos con formato .xlsx</legend>
+	<legend>
+		<%= htmlWebpackPlugin.options.modals.admission_xlsx %>
+	</legend>
 	<input type="file" id="fileUpload" name="file" onchange="angular.element(this).scope().selectFile(this.files)" ng-disabled="uploading"
 		accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
 	<br>
-	<button type="button" class="btn btn-primary" ng-click="uploadCatalog()" ng-disabled="!fileValid" ng-hide="uploading"> Cargar catálogo </button>
+	<button type="button" class="btn btn-primary" ng-click="uploadCatalog()" ng-disabled="!fileValid" ng-hide="uploading"> 
+		<%= htmlWebpackPlugin.options.modals.load_catalog %>
+	</button>
 	<img ng-show="uploading" class="spinner-img" src="img/spinner.gif">
-	<button type="button" class="btn btn-default" ng-hide="uploading" ng-click="closeThisDialog()"> Cancelar </button>
+	<button type="button" class="btn btn-default" ng-hide="uploading" ng-click="closeThisDialog()"> 
+		<%= htmlWebpackPlugin.options.general.cancel %>	
+	</button>
 </div>

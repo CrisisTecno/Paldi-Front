@@ -1,39 +1,42 @@
 <div class="user-new-view">
     <div class="ibox">
         <div class="ibox-title">
-            <h3>Nuevo Usuario</h3></div>
+            <h3>
+                <%= htmlWebpackPlugin.options.users.new_user %>
+            </h3></div>
         <div class="ibox-content">
             <form name="userForm" role="form" novalidate ng-submit="save(userForm, user)">
                 <div class="form-group">
-                    <label>Nombre</label>
+                    <label><%= htmlWebpackPlugin.options.users.name %></label>
                     <input type="text" name="name" ng-model="user.name" class="form-control" required="">
-                    <small class="error-message" ng-if="userForm.$validated && userForm.name.$error.required">Campo requerido</small>
+                    <small class="error-message" ng-if="userForm.$validated && userForm.name.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
                 </div>
                 <div class="form-group">
-                    <label>Apellidos</label>
+                    <label><%= htmlWebpackPlugin.options.users.last_name %></label>
                     <input type="text" name="lastName" ng-model="user.lastName" class="form-control" required="">
-                    <small class="error-message" ng-if="userForm.$validated && userForm.lastName.$error.required">Campo requerido</small>
+                    <small class="error-message" ng-if="userForm.$validated && userForm.lastName.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
                 </div>
                 <div class="form-group">
-                    <label>E-mail</label>
+                    <label><%= htmlWebpackPlugin.options.users.email %></label>
                     <input type="email" name="email" ng-model="user.email" class="form-control" required="">
-                    <small class="error-message" ng-if="userForm.$validated && userForm.email.$error.required">Campo requerido</small>
-                    <small class="error-message" ng-if="userForm.$validated && userForm.email.$error.email">El e-mail no es válido</small>
+                    <small class="error-message" ng-if="userForm.$validated && userForm.email.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+                    <small class="error-message" ng-if="userForm.$validated && userForm.email.$error.email"><%= htmlWebpackPlugin.options.client.error_email %></small>
                 </div>
                 <div class="form-group">
-                    <label>Teléfono</label>
+                    <label><%= htmlWebpackPlugin.options.users.phone %></label>
                     <input type="tel" maxlength="10" pattern="[0-9]{10}" name="phoneNumber" ng-model="user.phoneNumber" class="form-control" required="">
-                    <small class="error-message" ng-if="userForm.$validated && userForm.phoneNumber.$error.required">Campo requerido</small>
-                    <small class="error-message" ng-if="userForm.phoneNumber.$error.pattern">El número de teléfono debe tener 10 dígitos</small>
+                    <small class="error-message" ng-if="userForm.$validated && userForm.phoneNumber.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+                    <small class="error-message" ng-if="userForm.phoneNumber.$error.pattern"><%= htmlWebpackPlugin.options.client.error_phone %></small>
                 </div>
                 <div class="form-group">
-                    <label>Contraseña</label>
+                    <label><%= htmlWebpackPlugin.options.users.pwd %></label>
                     <input type="password" name="password" ng-model="user.password" class="form-control" required="" ng-change="checkPassword(user.password)">
-                    <small class="error-message" ng-if="userForm.$validated && userForm.password.$error.required">Campo requerido</small>
-                    <small class="alert" ng-if="passwordIsValid == false">Mínimo 8 caracteres, incluyendo al menos una mayúscula, una minúscula, un número y un caracter especial (! ( ) - . _ ` ~ @)</small>
+                    <small class="error-message" ng-if="userForm.$validated && userForm.password.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+                    <small class="alert" ng-if="passwordIsValid == false"><%= htmlWebpackPlugin.options.users.error_pwd %></small>
                 </div>
+                
                 <div class="form-group">
-                    <label>Permisos</label>
+                    <label><%= htmlWebpackPlugin.options.users.permissions %></label>
                     <select-object
                         ng-model="user.role"
                         data="roles"
@@ -42,23 +45,24 @@
                         if-function-property="'creation_permission'"
                         scope="currentUser"
                     />
-                    <small class="error-message" ng-if="userForm.$validated && userForm.role.$error.required">Campo requerido</small>
+                    <small class="error-message" ng-if="userForm.$validated && userForm.role.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
                 </div>
 
-                <div class="form-group">
-                    <label>Almacén</label>
-                    <select name="warehouses" ng-model="user.warehouseId" class="form-control" ng-options="warehouse.id as warehouse.name for warehouse in warehouses"></select>
-                </div>
+                <%= htmlWebpackPlugin.options.users.warehouse %>
 
                 <div class="form-group" ng-show="user.role == 'CONSULTANT'">
-                    <label>Monto mínimo de venta</label>
+                    <label>
+                        <%= htmlWebpackPlugin.options.users.min_sale %>
+                    </label>
                     <input type="number" name="minimumSale" ng-model="user.minimumSale" class="form-control" ng-required="user.role == 'CONSULTANT'">
-                    <small class="error-message" ng-if="userForm.$validated && userForm.minimumSale.$error.required">Campo requerido</small>
+                    <small class="error-message" ng-if="userForm.$validated && userForm.minimumSale.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
                 </div>
 
                 <div>
-                    <button ui-sref="console.user-list" class="btn btn-default">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button ui-sref="console.user-list" class="btn btn-default"><%= htmlWebpackPlugin.options.general.cancel %></button>
+                    <button type="submit" class="btn btn-primary">
+                        <%= htmlWebpackPlugin.options.general.save %>
+                    </button>
                 </div>
             </form>
         </div>

@@ -6,78 +6,113 @@
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'CONSULTANT'">
-        <a href="#"><i class="fa fa-file-text fa-lg"></i> <span class="nav-label">Ventas</span><span class="fa arrow"></span></a>
+        <a href="#"><i class="fa fa-file-text fa-lg"></i> <span class="nav-label">
+            <%= htmlWebpackPlugin.options.navigation.manage_quotes %>
+        </span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'"><a ui-sref="console.quote-list">Cotizaciones</a></li>
-            <li><a ui-sref="console.statistics">Estadística</a></li>
-            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT'"><a ui-sref="console.quote-new">Cotizar</a></li>
+            <li ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'"><a ui-sref="console.quote-list">
+                <%= htmlWebpackPlugin.options.navigation.quotes %>
+            </a></li>
+            <li><a ui-sref="console.statistics">
+                <%= htmlWebpackPlugin.options.navigation.statistics %>
+            </a></li>
+            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT'"><a ui-sref="console.quote-new">
+                <%= htmlWebpackPlugin.options.navigation.new_quote %>
+            </a></li>
         </ul>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'CONSULTANT'">
-        <a href="#"><i class="fa fa-list fa-lg"></i> <span class="nav-label">Órdenes</span><span class="fa arrow"></span></a>
+        <a href="#"><i class="fa fa-list fa-lg"></i> <span class="nav-label">
+            <%= htmlWebpackPlugin.options.navigation.orders %>
+        </span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li><a ui-sref="console.order-list">Órdenes</a></li>
-            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER'"><a ui-sref="console.deadlines">Seguimiento OV</a></li>
-            <li ng-if="currentUser.canAdmin"><a ui-sref="console.quote-new-manual">Registro OV</a></li>
+            <li><a ui-sref="console.order-list">
+                <%= htmlWebpackPlugin.options.navigation.orders %>
+            </a></li>
+            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER'"><a ui-sref="console.deadlines">
+                <%= htmlWebpackPlugin.options.navigation.orders %>
+            </a></li>
+            <li ng-if="currentUser.canAdmin"><a ui-sref="console.quote-new-manual">
+                <%= htmlWebpackPlugin.options.navigation.manual_register %>
+            </a></li>
         </ul>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT'">
-        <a href="#"><i class="fa fa-file-text fa-lg"></i> <span class="nav-label" style="font-size: 8.8px" >Mis ventas</span><span class="fa arrow"></span></a>
+        <a href="#"><i class="fa fa-file-text fa-lg"></i> <span class="nav-label" style="font-size: 8.8px" >
+            <%= htmlWebpackPlugin.options.navigation.my_sells %>
+        </span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li><a ui-sref="console.quote-list">Cotizaciones</a></li>
-            <li><a ui-sref="console.quote-new">Cotizar</a></li>
-            <li><a ui-sref="console.statistics">Estadística</a></li>
+            <li><a ui-sref="console.quote-list">
+                <%= htmlWebpackPlugin.options.navigation.quotes %>
+            </a></li>
+            <li><a ui-sref="console.quote-new">
+                <%= htmlWebpackPlugin.options.navigation.new_quotes %>
+            </a></li>
+            <li><a ui-sref="console.statistics">
+                <%= htmlWebpackPlugin.options.navigation.statistics %>
+            </a></li>
         </ul>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT'">
-        <a ui-sref="console.order-list"><i class="fa fa-list fa-lg"></i> <span class="nav-label" style="font-size: 8.8px">Mis órdenes</span></a>
+        <a ui-sref="console.order-list"><i class="fa fa-list fa-lg"></i> <span class="nav-label" style="font-size: 8.8px">
+            <%= htmlWebpackPlugin.options.navigation.my_orders %>
+        </span></a>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT'">
-        <a ui-sref="console.commissions"><i class="fa fa-suitcase fa-lg"></i> <span class="nav-label" style="font-size: 8.8px">Comisiones</span></a>
+        <a ui-sref="console.commissions"><i class="fa fa-suitcase fa-lg"></i> <span class="nav-label" style="font-size: 8.8px">
+            <%= htmlWebpackPlugin.options.navigation.commissions %>    
+        </span></a>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'MANAGER'">
         <a href="#"><i class="fa fa-suitcase fa-lg"></i> <span class="nav-label">Admin</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'" ui-sref="console.payments">Pagos</a></li>
-            <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'CONSULTANT' " ui-sref="console.commissions">Comisiones</a></li>
-            <li><a ui-sref="console.costing" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Costeo</a></li>
-            <li><a ui-sref="console.products-catalog" ng-if="currentUser.role == 'SUPERADMIN'">Catálogo</a></li>
-            <li><a ui-sref="console.reports" ng-if="currentUser.role == 'SUPERADMIN' && currentUser.canAdmin || currentUser.role == 'ADMIN'">Reportes</a></li>
+            <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'" ui-sref="console.payments">
+                <%= htmlWebpackPlugin.options.navigation.payments %>
+            </a></li>
+            <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'CONSULTANT' " ui-sref="console.commissions">
+                <%= htmlWebpackPlugin.options.navigation.commissions %>
+            </a></li>
+            <li><a ui-sref="console.costing" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">
+                <%= htmlWebpackPlugin.options.navigation.cost %>
+            </a></li>
+            <li><a ui-sref="console.products-catalog" ng-if="currentUser.role == 'SUPERADMIN'">
+                <%= htmlWebpackPlugin.options.navigation.catalog %>
+            </a></li>
+            <%= htmlWebpackPlugin.options.navigation.reports %>
         </ul>
     </metis-item>
-
-    <metis-item ui-sref-active="selected" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER' || true">
-        <a href="#"><i class="fa fa-check-square-o fa-lg"></i> <span class="nav-label">Inventario</span><span class="fa arrow"></span></a>
-        <ul class="nav nav-second-level collapse">
-            <li><a ui-sref="console.inventory-movements" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER'">Reporte Mov.</a></li>
-            <li><a ui-sref="console.inventory-report">Reporte Inv.</a></li>
-            <li><a ui-sref="console.inventory-in" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Entradas</a></li>
-            <li><a ui-sref="console.inventory-cross" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Traslados</a></li>
-            <li><a ui-sref="console.inventory-adjustments" ng-if="currentUser.role == 'SUPERADMIN'">Ajustes</a></li>
-            <li><a ui-sref="console.products" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Productos</a></li>
-            <li><a ui-sref="console.warehouses" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Almacenes</a></li>
-        </ul>
-    </metis-item>
+    <%= htmlWebpackPlugin.options.navigation.inventory_menu %>
+  
     <metis-item ui-sref-active="selected" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER'">
-        <a href="#"><i class="fa fa-check-square-o fa-lg"></i> <span class="nav-label">Costeo</span><span class="fa arrow"></span></a>
+        <a href="#"><i class="fa fa-check-square-o fa-lg"></i> <span class="nav-label">
+            <%= htmlWebpackPlugin.options.navigation.cost %>
+        </span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li><a ui-sref="console.bills">Facturas</a></li>
-            <li><a ui-sref="console.movements">Movimientos de OV</a></li>
+            <li><a ui-sref="console.bills">
+                <%= htmlWebpackPlugin.options.navigation.recipts %>
+            </a></li>
+            <li><a ui-sref="console.movements">
+                <%= htmlWebpackPlugin.options.navigation.order_movement %>
+            </a></li>
         </ul>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'SALES_MANAGER'">
         <a ui-sref="console.client-list">
-            <i class="fa fa-address-card fa-lg"></i> <span class="nav-label">Clientes</span></a>
+            <i class="fa fa-address-card fa-lg"></i> <span class="nav-label">
+                <%= htmlWebpackPlugin.options.navigation.clients %>
+            </span></a>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.canAdmin">
         <a ui-sref="console.user-list">
-            <i class="fa fa-users fa-lg"></i> <span class="nav-label">Usuarios</span></a>
+            <i class="fa fa-users fa-lg"></i> <span class="nav-label">
+                <%= htmlWebpackPlugin.options.navigation.users %>
+            </span></a>
     </metis-item>
 </metis-menu>

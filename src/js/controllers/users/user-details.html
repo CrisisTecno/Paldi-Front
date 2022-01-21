@@ -1,94 +1,90 @@
 <div class="user-details-view">
     <div class="ibox">
         <div class="ibox-title">
-            <h3>Detalles de Usuario</h3></div>
+            <h3>
+                <%= htmlWebpackPlugin.options.users.user_details %>
+            </h3></div>
         <div class="ibox-content">
             <div class="data-summary" ng-show="step=='loaded'">
                 <h3><i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                    Información personal</h3>
+                    <%= htmlWebpackPlugin.options.users.personal_info %>    
+                </h3>
                 <ul>
-                    <li> <span>Nombre:</span> {{user.name}}</li>
-                    <li> <span>Apellidos:</span> {{user.lastName}}</li>
+                    <li> <span>
+                        <%= htmlWebpackPlugin.options.users.name %>:</span> {{user.name}}</li>
+                    <li> <span>
+                        <%= htmlWebpackPlugin.options.users.last_name %>:</span> {{user.lastName}}</li>
                 </ul>
                 <h3><i class="fa fa-id-card" aria-hidden="true"></i>
-               Tipo de usuario</h3>
+                    <%= htmlWebpackPlugin.options.users.user_rol %>
+                </h3>
                 <ul>
                     <li> <span>Rol:</span> {{ pretty("userRole", user.role) }}</li>
                 </ul>
                 <h3><i class="fa fa-envelope" aria-hidden="true"></i>
-                        Datos de contacto</h3>
+                    <%= htmlWebpackPlugin.options.users.contact_info %>        
+                </h3>
                 <ul>
-                    <li class="email"><span>E-mail:</span> <a href="mailto:{{user.email}}">{{user.email}}</a></li>
-                    <li> <span>Teléfono:</span> {{user.phoneNumber}}</li>
-                    <li ng-show="user.role == 'CONSULTANT'"> <span>Mínimo de venta:</span> {{user.minimumSale}}</li>
+                    <li class="email"><span>
+                        <%= htmlWebpackPlugin.options.users.email %>:
+                    </span> <a href="mailto:{{user.email}}">{{user.email}}</a></li>
+                    <li> <span> <%= htmlWebpackPlugin.options.users.phone %>:</span> {{user.phoneNumber}}</li>
+                    <li ng-show="user.role == 'CONSULTANT'"> <span>
+                        <%= htmlWebpackPlugin.options.users.minimun_sale %>:</span> {{user.minimumSale}}</li>
                 </ul>
-                <h3><i class="fa fa-industry" aria-hidden="true"></i>
-               Almacén</h3>
-                <ul>
-                    <li> <span>Nombre:</span> {{ user.warehouse ? user.warehouse.name : 'N/A' }}</li>
-                    <li ng-if="user.warehouse"> <span>Ciudad:</span> {{ user.warehouse.city }}</li>
-                </ul>
+                <%= htmlWebpackPlugin.options.users.warehouse_info %>
             </div>
             <div ng-show="step=='edit'">
                 <fieldset>
-                    <span>Editar</span>
+                    <span> <%= htmlWebpackPlugin.options.general_edit %></span>
                     <form name="userForm" role="form" novalidate ng-submit="edit(userForm, user)">
                         <div class="form-group">
-                            <label>Nombre</label>
+                            <label> <%= htmlWebpackPlugin.options.users.name %></label>
                             <input type="text" name="name" ng-model="user.name" class="form-control" placeholder="{{user.name}}" required="">
                             <small class="error-message" ng-if="userForm.$validated && userForm.name.$error.required">Campo requerido</small>
                         </div>
                         <div class="form-group">
-                            <label>Apellidos</label>
+                            <label> <%= htmlWebpackPlugin.options.users.last_name %></label>
                             <input type="text" name="lastName" ng-model="user.lastName" class="form-control" placeholder="{{user.lastName}}" required="">
                             <small class="error-message" ng-if="userForm.$validated && userForm.lastName.$error.required">Campo requerido</small>
                         </div>
                         <div class="form-group">
-                            <label>E-mail</label>
+                            <label> <%= htmlWebpackPlugin.options.users.email %></label>
                             <input type="email" name="email" ng-model="user.email" class="form-control" placeholder="{{user.email}}" required="" disabled>
                             <small class="error-message" ng-if="userForm.$validated && userForm.email.$error.required">Campo requerido</small>
                             <small class="error-message" ng-if="userForm.$validated && userForm.email.$error.email">El e-mail no es válido</small>
                         </div>
                         <div class="form-group">
-                            <label>Teléfono</label>
+                            <label> <%= htmlWebpackPlugin.options.users.phone %></label>
                             <input type="tel" maxlength="10" pattern="[0-9]{10}" name="phoneNumber" ng-model="user.phoneNumber" class="form-control" placeholder="{{user.phoneNumber}}" required="">
                             <small class="error-message" ng-if="userForm.$validated && userForm.phoneNumber.$error.required">Campo requerido</small>
                             <small class="error-message" ng-if="userForm.phoneNumber.$error.pattern">El número de teléfono debe tener 10 dígitos</small>
                         </div>
                         <div class="form-group" ng-show="user.role == 'CONSULTANT'">
-                            <label>Monto mínimo de venta</label>
+                            <label> <%= htmlWebpackPlugin.options.users.min_sale %></label>
                             <input type="number" name="minimumSale" ng-model="user.minimumSale" class="form-control" ng-required="user.role == 'CONSULTANT'">
                             <small class="error-message" ng-if="userForm.$validated && userForm.minimumSale.$error.required">Campo requerido</small>
                         </div>
                         <div class="form-group">
-                            <label>Permisos</label>
+                            <label> <%= htmlWebpackPlugin.options.users.role %></label>
                             <select name="role" ng-model="user.role" class="form-control" required="" selected="{{user.role}}">
-                                <option value="CONSULTANT">Asesor</option>
-                                <option value="BUYER">Comprador</option>
-                                <option value="MANAGER" ng-if="currentUser.canAdmin">Gerente de Compras</option>
-                                <option value="INSTALLATION_MANAGER" ng-if="currentUser.canAdmin">Gerente de Instalación</option>
-                                <option value="SALES_MANAGER" ng-if="currentUser.canAdmin">Gerente de Ventas</option>
-                                <option value="ADMIN" ng-if="currentUser.role=='SUPERADMIN'">Admin</option>
-                                <option value="SUPERADMIN" ng-if="currentUser.canAdmin">Super Admin</option>
+                                <%= htmlWebpackPlugin.options.users.role_options %>
                             </select>
                             <small class="error-message" ng-if="userForm.$validated && userForm.role.$error.required">Campo requerido</small>
                         </div>
-                        <div class="form-group">
-                    <label>Almacén</label>
-                    <select name="warehouses" ng-model="user.warehouseId" class="form-control" ng-options="warehouse.id as warehouse.name for warehouse in warehouses"></select>
-                </div>
+                        <%= htmlWebpackPlugin.options.users.warehouse %>
                     </form>
                 </fieldset>
             </div>
-            <p ng-show="step=='empty'">El usuario no existe</p>
-            <p ng-show="step=='loading'">Cargando usuario</p>
+            <p ng-show="step=='empty'"><%= htmlWebpackPlugin.options.general.no_user %></p>
+            <p ng-show="step=='loading'"><%= htmlWebpackPlugin.options.users.load_user %></p>
             <div ng-show="!user.deleted && sameUser != undefined">
-                <button class="btn btn-danger delete" ng-disabled="sameUser" ng-click="delete()" ng-show="currentUser.canAdmin">Borrar</button>
-                <button class="btn btn-default" ng-click="step='edit'" ng-show="step=='loaded' && currentUser.canAdmin">Editar</button>
-                <button class="btn btn-primary" ng-disabled="sameUser" ng-click="deactivate()" ng-show="user.active && currentUser.canAdmin">Desactivar</button>
-                <button class="btn btn-primary" ng-click="activate()" ng-show="!user.active && currentUser.canAdmin">Activar</button>
-                <button class="btn btn-default" ng-click="loadUser()" ng-show="step=='edit' && currentUser.canAdmin">Cancelar</button>
-                <button class="btn btn-primary" ng-click="edit(userForm, user)" ng-show="step=='edit'">Guardar</button>
+                <button class="btn btn-danger delete" ng-disabled="sameUser" ng-click="delete()" ng-show="currentUser.canAdmin"><%= htmlWebpackPlugin.options.general.erase %></button>
+                <button class="btn btn-default" ng-click="step='edit'" ng-show="step=='loaded' && currentUser.canAdmin"><%= htmlWebpackPlugin.options.general.edit %></button>
+                <button class="btn btn-primary" ng-disabled="sameUser" ng-click="deactivate()" ng-show="user.active && currentUser.canAdmin"><%= htmlWebpackPlugin.options.general.deactivate %></button>
+                <button class="btn btn-primary" ng-click="activate()" ng-show="!user.active && currentUser.canAdmin"><%= htmlWebpackPlugin.options.general.activate %></button>
+                <button class="btn btn-default" ng-click="loadUser()" ng-show="step=='edit' && currentUser.canAdmin"><%= htmlWebpackPlugin.options.general.cancel %></button>
+                <button class="btn btn-primary" ng-click="edit(userForm, user)" ng-show="step=='edit'"><%= htmlWebpackPlugin.options.general.save %></button>
             </div>
         </div>
     </div>

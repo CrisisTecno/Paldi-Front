@@ -74,6 +74,10 @@ module.exports = {
     no_comment:"No hay comentarios para mostrar",
     no_data: "No hay datos para mostrar",
     product_not_found:"No Se encontró el producto",
+    no_user:"El usuario no existe",
+
+    activate:"Activar",
+    deactivate:"Desactivar",
 
     name: "Nombre",
     last_name: "Apellido",
@@ -298,5 +302,97 @@ module.exports = {
     <option ng-if="changePermissions.canIncomplete" value="INSTALLED_INCOMPLETE">Instalada Parcial</option>
     <option ng-if="changePermissions.canNonConform" value="INSTALLED_NONCONFORM">Instalado Inconforme</option>          
     `
+  },
+  modals:{
+    admission_xml:"Solo se admiten archivos con formato .XML",
+    empty_file:"El archivo está vacio",
+    load_recipt:"Cargar Factura",
+
+    admission_xlsx:"Solo se adminten archivos con formato .xslx",
+    load_catalog:"Cargar Catálogo"
+    
+  },
+  navigation:{
+    manage_quotes:"Ventas",
+    quotes:"Cotizaciones",
+    statistics:"Estadísticas",
+    new_quote:"Cotizar",
+
+    orders:"Órdenes",
+    order_tracking:"Seguimiento OV",
+    manual_register:"Registro OV",
+
+    my_sells:"Mis Ventas",
+    my_orders:"Mis órdenes",
+    commissions:"Comisiones",
+    payments:"Pagos",
+    cost:"Costeo",
+    catalog:"Catálogo",
+    reports:`<li><a ui-sref="console.reports" ng-if="currentUser.role == 'SUPERADMIN' && currentUser.canAdmin || currentUser.role == 'ADMIN'">Reportes</a></li>`,
+
+    inventory_menu:`
+    <metis-item ui-sref-active="selected" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER' || true">
+        <a href="#"><i class="fa fa-check-square-o fa-lg"></i> <span class="nav-label">Inventario</span><span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level collapse">
+            <li><a ui-sref="console.inventory-movements" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER'">Reporte Mov.</a></li>
+            <li><a ui-sref="console.inventory-report">Reporte Inv.</a></li>
+            <li><a ui-sref="console.inventory-in" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Entradas</a></li>
+            <li><a ui-sref="console.inventory-cross" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Traslados</a></li>
+            <li><a ui-sref="console.inventory-adjustments" ng-if="currentUser.role == 'SUPERADMIN'">Ajustes</a></li>
+            <li><a ui-sref="console.products" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Productos</a></li>
+            <li><a ui-sref="console.warehouses" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Almacenes</a></li>
+        </ul>
+    </metis-item>
+    `,
+
+    costs:"Costeo",
+    recipts:"Facturas",
+    order_movement:"Movimientos de OV",
+    clients:"Clientes",
+    users:"Usuarios",
+  },
+  users:{
+    new_user:"Nuevo Usuario",
+    name:"Nombre",
+    last_name:"Apellidos",
+    email:"E-Mail",
+    phone:"Teléfono",
+    pwd:"Contraseña",
+    permissions:"Permisos",
+    warehouse:`
+    <div class="form-group">
+      <label>Almacén</label>
+      <select name="warehouses" ng-model="user.warehouseId" class="form-control" ng-options="warehouse.id as warehouse.name for warehouse in warehouses"></select>
+    </div>
+    `,
+    min_sale:"Monto mínimo de venta",
+    error_pwd:"Mínimo 8 caracteres, incluyendo al menos una mayúscula, una minúscula, un número y un caracter especial (! ( ) - . _ ` ~ @)",
+    
+    users:"Usuarios",
+
+    user_details:"Detallaes de usuario",
+    personal_info:"Información personal",
+    user_rol:"Tipo de Usuario",
+    rol:"Rol:",
+    contact_info:"Datos de contacto",
+    minumun_sale:"Minimo de venta",
+    warehouse_info:`
+    <h3><i class="fa fa-industry" aria-hidden="true"></i>
+    Almacén</h3>
+     <ul>
+         <li> <span>Nombre:</span> {{ user.warehouse ? user.warehouse.name : 'N/A' }}</li>
+         <li ng-if="user.warehouse"> <span>Ciudad:</span> {{ user.warehouse.city }}</li>
+     </ul>`,
+     role:"Permisos",
+     role_options:`
+     <option value="CONSULTANT">Asesor</option>
+     <option value="BUYER">Comprador</option>
+     <option value="MANAGER" ng-if="currentUser.canAdmin">Gerente de Compras</option>
+     <option value="INSTALLATION_MANAGER" ng-if="currentUser.canAdmin">Gerente de Instalación</option>
+     <option value="SALES_MANAGER" ng-if="currentUser.canAdmin">Gerente de Ventas</option>
+     <option value="ADMIN" ng-if="currentUser.role=='SUPERADMIN'">Admin</option>
+     <option value="SUPERADMIN" ng-if="currentUser.canAdmin">Super Admin</option>
+     `,
+     load_user:"Cargando Usuario",
   }
 }
