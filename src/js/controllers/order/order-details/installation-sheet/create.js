@@ -149,7 +149,8 @@ export const showCreateInstallationSheetDialog = async (
   // console.log($scope);
   // console.log($scope);
   $scope.dialog = $scope.ngDialog.open({
-    template: "partials/views/console/installation-sheet/form-create.html",
+    template: "js/controllers/order/installation-sheet/form-create.html",
+    // template: "partials/views/console/installation-sheet/form-create.html",
     scope: $scope,
     showClose: false,
   });

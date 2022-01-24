@@ -54,7 +54,7 @@ module.exports = {
     back: "Back",
 
     update:"Update",
-    accept:"Accept",
+    accept:"Confirm",
     change:"Change",
     
     erase:"Erase",
@@ -121,7 +121,7 @@ module.exports = {
     update_provider: "Update Supplier",
     provider_id: "Supplier ID",
 
-    observations:"Observations",
+    observations:"Notes",
 
     statistics:"Statistics",
     configuration:"Configuration",
