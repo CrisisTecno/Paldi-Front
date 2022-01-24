@@ -116,6 +116,7 @@ module.exports = {
   },
   features: {
     city: false,
+    cortinas: false,
   },
   console:{
     update_provider: "Update Supplier",

@@ -116,6 +116,7 @@ module.exports = {
   },
   features: {
     city: true,
+    cortinas: true,
   },
   console:{
     update_provider: "Actualizar Proveedor",

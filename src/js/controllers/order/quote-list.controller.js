@@ -174,34 +174,37 @@ pdApp.controller(
           data: data.docs,
         }
       }
-      const ids = result.data.map(({id}) => id)
-      // console.log(ids)
-      const orders = await paldiService.orders.getBatchOrders(ids)
-      // console.log(orders)
 
-      result.data = result.data
-        .map((order) => ({
-          ...order,
-          real: orders.filter(({_id}) => {
-            // console.log(_id, order.id)
-            return _id === order.id
-          })[0],
-        }))
-        .map((order) => {
-          // console.log(order)
-          return ({
+      if (EXECUTION_ENV === "INTERNAL") {
+        const ids = result.data.map(({id}) => id)
+        // console.log(ids)
+        const orders = await paldiService.orders.getBatchOrders(ids)
+        // console.log(orders)
+
+        result.data = result.data
+          .map((order) => ({
             ...order,
-            status_s:
-              order.real.status === "DELETED"
-                ? "Eliminada"
-                : order.status_s,
-            quoteStatus_txt: [
-              order.real.status === "DELETED"
-                ? "Eliminada"
-                : order.status_s,
-            ],
+            real: orders.filter(({_id}) => {
+              // console.log(_id, order.id)
+              return _id === order.id
+            })[0],
+          }))
+          .map((order) => {
+            // console.log(order)
+            return ({
+              ...order,
+              status_s:
+                order.real.status === "DELETED"
+                  ? "Eliminada"
+                  : order.status_s,
+              quoteStatus_txt: [
+                order.real.status === "DELETED"
+                  ? "Eliminada"
+                  : order.status_s,
+              ],
+            })
           })
-        })
+      }
 
       $scope.isEmpty = result.recordsTotal > 0 ? false : true
       // console.log(result)
