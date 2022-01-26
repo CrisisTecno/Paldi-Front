@@ -31,7 +31,7 @@
                 <%= htmlWebpackPlugin.options.navigation.orders %>
             </a></li>
             <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER'"><a ui-sref="console.deadlines">
-                <%= htmlWebpackPlugin.options.navigation.orders %>
+                <%= htmlWebpackPlugin.options.navigation.order_tracking %>
             </a></li>
             <li ng-if="currentUser.canAdmin"><a ui-sref="console.quote-new-manual">
                 <%= htmlWebpackPlugin.options.navigation.manual_register %>
