@@ -41,6 +41,11 @@ module.exports = (env) => ({
       GLOBALS: environment[env.stage],
       EXECUTION_ENV: JSON.stringify(env.stage.toUpperCase().split("_")[0]),
       IS_ZELBA: env.locale==="en",
+
+      // FEATURE SWITCHES
+      "FEATURES.CITY": env.locale!=="en",
+      "FEATURES.CORTINAS": env.locale !== "en",
+
       LOCALE: {
         ...require(`./webpack/locale/${env.locale}`),
         ...require(`./webpack/locale-extensions/${env.stage.split("_")[1]}.js`)

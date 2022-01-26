@@ -54,7 +54,7 @@ module.exports = {
     back: "Back",
 
     update:"Update",
-    accept:"Accept",
+    accept:"Confirm",
     change:"Change",
     
     erase:"Erase",
@@ -116,12 +116,13 @@ module.exports = {
   },
   features: {
     city: false,
+    cortinas: false,
   },
   console:{
     update_provider: "Update Supplier",
     provider_id: "Supplier ID",
 
-    observations:"Observations",
+    observations:"Notes",
 
     statistics:"Statistics",
     configuration:"Configuration",

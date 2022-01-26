@@ -389,7 +389,8 @@ pdApp.controller(
       } else {
         $scope.dialog = ngDialog.open({
           scope: $scope,
-          template: "partials/views/console/order-send.html",
+          template: "js/controllers/order/order-send.html",
+          // template: "partials/views/console/order-send.html",
           showClose: false,
         });
       }
