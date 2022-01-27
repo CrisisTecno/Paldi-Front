@@ -618,6 +618,14 @@ module.exports = {
     advance:"Anticipo",
     balance:"Saldo",
     annotations:"Anotaciones",
-    notes:"Notas"
+    notes:"Notas",
+
+    quotes:"Cotizar",
+    download_quotes:"Descargar Cotizaciones",
+    no_quotes:"No hay cotizaciones para mostrar",
+    loading_quotes:"Cargando Cotizaciones"
+  },
+  toldos:{
+    
   }
 }

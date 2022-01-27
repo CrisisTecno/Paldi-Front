@@ -1,11 +1,17 @@
 <div class="order-list-view">
     <div class="ibox">
-        <div class="ibox-title"><h3>Cotizaciones</h3></div>
+        <div class="ibox-title"><h3>
+            <%= htmlWebpackPlugin.options.quotes.quotes %>
+        </h3></div>
             <div class="ibox-content">
-                <button ng-if="currentUser.role != 'ADMIN'" class="btn btn-primary-left" ui-sref="console.quote-new">Cotizar</button>
+                <button ng-if="currentUser.role != 'ADMIN'" class="btn btn-primary-left" ui-sref="console.quote-new">
+                    <%= htmlWebpackPlugin.options.quotes.quote %>
+                </button>
                 <button ng-if="currentUser.role == 'CONSULTANT'" ng-repeat="quoteType in quotesTypes" class="btn" ng-class="(quoteType.value == selectedType)? 'btn-today' : 'btn-secondary-left'" ng-click="quoteTypeChange(quoteType.value)">{{quoteType.label}}</button>
 
-                <a ng-if="(currentUser.canAdmin || currentUser.role == 'SALES_MANAGER') && !isEmpty" class="btn btn-secondary-left" href="{{downloadLink}}" download="Cotizaciones.xlsx" ng-hide="statusList.length < 1">Descargar cotizaciones</a>
+                <a ng-if="(currentUser.canAdmin || currentUser.role == 'SALES_MANAGER') && !isEmpty" class="btn btn-secondary-left" href="{{downloadLink}}" download="Cotizaciones.xlsx" ng-hide="statusList.length < 1">
+                    <%= htmlWebpackPlugin.options.quotes.download_quotes %>
+                </a>
 
                 <br>
                 <br>
@@ -15,14 +21,18 @@
 
                 <p class="input-group pull-left" style="width: 25%; margin-right: 1rem;">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-calendar" ng-click="openStartDate()">Desde <i class="glyphicon glyphicon-calendar"></i></button>
+                        <button type="button" class="btn btn-calendar" ng-click="openStartDate()">
+                            <%= htmlWebpackPlugin.options.date.from %>
+                            <i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                     <input name="startDate" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="startDate" is-open="startDatePopup.opened" datepicker-options="startDateOptions" required="true" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" alt-input-formats="altInputFormats" ng-change="startDateChange()"/>
                 </p>
 
                 <p class="input-group" style="width: 25%; margin-right: 1rem;">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-calendar" ng-click="openEndDate()">Hasta <i class="glyphicon glyphicon-calendar"></i></button>
+                        <button type="button" class="btn btn-calendar" ng-click="openEndDate()">
+                            <%= htmlWebpackPlugin.options.date.to %>
+                            <i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                     <input name="endDate" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="endDate" is-open="endDatePopup.opened" datepicker-options="endDateOptions" required="true" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" alt-input-formats="altInputFormats" ng-change="endDateChange()"/>
                 </p>
@@ -31,8 +41,12 @@
                 <div ng-if="ready">
                     <table class="table table-striped table-hover" datatable="" dt-options="tableOptions" dt-columns="tableColumns" id="table"></table>
                 </div>
-                <p ng-show="step=='empty'">No hay cotizaciones para mostrar</p>
-                <p ng-show="step=='loading'">Cargando cotizaciones</p>
+                <p ng-show="step=='empty'">
+                    <%= htmlWebpackPlugin.options.quotes.no_quotes %>
+                </p>
+                <p ng-show="step=='loading'">
+                    <%= htmlWebpackPlugin.options.quotes.loading_quotes %>
+                </p>
             </div>
         </div>
     </div>
