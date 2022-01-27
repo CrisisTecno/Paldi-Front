@@ -7,7 +7,9 @@
           <button 
             type="button" 
             class="btn btn-calendar"
-            ng-click="reports.current.date.start.opened = true">Desde <i class="glyphicon glyphicon-calendar"></i>
+            ng-click="reports.current.date.start.opened = true">
+            <%= htmlWebpackPlugin.options.date.from %>
+            <i class="glyphicon glyphicon-calendar"></i>
           </button>
       </span>
       <input name="startDate" class="form-control"
@@ -25,7 +27,9 @@
           <button 
             type="button" 
             class="btn btn-calendar"
-            ng-click="reports.current.date.end.opened = true">Hasta <i class="glyphicon glyphicon-calendar"></i>
+            ng-click="reports.current.date.end.opened = true">
+            <%= htmlWebpackPlugin.options.date.to %>
+             <i class="glyphicon glyphicon-calendar"></i>
           </button>
       </span>
       <input name="startDate" class="form-control"

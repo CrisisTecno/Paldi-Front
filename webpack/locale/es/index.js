@@ -27,7 +27,7 @@ module.exports = {
     ov_movements: "Movimientos de OV",
     receipts_for: "Facturas para Orden No. {{selectedOrderNo}}",
     receipt_no: "No. de factura",
-    
+
   },
   inventory: {
     select_product: "Seleccione un producto de un almacen",
@@ -39,8 +39,8 @@ module.exports = {
     `,
   },
   date: {
-    from: "Desde",
-    to: "Hasta",
+    from: "Desde ",
+    to: "Hasta ",
     today: "Hoy",
     select_date:"Seleccione una fecha:",
     selected_date:"Fecha Seleccionada",
@@ -67,6 +67,7 @@ module.exports = {
     loading: "Cargando",
     new: "Nuevo",
     clear: "Limpiar",
+    searching:"Buscando",
 
     previous:"Anterior",
     next:"Siguiente",
@@ -75,6 +76,7 @@ module.exports = {
     no_data: "No hay datos para mostrar",
     product_not_found:"No Se encontró el producto",
     no_user:"El usuario no existe",
+    no_client:"No se encontraron clientes",
 
     activate:"Activar",
     deactivate:"Desactivar",
@@ -95,6 +97,8 @@ module.exports = {
 
     clients: "Clientes",
     client: "Cliente",
+    client_name:"Nombre del cliente",
+
     receipts: "Facturas",
     receipt: "Factura",
     adjustments: "Ajustes",
@@ -395,5 +399,225 @@ module.exports = {
      <option value="SUPERADMIN" ng-if="currentUser.canAdmin">Super Admin</option>
      `,
      load_user:"Cargando Usuario",
+  },
+  reports:{
+    reports:"Reportes",
+    generate_report:"Generar reporte:",
+    type:"Tipo",
+    history:"Historial de reportes",
+    report_options:"Opciones del reporte",
+    format:"Formato",
+    select:"Seleccionar",
+    group:"Agrupar :",
+    download_report:"Descargar Reporte"
+  },
+  quotes:{
+    quote:"Cotizar",
+    manual_order:"Orden Manual",
+    add_new_client:"Agregar nuevo cliente",
+    client_type:"Tipo de Cliente",
+    name:"Nombre:",
+    phone:"Telefono:",
+    address:"Domicilio:",
+    discounts:`
+    <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && !isMultiple"
+                ><small>Descuento:</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"
+                ><small>Desc. Balance:</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple  && productsSorted[1].products.length > 0"
+                ><small>Desc. Shutters:</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[3].products.length > 0"
+                ><small>Desc. Persianas:</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[4].products.length > 0"
+                ><small>Desc. Filtrasol:</small></li>
+    `,
+    change_client:"Cambiar Cliente",
+    details:"Detalles",
+    sidemark:"Proyecto",
+    origin:`
+    <label>Origen</label>
+            <select
+                class="form-control"
+                name="type"
+                ng-model="quote.source"
+                required=""
+            >
+              <option value="Tienda">Tienda</option>
+              <option value="Recomendación">Recomendación</option>
+              <option value="Cliente">Cliente</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Prospección">Prospección</option>
+            </select>
+            <small
+                class="error-message"
+                ng-if="checkForm && (quote.source=='' || quote.source == null)"
+            >Campo requerido</small>
+            `,
+    city:`
+    <label>Ciudad</label>
+            <select
+                class="form-control"
+                name="type"
+                ng-model="quote.city"
+                required=""
+            >
+              <option value="Ensenada">Ensenada</option>
+              <option value="Tijuana">Tijuana</option>
+              <option value="Mexicali">Mexicali</option>
+              <option value="Rosarito">Rosarito</option>
+              <option value="Tecate">Tecate</option>
+            </select>
+            <small
+                class="error-message"
+                ng-if="checkForm && (quote.city=='' || quote.city == null)"
+            >Campo requerido</small>
+          </div>
+    `,
+    product_options:`
+    <button
+                class="btn btn-default"
+                ng-click="addProduct('Balance')"
+                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter'|| quote.type=='Enrollable'||quote.type=='Balance' ||quote.type=='Mixta'"
+            >Balance
+            </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Shutter')"
+                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta'"
+            >Shutters
+            </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Toldo')"
+                ng-show="!quote.type || quote.type=='Toldo'"
+            >Productos para el Exterior
+            </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Enrollable')"
+                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta'"
+            >Persianas
+            </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Filtrasol')"
+                ng-show="!quote.type || quote.type=='Filtrasol'|| quote.type=='Shutter' || quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta'"
+            >Filtrasol
+            </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Piso')"
+                ng-show="!quote.type || quote.type=='Piso'"
+            >Pisos
+            </button>
+            
+              <button
+                  class="btn btn-default"
+                  ng-click="addProduct('Cortina')"
+                  ng-show="!quote.type || quote.type=='Cortina'"
+              >Cortinas
+              </button>
+            
+          </div>
+    `,
+    products_btn:`
+    <button
+    class="btn btn-default"
+    ng-click="addProduct('Balance')"
+    ng-show="!quote.type || quote.type=='Balance'"
+>Balance
+</button>
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Shutter')"
+    ng-show="!quote.type || quote.type=='Shutter'"
+>Shutters
+</button>
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Toldo')"
+    ng-show="!quote.type || quote.type=='Toldo'"
+>Productos para el Exterior
+</button>
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Enrollable')"
+    ng-show="!quote.type || quote.type=='Enrollable'"
+>Persianas
+</button>
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Filtrasol')"
+    ng-show="!quote.type || quote.type=='Filtrasol'"
+>Filtrasol
+</button>
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Piso')"
+    ng-show="!quote.type || quote.type=='Piso'"
+>Pisos
+</button>
+
+  <button
+      class="btn btn-default"
+      ng-click="addProduct('Cortinas')"
+      ng-show="!quote.type || quote.type=='Cortina'"
+  >Cortinas
+  </button>
+    `,
+    shades:"Persianas",
+    products:"Productos",
+    product_table_header:`
+    <th>Cant.</th>
+    <th>Ubicación</th>
+    <th>Tipo</th>
+    <th>Total</th>
+    <th>Acciones</th>
+    `,
+    additionals:"Adicionales",
+    additionals_headers:`
+    <th>Cant</th>
+    <th>Nombre</th>
+    <th>Precio</th>
+    <th>Total</th>
+    `,
+    installation_additional:"Adicionales de instalación",
+    installation_additionals_headers:`
+    <th>Cant</th>
+    <th>Nombre</th>
+    <th>Precio</th>
+    <th>Total</th>
+    `,
+    motor:"Motorización",
+    motor_headers:`
+    <th>Cant</th>
+    <th>Nombre</th>
+    <th>Precio</th>
+    `,
+    order:"Orden",
+    order_headers:`
+    <th>Vendedor</th>
+    <th>Tipo</th>
+    <th>Precio</th>
+    <th>Fecha Compromiso</th>
+    <th>Acciones</th>
+    `,
+    totals:"Totales",
+    discount:"Descuento",
+    tax:"IVA",
+    advance:"Anticipo",
+    balance:"Saldo",
+    annotations:"Anotaciones",
+    notes:"Notas"
   }
 }
