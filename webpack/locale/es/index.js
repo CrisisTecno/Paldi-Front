@@ -632,6 +632,38 @@ module.exports = {
     loading_quotes:"Cargando Cotizaciones"
   },
   toldos:{
-    
-  }
+    exterior_products:"Exterior Products",
+    no_doable:"No doable",
+    room:"Room",
+    type:"Type",
+    width:"Width (Inch)",
+    projection:"Projection/Fall (Inch)",
+    control_position:"Control Position",
+    left:"Left",
+    right:"Right",
+    operation_mode:"Operation Mode",
+    motor:"Motorization",
+    add_additional:"Add Additional",
+    additional:"Additional:",
+    quantity:"Quantity",
+    name:"Name",
+    add_motor:"Add Motorization & Cornices",
+    motorization:"Motorization:",
+    notes:"Notes",
+    inch_price:"Inch Price",
+    unit_price:"Unit Price",
+
+  },
+  details_headers: {
+    item: "Item",
+    qty: "Quantity",
+    location: "Location",
+    type: "Type",
+    width: "Width",
+    projection: "Projection / Fall",
+    operation_mode: "Operation Mode",
+    unit_price: "Unit Price",
+    notes: "Notes",
+    view: "View"
+  },
 }
