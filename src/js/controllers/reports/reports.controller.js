@@ -48,7 +48,7 @@ pdApp.controller("ReportsController", function (
 
   controller.updateSelected = () => {
     const reportName = $scope.reports.selected.name
-    $scope.reports.templateUrl = `/partials/views/console/reports/${reportName}/index.html`
+    $scope.reports.templateUrl = `/js/controllers/reports/${reportName}/index.html`
     // console.log($scope.reports)
   }
   controller.download = () => {
