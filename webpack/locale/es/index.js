@@ -654,16 +654,18 @@ module.exports = {
     unit_price:"Unit Price",
 
   },
-  details_headers: {
-    item: "Item",
-    qty: "Quantity",
-    location: "Location",
-    type: "Type",
-    width: "Width",
-    projection: "Projection / Fall",
-    operation_mode: "Operation Mode",
-    unit_price: "Unit Price",
-    notes: "Notes",
-    view: "View"
+  details_headers:{
+    item:"Ítem",
+    qty:"Cant.",
+    location:"Ubicación",
+    type:"Tipo",
+    width:"Ancho",
+    projection:"Proyeccion / Caída",
+    operation_mode:"Modo de operación",
+    unit_price:"Precio Unitario",
+    notes:"Obs.",
+    view:"Ver"
+
   },
 }
+
