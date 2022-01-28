@@ -1,17 +1,23 @@
 <div class="order-list-view">
   <div class="ibox">
     <div class="ibox-title">
-      <h3>Reportes</h3>
+      <h3>
+        <%= htmlWebpackPlugin.options.reports.reports %>
+      </h3>
     </div>
     <div class="ibox-content">
       <div>
-        <span>Generar reporte:</span>
+        <span>
+          <%= htmlWebpackPlugin.options.reports.generate_report %>
+        </span>
         <select 
           ng-change="reports.updateSelected()" 
           ng-options="report.prettyName for report in reports.list"  
           ng-model="reports.selected" 
         >
-          <option value="" selected>Tipo</option>
+          <option value="" selected>
+            <%= htmlWebpackPlugin.options.reports.type %>
+          </option>
         </select>
       </div>
       <div ng-if="reports.selected">
@@ -19,7 +25,7 @@
       </div>
 
       <br><br>
-      Historial de reportes
+      <%= htmlWebpackPlugin.options.reports.history %>
       <ng-include src="'/partials/views/console/reports/general/history-table.html'"></ng-include>
     </div>
   </div>

@@ -67,6 +67,7 @@ module.exports = {
     loading: "Loading",
     new: "New",
     clear: "Clear",
+    searching:"Searching",
 
     previous:"Previous",
     next:"Next",
@@ -75,6 +76,7 @@ module.exports = {
     no_data: "No data to show",
     product_not_found:"Product not found",
     no_user:"User not found",
+    no_client:"Client not found",
 
     activate:"Activate",
     deactivate:"Deactivate",
@@ -95,6 +97,8 @@ module.exports = {
 
     clients: "Clients",
     client: "Client",
+    client_name:"Nombre del cliente",
+
     receipts: "Receipts",
     receipt: "Receipt",
     adjustments: "Adjustments",
@@ -141,7 +145,7 @@ module.exports = {
 			<th colspan="2">ON TRACK</th>
 			<th colspan="2">CLOSED</th>
 			<th colspan="2">LOST</th>
-			<th colspan="2">CANCElED</th>
+			<th colspan="2">CANCELED</th>
     `,
     stats_row: `<th>Qty.</th>
                 <th>Value</th>`,
@@ -152,7 +156,7 @@ module.exports = {
       <th colspan="3">Facebook</th>
       <th colspan="3">Prospecting</th>
       <th colspan="3">Client</th>
-      <th colspan="3">Recomendación</th>
+      <th colspan="3">Recomendation</th>
     `,
     efficiency_rows:`
       <th>Total</th>
@@ -395,5 +399,266 @@ module.exports = {
       <option value="SUPERADMIN" ng-if="currentUser.canAdmin">Super Admin</option>
      `,
      load_user:"Loading User",
+  },
+  reports:{
+    reports:"Reports",
+    generate_report:"Generate Report:",
+    type:"Type",
+    history:"Report records",
+    report_options:"Report Options",
+    format:"Format",
+    select:"Select",
+    group:"Group by :",
+    download_report:"Download Report  "
+  },
+  quotes:{
+    quote:"Quote",
+    manual_order:"Manual Order",
+    add_new_client:"Add new client",
+    client_type:"Client type",
+    name:"Name:",
+    phone:"Phone:",
+    address:"Address:",
+    discounts:`
+    <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && !isMultiple"
+                ><small>Discount:</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"
+                ><small>Disc. Cornices:</small></li>
+                
+
+
+
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[3].products.length > 0"
+                ><small>Disc Shades:</small></li>
+                
+
+
+
+    `,
+    change_client:"Change customer",
+    details:"Quote Details",
+    sidemark:"Sidermark",
+    origin:`
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            `,
+    city:`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          </div>
+    `,
+    product_options:`
+    <button
+                class="btn btn-default"
+                ng-click="addProduct('Balance')"
+                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter'|| quote.type=='Enrollable'||quote.type=='Balance' ||quote.type=='Mixta'"
+            >Cornices
+            </button>
+           
+
+
+
+
+            </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Toldo')"
+                ng-show="!quote.type || quote.type=='Toldo'"
+            >Exterior Products
+            </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Enrollable')"
+                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta'"
+            >Shades
+            </button>
+            
+
+
+
+
+
+         
+
+
+
+
+
+
+
+
+
+
+
+
+            
+          </div>
+    `,
+    products_btn:`
+    <button
+    class="btn btn-default"
+    ng-click="addProduct('Balance')"
+    ng-show="!quote.type || quote.type=='Balance'"
+>Cornices
+</button>
+
+
+
+
+
+
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Toldo')"
+    ng-show="!quote.type || quote.type=='Toldo'"
+>Exterior Products
+</button>
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Enrollable')"
+    ng-show="!quote.type || quote.type=='Enrollable'"
+>Shades
+</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    `,
+    shades:"Shades",
+    products:"Products",
+    product_table_header:`
+    <th>Quantity</th>
+    <th>Room</th>
+    <th>Product</th>
+    <th>Total</th>
+    <th>Actions</th>
+    `,
+    additionals:"Aditionals",
+    additionals_headers:`
+    <th>Quantity</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Total</th>
+    `,
+    installation_additional:"Installations Additionals",
+    installation_additionals_headers:`
+    <th>Quantity</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Total</th>
+    `,
+    motor:"Motor",
+    motor_headers:`
+    <th>Quantity</th>
+    <th>Name</th>
+    <th>Price</th>
+    `,
+    order:"Order",
+    order_headers:`
+    <th>Sales Rep</th>
+    <th>Type</th>
+    <th>Price</th>
+    <th>Due date</th>
+    <th>Actions</th>
+    `,
+    totals:"Total",
+    discount:"Discount",
+    tax:"TAX",
+    advance:"Advance",
+    balance:"Balance",
+    annotations:"Annotations",
+    notes:"Notes",
+    
+    quotes:"New Quote",
+    download_quotes:"Download Quotes",
+    no_quotes:"No quotes found",
+    loading_quotes:"Loading Quotes"
+  },
+  toldos:{
+    exterior_products:"Exterior Products",
+    no_doable:"No doable",
+    room:"Room",
+    type:"Type",
+    width:"Width (Inch)",
+    projection:"Projection/Fall (Inch)",
+    control_position:"Control Position",
+    left:"Left",
+    right:"Right",
+    operation_mode:"Operation Mode",
+    motor:"Motorization",
+    add_additional:"Add Additional",
+    additional:"Additional:",
+    quantity:"Quantity",
+    name:"Name",
+    add_motor:"Add Motorization & Cornices",
+    motorization:"Motorization:",
+    notes:"Notes",
+    inch_price:"Inch Price",
+    unit_price:"Unit Price",
+    
+  },
+  details_headers:{
+    item:"Item",
+    qty:"Quantity",
+    location:"Location",
+    type:"Type",
+    width:"Width",
+    projection:"Projection / Fall",
+    operation_mode:"Operation Mode",
+    unit_price:"Unit Price",
+    notes:"Notes",
+    view:"View"
+
   }
 }

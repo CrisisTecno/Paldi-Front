@@ -37,6 +37,7 @@
 					</p>
 					<br><br>
 					<div class="form-group" style="width: 48%; display: inline-block;">
+						<% if (htmlWebpackPlugin.options.features.city) {%>
 						<label>
 							<%= htmlWebpackPlugin.options.console.city %>
 						</label>
@@ -51,6 +52,7 @@
 						<small class="error-message" ng-if="filterForm.$validated && filterForm.city.$error.required">
 							<%= htmlWebpackPlugin.options.general.required_field %>
 						</small>
+						<% } %>
 					</div>
 					<div class="pull-right" style="display: inline-block; margin-bottom: 1rem; margin-top: 35px;">
 						<button class="pull-right btn btn-primary-right" type="submit"> 

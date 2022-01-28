@@ -1,20 +1,20 @@
 <table class="table table-striped  table-hover" datatable="ng" dt-options="tableOptions" dt-column-defs="tableColumns">
     <thead>
         <tr>
-            <th>Ítem</th>
-            <th>Cant.</th>
-            <th>Ubicación</th>
-            <th>Tipo</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.item %></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.qty %></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.location %></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.type %></th>
 
             <th>Color</th>
-            <th>Ancho</th>
-            <th>Proyección / Caída</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.width %></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.projection %></th>
 
-            <th>Modo de Operación</th>            
-            <th>Precio Unitario</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.operation_mode %></th>            
+            <th><%= htmlWebpackPlugin.options.details_headers.unit_price %></th>
             <th>Total</th>
             
-            <th>Obs.</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.notes %></th>
         </tr>
     </thead>
     <tbody ng-repeat="p in productTypeList.products">
@@ -32,7 +32,9 @@
             <td>{{p.price | currency}}</td>
             <td>{{p.total | currency}}</td>
 
-            <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)">Ver</button></td>
+            <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)">
+                <%= htmlWebpackPlugin.options.details_headers.view %>
+            </button></td>
         </tr>
     </tbody>
 </table>
