@@ -4,7 +4,6 @@ pdApp.controller("ClientNewCtrl", function ($scope, $state, paldiService) {
 	$scope.save = function (form, client) {
 		if (!FEATURES.CITY) {
 			$scope.client.city = "Tijuana"
-			$scope.client.createdBy = "ME"
 		}
 
 		if (form.$valid) {

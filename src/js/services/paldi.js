@@ -313,8 +313,13 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
 
     update: function (client) {
+      let endpoint = globals.apiURL + "/quotes/clients"
+      if (EXECUTION_ENV === "INTERNAL") {
+        endpoint = globals.apiURL + "/quotes/clients/" + client.id
+      }
+
       return $http
-        .put(globals.apiURL + "/quotes/clients/" + client.id, client, {
+        .put(endpoint, client, {
           authentication: "yokozuna",
         })
         .then(function (response) {

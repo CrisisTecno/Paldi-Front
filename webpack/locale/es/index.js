@@ -117,6 +117,12 @@ module.exports = {
   features: {
     city: true,
     cortinas: true,
+    balance: true,
+    shutter: true,
+    toldo: true,
+    enrollable: true,
+    filtrasol: true,
+    piso: true,
   },
   console:{
     update_provider: "Actualizar Proveedor",
