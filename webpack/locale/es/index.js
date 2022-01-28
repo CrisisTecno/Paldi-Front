@@ -487,7 +487,7 @@ module.exports = {
                 class="error-message"
                 ng-if="checkForm && (quote.city=='' || quote.city == null)"
             >Campo requerido</small>
-          </div>
+          
     `,
     product_options:`
     <button
@@ -534,7 +534,7 @@ module.exports = {
               >Cortinas
               </button>
             
-          </div>
+          
     `,
     products_btn:`
     <button
@@ -583,7 +583,7 @@ module.exports = {
     `,
     shades:"Persianas",
     products:"Productos",
-    product_table_header:`
+    shades_headers:`
     <th>Cant.</th>
     <th>Ubicación</th>
     <th>Tipo</th>
@@ -632,26 +632,26 @@ module.exports = {
     loading_quotes:"Cargando Cotizaciones"
   },
   toldos:{
-    exterior_products:"Exterior Products",
-    no_doable:"No doable",
-    room:"Room",
-    type:"Type",
-    width:"Width (Inch)",
-    projection:"Projection/Fall (Inch)",
-    control_position:"Control Position",
-    left:"Left",
-    right:"Right",
-    operation_mode:"Operation Mode",
-    motor:"Motorization",
-    add_additional:"Add Additional",
-    additional:"Additional:",
-    quantity:"Quantity",
-    name:"Name",
-    add_motor:"Add Motorization & Cornices",
-    motorization:"Motorization:",
-    notes:"Notes",
-    inch_price:"Inch Price",
-    unit_price:"Unit Price",
+    exterior_products:"Productos para el exterior",
+    no_doable:"No realizable",
+    room:"Location",
+    type:"Tipo",
+    width:"Ancho (Metros)",
+    projection:"Proyeción/ Caída (Metros)",
+    control_position:"Lado de Mando",
+    left:"Izquierda",
+    right:"Derecha",
+    operation_mode:"Modo de operación",
+    motor:"Motorización",
+    add_additional:"Agregar Adicionales",
+    additional:"Adicionales:",
+    quantity:"Cantidad",
+    name:"ombre",
+    add_motor:"Agregar Motorización",
+    motorization:"Motorización:",
+    notes:"Observaciones",
+    inch_price:"Precio Metro",
+    unit_price:"Precio Unitario",
 
   },
   details_headers:{

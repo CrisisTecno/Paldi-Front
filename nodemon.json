@@ -5,5 +5,5 @@
     "./webpack.config.js",
     "./config.js"
   ],
-  "exec": "webpack serve --config webpack.config.js --env stage=internal_staging locale=es"
+  "exec": "webpack serve --config webpack.config.js --env stage=internal_staging locale=en"
 }

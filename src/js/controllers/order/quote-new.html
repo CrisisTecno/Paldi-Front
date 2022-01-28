@@ -1,23 +1,15 @@
 <div class="quote-view">
   <div class="quote">
     <div class="ibox-title">
-      <h3 ng-hide="isCustomOrder">
-        <%= htmlWebpackPlugin.options.quotes.quote %>
-      </h3>
-      <h3 ng-show="isCustomOrder">
-        <%= htmlWebpackPlugin.options.quotes.manual_order %>
-      </h3>
+      <h3 ng-hide="isCustomOrder"><%= htmlWebpackPlugin.options.quotes.quote %></h3>
+      <h3 ng-show="isCustomOrder"><%= htmlWebpackPlugin.options.quotes.manual_order %></h3>
     </div>
     <div class="ibox-content">
       <!--/////////////////////// Cliente ///////////////////////-->
       <fieldset>
-        <legend>
-          <%= htmlWebpackPlugin.options.general.client %>
-        </legend>
+        <legend><%= htmlWebpackPlugin.options.general.client %></legend>
         <div ng-show="clientStep=='loaded'">
-          <label>
-            <%= htmlWebpackPlugin.options.general.client_name %>
-          </label>
+          <label><%= htmlWebpackPlugin.options.general.client_name %></label>
           <input
               class="form-control"
               id="client"
@@ -33,58 +25,43 @@
               typeahead-template-url="js/controllers/clients/client-typeahead.html"
               uib-typeahead="client.name + ' ' + client.lastName for client in findClients($viewValue)"
           >
-          <small ng-if="clientsLoading"><%=
-            htmlWebpackPlugin.options.general.searching %>...</small>
-          <small class="error-message" ng-if="clientsNotFound">
-            <%= htmlWebpackPlugin.options.general.no_client %>
-          </small>
+          <small ng-if="clientsLoading"><%= htmlWebpackPlugin.options.general.searching %>...</small>
+          <small class="error-message" ng-if="clientsNotFound"><%= htmlWebpackPlugin.options.general.no_client %></small>
           <button class="btn btn-link" ng-click="addNewClient()" type="button">+
             <%= htmlWebpackPlugin.options.quotes.add_new_client %>
           </button>
           <small
               class="error-message"
               ng-if="checkForm && (quote.client=='' || quote.client == null)"
-          >Campo requerido</small>
+          ><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
         <div ng-show="clientStep=='new'">
-          <div ng-include="'js/controllers/order/products/client-new.html'"></div>
+          <div ng-include="'partials/views/console/quote/client-new.html'"></div>
         </div>
         <div ng-show="clientStep=='loading'">
           <h2>Loading</h2>
         </div>
         <div ng-show="clientStep=='selected'">
+          <!--ul class="client-data">
+              <li><small>Tipo de Cliente:</small> {{pretty('clientType', quote.client.type)}}</li>
+              <li><small>Nombre:</small> {{quote.client.name + ' ' + quote.client.lastName}}</li>
+              <li><small>E-mail:</small> {{quote.client.email}}</li>
+              <li><small>Teléfono:</small> {{quote.client.phoneNumber}}</li>
+              <li><small>Domicilio:</small> {{quote.client.address}}</li>
+              <li class="discount" ng-show="quote.clientMaxDiscount && product != 'Custom'"><small>Descuento:</small>
+                  <input type="number" ng-model="quote.discountPercent" ng-change="validateDiscounts()">% (Max {{quote.clientMaxDiscount}}%)</li>
+          </ul-->
           <div class="margin-bottom">
             <div class="pull-left" style="width:27%;">
               <ul class="client-data">
-                <li>
-                  <small>
-                    <%= htmlWebpackPlugin.options.quotes.client_type %>:
-                  </small>
-                </li>
-                <li>
-                  <small>
-                    <%= htmlWebpackPlugin.options.quotes.name %>
-                  </small>
-                </li>
-                <li>
-                  <small>
-                    E-mail:
-                  </small>
-                </li>
-                <li>
-                  <small>
-                    <%= htmlWebpackPlugin.options.quotes.phone %>
-                  </small>
-                </li>
-                <li>
-                  <small>
-                    <%= htmlWebpackPlugin.options.quotes.address %>
-                  </small>
-                </li>
-                <%= htmlWebpackPlugin.options.quotes.discounts %>
+                <li><small><%= htmlWebpackPlugin.options.quotes.client_type %>:</small></li>
+                <li><small><%= htmlWebpackPlugin.options.quotes.name %>:</small></li>
+                <li><small><%= htmlWebpackPlugin.options.general.email %>:</small></li>
+                <li><small><%= htmlWebpackPlugin.options.quotes.phone %>:</small></li>
+                <li><small><%= htmlWebpackPlugin.options.quotes.address %>:</small></li>
+                <%= htmlWebpackPlugin.options.quotes.discount %>
               </ul>
             </div>
-
             <div class="pull-left" style="width:60%;">
               <ul class="client-data">
                 <li>{{pretty('clientType', quote.client.type)}}</li>
@@ -95,87 +72,73 @@
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && !isMultiple"
-                >
-                  <input
-                      max="{{quote.clientMaxDiscount}}"
-                      min="0"
-                      ng-change="validateDiscounts()"
-                      ng-model="quote.discountPercent"
-                      type="number"
-                  >% (Max {{quote.clientMaxDiscount}}%)
+                ><input
+                    max="{{quote.clientMaxDiscount}}"
+                    min="0"
+                    ng-change="validateDiscounts()"
+                    ng-model="quote.discountPercent"
+                    type="number"
+                >% (Max {{quote.clientMaxDiscount}}%)
                 </li>
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"
-                >
-                  <input
-                      max="{{quote.clientMaxDiscount}}"
-                      min="0"
-                      ng-change="validateDiscounts()"
-                      ng-model="quote.discountPercentBalance"
-                      type="number"
-                  >% (Max {{quote.clientMaxDiscount}}%)
+                ><input
+                    max="{{quote.clientMaxDiscount}}"
+                    min="0"
+                    ng-change="validateDiscounts()"
+                    ng-model="quote.discountPercentBalance"
+                    type="number"
+                >% (Max {{quote.clientMaxDiscount}}%)
                 </li>
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[1].products.length > 0"
-                >
-                  <input
-                      max="{{quote.clientMaxDiscount}}"
-                      min="0"
-                      ng-change="validateDiscounts()"
-                      ng-model="quote.discountPercentShutter"
-                      type="number"
-                  >
-                  % (Max {{quote.clientMaxDiscount}}%)
+                ><input
+                    max="{{quote.clientMaxDiscount}}"
+                    min="0"
+                    ng-change="validateDiscounts()"
+                    ng-model="quote.discountPercentShutter"
+                    type="number"
+                >% (Max {{quote.clientMaxDiscount}}%)
                 </li>
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[3].products.length > 0"
-                >
-                  <input
-                      max="{{quote.clientMaxDiscount}}"
-                      min="0"
-                      ng-change="validateDiscounts()"
-                      ng-model="quote.discountPercentEnrollable"
-                      type="number"
-                  >
-                  % (Max {{quote.clientMaxDiscount}}%)
+                ><input
+                    max="{{quote.clientMaxDiscount}}"
+                    min="0"
+                    ng-change="validateDiscounts()"
+                    ng-model="quote.discountPercentEnrollable"
+                    type="number"
+                >% (Max {{quote.clientMaxDiscount}}%)
                 </li>
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[4].products.length > 0"
-                >
-                  <input
-                      max="{{currentUser.canAdmin ? quote.clientMaxDiscount  : 15}}"
-                      min="0"
-                      ng-change="validateDiscounts()"
-                      ng-model="quote.discountPercentFiltrasol"
-                      type="number"
-                  >
-                  % (Max {{currentUser.canAdmin ? quote.clientMaxDiscount : 15}}%)
+                ><input
+                    max="{{currentUser.canAdmin ? quote.clientMaxDiscount  : 15}}"
+                    min="0"
+                    ng-change="validateDiscounts()"
+                    ng-model="quote.discountPercentFiltrasol"
+                    type="number"
+                >% (Max {{currentUser.canAdmin ? quote.clientMaxDiscount : 15}}%)
                 </li>
               </ul>
             </div>
-
           </div>
-
           <button
               class="btn btn-secondary-left"
               ng-click="changeClient()"
               ng-if="editing == false"
-          >
-            <%= htmlWebpackPlugin.options.quotes.change_client %>
+          ><%= htmlWebpackPlugin.options.quotes.change_client %>
           </button>
         </div>
       </fieldset>
       <!--/////////////////////// Detalles ///////////////////////-->
       <fieldset>
-        <legend>
-          <%= htmlWebpackPlugin.options.quotes.details %>
-        </legend>
+        <legend><%= htmlWebpackPlugin.options.quotes.details %></legend>
         <div class="detail-options" ng-show="product=='' || isCustomOrder">
-
           <div class="form-group proyect-name">
             <label><%= htmlWebpackPlugin.options.quotes.sidemark %>:</label>
             <input
@@ -188,251 +151,225 @@
             <small
                 class="error-message"
                 ng-if="checkForm && (quote.project=='' || quote.project == null)"
-            ><%= htmlWebpackPlugin.options.general.required_field %></small>
+            >Campo requerido</small>
           </div>
           <div class="form-group proyect-name">
             <%= htmlWebpackPlugin.options.quotes.origin %>
           </div>
           <div class="form-group proyect-name">
             <%= htmlWebpackPlugin.options.quotes.city %>
-          <div>
-            <br>
-            <div
-                ng-hide="isCustomOrder || editSimpleQuote"
-                style="margin-bottom: 20px;"
-            >
-              <label><%= htmlWebpackPlugin.options.general.add %>:</label>
-              <%= htmlWebpackPlugin.options.quotes.product_options %>
-
-            </div>
-
-            <div
-                ng-hide="isCustomOrder || !editSimpleQuote"
-                style="margin-bottom: 20px;"
-            >
-              <label><%= htmlWebpackPlugin.options.general.add %>:</label>
-              <%= htmlWebpackPlugin.options.quotes.products_btn %>
-
-            </div>
-
-
           </div>
-          <div ng-show="quote.products.length > 0 && product == '' && !isCustomOrder">
-            <fieldset>
-              <legend>
-                <%= htmlWebpackPlugin.options.quotes.products %>
-              </legend>
-              <div ng-repeat="(indexList, productTypeList) in productsSorted">
-                <div ng-if="productTypeList.products.length > 0">
-                  <label ng-if="productTypeList.type == 'Enrollable'">
-                    <%= htmlWebpackPlugin.options.quotes.shades %>
-                  </label>
-                  <label ng-if="productTypeList.type != 'Enrollable'">{{ productTypeList.type}}</label>
-                  <table class="table table-striped  table-hover">
-                    <thead>
-                    <tr>
-                      <%= htmlWebpackPlugin.options.quotes.product_table_header%>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="(indexProduct, p) in productTypeList.products">
-                      <td>{{p.quantity}}</td>
-                      <td>{{p.location}}</td>
-                      <td>{{p.type}}</td>
-                      <td>{{p.total | currency}}</td>
-                      <td>
-                        <button
-                            class="btn btn-edit"
-                            ng-click="editProduct(p, indexList, indexProduct)"
-                            title="Editar"
-                            type="button"
-                        ><i class="fa fa-pencil fa-lg"></i></button>
-                        <button
-                            class="btn btn-remove"
-                            ng-click="removeProduct(p, indexList, indexProduct)"
-                            title="Remover"
-                            type="button"
-                        >X
-                        </button>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                  <div ng-if="productTypeList.hasPlus">
-                    <label>
-                      <%= htmlWebpackPlugin.options.quotes.additionals %>
-                    </label>
-                    <table class="table table-striped  table-hover">
-                      <thead>
-                      <tr>
-                        <%= htmlWebpackPlugin.options.quotes.additionals_headers
-                        %>
-                      </tr>
-                      </thead>
-                      <tbody ng-repeat="p in productTypeList.products">
-                      <tr ng-repeat="plus in p.plusList">
-                        <td>{{plus.quantity}}</td>
-                        <td>{{plus.name}}</td>
-                        <td>{{plus.price | currency}}
-                          {{pretty('plusPriceType', plus.priceType)}}
-                        </td>
-                        <td>{{plus.total | currency}}</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div ng-show="hasInstallationPlus">
-                    <label>
-                      <%=
-                      htmlWebpackPlugin.options.quotes.installation_additional
-                      %>
-                    </label>
-                    <table class="table table-striped  table-hover">
-                      <thead>
-                      <tr>
-                        <%=
-                        htmlWebpackPlugin.options.quotes.installation_additional_headers
-                        %>
-                      </tr>
-                      </thead>
-                      <tbody ng-repeat="p in quote.products">
-                      <tr ng-repeat="plus in p.installationPlusList">
-                        <td>{{plus.quantity}}</td>
-                        <td>{{plus.name}}</td>
-                        <td>{{plus.price | currency}}
-                          {{pretty('plusPriceType', plus.priceType)}}
-                        </td>
-                        <td>{{plus.total | currency}}</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div ng-show="productTypeList.hasMotor">
-                    <label>
-                      <%= htmlWebpackPlugin.options.quotes.motor %>
-                    </label>
-                    <table class="table table-striped  table-hover">
-                      <thead>
-                      <tr>
-                        <%= htmlWebpackPlugin.options.quotes.motor_headers %>
-                      </tr>
-                      </thead>
-                      <tbody ng-repeat="p in productTypeList.products">
-                      <tr ng-repeat="motor in p.motorList">
-                        <td>{{motor.quantity}}</td>
-                        <td>{{motor.name}}</td>
-                        <td>{{motor.price * motor.quantity | currency}}</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
+          <br>
+          <div
+              ng-hide="isCustomOrder || editSimpleQuote"
+              style="margin-bottom: 20px;"
+          >
+            <label><%= htmlWebpackPlugin.options.general.add %>:</label>
+           
+            <%= htmlWebpackPlugin.options.quotes.product_options %>
           </div>
 
-          <div ng-show="quote.products.length > 0 && product == '' && isCustomOrder">
-            <label>
-              <%= htmlWebpackPlugin.options.quotes.order %>
-            </label>
+          <div
+              ng-hide="isCustomOrder || !editSimpleQuote"
+              style="margin-bottom: 20px;"
+          >
+            <label><%= htmlWebpackPlugin.options.general.add %>:</label>
+            <%= htmlWebpackPlugin.options.quotes.product_btn %>
+          </div>
+
+
+        </div>
+        <div ng-show="quote.products.length > 0 && product == '' && !isCustomOrder">
+          <fieldset>
+            <legend><%= htmlWebpackPlugin.options.quotes.products %></legend>
             <div ng-repeat="(indexList, productTypeList) in productsSorted">
               <div ng-if="productTypeList.products.length > 0">
+                <label ng-if="productTypeList.type == 'Enrollable'"><%= htmlWebpackPlugin.options.quotes.shades %></label>
+                <label ng-if="productTypeList.type != 'Enrollable'">{{ productTypeList.type}}</label>
                 <table class="table table-striped  table-hover">
                   <thead>
                   <tr>
-                    <%= htmlWebpackPlugin.options.quotes.order_headers %>
+                    <%= htmlWebpackPlugin.options.quotes.shade_headers %>
                   </tr>
                   </thead>
                   <tbody>
                   <tr ng-repeat="(indexProduct, p) in productTypeList.products">
-                    <td>{{p.seller.name}} {{p.seller.lastName}}</td>
+                    <td>{{p.quantity}}</td>
+                    <td>{{p.location}}</td>
                     <td>{{p.type}}</td>
-                    <td>{{p.price | currency}}</td>
-                    <td>{{ date | date: 'shortDate'}}</td>
+                    <td>{{p.total | currency}}</td>
                     <td>
                       <button
-                          class="btn btn-default"
+                          class="btn btn-edit"
                           ng-click="editProduct(p, indexList, indexProduct)"
+                          title="Editar"
                           type="button"
-                      ><%= htmlWebpackPlugin.options.general.edit %>
-                      </button>
+                      ><i class="fa fa-pencil fa-lg"></i></button>
+                      <button
+                          class="btn btn-remove"
+                          ng-click="removeProduct(p, indexList, indexProduct)"
+                          title="Remover"
+                          type="button"
+                      >X</i></button>
                     </td>
                   </tr>
                   </tbody>
                 </table>
+                <div ng-if="productTypeList.hasPlus">
+                  <label><%= htmlWebpackPlugin.options.quotes.additionals %></label>
+                  <table class="table table-striped  table-hover">
+                    <thead>
+                    <tr>
+                      <%= htmlWebpackPlugin.options.quotes.additionals_headers %>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="p in productTypeList.products">
+                    <tr ng-repeat="plus in p.plusList">
+                      <td>{{plus.quantity}}</td>
+                      <td>{{plus.name}}</td>
+                      <td>{{plus.price | currency}}
+                        {{pretty('plusPriceType', plus.priceType)}}
+                      </td>
+                      <td>{{plus.total | currency}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div ng-show="hasInstallationPlus">
+                  <label><%= htmlWebpackPlugin.options.quotes.installation_additionals %></label>
+                  <table class="table table-striped  table-hover">
+                    <thead>
+                    <tr>
+                      <%= htmlWebpackPlugin.options.quotes.installation_additionals_headers %>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="p in quote.products">
+                    <tr ng-repeat="plus in p.installationPlusList">
+                      <td>{{plus.quantity}}</td>
+                      <td>{{plus.name}}</td>
+                      <td>{{plus.price | currency}}
+                        {{pretty('plusPriceType', plus.priceType)}}
+                      </td>
+                      <td>{{plus.total | currency}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div ng-show="productTypeList.hasMotor">
+                  <label><%= htmlWebpackPlugin.options.quotes.motor %></label>
+                  <table class="table table-striped  table-hover">
+                    <thead>
+                    <tr>
+                      <%= htmlWebpackPlugin.options.quotes.motor_headers %>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="p in productTypeList.products">
+                    <tr ng-repeat="motor in p.motorList">
+                      <td>{{motor.quantity}}</td>
+                      <td>{{motor.name}}</td>
+                      <td>{{motor.price * motor.quantity | currency}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
+          </fieldset>
+        </div>
 
-          <div class="product-type">
-            <div ng-if="product">
-              <div ng-include="getTemplate(product)"></div>
+        <div ng-show="quote.products.length > 0 && product == '' && isCustomOrder">
+          <label><%= htmlWebpackPlugin.options.quotes.order %></label>
+          <div ng-repeat="(indexList, productTypeList) in productsSorted">
+            <div ng-if="productTypeList.products.length > 0">
+              <table class="table table-striped  table-hover">
+                <thead>
+                <tr>
+                  <%= htmlWebpackPlugin.options.quotes.order_headers %>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="(indexProduct, p) in productTypeList.products">
+                  <td>{{p.seller.name}} {{p.seller.lastName}}</td>
+                  <td>{{p.type}}</td>
+                  <td>{{p.price | currency}}</td>
+                  <td>{{ date | date: 'shortDate'}}</td>
+                  <td>
+                    <button
+                        class="btn btn-default"
+                        ng-click="editProduct(p, indexList, indexProduct)"
+                        type="button"
+                    ><%= htmlWebpackPlugin.options.general.edit %>
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
+        </div>
+
+        <div class="product-type">
+          <div ng-if="product">
+            <div ng-include="getTemplate(product)"></div>
           </div>
         </div>
       </fieldset>
+    </div>
+    <!--/////////////////////// Totales ///////////////////////-->
+  </div>
+  <div class="quote-totals" ui-scrollpoint="59">
+    <div class="ibox-title">
+      <h3><%= htmlWebpackPlugin.options.quotes.totals %></h3>
+    </div>
+    <div class="ibox-content">
+      <ul>
+        <li><small><%= htmlWebpackPlugin.options.quotes.products %>:</small>
+          <span>{{quote.productsTotal | currency}}</span></li>
+        <li ng-show="quote.plusTotal">
+          <small><%= htmlWebpackPlugin.options.quotes.additionals %>: </small><span>{{quote.plusTotal | currency}}</span>
+        </li>
+        <li ng-show="quote.motorTotal">
+          <small><%= htmlWebpackPlugin.options.quotes.motor %> </small><span>{{quote.motorTotal | currency}}</span>
+        </li>
+        <li ng-show="quote.discountPercent || quote.discountPercentBalance || quote.discountPercentShutter || quote.discountPercentEnrollable || quote.discountPercentFiltrasol">
+          <small><%= htmlWebpackPlugin.options.quotes.discount %>: </small><span>{{quote.discount | currency}}</span>
+        </li>
+        <li ng-show="quote.installationTotal"><small>Instalación: </small>
+          <span>{{quote.installationTotal | currency}}</span></li>
 
-      <!--/////////////////////// Totales ///////////////////////-->
-      <div class="quote-totals" ui-scrollpoint="59">
-        <div class="ibox-title">
-          <h3>Totales</h3>
-        </div>
-        <div class="ibox-content">
-          <ul>
-            <li><small><%= htmlWebpackPlugin.options.quotes.products %>:</small>
-              <span>{{quote.productsTotal | currency}}</span></li>
-            <li ng-show="quote.plusTotal">
-              <small><%= htmlWebpackPlugin.options.quotes.additionals
-                %>: </small><span>{{quote.plusTotal | currency}}</span>
-            </li>
-            <li ng-show="quote.motorTotal">
-              <small><%= htmlWebpackPlugin.options.quotes.motor
-                %>: </small><span>{{quote.motorTotal | currency}}</span>
-            </li>
-            <li ng-show="quote.discountPercent || quote.discountPercentBalance || quote.discountPercentShutter || quote.discountPercentEnrollable || quote.discountPercentFiltrasol">
-              <small><%= htmlWebpackPlugin.options.quotes.discount
-                %>: </small><span>{{quote.discount | currency}}</span>
-            </li>
-            <li ng-show="quote.installationTotal"><small>Instalación: </small>
-              <span>{{quote.installationTotal | currency}}</span></li>
+        <li><small>Sub-Total:</small> <span>{{quote.subTotal | currency}}</span>
+        </li>
+        <li><small><%= htmlWebpackPlugin.options.quotes.tax %>:</small> <span>{{quote.iva | currency}}</span></li>
+        <li><small>TOTAL:</small> <span>{{quote.total | currency}}</span></li>
+      </ul>
+      <ul ng-show="false">
+        <li><%= htmlWebpackPlugin.options.quotes.advance %>:</li>
+        <li><%= htmlWebpackPlugin.options.quotes.balance %>:</li>
+      </ul>
 
-            <li><small>Sub-Total:</small>
-              <span>{{quote.subTotal | currency}}</span>
-            </li>
-            <li><small><%= htmlWebpackPlugin.options.quotes.tax %>:</small>
-              <span>{{quote.iva | currency}}</span></li>
-            <li><small>TOTAL:</small> <span>{{quote.total | currency}}</span>
-            </li>
-          </ul>
-          <ul ng-show="false">
-            <li><%= htmlWebpackPlugin.options.quotes.advance %>:</li>
-            <li><%= htmlWebpackPlugin.options.quotes.balance %>:</li>
-          </ul>
-          <!--/////////////////////// Notas ///////////////////////-->
-          <fieldset>
-            <legend><%= htmlWebpackPlugin.options.quotes.annotations %></legend>
-            <label><%= htmlWebpackPlugin.options.quotes.notes %></label>
-            <textarea
-                ng-disabled="quote.products.length<=0"
-                ng-model="quote.notes"
-                type="text"
-            ></textarea>
-            <small
-                class="error-message"
-                ng-if="checkForm && (quote.notes == '' || quote.notes == null)"
-            ><%= htmlWebpackPlugin.options.general.required %></small>
-          </fieldset>
-          <button
-              class="btn btn-primary"
-              ng-click="save()"
-              ng-disabled="saveDisabled || product"
-              ng-show="!saveDisabled && quote.products.length>0"
-          ><%= htmlWebpackPlugin.options.general.save %>
-          </button>
-          <img class="spinner-img" ng-show="saveDisabled" src="img/spinner.gif">
-        </div>
-      </div>
+      <!--/////////////////////// Notas ///////////////////////-->
+      <fieldset>
+        <legend><%= htmlWebpackPlugin.options.quotes.annotations %></legend>
+        <label><%= htmlWebpackPlugin.options.quotes.notes %></label>
+        <textarea
+            ng-disabled="quote.products.length<=0"
+            ng-model="quote.notes"
+            type="text"
+        ></textarea>
+        <small
+            class="error-message"
+            ng-if="checkForm && (quote.notes == '' || quote.notes == null)"
+        ><%= htmlWebpackPlugin.options.general.required_field %></small>
+      </fieldset>
+      <button
+          class="btn btn-primary"
+          ng-click="save()"
+          ng-disabled="saveDisabled || product"
+          ng-show="!saveDisabled && quote.products.length>0"
+      ><%= htmlWebpackPlugin.options.general.save %>
+      </button>
+      <img class="spinner-img" ng-show="saveDisabled" src="img/spinner.gif">
     </div>
   </div>
 </div>

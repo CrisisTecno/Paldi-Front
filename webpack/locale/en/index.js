@@ -481,7 +481,7 @@ module.exports = {
 
 
 
-          </div>
+          
     `,
     product_options:`
     <button
@@ -528,7 +528,7 @@ module.exports = {
 
 
             
-          </div>
+          
     `,
     products_btn:`
     <button
@@ -577,7 +577,7 @@ module.exports = {
     `,
     shades:"Shades",
     products:"Products",
-    product_table_header:`
+    shades_headers:`
     <th>Quantity</th>
     <th>Room</th>
     <th>Product</th>
