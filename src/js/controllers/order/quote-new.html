@@ -168,13 +168,14 @@
             <small
                 class="error-message"
                 ng-if="checkForm && (quote.project=='' || quote.project == null)"
-            >Campo requerido</small>
+            ><%= htmlWebpackPlugin.options.general.required_field %></small>
           </div>
           <div class="form-group proyect-name">
             <%= htmlWebpackPlugin.options.quotes.origin %>
           </div>
           <div class="form-group proyect-name">
             <%= htmlWebpackPlugin.options.quotes.city %>
+          <div>
             <br>
             <div
                 ng-hide="isCustomOrder || editSimpleQuote"
@@ -210,8 +211,7 @@
                   <table class="table table-striped  table-hover">
                     <thead>
                     <tr>
-                      <%= htmlWebpackPlugin.options.quotes.product_table_header
-                      %>
+                      <%= htmlWebpackPlugin.options.quotes.product_table_header%>
                     </tr>
                     </thead>
                     <tbody>
