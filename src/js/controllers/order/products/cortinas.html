@@ -23,9 +23,13 @@
     <!-- We should not be allowed to create a quote using a textil that cannot be priced using the data returned from the server -->
     <div class="form-group">
       <label>Textil</label>
-      <select id="acabadoType" name="textil" ng-model="cortina.textil" class="form-control" ng-disabled="!cortina.finish" ng-change="updatePrices('Cortina', cortina)" required="">
+      <input ng-hide="showSpinner" type="text" name="textil" id="textil" ng-model="cortina.textil" ng-disabled="!cortina.finish"
+        class="form-control" required=""
+        uib-typeahead="color for color in productData.cortina.acabados[cortina.finish] | filter: $viewValue | limitTo:12"
+        typeahead-on-select="colorSelected($item, 'Enrollable', enrollable)" typeahead-editable="false">
+      <!-- <select id="acabadoType" name="textil" ng-model="cortina.textil" class="form-control" ng-disabled="!cortina.finish" ng-change="updatePrices('Cortina', cortina)" required="">
         <option value={{name}} ng-repeat="name in productData.cortina.acabados[cortina.finish]">{{name}}</option>
-      </select>
+      </select> -->
     </div>
     <div class="form-group">
       <label>Color</label>
