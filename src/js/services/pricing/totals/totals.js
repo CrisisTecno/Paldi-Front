@@ -117,7 +117,7 @@ const getProductsTotal = (order) => {
 
 
 const getDiscounts = (order, totals) => {
-  const toDecimalPercent = v => isNaN(v) ? 0 : (parseInt(v) / 100)
+  const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
 
   const getTotal = (name) => totals[`${name.toLowerCase()}Total`]
   const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
