@@ -102,7 +102,7 @@ pdApp.controller(
 			$scope.pisoObj = angular.copy($scope.product);
 			$scope.dialog = ngDialog.open({
 				scope: $scope,
-				template: "partials/views/console/products/piso.html",
+				template: "js/controllers/order/products/piso.html",
 				showClose: false,
 			});
 		};

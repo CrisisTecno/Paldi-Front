@@ -57,7 +57,7 @@ pdApp.controller(
 		$scope.addMovementForm = function () {
 			$scope.dialog = ngDialog.open({
 				scope: $scope,
-				template: "partials/views/console/inventory-in-add.html",
+				template: "js/controllers/inventory/inventory-in-add.html",
 				showClose: false,
 				width: "70%",
 			});

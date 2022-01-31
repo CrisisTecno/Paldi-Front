@@ -13,6 +13,7 @@ const {getLocalizerPlugins} = require("./webpack/html-localizer")
 
 module.exports = (env) => ({
   mode: "development",
+  devtool : 'cheap-source-map',
   entry: ["./src/index.js", "./src/sass/style.scss"],
   output: {
     filename: "main.js",

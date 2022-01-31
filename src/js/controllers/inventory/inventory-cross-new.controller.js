@@ -41,7 +41,7 @@ pdApp.controller(
 			$scope.dialog = ngDialog.open({
 				scope: $scope,
 				template:
-					"partials/views/console/inventory/inventory-form.html",
+					"js/controllers/inventory/inventory/inventory-form.html",
 				showClose: false,
 				width: "70%",
 			});

@@ -4,7 +4,7 @@
 
         <div ng-show="sellerStep=='empty'">
             <label>Vendedor</label>
-            <input id="seller" type="text" name="seller" ng-model="quote.seller" class="form-control" required="true" uib-typeahead="seller.name + ' ' + seller.lastName for seller in findSellers($viewValue)" typeahead-editable="false" typeahead-on-select="selectSeller($item)" typeahead-input-formatter="$model.name + ' ' + $model.lastName" typeahead-template-url="partials/views/console/client-typeahead.html" typeahead-loading="sellersLoading" typeahead-no-results="sellersNotFound">
+            <input id="seller" type="text" name="seller" ng-model="quote.seller" class="form-control" required="true" uib-typeahead="seller.name + ' ' + seller.lastName for seller in findSellers($viewValue)" typeahead-editable="false" typeahead-on-select="selectSeller($item)" typeahead-input-formatter="$model.name + ' ' + $model.lastName" typeahead-template-url="js/controllers/clients/client-typeahead.html" typeahead-loading="sellersLoading" typeahead-no-results="sellersNotFound">
             <small ng-if="sellersLoading">Buscando...</small>
             <small class="error-message" ng-if="sellersNotFound">No se encontraron vendedores</small>
             <small class="error-message" ng-if="customForm.$validated && !quote.seller">Campo requerido</small>

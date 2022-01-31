@@ -49,7 +49,7 @@ pdApp.controller(
 			$scope.dialog = ngDialog.open({
 				scope: $scope,
 				template:
-					"partials/views/console/products/" +
+					"js/controllers/order/products/" +
 					$scope.pretty("singularForm", $scope.productType) +
 					".html",
 				showClose: false,

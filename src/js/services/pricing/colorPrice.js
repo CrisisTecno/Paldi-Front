@@ -69,7 +69,7 @@ pdApp.factory(
       },
 
       updateTotals: function (product, model) {
-        // console.log("TotalUpdate",model);
+        console.log("TotalUpdate", product, model);
         let pisoDiscount = false
         angular.forEach(model.products, function (product, key) {
           if (model.type == "Piso" && product.type == "Laminados" && model.client && model.client.type != "DIRECT_SALE") {

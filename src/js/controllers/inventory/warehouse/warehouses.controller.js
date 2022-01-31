@@ -100,7 +100,7 @@ pdApp.controller(
 		$scope.addWarehouseDialog = function () {
 			$scope.dialog = ngDialog.open({
 				scope: $scope,
-				template: "partials/views/console/warehouse.html",
+				template: "js/controllers/inventory/warehouse/warehouse.html",
 				showClose: false,
 			});
 		};

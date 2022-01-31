@@ -88,7 +88,7 @@ pdApp.controller(
 			$scope.moldingObj = angular.copy($scope.plus);
 			$scope.dialog = ngDialog.open({
 				scope: $scope,
-				template: "partials/views/console/products/moldura.html",
+				template: "js/controllers/order/products/moldura.html",
 				showClose: false,
 			});
 		};
