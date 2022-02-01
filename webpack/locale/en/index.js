@@ -121,6 +121,7 @@ module.exports = {
   features: {
     city: false,
     cortinas: false,
+    fractions:true,
   },
   console:{
     update_provider: "Update Supplier",
@@ -658,7 +659,54 @@ module.exports = {
     operation_mode:"Operation Mode",
     unit_price:"Unit Price",
     notes:"Notes",
-    view:"View"
+    view:"View",
 
+    installation_type:"Installation Type",
+    squared:true,
+    units_height:"{{units.to_fraction(p.width)}}",
+    units_width:"{{units.to_fraction(p.height)}}"
+  },
+  shutters:{
+    shutter:"Shutter",
+    no_doable:"No Doable",
+    quantity:"Quantity",
+    room:"Room",
+    product:"Product",
+    product_options:`
+    <option value="Regular">Regular</option>
+    <option value="Arco">Arc</option>
+    `,
+    color:"Color",
+    width:"Width (Inch)",
+    height:"Height (Inch)",
+    installation_type:"Installation Type",
+    installation_options:`
+    <option value="Por dentro">Inside</option>
+    <option value="Por fuera">Outside</option>
+    `,
+    rod_type:"Rod Type",
+    rod_options:`
+    <option value="Visible">Visible</option>
+    <option value="Oculto">Hidden</option>
+    `,
+    measure_type:"Measure Type",
+    measure_options:`
+    <option value="Claro de ventana">Window</option>
+    <option value="Medida exacta">Exact Measure</option>
+    `,
+    louver:"Louver",
+    frame_type:"Frame Type",
+    frame_configuration:"Frame conf.",
+    nothing:"Empty",
+    panel_configuration:"Panel Conf.",
+    rail_location:"Rail Location",
+    add_aditional:"Add Additional",
+    additional:"Aditional:",
+    name:"Name",
+    notes:"Notes",
+    inch_price:"Inch Price",
+    unit_price:"Unit Price",
+    total:"Total",
+    squared:false
   }
 }

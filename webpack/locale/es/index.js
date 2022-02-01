@@ -127,6 +127,7 @@ module.exports = {
     enrollable: true,
     filtrasol: true,
     piso: true,
+    fractions:false,
   },
   console:{
     update_provider: "Actualizar Proveedor",
@@ -664,8 +665,56 @@ module.exports = {
     operation_mode:"Modo de operación",
     unit_price:"Precio Unitario",
     notes:"Obs.",
-    view:"Ver"
+    view:"Ver",
 
+    installation_type:"Tipo de Inst.",
+    squared:true,
+    units_height:"{{p.width}}",
+    units_width:"{{p.height}}"
   },
+  shutters:{
+    shutter:"Shutter",
+    no_doable:"No Realizable",
+    quantity:"Cantidad",
+    room:"Ubicación",
+    product:"Tipo de Shutter",
+    product_options:`
+    <option value="Regular">Regular</option>
+    <option value="Arco">Arco</option>
+    `,
+    color:"Color",
+    width:"Ancho (Metros)",
+    height:"Alto (metros)",
+    squared_meters:"m²",
+    installation_type:"Tipo de Instalación",
+    installation_options:`
+    <option value="Por dentro">Por dentro</option>
+    <option value="Por fuera">Por fuera</option>
+    `,
+    rod_type:"Tipo de Bastón",
+    rod_options:`
+    <option value="Visible">Visible</option>
+    <option value="Oculto">Oculto</option>
+    `,
+    measure_type:"Tipo de Media",
+    measure_options:`
+    <option value="Claro de ventana">Claro de ventana</option>
+    <option value="Medida exacta">Medida exacta</option>
+    `,
+    louver:"Louver",
+    frame_type:"Tipo de Marco",
+    frame_configuration:"Conf. del Marco",
+    nothing:"Nada",
+    panel_configuration:"Conf. de Paneles",
+    rail_location:"Ubicación Riel D.",
+    add_aditional:"Agregar Adicional",
+    additional:"Adicional:",
+    name:"Nombre",
+    notes:"Observaciones",
+    inch_price:"Precio Metro",
+    unit_price:"Precio Unitario",
+    total:"Total",
+    squared:true
+  }
 }
 
