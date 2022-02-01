@@ -56,7 +56,7 @@
             <label><%= htmlWebpackPlugin.options.shutters.height%></label>
             <input type="number" name="height" id="height" ng-model="shutter.height" min="0.1" ng-change="changeSimpleHeight('Shutter', shutter)" class="form-control" required="" step="0.1">
             <% if (htmlWebpackPlugin.options.features.fractions) {%>
-                <select style="width: min-content;" name="extra" ng-model="shutter.w_fraction" class="form-control" ng-change="changeSimpleWidth('Shutter', shutter)">
+                <select style="width: min-content;" name="extra" ng-model="shutter.h_fraction" class="form-control" ng-change="changeSimpleHieght('Shutter', shutter)">
                     <option value={{0}}>0</option>
                     <option value={{0.125}}>⅛</option>
                     <option value={{0.25}}>¼</option>
