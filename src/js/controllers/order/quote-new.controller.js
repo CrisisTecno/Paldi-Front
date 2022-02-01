@@ -1157,15 +1157,38 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.changeSimpleWidth = function (product, model) {
+
+    let textil = $scope.productData.cortina.colores[model.textil]
+    let color;
+    textil.forEach(element => {
+      if(element.color==model.colorName)
+        color=element
+    });
+
     if (model.width) {
-      model.width = parseFloat(model.width.toString().match(/.*\..{0,3}|.*/)[0],)
+      let width = parseFloat(model.width.toString().match(/.*\..{0,3}|.*/)[0],)
+      if (model.width < color.minWidth) model.width = parseFloat(color.minWidth)
+      else if (model.width > color.maxWidth) model.width = parseFloat(color.maxWidth)
+      else model.width = width
     }
     $scope.updatePrices(product, model)
   }
 
+  
+
   $scope.changeSimpleHeight = function (product, model) {
+    let textil = $scope.productData.cortina.colores[model.textil]
+    let color;
+    textil.forEach(element => {
+      if(element.color==model.colorName)
+        color=element
+    });
+
     if (model.height) {
-      model.height = parseFloat(model.height.toString().match(/.*\..{0,3}|.*/)[0],)
+      let height = parseFloat(model.height.toString().match(/.*\..{0,3}|.*/)[0],)
+      if (model.height < color.minHeight) model.height = parseFloat(color.minHeight)
+      else if (model.height > color.maxHeight) model.height = parseFloat(color.maxHeight)
+      else model.height = height
     }
     $scope.updatePrices(product, model)
   }

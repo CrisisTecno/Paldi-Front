@@ -26,7 +26,7 @@
       <input ng-hide="showSpinner" type="text" name="textil" id="textil" ng-model="cortina.textil" ng-disabled="!cortina.finish"
         class="form-control" required=""
         uib-typeahead="color for color in productData.cortina.acabados[cortina.finish] | filter: $viewValue | limitTo:12"
-        typeahead-on-select="colorSelected($item, 'Enrollable', enrollable)" typeahead-editable="false">
+        ng-change="updatePrices('Cortina', cortina)" typeahead-editable="false">
       <!-- <select id="acabadoType" name="textil" ng-model="cortina.textil" class="form-control" ng-disabled="!cortina.finish" ng-change="updatePrices('Cortina', cortina)" required="">
         <option value={{name}} ng-repeat="name in productData.cortina.acabados[cortina.finish]">{{name}}</option>
       </select> -->
