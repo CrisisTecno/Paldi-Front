@@ -45,6 +45,7 @@ pdApp.controller(
 
       paldiService.orders.get(id).then(async function (order) {
         $scope.order = order;
+        console.log(paldiService.orders)
         $scope.quoteStatus = order.quoteStatus;
         $scope.quoteSubStatus = order.quoteSubStatus;
         $scope.products = order.products;

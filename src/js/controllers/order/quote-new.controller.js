@@ -904,6 +904,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
           $scope.saveDisabled = true
         })
         paldiService.orders.save($scope.quote).then(function (quote) {
+          console.log($scope.quote)
           $scope.saveDisabled = false
           swal({
             title: "Cotización guardada exitosamente", type: "success", confirmButtonText: "Aceptar",
@@ -1137,6 +1138,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.updatePrices(product, model)
   }
 
+  $scope 
+
   $scope.changeHeight = function (product, model) {
     if (model.height) {
       model.height = parseFloat(model.height.toString().match(/.*\..{0,3}|.*/)[0],)
@@ -1157,13 +1160,16 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.changeSimpleWidth = function (product, model) {
-
-    let textil = $scope.productData.cortina.colores[model.textil]
     let color;
+    let textil;
+    if(product=="Cortina"){
+    textil = $scope.productData.cortina.colores[model.textil]
+    
     textil.forEach(element => {
       if(element.color==model.colorName)
         color=element
     });
+  }
 
     if (model.width) {
       let width = parseFloat(model.width.toString().match(/.*\..{0,3}|.*/)[0],)
@@ -1205,11 +1211,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.updateType = function (product, model, color) {
+    console.log(model)
     if ($scope.rotated) {
       $scope.rotate(product, model)
     }
 
-    if (model.type) {
+    if (model.type || model.sistema.type) {
       if (product == "Enrollable") {
         $scope.productMeta = $scope.enrollablesMeta[model.type]
 
@@ -1238,9 +1245,13 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       model.color = null
       model.width = null
       model.height = null
+      model.textil = null
+      model.colorName = null
+
       $("#color").val("")
       $("#width").val("")
       $("#height").val("")
+      
       if (product == "Piso") {
         model.m2Box = null
         model.quantity = null
@@ -1258,18 +1269,20 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       $scope.plusList = []
       $scope.motorList = []
       $scope.installationPlusList = []
-      $scope.updatePrices(product, model)
+      
+    
       colorPriceService.getColors(product, model)
       colorPriceService.getPlusList(product, model)
       colorPriceService.getMotorList(product, model)
       colorPriceService.getInstallationPlusList(product, model)
       colorPriceService.getPlusColorsList(product, model)
     }
+    $scope.updatePrices(product, model)
     console.log("Update Type", product, model)
     $scope.rotated = false
     $scope.valid = product === "Filtrasol" && model.type === "Filtrasol Enrollables"
     $scope.valid |= product === "Enrollable" && model.type === "Enrollables"
-    // console.log($scope.valid)
+    
   }
 
   $scope.updateTypeNoErasing = function (product, model) {
@@ -1372,7 +1385,14 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         }
         $scope.orderParentId = order.id
         $scope.quote = angular.copy(order)
+        console.log("Loading order",order)
         $scope.quote.products = angular.copy(order.products)
+        $scope.quote.products.forEach(prod =>{
+          if (prod.productType=="Cortina"){
+            prod.colorName=prod.color.name
+            prod.textil=prod.color.textil
+          }
+        })
         $scope.editing = true
         $scope.hasAdditionals()
         $scope.selectClient(order.client)

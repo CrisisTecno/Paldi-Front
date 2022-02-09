@@ -33,7 +33,7 @@
     </div>
     <div class="form-group">
       <label>Color</label>
-      <input type="text" ng-disabled='!cortina.textil' id="cortinacolor" ng-model="cortina.colorName" class="form-control" ng-change="updateType('Cortina', cortina)" required="" uib-typeahead="colors.color for colors in productData.cortina.colores[cortina.textil] | filter: filterColors  |limitTo:12">
+      <input type="text" ng-disabled='!cortina.textil' id="cortinacolor" ng-model="cortina.colorName" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" uib-typeahead="colors.color for colors in productData.cortina.colores[cortina.textil] | filter: filterColors  |limitTo:12">
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
     </div>
     <div class="form-group">
@@ -59,7 +59,7 @@
     <!-- Apertura -->
     <div class="form-group">
       <label>Apertura</label>
-      <select ng-model="cortina.sistema.opening" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-required="sistema.opening.length>0" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
+      <select ng-model="cortina.opening" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-required="sistema.opening.length>0" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="opening in sistema.opening">{{opening}}</option>
       </select>
       <select class="form-control" ng-if="!cortina.sistema.type" disabled></select>
@@ -67,7 +67,7 @@
     <!-- Instalación -->
     <div class="form-group">
       <label>Instalación</label>
-      <select ng-model="cortina.sistema.installation" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-required="{{sistema.installation.length>0}}" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
+      <select ng-model="cortina.installation" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-required="{{sistema.installation.length>0}}" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="installation in sistema.installation">{{installation}}</option>
       </select>
       <select class="form-control" ng-if="!cortina.sistema.type" disabled></select>
