@@ -57,8 +57,9 @@ module.exports = {
     accept:"Aceptar",
     change:"Cambiar",
     
+    
     erase:"Borrar",
-
+    remove:"Remover",
     filter:"Filtrar",
     clean:"Limpiar",
 
@@ -128,6 +129,7 @@ module.exports = {
     filtrasol: true,
     piso: true,
     fractions:false,
+    faction_style:``,
   },
   console:{
     update_provider: "Actualizar Proveedor",
@@ -666,11 +668,24 @@ module.exports = {
     unit_price:"Precio Unitario",
     notes:"Obs.",
     view:"Ver",
+    squared_units:"m²",
+    price_per_box:"Precio por Caja",
+    boxes_qty:"Cant. Cajas",
+    installation:"Instalación",
+    system:"Sistema",
+    total:"Total",
+    name:"Nombre",
+    price:"Precio",
+    actions:"Acciones",
+    
 
     installation_type:"Tipo de Inst.",
     squared:true,
     units_height:"{{p.width}}",
-    units_width:"{{p.height}}"
+    units_width:"{{p.height}}",
+
+    yes:"Si",
+    no:"No"
   },
   shutters:{
     shutter:"Shutter",
@@ -715,6 +730,91 @@ module.exports = {
     unit_price:"Precio Unitario",
     total:"Total",
     squared:true
+  },
+  floors:{
+    floors:"Pisos",
+    type_options:`
+    <option value="Laminados">Laminado</option>
+    <option value="Vinil">Vinil</option>
+    <option value="Ingenieria">Ingeniería</option>
+    `,
+    squared_per_box:true,
+    installed:"Instalación",
+    add_moldind:"Agregar Moldura/Adicional",
+    moldind:"Moldura/Adicional:",
+    quantity:"Cantidad",
+    name:"Nombre",
+    add_installation_additional:"Agregar Adicional de Instalación",
+    installation_additional:"Adicional de Instalación",
+    code:" Codigo",
+    line:"Línea",
+  },
+  quote_commons:{
+    price_per_box:"Precio por caja",
+    installation_price:"Precio de Instalación",
+    total:"Total",
+    notes:"Observaciones",
+    name:"Nombre",
+    quantity:"Cantidad",
+    color:"Color",
+    squared_meters:"m²",
+    boxes_qty:"Cantidad de Cajas",
+    no_doable:"No realizable",
+    select_a_client:"Seleccione un cliente",
+    room:"Ubicación",
+    type:"Tipo",
+    price:"Precio",
+    square_per_box:"M² por Caja",
+    price_type:"Tipo de Precio",
+    per_box:"Por Caja",
+    width:"Ancho (metros)",
+    height:"Alto (metros)",
+    squared:false,
+    add_additionals:"Agregar Adicional",
+    additional:"Adicional:",
+    add_motor:"Agregar Motorización",
+    motor:"Motortización:",
+    meter_price:"Precio Metro",
+    unit_price:"Precio Unitario",
+
+  },
+  molding_form:{
+    molding:"Moldura/Adicional",
+    measure_unit:"Unidad de Medida",
+    measure_options:`
+    <option value="PIECE">Unidad</option>
+    <option value="METER">Metro cuadrado</option>
+    <option value="WIDTH">Ancho (metro lineal)</option>
+    <option value="HEIGHT">Alto (metro lineal)</option>
+    `,
+
+  },
+  filtrasol:{
+    filtrasol:"Filtrasol",
+    type_options:`
+    <option value="Filtrasol Eclisse">Eclisse</option>
+    <option value="Filtrasol Enrollables">Enrollables</option>
+    <option value="Filtrasol Panel Deslizante">Panel Deslizante</option>
+    <option value="Filtrasol Triple Shade">Triple Shade</option>
+    `,
+    config:"Config",
+    fall:"Caída",
+    fall_options:`
+    <option value="Atras">Atras</option>
+    <option value="Enfrente">Enfrente</option>
+    `,
+    control:"Mando",
+    control_options:`
+    <option value="Izquierda">Izquierda</option>
+    <option value="Derecha">Derecha</option>
+    <option value="N/A">N/A</option>
+    `,
+    chain_height:"Altura de Mando",
+    standard:"Estándar",
+    rotate_fabric:"Girar Textil",
+    cancel_turn:"Cancelar giro de textil",
+    
+
   }
 }
 
