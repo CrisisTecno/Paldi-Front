@@ -815,6 +815,26 @@ module.exports = {
     cancel_turn:"Cancelar giro de textil",
     
 
+  },
+  enrollable:{
+    shades:"Persianas",
+    type_options:`
+    <option value="Solar Screen">Solar Screen</option>
+    <option value="Solar Blackout">Solar Blackout</option>
+    <option value="Cascade">Cascade</option>
+    <option value="Triple Shade">Triple Shade</option>
+    <option value="Horizontales de Madera">Horizontales de Madera</option>
+    <option value="Enrollables">Enrollables Platinum</option>
+    <option value="Romanas">Romanas</option>
+    <option value="Eclisse">Eclisse</option>
+    <option value="Panel Deslizante">Panel Deslizante</option>
+    <option value="Verticales de PVC">Verticales de PVC</option>
+    <option value="Horizontales de Aluminio">Horizontales de Aluminio</option>
+    <option value="Celular">Celular</option>
+    `,
+    system:"Sistema",
+    config:"Config",
+    
   }
 }
 
