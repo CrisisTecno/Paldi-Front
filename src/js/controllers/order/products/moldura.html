@@ -1,34 +1,37 @@
 <div>
-    <h3 class="form-title">Moldura/Adicional</h3>
+    <h3 class="form-title"><%= htmlWebpackPlugin.options.molding_form.molding %></h3>
     <form name="moldingForm" role="form" novalidate ng-submit="addProduct(moldingObj, moldingForm)" autocomplete="off">
 
         <div class="form-group">
-            <label>Nombre</label>
+            <label><%= htmlWebpackPlugin.options.quote_commons %></label>
             <input  type="text" name="name" ng-model="moldingObj.name" class="form-control" required>
-            <small class="error-message" ng-if="moldingForm.$validated && moldingForm.name.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="moldingForm.$validated && moldingForm.name.$error.required">
+                <%= htmlWebpackPlugin.options.general.required_field %>
+            </small>
         </div>
 
         <div class="form-group">
-            <label>Unidad de Medida</label>
+            <label><%= htmlWebpackPlugin.options.molding_form.measure_units %></label>
             <select name="priceType" ng-model="moldingObj.priceType" class="form-control" required="">
-                <option value="PIECE">Unidad</option>
-                <option value="METER">Metro cuadrado</option>
-                <option value="WIDTH">Ancho (metro lineal)</option>
-                <option value="HEIGHT">Alto (metro lineal)</option>
+                <%= htmlWebpackPlugin.options.molding_form.measure_options %>
             </select>
-            <small class="error-message" ng-if="moldingForm.$validated && moldingForm.priceType.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="moldingForm.$validated && moldingForm.priceType.$error.required">
+                <%= htmlWebpackPlugin.options.general.required_field %>
+            </small>
         </div>
 
         <div class="form-group">
-            <label>Precio</label>
+            <label><%= htmlWebpackPlugin.options.quote_commons.price %></label>
             <input  type="number" min="1" step="1" name="price" ng-model="moldingObj.price" class="form-control" required>
-            <small class="error-message" ng-if="moldingForm.$validated && moldingForm.price.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="moldingForm.$validated && moldingForm.price.$error.required">
+                <%= htmlWebpackPlugin.options.general.required_field %>
+            </small>
         </div>
 
         <br>
         <div>
-            <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Agregar</button>
+            <button type="button" class="btn btn-default" ng-click="closeThisDialog('')"><%= htmlWebpackPlugin.options.general.cancel %></button>
+            <button type="submit" class="btn btn-primary"><%= htmlWebpackPlugin.options.general.add %></button>
         </div>
 
     </form>

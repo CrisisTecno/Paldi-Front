@@ -58,7 +58,7 @@ module.exports = {
     change:"Change",
     
     erase:"Erase",
-
+    remove:"Remove",
     filter:"Filter",
     clean:"Clear",
 
@@ -122,6 +122,8 @@ module.exports = {
     city: false,
     cortinas: false,
     fractions:true,
+    faction_style:` style="width: 80%"`,
+
   },
   console:{
     update_provider: "Update Supplier",
@@ -660,11 +662,23 @@ module.exports = {
     unit_price:"Unit Price",
     notes:"Notes",
     view:"View",
-
+    squared_units:"Inch²",
+    price_per_box:"Price per Box",
+    boxes_qty:"Boxes Quantity",
+    installation:"Installation",
+    system:"System",
+    total:"Total",
+    name:"Name",
+    price:"Price",
+    actions:"Actions",
+    
     installation_type:"Installation Type",
     squared:true,
     units_height:"{{units.to_fraction(p.width)}}",
-    units_width:"{{units.to_fraction(p.height)}}"
+    units_width:"{{units.to_fraction(p.height)}}",
+    
+    yes:"Yes",
+    no:"No"
   },
   shutters:{
     shutter:"Shutter",
@@ -708,5 +722,81 @@ module.exports = {
     unit_price:"Unit Price",
     total:"Total",
     squared:false
+  },
+  floors:{
+    floors:"Floors",
+    type_options:`
+    <option value="Laminados">Laminate</option>
+    <option value="Vinil">Vinyl</option>
+    <option value="Ingenieria">Engineering</option>
+    `,
+    squared_per_box:true,
+    installed:"Instllation",
+    add_moldind:"Agregar Moldind/Additional",
+    moldind:"Moldind/Additional:",
+    quantity:"Quantity",
+    name:"Name",
+    add_installation_additional:"Add Installation Aditional",
+    installation_additional:"Installation Additional",
+    code:" Code",
+    line:"Line",
+  },
+  quote_commons:{
+    price_per_box:"Price Per Box",
+    installation_price:"Price per Installation",
+    total:"Total",
+    notes:"Notes",
+    name:"Name",
+    quantity:"Quantity",
+    color:"Color",
+    squared_meters:"Inches²",
+    boxes_qty:"Boxes Quantity",
+    no_doable:"No Doable",
+    select_a_client:"Select a Client",
+    room:"Room",
+    type:"Product",
+    price:"Price",
+    square_per_box:"Inch² per Box",
+    proce_type:"Price Type",
+    per_box:"Per Box",
+  
+  },
+  molding_form:{
+    molding:"Molding/Additional",
+    measure_unit:"Measure Unit",
+    measure_options:`
+    <option value="PIECE">Unit</option>
+    <option value="METER">Inches</option>
+    <option value="WIDTH">Width (linal inches)</option>
+    <option value="HEIGHT">Height (lineal inches)</option>
+    `,
+    
+  },
+  filtrasol:{
+    filtrasol:"Filtrasol",
+    type_options:`
+    <option value="Filtrasol Eclisse">Eclisse</option>
+    <option value="Filtrasol Enrollables">Enrollables</option>
+    <option value="Filtrasol Panel Deslizante">Panel Deslizante</option>
+    <option value="Filtrasol Triple Shade">Triple Shade</option>
+    `,
+    config:"Config",
+    fall:"Caída",
+    fall_options:`
+    <option value="Atras">Atras</option>
+    <option value="Enfrente">Enfrente</option>
+    `,
+    control:"Mando",
+    control_options:`
+    <option value="Izquierda">Izquierda</option>
+    <option value="Derecha">Derecha</option>
+    <option value="N/A">N/A</option>
+    `,
+    chain_height:"Altura de Mando",
+    standard:"Estándar",
+    rotate_fabric:"Girar Textil",
+    cancel_turn:"Cancelar giro de textil",
+    
+
   }
 }

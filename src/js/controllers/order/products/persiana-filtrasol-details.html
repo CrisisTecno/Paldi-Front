@@ -1,21 +1,23 @@
 <table class="table table-striped  table-hover" datatable="ng" dt-options="tableOptions" dt-column-defs="tableColumns">
     <thead>
     <tr>
-        <th>Item</th>
-        <th>Cant.</th>
-        <th>Ubicación</th>
-        <th>Tipo</th>
-        <th>Sistema</th>
+        <th><%= htmlWebpackPlugin.options.details_headers.item %></th>
+        <th><%= htmlWebpackPlugin.options.details_headers.qty %></th>
+        <th><%= htmlWebpackPlugin.options.details_headers.location %></th>
+        <th><%= htmlWebpackPlugin.options.details_headers.type %></th>
+        <th><%= htmlWebpackPlugin.options.details_headers.system %></th>
 
-        <th>Color</th>
-        <th>Ancho</th>
-        <th>Alto</th>
+        <th><%= htmlWebpackPlugin.options.details_headers.color %></th>
+        <th><%= htmlWebpackPlugin.options.details_headers.width %></th>
+        <th><%= htmlWebpackPlugin.options.details_headers.height %></th>
+        <% if( htmlWebpackPlugin.options.details_headers.squared){ %>
         <th>m²</th>
+        <%}%>
 
-        <th>Precio Unitario</th>
-        <th>Total</th>
+        <th><%= htmlWebpackPlugin.options.details_headers.unit_price %></th>
+        <th><%= htmlWebpackPlugin.options.details_headers.total %></th>
 
-        <th>Obs.</th>
+        <th><%= htmlWebpackPlugin.options.details_headers.notes %></th>
     </tr>
     </thead>
     <tbody ng-repeat="p in productTypeList.products">
@@ -27,14 +29,16 @@
         <td>{{p.system ? p.system : 'N/A'}}</td>
 
         <td>{{pretty( "color", p.color ) }}</td>
-        <td>{{p.width}}</td>
-        <td>{{p.height}}</td>
+        <td><%= htmlWebpackPlugin.options.details_headers.width %></td>
+        <td><%= htmlWebpackPlugin.options.details_headers.height %></td>
+        <% if (htmlWebpackPlugin.options.details_headers.squared){ %>
         <td>{{p.m2}}</td>
+        <%}%>
 
         <td>{{p.price | currency}}</td>
         <td>{{p.total | currency}}</td>
 
-        <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)">Ver</button></td>
+        <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)"><%= htmlWebpackPlugin.options.details_headers.view %></button></td>
     </tr>
     </tbody>
 </table>

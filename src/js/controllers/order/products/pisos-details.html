@@ -1,19 +1,23 @@
 <table class="table table-striped  table-hover" datatable="ng" dt-options="tableOptions" id="productsTable">
     <thead>
         <tr>
-            <th>Ítem</th>
-            <th>Ubicación</th>
-            <th>Tipo</th>
-            <th>Color</th>
-            <th>m²</th>
+            
+            <th><%= htmlWebpackPlugin.options.details_headers.item %></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.location %></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.type %></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.color %></th>
+            <% if( htmlWebpackPlugin.options.details_headers.squared){ %>
+            <th><%= htmlWebpackPlugin.options.details_headers.squared_units %></th>
+            <%}%>
 
 
-            <th>Precio por Caja</th>
-            <th>Cant. Cajas</th>
-            <th>Instalación</th>
-            <th>Total</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.price_per_box %></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.boxes_qty %></th>
+            
+            <th><%= htmlWebpackPlugin.options.details_headers.installation %></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.total %></th>
 
-            <th>Obs.</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.notes %></th>
 
         </tr>
     </thead>
@@ -23,15 +27,17 @@
             <td>{{p.location}}</td>
             <td>{{p.type}}</td>
             <td>{{p.color.name}}</td>
+            <% if (htmlWebpackPlugin.options.details_headers.squared){%>
             <td>{{p.m2}}</td>
+            <%}%>
 
             <td>{{p.price | currency}}</td>
             <td>{{p.quantity}}</td>
-            <td ng-if="p.installationPrice > 0">Si</td>
-            <td ng-if="p.installationPrice == 0">No</td>
+            <td ng-if="p.installationPrice > 0"><%= htmlWebpackPlugin.options.details_headers.yes %></td>
+            <td ng-if="p.installationPrice == 0"><%= htmlWebpackPlugin.options.details_headers.no %></td>
             <td>{{p.total | currency}}</td>
 
-            <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)">Ver</button></td>
+            <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)"><%= htmlWebpackPlugin.options.details_headers.view %></button></td>
         </tr>
     </tbody>
 </table>
