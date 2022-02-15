@@ -777,25 +777,25 @@ module.exports = {
     type_options:`
     <option value="Filtrasol Eclisse">Eclisse</option>
     <option value="Filtrasol Enrollables">Enrollables</option>
-    <option value="Filtrasol Panel Deslizante">Panel Deslizante</option>
+    <option value="Filtrasol Panel Deslizante">Sliding Panel</option>
     <option value="Filtrasol Triple Shade">Triple Shade</option>
     `,
-    config:"Config",
-    fall:"Caída",
+    config:"Mount",
+    fall:"Roll Position",
     fall_options:`
-    <option value="Atras">Atras</option>
-    <option value="Enfrente">Enfrente</option>
+    <option value="Atras">Back</option>
+    <option value="Enfrente">Front</option>
     `,
-    control:"Mando",
+    control:"Control Position",
     control_options:`
-    <option value="Izquierda">Izquierda</option>
-    <option value="Derecha">Derecha</option>
+    <option value="Izquierda">Left</option>
+    <option value="Derecha">Right</option>
     <option value="N/A">N/A</option>
     `,
-    chain_height:"Altura de Mando",
-    standard:"Estándar",
-    rotate_fabric:"Girar Textil",
-    cancel_turn:"Cancelar giro de textil",
+    chain_height:"Chain Height",
+    standard:"Standard",
+    rotate_fabric:"Rotate Fabric",
+    cancel_turn:"Cancel Turn",
     
 
   }

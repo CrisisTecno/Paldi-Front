@@ -776,7 +776,9 @@ module.exports = {
     motor:"Motortización:",
     meter_price:"Precio Metro",
     unit_price:"Precio Unitario",
-
+    rotate_fabric:"Girar Textil",
+    cancel_turn:"Cancelar giro de textil",
+    qty:"Cant."
   },
   molding_form:{
     molding:"Moldura/Adicional",
@@ -834,6 +836,14 @@ module.exports = {
     `,
     system:"Sistema",
     config:"Config",
+    fall:"Caída",
+    fall_options:`
+    <option value="Atras">Atras</option>
+    <option value="Enfrente">Enfrente</option>
+    `,
+    control_position:"Altura de Mando",
+    standard:"Estándar",
+
     
   }
 }
