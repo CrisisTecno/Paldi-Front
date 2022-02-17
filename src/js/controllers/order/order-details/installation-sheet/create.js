@@ -64,7 +64,7 @@ export const showCreateInstallationSheetDialog = async (
       // if (!isExtraPresent(extras, material)) {
       //   $scope.installationSheet.extraError = true;
       //   return
-      // } else {
+      // } else { 
       //   $scope.installationSheet.extraError = false;
       // }
 
@@ -146,14 +146,180 @@ export const showCreateInstallationSheetDialog = async (
 
     },
   };
-  // console.log($scope);
-  // console.log($scope);
+  // //console.log($scope);
+  //console.log($scope);
+  
+
   $scope.dialog = $scope.ngDialog.open({
     template: "js/controllers/order/installation-sheet/form-create.html",
     // template: "partials/views/console/installation-sheet/form-create.html",
     scope: $scope,
     showClose: false,
+    closeOnClickOutside: false,
+    closeByDocument: false,
+    controller:function() {
+      'use strict';
+      
+      var loaded
+      var geocoder = new google.maps.Geocoder();
+      var marker;
+
+      $scope.store_location = {
+        lat: '32.5121884',
+        lng: '-117.0208881',
+        name: 'Estación Tijuana'
+      } 
+      $scope.address = {}
+  
+      $scope.map = '';
+  
+      $scope.geocodePosition = function(pos) {
+        geocoder.geocode({
+          latLng: pos
+        }, function(responses) {
+          //console.log(responses.length)
+          if (responses && responses.length > 0) {
+            $scope.updateMarkerAddress(responses[0]);
+          } else {
+            $scope.error = 'I feel free..!!!';
+          }
+        });
+      };
+
+      $scope.addressToGeocode = async(addr) => {
+        var res =null;
+        await geocoder.geocode({
+          address: addr
+        }, function(responses) {
+          //console.log(responses.length)
+          if (responses && responses.length > 0) {
+            res = responses[0]
+          } else {
+            $scope.error = 'I feel free..!!!';
+          }
+        });
+        return res;
+      };
+      
+      $scope.updateMarker = async(str)=>{
+        var res = await $scope.addressToGeocode(str)
+        
+        res.address_components.forEach(elem=>{
+          
+          if(elem.types.includes('postal_code')){
+           
+            document.getElementById('postalCode').value=elem.long_name;
+            $scope.installationSheet.postalCode=elem.long_name;
+          }
+        })
+
+        res = res.geometry.location
+        marker.setPosition(res)
+        $scope.map.setCenter(res)
+
+      }
+    
+      $scope.updateMarkerAddress = function(str) {
+        ////console.log(str)
+        document.getElementById('address').value = str.formatted_address
+        $scope.installationSheet.address = str.formatted_address
+        str.address_components.forEach(elem=>{
+        
+          if(elem.types.includes('postal_code')){
+            //console.log("AAAAA", elem)
+            document.getElementById('postalCode').value=elem.long_name;
+            $scope.installationSheet.postalCode=elem.long_name;
+          }
+        })
+
+        
+
+      };
+  
+      $scope.updateMarkerPosition = function(latLng) {
+        $scope.address.latlon = [
+          latLng.lat(),
+          latLng.lng()
+        ].join(', ');
+        
+      };
+  
+      $scope.changeMarkerPosition= function(lat_lon){
+          if (lat_lon === null) {
+                  lat_lon = "-8.6429208,115.1939819";
+                  lat_lon = lat_lon.split(",");
+                } else {
+                  lat_lon = lat_lon.split(",");
+                }
+  
+          var latLng = new google.maps.LatLng(lat_lon[0], lat_lon[1]);
+          marker.setPosition (latLng)
+      }
+  
+      $scope.initMapMarker = async(marker_latlon) =>{
+        
+  
+        var lat_lon = marker_latlon;
+        if (lat_lon === null) {
+          if($scope.installationSheet.address=="" || null)
+              lat_lon =$scope.store_location.lat+','+ $scope.store_location.lng;
+          else{
+              lat_lon = await $scope.addressToGeocode($scope.installationSheet.address)
+              lat_lon = lat_lon.geometry.location
+              lat_lon =[lat_lon.lat(),lat_lon.lng()].join(',')
+              
+          }
+
+          lat_lon = lat_lon.split(",");
+        } else {
+          lat_lon = lat_lon.split(",");
+        }
+        var latLng = new google.maps.LatLng(lat_lon[0], lat_lon[1]);
+        
+        
+        $scope.map = new google.maps.Map(document.getElementById('mapcanvas'), {
+          zoom: 18,
+          center: latLng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        marker = new google.maps.Marker({
+          position: latLng,
+          title: 'Marker',
+          map: $scope.map,
+          draggable: true
+        });
+    
+        // Update current position info.
+        $scope.geocodePosition(latLng);
+  
+        google.maps.event.addListener(marker, 'drag', function() {
+          $scope.updateMarkerPosition(marker.getPosition());
+          //console.log($scope.installationSheet.address)
+        });
+        
+        google.maps.event.addListener(marker, 'dragend', function() {
+          $scope.geocodePosition(marker.getPosition());
+        });
+      };
+      var loaded= false;
+  
+      var isMapLoaded= function (){
+        if(document.getElementById('mapcanvas')!=null){
+          if(loaded==false){
+            loaded=true;
+            $scope.initMapMarker(null)
+          }
+          
+        }
+      }
+      var watcher =$scope.$watch(function () {
+        return document.body.innerHTML;
+       }, function(val) {
+        isMapLoaded()
+       });
+    }
   });
+  
 
 };
 

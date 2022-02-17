@@ -1,7 +1,7 @@
 export const created = (callback) => {
 	swal(
 		{
-			title: "Hoja de instalacion creada",
+			title: "Orden de instalacion creada",
 			text: "Se creo la orden de instalación",
 			type: "success",
 			confirmButtonText: "Aceptar",
