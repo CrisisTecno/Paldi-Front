@@ -13,7 +13,7 @@
         requerido</small>
     </div>
     <div class="form-group">
-      <label><%= htmlWebpackPlugin.options.quote_commons.location%></label>
+      <label><%= htmlWebpackPlugin.options.quote_commons.room %></label>
       <input type="text" name="location" ng-model="enrollable.location" class="form-control" required="">
       <small class="error-message" ng-if="enrollableForm.$validated && enrollableForm.location.$error.required">Campo
         requerido</small>
@@ -98,35 +98,44 @@
     </div>
     <div class="form-group"
       ng-show="enrollable.type=='Enrollables' || enrollable.type == 'Solar Screen' || enrollable.type == 'Solar Blackout'">
-      <label>Caída</label>
+      <label><%= htmlWebpackPlugin.options.enrollable.fall %></label>
       <select name="drop" ng-model="enrollable.drop" class="form-control"
         ng-required="enrollable.type=='Enrollables' || enrollable.type == 'Solar Screen' || enrollable.type == 'Solar Blackout'">
-        <option value="Atras">Atras</option>
-        <option value="Enfrente">Enfrente</option>
+        <%= htmlWebpackPlugin.options.enrollable.fall_options %>
       </select>
       <small class="error-message" ng-if="enrollableForm.$validated && enrollableForm.drop.$error.required">Campo
         requerido</small>
     </div>
     <div class="form-group">
-      <label>Mando</label>
+      <label><%= htmlWebpackPlugin.options.enrollable.control_position %></label>
       <select name="control" ng-model="enrollable.control" class="form-control" required=""
         ng-change="hasControl(enrollable.control)">
-        <option value="Izquierda">Izquierda</option>
-        <option value="Derecha">Derecha</option>
-        <option value="N/A">N/A</option>
+        <%= htmlWebpackPlugin.options.enrollable.control_options %>
       </select>
       <small class="error-message" ng-if="enrollableForm.$validated && enrollableForm.control.$error.required">Campo
         requerido</small>
     </div>
     <div ng-hide="enrollable.control == 'N/A' || !enrollable.control">
-      <label>Altura de Mando</label>
+      <label><%= htmlWebpackPlugin.options.enrollable.chain_height %></label>
       <div>
         <label>
           <input type="checkbox" name="controlHeightCheckbox" id="controlHeightCheckbox"
-            ng-model="controlHeightCheckbox" ng-change="controlHeightChange()" checked> Estándar</label>
+            ng-model="controlHeightCheckbox" ng-change="controlHeightChange()" checked><%= htmlWebpackPlugin.options.enrollable.standard %></label>
       </div>
-      <input type="number" name="controlHeight" id="controlHeight" step="0.1" class="form-control"
+      <input <%= htmlWebpackPlugin.options.features.fraction_style %> type="number" name="controlHeight" id="controlHeight" step="0.1" class="form-control"
         ng-model="enrollable.controlHeight" ng-hide="controlHeightCheckbox == true">
+        <%if (htmlWebpackPlugin.options.features.fractions){%>
+          <select style="width: min-content;" name="extra" ng-model="enrollable.control_h_fraction" class="form-control" ng-change="controlHeightChange()">
+            <option value={{0}}>0</option>
+            <option value={{0.125}}>⅛</option>
+            <option value={{0.25}}>¼</option>
+            <option value={{0.375}}>⅜</option>
+            <option value={{0.5}}>½</option>
+            <option value={{0.625}}>⅝</option>
+            <option value={{0.75}}>¾</option>
+            <option value={{0.875}}>⅞</option>
+          </select>
+        <%}%>
     </div>
 
     <div ng-show="valid">
@@ -138,7 +147,7 @@
           <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
           <path
             d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-        </svg>Girar textil</button>
+        </svg><%= htmlWebpackPlugin.options.quote_commons.rotate_fabric %></button>
       <button type="button" class="btn btn-primary" ng-show="rotated" ng-disabled="!color" style="align-content: center;"
         ng-click="changeRotation('Enrollable', enrollable, this)">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" style="padding-top: 0.3em"
@@ -146,31 +155,31 @@
           <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
           <path
             d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-        </svg>Cancelar giro de textil</button>
+        </svg><%= htmlWebpackPlugin.options.enrollable.cancel_turn %></button>
     </div>
 
     <div ng-show="addingPlus == false && enrollable.plusList.length > 0">
       <hr />
-      <button type="button" class="btn btn-default" ng-click="addPlus()">Agregar Adicional</button>
+      <button type="button" class="btn btn-default" ng-click="addPlus()"><%= htmlWebpackPlugin.options.quote_commons.add_additionals %></button>
       <hr />
     </div>
     <div class="form-adding" ng-show="addingPlus == true && enrollable.plusList.length > 0">
-      <label class="title">Adicional:</label>
+      <label class="title"><%= htmlWebpackPlugin.options.quote_commons.additional %></label>
       <div class="form-group">
-        <label>Cantidad</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.quantity %></label>
         <input type="number" ng-model="enrollable.plusQuantity" name="plusQuantity" id="plusQuantity"
           class="form-control" pattern="[0-9]*">
       </div>
       <div class="form-group">
-        <label>Nombre</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.name %></label>
         <input type="text" ng-model="enrollable.plus" name="plus" id="plus" class="form-control"
           uib-typeahead="plus as plus.label for plus in enrollable.plusList | filter:$viewValue | limitTo:12"
           typeahead-editable="false">
       </div>
       <div>
         <button type="button" class="btn btn-secondary-left"
-          ng-click="addPlus(enrollable.plus, enrollable.plusQuantity)">Agregar</button>
-        <button type="button" class="btn btn-tertiary-left" ng-click="cancelPlus()">Cancelar</button>
+          ng-click="addPlus(enrollable.plus, enrollable.plusQuantity)"><%= htmlWebpackPlugin.options.general.add %></button>
+        <button type="button" class="btn btn-tertiary-left" ng-click="cancelPlus()"><%= htmlWebpackPlugin.options.quote_commons.cancel %></button>
         <hr />
       </div>
     </div>
@@ -180,26 +189,26 @@
 
 
     <div ng-show="addingMotor == false && enrollable.motorList.length > 0">
-      <button type="button" class="btn btn-default" ng-click="addMotor()">Agregar Motorización</button>
+      <button type="button" class="btn btn-default" ng-click="addMotor()"><%= htmlWebpackPlugin.options.quote_commons.add_motor %></button>
       <hr />
     </div>
     <div class="form-adding" ng-show="addingMotor == true && enrollable.motorList.length > 0">
-      <label class="title">Motorización:</label>
+      <label class="title"><%= htmlWebpackPlugin.options.quote_commons.motor %></label>
       <div class="form-group">
-        <label>Cantidad</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.quantity %></label>
         <input type="number" ng-model="enrollable.motorQuantity" name="motorQuantity" id="motorQuantity"
           class="form-control" pattern="[0-9]*">
       </div>
       <div class="form-group">
-        <label>Nombre</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.name %></label>
         <input type="text" ng-model="enrollable.motor" name="motor" id="motor" class="form-control"
           uib-typeahead="motor as motor.label for motor in enrollable.motorList | filter:$viewValue | limitTo:12"
           typeahead-editable="false">
       </div>
       <div>
         <button type="button" class="btn btn-secondary-left"
-          ng-click="addMotor(enrollable.motor, enrollable.motorQuantity)">Agregar</button>
-        <button type="button" class="btn btn-tertiary-left" ng-click="cancelMotor()">Cancelar</button>
+          ng-click="addMotor(enrollable.motor, enrollable.motorQuantity)"><%= htmlWebpackPlugin.options.general.add%></button>
+        <button type="button" class="btn btn-tertiary-left" ng-click="cancelMotor()"><%= htmlWebpackPlugin.options.general.cancel %></button>
       </div>
       <hr />
     </div>
@@ -209,29 +218,29 @@
     <br>
 
     <div class="form-group notes">
-      <label>Observaciones</label>
+      <label><%= htmlWebpackPlugin.options.quote_commons.notes %></label>
       <textarea name="notes" ng-model="enrollable.notes" class="form-control"></textarea>
     </div>
     <div class="total-configuration">
       <div class="form-group" ng-show="enrollable.unit">
-        <label>Precio Metro</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.meter_price %></label>
         <input ng-currency type="text" name="unit" ng-model="enrollable.unit" class="form-control" disabled="disabled"
           placeholder="{{enrollable.unit}}">
       </div>
       <div class="form-group" ng-show="enrollable.price">
-        <label>Precio Unitario</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.unit_price %></label>
         <input ng-currency type="text" name="price" ng-model="enrollable.price" class="form-control" disabled="disabled"
           placeholder="{{enrollable.price}}">
       </div>
       <div class="form-group" ng-show="enrollable.total">
-        <label>Total</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.total %></label>
         <input ng-currency type="text" name="total" ng-model="enrollable.total" class="form-control" disabled="disabled"
           placeholder="{{enrollable.total}}">
       </div>
     </div>
     <div>
-      <button type="submit" class="btn btn-primary-left">Agregar</button>
-      <button type="button" class="btn btn-tertiary-left" ng-click="cancelProduct()">Cancelar</button>
+      <button type="submit" class="btn btn-primary-left"><%= htmlWebpackPlugin.options.general.add %></button>
+      <button type="button" class="btn btn-tertiary-left" ng-click="cancelProduct()"><%= htmlWebpackPlugin.options.general.cancel %></button>
     </div>
   </form>
 

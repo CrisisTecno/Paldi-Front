@@ -1,22 +1,22 @@
 <table class="table table-striped  table-hover" datatable="ng" dt-options="tableOptions" dt-column-defs="tableColumns">
     <thead>
         <tr>
-            <th>Item</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.item%></th>
             
-            <th>Cantidad</th>
-            <th>Ubicacion</th>
-            <th>Tipo</th>
-            <th>Acabado</th>
-            <th>Textil</th>
-            <th>Color</th>
-            <th>Ancho</th>
-            <th>Alto</th>
-            <th>Apertura</th>
-            <th>Instalación</th>
-            <th>Precio Unitario</th>
-            <th>Total</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.qty%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.location%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.type%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.finish%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.textil%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.color%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.height%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.width%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.opening%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.installation %></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.unit_price%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.total%></th>
             
-            <th>Obs.</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.notes%></th>
         </tr>
     </thead>
     <tbody ng-repeat="p in products">
@@ -28,14 +28,14 @@
             <td>{{p.finish}}</td>
             <td>{{p.color.textil}}</td>
             <td>{{p.color.name}}</td>
-            <td>{{p.width}}</td>
-            <td>{{p.height}}</td>
+            <td><%= htmlWebpackPlugin.options.details_headers.units_height%></td>
+            <td><%= htmlWebpackPlugin.options.details_headers.units_width%></td>
             <td>{{p.opening}}</td>
             <td>{{p.installation}}</td>
             <td>{{p.price | currency}}</td>
             <td>{{p.total | currency}}</td>
 
-            <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)">Ver</button></td>
+            <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)"><%= htmlWebpackPlugin.options.details_headers.view%></button></td>
         </tr>
     </tbody>
 </table>

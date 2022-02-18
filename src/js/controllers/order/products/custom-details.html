@@ -1,11 +1,11 @@
 <table class="table table-striped  table-hover" datatable="ng" dt-options="tableOptions" dt-column-defs="tableColumns">
     <thead>
         <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Total</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.product%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.quantity%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.total%></th>
             
-            <th>Obs.</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.notes%></th>
         </tr>
     </thead>
     <tbody ng-repeat="p in products">
@@ -14,7 +14,7 @@
             <td>{{p.quantity}}</td>
             <td>{{p.total | currency}}</td>
 
-            <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)">Ver</button></td>
+            <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)"><%= htmlWebpackPlugin.options.details_headers.view%></button></td>
         </tr>
     </tbody>
 </table>

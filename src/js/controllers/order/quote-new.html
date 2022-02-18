@@ -335,7 +335,7 @@
         <li ng-show="quote.discountPercent || quote.discountPercentBalance || quote.discountPercentShutter || quote.discountPercentEnrollable || quote.discountPercentFiltrasol">
           <small><%= htmlWebpackPlugin.options.quotes.discount %>: </small><span>{{quote.discount | currency}}</span>
         </li>
-        <li ng-show="quote.installationTotal"><small>Instalación: </small>
+        <li ng-show="quote.installationTotal"><small><%= htmlWebpackPlugin.options.quotes.installation %>: </small>
           <span>{{quote.installationTotal | currency}}</span></li>
 
         <li><small>Sub-Total:</small> <span>{{quote.subTotal | currency}}</span>

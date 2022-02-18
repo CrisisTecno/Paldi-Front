@@ -1,28 +1,28 @@
 <div class="cortinas-view">
   <!-- updateType to updateType -->
-  <h3 class="form-title">Cortina</h3>
-  <small class="error-message" ng-if="cortina.doable==false">No realizable</small>
+  <h3 class="form-title"><%= htmlWebpackPlugin.options.cortina.cortina %></h3>
+  <small class="error-message" ng-if="cortina.doable==false"><%= htmlWebpackPlugin.options.quote_commons.no_doable%></small>
   <form name="cortinaForm" role="form" novalidate ng-submit="addProduct('Cortina', cortinaForm, cortina)" autocomplete="off">
     <div class="form-group">
-      <label>Cantidad</label>
+      <label><%= htmlWebpackPlugin.options.quote_commons.quantity%></label>
       <input type="number" min="1" value="1" name="quantity" ng-model="cortina.quantity" class="form-control" ng-change="updatePrices('Cortina', cortina)" step="1" required="" pattern="[0-9]*">
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
     </div>
     <div class="form-group">
-      <label>Ubicación</label>
+      <label><%= htmlWebpackPlugin.options.quote_commons.room%></label>
       <input type="text" name="quantity" ng-model="cortina.location" class="form-control" ng-change="updatePrices('Cortina', cortina)" step="1" required="">
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
     </div>
     <!-- Sistema -> Product price is calculated using 'finish' and 'texti' -->
     <div class="form-group">
-      <label>Sistema</label>
+      <label><%= htmlWebpackPlugin.options.quote_commons.system %></label>
       <select id="acabadoType" name="finish" ng-model="cortina.finish" class="form-control" ng-change="updateType('Cortina', cortina)" required="">
         <option value={{key}} ng-repeat="(key,value) in productData.cortina.acabados">{{key}}</option>
       </select>
     </div>
     <!-- We should not be allowed to create a quote using a textil that cannot be priced using the data returned from the server -->
     <div class="form-group">
-      <label>Textil</label>
+      <label><%= htmlWebpackPlugin.options.cortina.textil%></label>
       <input ng-hide="showSpinner" type="text" name="textil" id="textil" ng-model="cortina.textil" ng-disabled="!cortina.finish"
         class="form-control" required=""
         uib-typeahead="color for color in productData.cortina.acabados[cortina.finish] | filter: $viewValue | limitTo:12"
@@ -32,24 +32,24 @@
       </select> -->
     </div>
     <div class="form-group">
-      <label>Color</label>
+      <label><%= htmlWebpackPlugin.options.quote_commons.color%></label>
       <input type="text" ng-disabled='!cortina.textil' id="cortinacolor" ng-model="cortina.colorName" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" uib-typeahead="colors.color for colors in productData.cortina.colores[cortina.textil] | filter: filterColors  |limitTo:12">
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
     </div>
     <div class="form-group">
-      <label>Ancho</label>
+      <label><%= htmlWebpackPlugin.options.quote_commons.width%></label>
       <input type="number" ng-disabled=!cortina.colorName name="width" id="width" ng-model="cortina.width" min="0.1" class="form-control" ng-change="changeSimpleWidth('Cortina', cortina)" required="" step="0.1">
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.width.$error.required">Campo requerido</small>
     </div>
     <div class="form-group">
-      <label>Alto</label>
+      <label><%= htmlWebpackPlugin.options.quote_commons.height%></label>
       <input type="number" ng-disabled=!cortina.colorName name="height" id="height" ng-model="cortina.height" min="0.1" class="form-control" required="" step="0.1" ng-change="changeSimpleHeight('Cortina', cortina)">
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.height.$error.required">Campo requerido</small>
     </div>
     <!-- Tipo is only shown when there is more than one type on the cortinas excel -->
     <span ng-init="cortina.sistema.type='Cortina'">
       <div class="form-group" ng-if="productData.cortina.sistemas.length > 1">
-        <label for="sistemaType">Tipo</label>
+        <label for="sistemaType"><%= htmlWebpackPlugin.options.quote_commons.type%></label>
         <select id="sistemaType" ng-model="cortina.sistema.type" ng-init="cortina.sistema.type='Cortina'" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="">
           <option value={{sistema.type}} ng-repeat="sistema in productData.cortina.sistemas"> {{sistema.type}} </option>
         </select>
@@ -58,7 +58,7 @@
 
     <!-- Apertura -->
     <div class="form-group">
-      <label>Apertura</label>
+      <label><%= htmlWebpackPlugin.options.cortina.opening%></label>
       <select ng-model="cortina.opening" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-required="sistema.opening.length>0" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="opening in sistema.opening">{{opening}}</option>
       </select>
@@ -66,7 +66,7 @@
     </div>
     <!-- Instalación -->
     <div class="form-group">
-      <label>Instalación</label>
+      <label><%= htmlWebpackPlugin.options.cortina.installation%></label>
       <select ng-model="cortina.installation" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-required="{{sistema.installation.length>0}}" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
         <option ng-repeat="installation in sistema.installation">{{installation}}</option>
       </select>
@@ -74,22 +74,22 @@
     </div>
     <hr />
     <span ng-show="addingPlus == false" ng-repeat="(name, additionals) in productData.cortina.allAdditionals">
-      <button type="button" class="btn btn-default" ng-click="newPlus(name, additionals)">Agregar {{name}}</button>
+      <button type="button" class="btn btn-default" ng-click="newPlus(name, additionals)"><%= htmlWebpackPlugin.options.general.add%> {{name}}</button>
     </span>
     <hr />
     <div class="form-adding" ng-show="addingPlus == true">
       <label class="title">{{plusName}}:</label>
       <div class="form-group">
-        <label>Cantidad</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.quantity%></label>
         <input type="number" ng-model="cortina.plusQuantity" name="plusQuantity" id="plusQuantity" class="form-control" pattern="[0-9]*">
       </div>
       <div class="form-group">
-        <label>Nombre</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.name%></label>
         <input type="text" ng-model="cortina.plus.value" name="plus" id="plus" class="form-control" uib-typeahead="additional as additional.name for additional in plusTemplate | filter:$viewValue | limitTo:12" typeahead-editable="false">
       </div>
       <div>
-        <button type="button" class="btn btn-secondary-left" ng-click="addPlus(cortina.plus, cortina.plusQuantity)">Agregar</button>
-        <button type="button" class="btn btn-tertiary-left" ng-click="cancelPlus()">Cancelar</button>
+        <button type="button" class="btn btn-secondary-left" ng-click="addPlus(cortina.plus, cortina.plusQuantity)"><%= htmlWebpackPlugin.options.general.add%></button>
+        <button type="button" class="btn btn-tertiary-left" ng-click="cancelPlus()"><%= htmlWebpackPlugin.options.general.cancel%></button>
         <hr />
       </div>
     </div>
@@ -99,22 +99,22 @@
     <!---Motor -->
     <div class='form-group notes'>
       <div ng-show="addingMotor == false && productData.cortina.motors.length > 0">
-        <button type="button" class="btn btn-default" ng-click="addMotor()">Agregar Motorización</button>
+        <button type="button" class="btn btn-default" ng-click="addMotor()"><%= htmlWebpackPlugin.options.quote_commons.add_motor%></button>
         <hr />
       </div>
       <div class="form-adding" ng-show="addingMotor == true && productData.cortina.motors.length > 0">
-        <label class="title">Motorización:</label>
+        <label class="title"><%= htmlWebpackPlugin.options.quote_commons.motor%></label>
         <div class="form-group">
-          <label>Cantidad</label>
+          <label><%= htmlWebpackPlugin.options.quote_commons.quantity%></label>
           <input type="number" ng-model="cortina.motorQuantity" name="motorQuantity" id="motorQuantity" class="form-control" pattern="[0-9]*">
         </div>
         <div class="form-group">
-          <label>Nombre</label>
+          <label><%= htmlWebpackPlugin.options.quote_commons.name%></label>
           <input type="text" ng-model="cortina.motor" name="motor" id="motor" class="form-control" uib-typeahead="motor.name for motor in productData.cortina.motors | filter:{name:$viewValue} | limitTo:12" typeahead-editable="false">
         </div>
         <div>
-          <button type="button" class="btn btn-secondary-left" ng-click="addMotor(cortina.motor, cortina.motorQuantity,cortina.motor)">Agregar</button>
-          <button type="button" class="btn btn-tertiary-left" ng-click="cancelMotor()">Cancelar</button>
+          <button type="button" class="btn btn-secondary-left" ng-click="addMotor(cortina.motor, cortina.motorQuantity,cortina.motor)"><%= htmlWebpackPlugin.options.general.add%></button>
+          <button type="button" class="btn btn-tertiary-left" ng-click="cancelMotor()"><%= htmlWebpackPlugin.options.general.cancel%></button>
         </div>
         <hr />
       </div>
@@ -125,26 +125,26 @@
       </div>
     </div>
     <div class="form-group notes">
-      <label>Observaciones</label>
+      <label><%= htmlWebpackPlugin.options.quote_commons.notes%></label>
       <textarea name="notes" ng-model="cortina.notes" class="form-control"></textarea>
     </div>
     <div class="total-configuration">
       <div class="form-group" ng-show="cortina.unit">
-        <label>Precio Metro</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.meter_price%></label>
         <input ng-currency type="text" name="unit" ng-model="cortina.unit" class="form-control" disabled="disabled" placeholder="{{cortina.unit}}">
       </div>
       <div class="form-group" ng-show="cortina.price">
-        <label>Precio Unitario</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.unit_price%></label>
         <input ng-currency type="text" name="price" ng-model="cortina.price" class="form-control" disabled="disabled" placeholder="${{cortina.price}}">
       </div>
       <div class="form-group" ng-show="cortina.total">
-        <label>Total</label>
+        <label><%= htmlWebpackPlugin.options.quote_commons.total%></label>
         <input ng-currency type="text" name="total" ng-model="cortina.total" class="form-control" disabled="disabled" placeholder="{{cortina.total}}">
       </div>
     </div>
     <div>
-      <button type="button" class="btn btn-default" ng-click="cancelProduct(cortinaForm)">Cancelar</button>
-      <button type="submit" class="btn btn-primary">Agregar</button>
+      <button type="button" class="btn btn-default" ng-click="cancelProduct(cortinaForm)"><%= htmlWebpackPlugin.options.general.cancel%></button>
+      <button type="submit" class="btn btn-primary"><%= htmlWebpackPlugin.options.general.add%></button>
     </div>
   </form>
 </div>

@@ -78,6 +78,7 @@ module.exports = {
     product_not_found:"No Se encontró el producto",
     no_user:"El usuario no existe",
     no_client:"No se encontraron clientes",
+    no_seller:"No se encontraron vendedores",
 
     activate:"Activar",
     deactivate:"Desactivar",
@@ -421,6 +422,7 @@ module.exports = {
     download_report:"Descargar Reporte"
   },
   quotes:{
+    installation:"Instalación",
     quote:"Cotizar",
     manual_order:"Orden Manual",
     add_new_client:"Agregar nuevo cliente",
@@ -663,6 +665,7 @@ module.exports = {
     location:"Ubicación",
     type:"Tipo",
     width:"Ancho",
+    height:"Altura",
     projection:"Proyeccion / Caída",
     operation_mode:"Modo de operación",
     unit_price:"Precio Unitario",
@@ -677,7 +680,11 @@ module.exports = {
     name:"Nombre",
     price:"Precio",
     actions:"Acciones",
-    
+    product:"Producto",
+    finish:"Acabado",
+    textil:"Textil",
+    opening:"Apertura",
+    color:"Color",
 
     installation_type:"Tipo de Inst.",
     squared:true,
@@ -778,7 +785,8 @@ module.exports = {
     unit_price:"Precio Unitario",
     rotate_fabric:"Girar Textil",
     cancel_turn:"Cancelar giro de textil",
-    qty:"Cant."
+    qty:"Cant.",
+    system:"Sistema"
   },
   molding_form:{
     molding:"Moldura/Adicional",
@@ -841,10 +849,50 @@ module.exports = {
     <option value="Atras">Atras</option>
     <option value="Enfrente">Enfrente</option>
     `,
-    control_position:"Altura de Mando",
+    control_position:"Mando",
+    control_options:`
+    <option value="Izquierda">Izquierda</option>
+    <option value="Derecha">Derecha</option>
+    <option value="N/A">N/A</option>
+    `,
+    chain_height:"Altura de Mando",
     standard:"Estándar",
 
     
+  },
+  custom:{
+    cusotm:"Personalizado",
+    seller:"Vendedor",
+    product_type:"Tipo de Producto",
+    product_types:`
+    option value="Balance">Balances</option>
+    <option value="Shutter">Shutters</option>
+    <option value="Toldo">Productos para el exterior</option>
+    <option value="Enrollable">Persianas</option>
+    <option value="Piso">Pisos</option>
+    `,
+    change_seller:"Cambiar vendedor",
+    invalid_price:"Precio Invalido"
+  },
+  cortina:{
+    cortina:"Cortina",
+    textil:"Textil",
+    opening:"Apertura",
+    installation:"Instalación",
+
+  },
+  new_client:{
+    new_client:"Nuevo Cliente",
+  },
+  balance:{
+    balances:"Balance",
+    types:`
+    <option value="De madera">De madera</option>`,
+    width:"Ancho/frente (metros)",
+    height:"Alto/frente (metros)",
+    way:"Tapa",
+    right_return:"Retorno derecho",
+    left_return:"Retorno Izquiero",
   }
 }
 

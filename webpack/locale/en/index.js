@@ -77,6 +77,7 @@ module.exports = {
     product_not_found:"Product not found",
     no_user:"User not found",
     no_client:"Client not found",
+    no_seller:"Seller not found",
 
     activate:"Activate",
     deactivate:"Deactivate",
@@ -122,7 +123,7 @@ module.exports = {
     city: false,
     cortinas: false,
     fractions:true,
-    faction_style:` style="width: 80%"`,
+    fraction_style:` style="width: 80%"`,
 
   },
   console:{
@@ -415,6 +416,7 @@ module.exports = {
     download_report:"Download Report  "
   },
   quotes:{
+    installation:"Installation",
     quote:"Quote",
     manual_order:"Manual Order",
     add_new_client:"Add new client",
@@ -657,6 +659,7 @@ module.exports = {
     location:"Location",
     type:"Type",
     width:"Width",
+    height:"Height",
     projection:"Projection / Fall",
     operation_mode:"Operation Mode",
     unit_price:"Unit Price",
@@ -671,6 +674,11 @@ module.exports = {
     name:"Name",
     price:"Price",
     actions:"Actions",
+    product:"Product",
+    finish:"Acabado",
+    textil:"Textil",
+    opening:"Apertura",
+    color:"Color",
     
     installation_type:"Installation Type",
     squared:true,
@@ -757,8 +765,20 @@ module.exports = {
     type:"Product",
     price:"Price",
     square_per_box:"Inch² per Box",
-    proce_type:"Price Type",
+    price_type:"Price Type",
     per_box:"Per Box",
+    width:"Width (Inches)",
+    height:"Height (Inches)",
+    squared:false,
+    add_additionals:"add Additionals",
+    additional:"Additionals:",
+    add_motor:"Add Motor & Cornices",
+    motor:"Motor & Cornices:",
+    meter_price:"Inch Price",
+    unit_price:"Unit Price",
+    rotate_fabric:"Rotate Frabric",
+    cancel_turn:"Cancel Turn",
+    qty:"Qty."
   
   },
   molding_form:{
@@ -798,5 +818,62 @@ module.exports = {
     cancel_turn:"Cancel Turn",
     
 
+  },
+  enrollable:{
+    shades:"Shades",
+    type_options:`
+    <option value="Solar Screen">Rollershade</option>
+    <option value="Solar Blackout">Sheer Elegance</option>
+    `,
+    system:"System",
+    config:"Mount",
+    fall:"Roll",
+    fall_options:`
+    <option value="Standard">Standard</option>
+    <option value="Reverse">Reverse</option>
+    `,
+    control_position:"Control Position",
+    control_options:`
+    <option value="Left">Left</option>
+    <option value="Right">Right</option>
+    <option value="N/A">N/A</option>
+    `,
+    chain_height:"Chain Height",
+    standard:"Standar",
+
+    
+  },
+  custom:{
+    cusotm:"Custom",
+    seller:"Seller",
+    product_type:"Product Type",
+    product_types:`
+    <option value="Balance">Cornices</option>
+    <option value="Toldo">Exterior Shades and Awnings</option>
+    <option value="Enrollable">Shades</option>
+    `,
+    change_seller:"Change Seller",
+    invalid_price:"Invalid Price"
+  },
+  cortina:{
+    cortina:"Curtain",
+    textil:"Textile",
+    opening:"opening",
+    installation:"installation",
+
+  },
+  new_client:{
+    new_client:"New Client",
+  },
+  balance:{
+    balances:"Cronice",
+    types:`
+    <option value="De madera">Wood</option>`,
+    width:"Width/front (Inch)",
+    height:"Height/frnt (Inch)",
+    way:"Way",
+    right_return:"Right Return",
+    left_return:"Left Return",
   }
+  
 }
