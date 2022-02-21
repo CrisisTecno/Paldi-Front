@@ -97,7 +97,11 @@
       <small class="error-message" ng-show="installationSheet.extraError">
         Es necesario específicar al menos una herramienta adicional </small>
     </div>
-
+    <div class="form-group notes">
+      <label>Comentarios Adicionales</label>
+      <textarea name="notes" ng-model="installationSheet.notes" class="form-control" required=""></textarea>
+      <small class="error-message" ng-if="installationForm.$validated && installationForm.addressReference.$error.required">Campo requerido</small>
+    </div>
 
     <div>
       <button type="button" class="btn btn-default"

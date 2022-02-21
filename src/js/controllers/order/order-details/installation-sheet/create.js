@@ -34,6 +34,7 @@ const getInstallationSheetState = async ($scope, order) => {
     address: data.address,
     addressReference: data.address_guide,
     postalCode: data.cp,
+    notes:data.notes,
 
     extras: getAllItems(previousInstallationSheet.tools ?? {}),
     otherExtra: getOtherItems(previousInstallationSheet.tools ?? {}),
@@ -87,6 +88,7 @@ export const showCreateInstallationSheetDialog = async (
           address: data.address,
           address_guide: data.addressReference,
           cp: data.postalCode,
+          notes:data.notes,
         },
         tools: {
           rotomartillo: extras.rotomartillo,
@@ -261,7 +263,7 @@ export const showCreateInstallationSheetDialog = async (
   
         var lat_lon = marker_latlon;
         if (lat_lon === null) {
-          if($scope.installationSheet.address=="" || null)
+          if($scope.installationSheet.address=="" || $scope.installationSheet.address== null)
               lat_lon =$scope.store_location.lat+','+ $scope.store_location.lng;
           else{
               lat_lon = await $scope.addressToGeocode($scope.installationSheet.address)
@@ -274,6 +276,7 @@ export const showCreateInstallationSheetDialog = async (
         } else {
           lat_lon = lat_lon.split(",");
         }
+       
         var latLng = new google.maps.LatLng(lat_lon[0], lat_lon[1]);
         
         
