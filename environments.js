@@ -88,6 +88,12 @@ config = {
     ...external_api,
     env: "staging",
   },
+  external_production:{
+    ...default_config,
+    apiURL: "https://cotizadorpaldi.com.mx:3333",
+    ...external_api,
+    env: "production",
+  },
   internal_local: {
     ...default_config,
     ...internal_api
