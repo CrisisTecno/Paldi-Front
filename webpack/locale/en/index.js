@@ -98,7 +98,7 @@ module.exports = {
 
     clients: "Clients",
     client: "Client",
-    client_name:"Nombre del cliente",
+    client_name:"Client Name",
 
     receipts: "Receipts",
     receipt: "Receipt",
@@ -127,6 +127,10 @@ module.exports = {
 
   },
   console:{
+    personal_info:"Personal Information",
+    change_pass:"Change Password",
+    currency_ex:"Exchange Rate",
+    logout:"Logout",
     update_provider: "Update Supplier",
     provider_id: "Supplier ID",
 
@@ -874,6 +878,55 @@ module.exports = {
     way:"Way",
     right_return:"Right Return",
     left_return:"Left Return",
+  },
+  login:{
+    mail_required:"Mail Required",
+    pass_required:"Password Required",
+    password:"Password",
+    access:"Login",
+    forgot_password:"Forgot your password",
+    login:"Login",
+    recover_pass:"Forgot Password",
+    send_pass:"Send Password",
+    back_login:"Back to login"
+
+  },
+  order_list:{
+    orders:"Orders",
+    manual_register:"Manual Register",
+    download_orders:"Download Orders",
+    order_details:"Order Details",
+    order_no:"Order Number",
+    state:"State",
+    proyect:"Proyct",
+    client:"Client",
+    client_type:"Client Type",
+    seller:"Sales Rep",
+    type:"Type",
+    product_qty:"Product Quantity",
+    commitment:"Due Date",
+    production_in:"Production Entry Date",
+    production_out:"Production Out Date",
+    transit_date:"Shipping Date",
+    arrival_date:"Arrival Date",
+    programmedDate:"Scheduled Installation Date",
+    installation_date:"Installation Date",
+    products:"Products",
+    additionals:"Additionals",
+    motor:"Motors",
+    discount:"Discount",
+    installation:"Installation",
+    sub_total:"Sub-Total",
+    tax:"TAX",
+    total:"TOTAL",
+    balance:"Balance",
+    payments:"Payments",
+    folio:"Invoice Number",
+    date:"Date",
+    amount:"Price"
+
   }
+  
+ 
   
 }

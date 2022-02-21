@@ -23,7 +23,7 @@ pdApp.controller(
 		$scope.isEmpty = true;
 		$scope.isSuborder = false;
 		$scope.selectedType = "all";
-
+		console.log($scope)
 		$scope.orderTypes = [
 			{ value: "consultant", label: "Mis órdenes" },
 			{ value: "all", label: "Òrdenes generales" },

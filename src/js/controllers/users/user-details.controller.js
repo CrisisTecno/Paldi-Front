@@ -13,7 +13,7 @@ pdApp.controller(
 		$scope.loadUser = function () {
 			$scope.step = "loading";
 			var id = $stateParams.userId;
-
+			
 			$timeout(function () {
 				if (!$scope.currentUser.canAdmin) {
 					$state.go("console.quote-list");
@@ -23,7 +23,7 @@ pdApp.controller(
 
 			paldiService.users.get(id).then(
 				function (user) {
-					// console.log(user)
+					console.log("USR",user)
 					$scope.user = user;
 					$scope.user.warehouseId = user.warehouse
 						? user.warehouse.id

@@ -36,19 +36,36 @@ pdApp.controller(
       ? ($scope.isConsultant = true)
       : ($scope.isConsultant = false)
     $scope.availableStatusList = [
-      {label: "Nueva", value: "NEW"},
-      {label: "Duplicada", value: "DUPLICATE"},
-      {label: "Seguimiento", value: "FOLLOWING"},
-      {label: "Venta Perdida", value: "LOST_SALE"},
-      {label: "Pendiente", value: "PENDING"},
-      {label: "Rechazada", value: "REJECTED"},
-      {label: "Eliminada", value: "DELETED_QUOTE"},
+      {label: EXECUTION_ENV!="EXTERNAL" ? "Nueva" :"New", value: "NEW"},
+      {label: EXECUTION_ENV!="EXTERNAL" ? "Duplicada" :"Duplicated", value: "DUPLICATE"},
+      {label: EXECUTION_ENV!="EXTERNAL" ? "Seguimiento":"Following", value: "FOLLOWING"},
+      {label: EXECUTION_ENV!="EXTERNAL" ? "Venta Perdida":"Lost Sale", value: "LOST_SALE"},
+      {label: EXECUTION_ENV!="EXTERNAL" ? "Pendiente" :"Pending", value: "PENDING"},
+      {label: EXECUTION_ENV!="EXTERNAL" ? "Rechazada" :"Rejected", value: "REJECTED"},
+      {label: EXECUTION_ENV!="EXTERNAL" ? "Eliminada" : "Deleted", value: "DELETED_QUOTE"},
     ]
-
-    $scope.quotesTypes = [
+    var status_list =[
+    {label:  "Nueva" , value: "New"},
+    {label:  "Duplicada" , value: "Duplicated"},
+    {label:  "Seguimiento", value: "Following"},
+    {label:  "Venta Perdida", value: "Lost Sale"},
+    {label:  "Pendiente", value: "Pending"},
+    {label:  "Rechazada" , value: "Rejected"},
+    {label: "Eliminada" , value: "Deleted"},
+    ]
+    var statusTranslate= function(status){
+      for (const elem of status_list){
+        
+        if (status==elem.label)
+          return elem.value
+      }
+      return status
+    }
+    $scope.quotesTypes = $scope.currentUser.realRole!="EXTERNAL_CONSULTANT" ? [
       {value: "consultant", label: "Mis cotizaciones"},
       {value: "all", label: "Cotizaciones generales"},
-    ]
+    ] : [{value: "consultant", label: "My Quotes"},
+      ] 
 
     //============= Data tables =============
 
@@ -100,9 +117,9 @@ pdApp.controller(
     }
 
     $scope.dropdownTranslations = {
-      checkAll: "Seleccionar Todos",
-      uncheckAll: "Deseleccionar Todos",
-      buttonDefaultText: "Estados de Cotización",
+      checkAll: EXECUTION_ENV!="EXTERNAL" ? "Seleccionar Todos":"Select all",
+      uncheckAll: EXECUTION_ENV!="EXTERNAL" ? "Deseleccionar Todos":"Unselect All",
+      buttonDefaultText: EXECUTION_ENV!="EXTERNAL" ?  "Estados de Cotización":"Quote Stages",
     }
 
     function createdRow(row, data, dataIndex) {
@@ -212,7 +229,7 @@ pdApp.controller(
     }
 
     $scope.tableOptions = DTOptionsBuilder.newOptions()
-      .withLanguageSource("lang/table_lang.json")
+      .withLanguageSource( EXECUTION_ENV!="EXTERNAL" ? "lang/table_lang.json" :"lang/table_lang_en.json")
       .withFnServerData(serverData)
       .withOption("processing", true)
       .withOption("serverSide", true)
@@ -236,7 +253,7 @@ pdApp.controller(
         }),
       DTColumnBuilder.newColumn(null)
         .withOption("name", "date_dt")
-        .withTitle("Fecha")
+        .withTitle(EXECUTION_ENV!="EXTERNAL" ?  "Fecha" : "Date")
         .renderWith(function (data) {
           return (
             "<a href=\"#/console/order/" +
@@ -248,7 +265,7 @@ pdApp.controller(
         }),
       DTColumnBuilder.newColumn(null)
         .withOption("name", "clientName_txt")
-        .withTitle("Cliente")
+        .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Cliente" :"Client")
         .renderWith(function (data) {
           return (
             "<a href=\"#/console/order/" +
@@ -260,7 +277,7 @@ pdApp.controller(
         }),
       DTColumnBuilder.newColumn(null)
         .withOption("name", "clientType_txt")
-        .withTitle("Tipo de Cliente")
+        .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Tipo de Cliente":"Client Type")
         .renderWith(function (data) {
           return (
             "<a href=\"#/console/order/" +
@@ -273,7 +290,7 @@ pdApp.controller(
 
       DTColumnBuilder.newColumn(null)
         .withOption("name", "products_i")
-        .withTitle("Cant")
+        .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Cant":"Qty")
         .renderWith(function (data) {
           return (
             "<a href=\"#/console/order/" +
@@ -285,7 +302,7 @@ pdApp.controller(
         }),
       DTColumnBuilder.newColumn(null)
         .withOption("name", "productType_txt")
-        .withTitle("Tipo de producto")
+        .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Tipo de producto":"Product Type")
         .renderWith(function (data) {
           return (
             "<a href=\"#/console/order/" +
@@ -297,13 +314,15 @@ pdApp.controller(
         }),
       DTColumnBuilder.newColumn(null)
         .withOption("name", "quoteStatus_txt")
-        .withTitle("Estado")
+        .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Estado":"Status")
         .renderWith(function (data) {
+          console.log(data)
           if (
             data.status_s == "Cancelada" ||
             data.status_s == "Rechazada" ||
             data.status_s == "Pendiente"
           ) {
+            
             return (
               "<a href=\"#/console/order/" +
               data.id +
@@ -323,7 +342,7 @@ pdApp.controller(
               "\" class=\"status-block " +
               data.quoteStatus_txt +
               "\">" +
-              data.quoteStatus_txt +
+              (EXECUTION_ENV!="EXTERNAL" ?  data.quoteStatus_txt:statusTranslate( data.quoteStatus_txt))+
               "<a>"
             )
           }

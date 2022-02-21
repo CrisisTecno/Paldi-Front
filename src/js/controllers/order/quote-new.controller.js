@@ -893,10 +893,15 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   // ---------------------------------------------------------------------------------------------//
 
   $scope.save = function (client) {
-    // console.log($scope.quote)
+ 
     $scope.checkForm = true
-    if ($scope.quote.notes != "" && $scope.quote.notes != null && $scope.quote.source && $scope.quote.city) {
+    if ($scope.quote.notes != "" && $scope.quote.notes != null && (($scope.quote.source && $scope.quote.city) || $scope.currentUser.realRole)) {
+      if($scope.currentUser.realRole){
+        $scope.quote.source="."
+        $scope.quote.city="."
+      }
       if (!$scope.editing) {
+
         $scope.subQuote = $scope.quote
         $scope.productsFiltered.forEach(function (productFiltered) {
           colorPriceService.prepare(productFiltered.type, $scope.quote,)

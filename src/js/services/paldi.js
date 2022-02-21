@@ -105,8 +105,10 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         })
         .then(function (response) {
           // console.log("WHOAMI RAN: ", response)
-          if (response.data.role === "EXTERNAL_CONSULTANT")
+          if (response.data.role === "EXTERNAL_CONSULTANT"){
+            response.data.realRole = "EXTERNAL_CONSULTANT"
             response.data.role = "CONSULTANT"
+          }
           return response.data;
         });
     },
@@ -118,8 +120,10 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         })
         .then(function (response) {
           // console.log("GET USER RAN: ", response)
-          if (response.data.role === "EXTERNAL_CONSULTANT")
+          if (response.data.role === "EXTERNAL_CONSULTANT"){
+            response.data.realRole = "EXTERNAL_CONSULTANT"
             response.data.role = "CONSULTANT"
+          }
           return response.data;
         });
     },

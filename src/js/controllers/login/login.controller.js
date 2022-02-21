@@ -12,6 +12,7 @@ pdApp.controller(
     sessionHelper,
   ) {
     $scope.env = globals.env
+    
     $scope.login = function (username, password) {
       $scope.loginForm.$validated = true
       yokozuna.login(username, password).then(
@@ -80,11 +81,12 @@ pdApp.controller(
           },
         )
       } else {
+        
         $scope.currentUser = {
           ...data.user,
           ...data.permissions,
         }
-        console.log("SETTING CURRENT USER: ", $scope)
+        console.log("SETTING CURRENT USER: ", $scope.currentUser)
         sessionHelper.initOrderStatusList(data.user.role)
         goIn()
       }

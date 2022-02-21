@@ -1,33 +1,36 @@
 <div class="login-view">
     <fieldset>
-        <h1><%= htmlWebpackPlugin.options.stage.name %>  Inicia Sesión</h1>
+        <h1><%= htmlWebpackPlugin.options.stage.name %> <%= htmlWebpackPlugin.options.login.login%> </h1>
         <p class="error" ng-if="errorMessage">{{ errorMessage }}</p>
         <form name="loginForm" role="form" novalidate
             ng-submit="login(username, password)">
             <div class="form-group">
-                <label>E-mail</label>
+                <label><%= htmlWebpackPlugin.options.general.email %> </label>
                 <input type="email" name="username" ng-model="username"
                     class="form-control" required="">
                 <small class="error-message"
-                    ng-if="loginForm.$validated && loginForm.username.$error.required">El
-                    correo es requerido</small>
+                    ng-if="loginForm.$validated && loginForm.username.$error.required">
+                    <%= htmlWebpackPlugin.options.login.mail_required %> 
+                </small>
                 <small class="error-message"
-                    ng-if="loginForm.$validated && loginForm.username.$error.email">El
-                    e-mail no es válido</small>
+                    ng-if="loginForm.$validated && loginForm.username.$error.email">
+                    <%= htmlWebpackPlugin.options.client.error_mail %> 
+                </small>
             </div>
             <div class="form-group">
-                <label>Contraseña</label>
+                <label><%= htmlWebpackPlugin.options.login.password %> </label>
                 <input type="password" name="password" ng-model="password"
                     class="form-control" required="">
                 <small class="error-message"
-                    ng-if="loginForm.$validated && loginForm.password.$error.required">La
-                    contraseña es requerida</small>
+                    ng-if="loginForm.$validated && loginForm.password.$error.required">
+                <%= htmlWebpackPlugin.options.login.pass_required %>
+            </small>
             </div>
             <button type="submit"
-                class="btn btn-paldi btn-primary block full-width m-b">Ingresar</button>
+                class="btn btn-paldi btn-primary block full-width m-b">
+                <%= htmlWebpackPlugin.options.login.access %></button>
             <p class="text-center forgot-password"><a
-                    ui-sref="access.forgot-password">¿Olvidaste tu
-                    contraseña?</a></p>
+                    ui-sref="access.forgot-password"><%= htmlWebpackPlugin.options.login.forgot_password %></a></p>
         </form>
     </fieldset>
 </div>

@@ -1,7 +1,7 @@
 <div class="order-list-view">
     <div class="ibox">
         <div class="ibox-title">
-            <h3>Órdenes</h3>
+            <h3><%=htmlWebpackPlugin.options.order_list.orders%></h3>
         </div>
         <div class="ibox-content">
             <button ng-if="currentUser.role == 'CONSULTANT'"
@@ -10,11 +10,11 @@
                 ng-click="orderTypeChange(orderType.value)">{{orderType.label}}</button>
 
             <a ng-if="currentUser.canAdmin" class="btn btn-primary-left"
-                ui-sref="console.quote-new-manual">Registro Orden Manual</a>
+                ui-sref="console.quote-new-manual"><%=htmlWebpackPlugin.options.order_list.manual_register%></a>
             <a ng-if="(currentUser.canAdmin || currentUser.canManage || currentUser.role == 'BUYER') && !isEmpty"
                 class="btn btn-secondary-left" href="{{downloadLink}}"
                 download="Ordenes.xlsx"
-                ng-hide="statusList.length < 1">Descargar órdenes</a>
+                ng-hide="statusList.length < 1"><%=htmlWebpackPlugin.options.order_list.download_orders%></a>
 
             <br>
             <br>
@@ -28,7 +28,7 @@
                 style="width: 25%; margin-right: 1rem;">
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-calendar"
-                        ng-click="openStartDate()">Desde <i
+                        ng-click="openStartDate()"><%=htmlWebpackPlugin.options.date.from%> <i
                             class="glyphicon glyphicon-calendar"></i></button>
                 </span>
                 <input name="startDate" type="text" class="form-control"
@@ -43,7 +43,7 @@
             <p class="input-group" style="width: 25%; margin-right: 1rem;">
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-calendar"
-                        ng-click="openEndDate()">Hasta <i
+                        ng-click="openEndDate()"><%=htmlWebpackPlugin.options.date.to%> <i
                             class="glyphicon glyphicon-calendar"></i></button>
                 </span>
                 <input name="endDate" type="text" class="form-control"
@@ -74,89 +74,89 @@
                                                 class="fa fa-file-text"></i></a></button>
                                 </div>
                                 <br>
-                                <h3 class="details-title">Detalles de orden</h3>
+                                <h3 class="details-title"><%=htmlWebpackPlugin.options.order_list.order_details%></h3>
                                 <hr>
 
                                 <ul>
-                                    <li ng-show="!isSuborder"><small>No. de
-                                            Orden:</small>
+                                    <li ng-show="!isSuborder"><small><%=htmlWebpackPlugin.options.order_list.order_no%>:</small>
                                         <span>{{selectedOrder.orderNo}}</span>
                                     </li>
-                                    <li ng-show="isSuborder"><small>No. de
-                                            Orden:</small>
+                                    <li ng-show="isSuborder"><small><%=htmlWebpackPlugin.options.order_list.order_no%>:</small>
                                         <span>{{selectedOrder.orderNo}} -
                                             {{selectedOrder.suborderNo}}</span>
                                     </li>
-                                    <li><small>Estado:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.state%>:</small>
                                         <span>{{pretty('orderStatus', selectedOrder.status)}}</span>
                                     </li>
-                                    <li><small>Proyecto:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.proyect%>:</small>
                                         <span>{{selectedOrder.project}}</span>
                                     </li>
-                                    <li><small>Cliente:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.client%>:</small>
                                         <span>{{selectedOrder.client.name}}
                                             {{selectedOrder.client.lastName}}</span>
                                     </li>
-                                    <li><small>Tipo de Cliente:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.client_type%>:</small>
                                         <span>{{pretty('clientType', selectedOrder.client.type)}}</span>
                                     </li>
+                                    <% if(htmlWebpackPlugin.options.features.city){%>
                                     <li><small>Ciudad:</small>
                                         <span>{{selectedOrder.city}}</span></li>
-                                    <li><small>Vendedor:</small>
+                                    <%}%>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.seller%>:</small>
                                         <span>{{selectedOrder.user.name}}
                                             {{selectedOrder.user.lastName}}</span>
                                     </li>
                                     <li ng-if="selectedOrder.type === 'Mixta'">
-                                        <small>Tipo:</small>
+                                        <small><%=htmlWebpackPlugin.options.order_list.type%>:</small>
                                         <span>{{selectedOrder.mixedLabel}}</span>
                                     </li>
                                     <li
                                         ng-if="selectedOrder.type === 'Custom' ">
-                                        <small>Tipo:</small>
+                                        <small><%=htmlWebpackPlugin.options.order_list.type%>:</small>
                                         <span>{{pretty('productType', selectedOrder.products[0].type)}}</span>
                                     </li>
 
-                                    <li><small>Cant. de productos:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.product_qty%>:</small>
                                         <span>{{productsQuantity}}</span></li>
 
-                                    <li><small>Fecha:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.date%>:</small>
                                         <span>{{selectedOrder.date | date : 'dd MMM, yyyy'}}</span>
                                     </li>
                                     <li ng-show="selectedOrder.commitmentDate">
-                                        <small>Fecha Compromiso:</small>
+                                        <small><%=htmlWebpackPlugin.options.order_list.commitment%>:</small>
                                         <span>{{selectedOrder.commitmentDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
                                     <li ng-show="selectedOrder.productionDate">
-                                        <small>Entrada a Producción:</small>
+                                        <small><%=htmlWebpackPlugin.options.order_list.production_in%>:</small>
                                         <span>{{selectedOrder.productionDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
                                     <li
                                         ng-show="selectedOrder.endProductionDate">
-                                        <small>Salida de Producción:</small>
+                                        <small><%=htmlWebpackPlugin.options.order_list.production_out%>:</small>
                                         <span>{{selectedOrder.endProductionDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
                                     <li ng-show="selectedOrder.transitDate">
-                                        <small>Fecha de Embarque:</small>
+                                        <small><%=htmlWebpackPlugin.options.transit_date%>:</small>
                                         <span>{{selectedOrder.transitDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
                                     <li ng-show="selectedOrder.arrivalDate">
-                                        <small>Fecha de Llegada:</small>
+                                        <small><%=htmlWebpackPlugin.options.order_list.arrival_date%>:</small>
                                         <span>{{selectedOrder.arrivalDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
                                     <li ng-show="selectedOrder.programmedDate">
-                                        <small>Fecha de Programación de
-                                            instalación:</small>
+                                        <small><%=htmlWebpackPlugin.options.order_list.programmedDate%>
+                                            :</small>
                                         <span>{{selectedOrder.programmedDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
                                     <li
                                         ng-show="selectedOrder.installationDate">
-                                        <small>Fecha de Instalacion:</small>
+                                        <small><%=htmlWebpackPlugin.options.order_list.installation_date%>:</small>
                                         <span>{{selectedOrder.installationDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
                                 </ul>
 
                                 <hr>
-                                <h3 class="details-title">Observaciones</h3>
+                                <h3 class="details-title"><%=htmlWebpackPlugin.options.quote_commons.notes%></h3>
                                 <hr>
 
                                 <ul>
@@ -167,42 +167,42 @@
 
 
                                 <hr>
-                                <h3 class="details-title">Totales</h3>
+                                <h3 class="details-title"><%=htmlWebpackPlugin.options.quote_commons.total%></h3>
                                 <hr>
 
                                 <ul>
-                                    <li><small>Productos:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.products%>:</small>
                                         <span>{{selectedOrder.productsTotal | currency}}</span>
                                     </li>
                                     <li ng-show="selectedOrder.plusTotal">
-                                        <small>Adicionales:
+                                        <small><%=htmlWebpackPlugin.options.order_list.additionals%>:
                                         </small><span>{{selectedOrder.plusTotal | currency}}</span>
                                     </li>
                                     <li ng-show="selectedOrder.motorTotal">
-                                        <small>Motorización:
+                                        <small><%=htmlWebpackPlugin.options.order_list.motor%>:
                                         </small><span>{{selectedOrder.motorTotal | currency}}</span>
                                     </li>
                                     <li ng-show="selectedOrder.discountPercent">
-                                        <small>Descuento
+                                        <small><%=htmlWebpackPlugin.options.order_list.discount%>
                                             ({{selectedOrder.discountPercent}}%):
                                         </small><span>{{selectedOrder.discount | currency}}</span>
                                     </li>
                                     <li
                                         ng-show="selectedOrder.installationTotal">
-                                        <small>Instalación: </small>
+                                        <small><%=htmlWebpackPlugin.options.order_list.installation%>: </small>
                                         <span>{{selectedOrder.installationTotal | currency}}</span>
                                     </li>
-                                    <li><small>Sub-Total:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.sub_total%>:</small>
                                         <span>{{selectedOrder.subTotal | currency}}</span>
                                     </li>
-                                    <li><small>IVA:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.tax%>:</small>
                                         <span>{{selectedOrder.iva | currency}}</span>
                                     </li>
-                                    <li><small>TOTAL:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.total%>:</small>
                                         <span>{{selectedOrder.total | currency}}</span>
                                     </li>
                                     <li ng-show="!isSuborder">
-                                        <small>Saldo:</small>
+                                        <small><%=htmlWebpackPlugin.options.order_list.blance%>:</small>
                                         <span>{{selectedOrder.balance | currency}}</span>
                                     </li>
                                 </ul>
@@ -211,17 +211,17 @@
                                 <hr ng-if="selectedOrder.payments.length > 0">
                                 <h3 class="details-title"
                                     ng-if="selectedOrder.payments.length > 0">
-                                    Pagos</h3>
+                                    <%=htmlWebpackPlugin.options.order_list.payments%></h3>
                                 <hr>
 
                                 <ul ng-repeat="payment in selectedOrder.payments"
                                     class="order-payment">
-                                    <li><small>No. Folio:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.folio%>:</small>
                                         <span>{{payment.folio}}</span></li>
-                                    <li><small>Fecha:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.date%>:</small>
                                         <span>{{payment.date | date : 'dd/MM/yyyy HH:mm'}}</span>
                                     </li>
-                                    <li><small>Monto:</small>
+                                    <li><small><%=htmlWebpackPlugin.options.order_list.amount%>:</small>
                                         <span>{{payment.advance | currency}}</span>
                                     </li>
                                     <hr>

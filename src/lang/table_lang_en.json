@@ -1,0 +1,23 @@
+{
+    "sEmptyTable":     "No data available",
+    "sInfo":           "Showing registers from _START_ to _END_ of _TOTAL_ total registers",
+    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+    "sInfoFiltered":   "Showing registers from 0 to 0 of 0 total registers",
+    "sInfoPostFix":    "",
+    "sInfoThousands":  ",",
+    "sLengthMenu":     "Show _MENU_ registers",
+    "sLoadingRecords": "Loading...",
+    "sProcessing":     "Processing...",
+    "sSearch":         "Search:",
+    "sZeroRecords":    "Records Not found",
+    "oPaginate": {
+        "sFirst":    "First",
+        "sLast":     "Last",
+        "sNext":     "Next",
+        "sPrevious": "Previsous"
+    },
+    "oAria": {
+        "sSortAscending":  ": Activate to sort in asecending order",
+        "sSortDescending": ": Activate to sort in descending order"
+    }
+}

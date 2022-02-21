@@ -23,6 +23,9 @@ pdApp.controller(
     orderService,
     permissionService
   ) {
+    console.log($scope)
+    console.log(EXECUTION_ENV)
+    
     var loadOrder = function () {
       var id = $stateParams.orderId;
       $scope.step = "loading";
@@ -166,9 +169,9 @@ pdApp.controller(
     $scope.sendToClient = function (order) {
       var objName;
       if (order.status == "QUOTE") {
-        objName = "cotización";
+        objName = EXECUTION_ENV=="EXTERNAL" ? "cotización":"Quote";
       } else {
-        objName = "orden";
+        objName = EXECUTION_ENV=="EXTERNAL" ? "orden" : "Order";
       }
 
       swal(
@@ -213,9 +216,9 @@ pdApp.controller(
 
       var objName;
       if (order.status == "QUOTE") {
-        objName = "cotización";
+        objName = EXECUTION_ENV=="EXTERNAL" ? "cotización" :"Quote" ;
       } else {
-        objName = "orden";
+        objName = EXECUTION_ENV=="EXTERNAL" ? "orden" : Order;
       }
       // console.log(order)
 
