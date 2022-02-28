@@ -17,6 +17,23 @@ pdApp.factory("prettyHelper", function () {
 			return "";
 		},
 
+		getClientTypeEN: function (type) {
+			console.log("TYPE",type)
+			switch (type) {
+				case "DIRECT_SALE":
+					return "Direct Sale";
+				case "DISTRIBUTOR_INDEPENDENT":
+					return "Independant Distributor";
+				case "DISTRIBUTOR_PREMIUM":
+					return "Distributor Premium";
+				case "PROJECTS":
+					return "Proyects";
+				case "ARCHITECT_INTERIOR":
+					return "Architects & Interior Desginers";
+			}
+			return "";
+		},
+
 		getOrderStatus: function (status) {
 			switch (status) {
 				case "QUOTE":
@@ -47,6 +64,83 @@ pdApp.factory("prettyHelper", function () {
 					return "Instalado Parcial";
 				case "INSTALLED_NONCONFORM":
 					return "Instalado Inconforme";
+			}
+			return status;
+		},
+		getOrderStatusEn: function (status) {
+			console.log("I WAS CALLED")
+			switch (status) {
+				case "QUOTE":
+					return "Quote";
+				case "REJECTED":
+					return "Rejected";
+				case "CANCELED":
+					return "Canceled";
+				case "ORDER_CANCELED":
+					return "Canceled Order";
+				case "PENDING":
+					return "Pending";
+				case "LINE":
+					return "Line";
+				case "BACKORDER":
+					return "Backorder";
+				case "PRODUCTION":
+					return "Production";
+				case "TRANSIT":
+					return "Transit";
+				case "FINISHED":
+					return "Finished";
+				case "PROGRAMMED":
+					return "Scheduled";
+				case "INSTALLED":
+					return "Installed";
+				case "INSTALLED_INCOMPLETE":
+					return "Incomplete Installation";
+				case "INSTALLED_NONCONFORM":
+					return "Installation Inconform";
+			}
+			console.log("NOTHING FOUND HERE")
+			return this.getReverseOrderStatusEn(status);
+		},
+		getReverseOrderStatusEn: function (status) {
+			switch (status) {
+				case "Cotizacion":
+					return "Qote";
+				case "Rechazada":
+					return "Rejected";
+				case "Cancelada":
+					return "Canceled";
+				case "Pendiente":
+					return "Pending";
+				case "Linea":
+					return "Line";
+				case "Backorder":
+					return "Backorder";
+				case "Produccion":
+					return "Production";
+				case "Transito":
+					return "Transit";
+				case "I. Terminado":
+					return "Finished";
+				case "Programada":
+					return "Programmed";
+				case "Instalada":
+					return "Installed";
+				case "Instalado Parcial":
+					return "Partial Installation";
+				case "Instalado Inconforme":
+					return "Non Conform Installation";
+				case "Orden Cancelada":
+					return "Canceled Order";
+				case "Seguimiento":
+					return "Following"
+				case "Venta Perdida":
+					return "Lost Sale"
+				case "Duplicada":
+					return "Duplicated"
+				case "Nueva":
+					return "New"
+
 			}
 			return status;
 		},
@@ -196,6 +290,26 @@ pdApp.factory("prettyHelper", function () {
 			}
 			return type;
 		},
+		getProductTypeEN: function (type) {
+			switch (type) {
+				case "Enrollable":
+					return "Shades";
+				case "Toldo":
+					return "Exterior Products";
+				case "Shutter":
+					return "Shutter";
+				case "Balance":
+					return "Balance";
+				case "Piso":
+					return "Floors";
+				case "Filtrasol":
+					return "Filtrasol";
+				case "Custom":
+					return "Custom";
+			}
+			return type;
+		},
+		
 
 		getColor: function (color) {
 			if (!color.name) {
@@ -269,6 +383,71 @@ pdApp.factory("prettyHelper", function () {
 			}
 			return "";
 		},
+
+		getEventEn: function (action) {
+			switch (action) {
+				case "QUOTE_CREATED":
+					return "Quote created";
+				case "QUOTE_EDITED":
+					return "Quote edited";
+				case "QUOTE_STATUS_NEW":
+					return "Changed quote status to New";
+				case "QUOTE_STATUS_FOLLOWUP":
+					return "Changed Quote status to Follow up";
+				case "QUOTE_STATUS_DUPLICATED":
+					return "Changed Quote status to Duplicated";
+				case "QUOTE_STATUS_LOST_BRAND":
+					return "Venta Perdida (Busca otro producto)";
+				case "QUOTE_STATUS_LOST_PRICE":
+					return "Quote status changed to Lost Sale (Lower price)";
+				case "QUOTE_STATUS_LOST_FOLLOWUP":
+					return "Quote status changed to Lost Sale (No response)";
+				case "QUOTE_STATUS_LOST_DELIVERYTIME":
+					return "Quote status changed to Lost Sale (Faster service)";
+				case "STATUS_LINE":
+					return "Status changed to Line";
+				case "STATUS_REJECTED":
+					return "Status changed to Rejecteed";
+				case "STATUS_CANCELED":
+					return "Status changed to Cancelled";
+				case "STATUS_ORDER_CANCELED":
+					return "Status changed to Order Cancelled";
+				case "STATUS_PENDING":
+					return "Status changed to Pending";
+				case "STATUS_PRODUCTION":
+					return "Status changed to Production";
+				case "STATUS_BACKORDER":
+					return "Status changed to Backorder";
+				case "STATUS_TRANSIT":
+					return "Status changed to Transit";
+				case "STATUS_FINISHED":
+					return "Status changed to Done";
+				case "STATUS_PROGRAMMED":
+					return "Status changed to Shipped";
+				case "STATUS_INSTALLED":
+					return "Status changed to Installed";
+				case "STATUS_INSTALLED_INCOMPLETE":
+					return "Status changed to Partial Delivery";
+				case "STATUS_INSTALLED_NONCONFORM":
+					return "Status changed to Product Defect";
+				case "PAYMENT":
+					return "A payment was received";
+				case "PAYMENT_ADVANCE":
+					return "An advance payment was received";
+				case "PAYMENT_LIQUIDATE":
+					return "The order liquidated the order";
+				case "PAYMENT_CANCEL":
+					return "A payment was cancelled";
+				case "DATE_INSTALLATION":
+					return "Installation date changed";
+				case "DATE_ARRIVAL":
+					return "Delivery date changed";
+				case "DATE_ENDPRODUCTION":
+					return "Production finish date changed";
+			}
+			return "";
+		},
+
 
 		getMonth: function (month) {
 			switch (month) {

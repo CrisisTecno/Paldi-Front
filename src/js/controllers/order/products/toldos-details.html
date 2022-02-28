@@ -25,8 +25,8 @@
             <td>{{p.type}}</td>
 
             <td>{{ pretty( "color", p.color ) }}</td>
-            <td>{{p.width}}</td>
-            <td>{{p.height}}</td>
+            <td><%= htmlWebpackPlugin.options.details_headers.units_width %></td>
+            <td><%= htmlWebpackPlugin.options.details_headers.units_height %></td>
 
             <td>{{p.operationMode}}</td>
             <td>{{p.price | currency}}</td>

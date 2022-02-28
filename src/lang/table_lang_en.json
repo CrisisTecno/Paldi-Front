@@ -14,7 +14,7 @@
         "sFirst":    "First",
         "sLast":     "Last",
         "sNext":     "Next",
-        "sPrevious": "Previsous"
+        "sPrevious": "Previous"
     },
     "oAria": {
         "sSortAscending":  ": Activate to sort in asecending order",

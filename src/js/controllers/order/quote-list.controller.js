@@ -52,6 +52,8 @@ pdApp.controller(
     {label:  "Pendiente", value: "Pending"},
     {label:  "Rechazada" , value: "Rejected"},
     {label: "Eliminada" , value: "Deleted"},
+    {label: "Cancelada", value:"Canceled"},
+    {label: "Pendiente",value:"Pending"}
     ]
     var statusTranslate= function(status){
       for (const elem of status_list){
@@ -332,7 +334,7 @@ pdApp.controller(
                 data.status_s,
               ) +
               "\">" +
-              data.status_s +
+              (EXECUTION_ENV!="EXTERNAL" ?  data.status_s:statusTranslate( data.status_s))+
               "<a>"
             )
           } else {

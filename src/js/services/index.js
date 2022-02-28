@@ -3,7 +3,10 @@ export { pdApp } from "../../pdApp";
 
 import "./data"
 
-import "./pricing/colorPrice";
+
+    
+import "./pricing/colorPrice"
+
 import "./pricing/totals/index"
 import "./json";
 import "./paldi";

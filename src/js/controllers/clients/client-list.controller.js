@@ -10,7 +10,7 @@ pdApp.controller(
 		DTColumnDefBuilder,
 		DTColumnBuilder
 	) {
-		//============= Data tables =============
+		console.log("ENTERS")
 
 		function createdRow(row, data, dataIndex) {
 			$compile(angular.element(row).contents())($scope);
@@ -37,6 +37,7 @@ pdApp.controller(
 			};
 
 			if (sear) {
+				
 				paldiService.clients
 					.search(page, size, sort, sear)
 					.then(function (data) {
@@ -44,15 +45,16 @@ pdApp.controller(
 					});
 			} else {
 				paldiService.clients
-					.list(page, size, sort)
+					.list(page, size, sort,$scope.currentUser)
 					.then(function (data) {
 						processResult(data, fnCallback);
 					});
 			}
 		};
 
+		
 		$scope.tableOptions = DTOptionsBuilder.newOptions()
-			.withLanguageSource("lang/table_lang.json")
+			.withLanguageSource(EXECUTION_ENV!="EXTERNAL"?"lang/table_lang.json":"lang/table_lang_en.json")
 			.withFnServerData(serverData)
 			.withOption("processing", true)
 			.withOption("serverSide", true)
@@ -63,11 +65,12 @@ pdApp.controller(
 		$scope.tableColumns = [
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "name")
-				.withTitle("Nombre")
+				.withTitle(EXECUTION_ENV!="EXTERNAL"?"Nombre":"Name")
 				.renderWith(function (data) {
+					console.log(data)
 					return (
 						'<a href="#/console/client/' +
-						data.id +
+						(EXECUTION_ENV!="EXTERNAL"?data.id:data._id) +
 						'">' +
 						data.name +
 						" " +
@@ -77,9 +80,9 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "type")
-				.withTitle("Tipo de Cliente")
+				.withTitle(EXECUTION_ENV!="EXTERNAL"?"Tipo de Cliente":"Client Type")
 				.renderWith(function (data) {
-					return $rootScope.pretty("clientType", data.type);
+					return EXECUTION_ENV!="EXTERNAL"? $rootScope.pretty("clientType", data.type) : $rootScope.pretty("clientTypeEN", data.type) ;
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "email")

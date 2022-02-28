@@ -43,14 +43,42 @@
             <label>
                 <%= htmlWebpackPlugin.options.toldos.width %>
             </label>
-            <input type="number" id="width" name="width" ng-model="toldo.width" ng-disabled="!color" min="0.1" class="form-control" ng-change="changeWidth('Toldo', toldo)" required="" step="0.1">
+            <div style="display:flex">
+            <input <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" id="width" name="width" ng-model="toldo.width" ng-disabled="!color" min="0.1" class="form-control" ng-change="changeWidth('Toldo', toldo)" required="" step="0.1">
+            <% if(htmlWebpackPlugin.options.features.fractions){%>
+            <select style="width: min-content;" name="extra" ng-model="toldo.w_fraction" class="form-control" ng-change="changeWidth('Toldo', toldo)">
+                <option ng-value={{0}}>0</option>
+                <option ng-value={{0.125}}>⅛</option>
+                <option ng-value={{0.25}}>¼</option>
+                <option ng-value={{0.375}}>⅜</option>
+                <option ng-value={{0.5}}>½</option>
+                <option ng-value={{0.625}}>⅝</option>
+                <option ng-value={{0.75}}>¾</option>
+                <option ng-value={{0.875}}>⅞</option>
+              </select>
+              <%}%>
+              </div>
             <small class="error-message" ng-if="toldoForm.$validated && toldoForm.width.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
         <div class="form-group">
             <label>
                 <%= htmlWebpackPlugin.options.toldos.projection %>
             </label>
-            <input type="number" id="height" name="height" ng-model="toldo.height" ng-disabled="!color" min="0.1" class="form-control" ng-change="changeHeight('Toldo', toldo)" required="" step="0.1">
+            <div style="display:flex">
+            <input <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" id="height" name="height" ng-model="toldo.height" ng-disabled="!color" min="0.1" class="form-control" ng-change="changeHeight('Toldo', toldo)" required="" step="<%=htmlWebpackPlugin.options.features.step%>">
+            <% if(htmlWebpackPlugin.options.features.fractions){%>
+            <select style="width: min-content;" name="extra" ng-model="toldo.h_fraction" class="form-control" ng-change="changeHeight('Toldo', toldo)">
+                <option ng-value={{0}}>0</option>
+                <option ng-value={{0.125}}>⅛</option>
+                <option ng-value={{0.25}}>¼</option>
+                <option ng-value={{0.375}}>⅜</option>
+                <option ng-value={{0.5}}>½</option>
+                <option ng-value={{0.625}}>⅝</option>
+                <option ng-value={{0.75}}>¾</option>
+                <option ng-value={{0.875}}>⅞</option>
+              </select>
+              <%}%>
+            </div>
             <small class="error-message" ng-if="toldoForm.$validated && toldoForm.height.$error.required">
                 <%= htmlWebpackPlugin.options.general.required_field %>
             </small>
@@ -60,8 +88,8 @@
                 <%= htmlWebpackPlugin.options.toldos.control_position %>
             </label>
             <select name="controlSide" ng-model="toldo.controlSide" class="form-control">
-                <option value="Izquierda"><%= htmlWebpackPlugin.options.toldos.left %></option>
-                <option value="Derecha"><%= htmlWebpackPlugin.options.toldos.right %></option>
+                <option ng-value="Izquierda"><%= htmlWebpackPlugin.options.toldos.left %></option>
+                <option ng-value="Derecha"><%= htmlWebpackPlugin.options.toldos.right %></option>
             </select>
             <small class="error-message" ng-if="toldoForm.$validated && toldoForm.controlSide.$error.required">
                 <%= htmlWebpackPlugin.options.general.required_field %>
@@ -72,8 +100,8 @@
                 <%= htmlWebpackPlugin.options.toldos.operation_mode %>
             </label>
             <select name="operationMode" ng-model="toldo.operationMode" class="form-control">
-                <option value="Manual">Manual</option>
-                <option value="Motorizado"><%= htmlWebpackPlugin.options.toldos.motor %></option>
+                <option ng-value="Manual">Manual</option>
+                <option ng-value="Motorizado"><%= htmlWebpackPlugin.options.toldos.motor %></option>
             </select>
             <small class="error-message" ng-if="toldoForm.$validated && toldoForm.operationMode.$error.required">
                 <%= htmlWebpackPlugin.options.general.required_field %>

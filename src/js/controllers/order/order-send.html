@@ -1,15 +1,19 @@
 <div class="ibox">
-	<h3>Enviar como Orden</h3>
+	<h3><%=htmlWebpackPlugin.options.send_as_order.send_order%></h3>
 	<div>
 		<button class="btn btn-danger"
-			ng-click="closeThisDialog()">Cancelar</button>
+			ng-click="closeThisDialog()">
+			<%=htmlWebpackPlugin.options.general.cancel%>
+		</button>
 		<button class="btn btn-default"
 			ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER') && order.status != 'PENDING'"
-			ng-click="closeThisDialog();changeStatusDialog('PENDING')">Sin
-			anticipo</button>
+			ng-click="closeThisDialog();changeStatusDialog('PENDING')">
+			<%=htmlWebpackPlugin.options.send_as_order.without_advance%>
+		</button>
 		<button class="btn btn-success"
 			ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'ADMIN')"
-			ng-click="closeThisDialog();paymentDialog('advance')">Con
-			anticipo</button>
+			ng-click="closeThisDialog();paymentDialog('advance')">
+			<%=htmlWebpackPlugin.options.send_as_order.with_advance%>
+		</button>
 	</div>
 </div>

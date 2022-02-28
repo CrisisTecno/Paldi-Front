@@ -84,11 +84,27 @@
 
     <div class="form-group">
       <label><%= htmlWebpackPlugin.options.quote_commons.height %></label>
+      <div style="display: flex;">
       <input  <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" name="height" id="height" ng-model="enrollable.height" ng-disabled="!color" min="0.1"
         class="form-control" ng-change="changeHeight('Enrollable', enrollable)" required="" step="0.1">
+        <%if(htmlWebpackPlugin.options.features.fractions){%>
+        <select style="width: min-content;" name="extra" ng-model="enrollable.h_fraction" class="form-control" ng-change="changeHeight('Enrollable', enrollable)">
+          <option value={{0}}>0</option>
+          <option value={{0.125}}>⅛</option>
+          <option value={{0.25}}>¼</option>
+          <option value={{0.375}}>⅜</option>
+          <option value={{0.5}}>½</option>
+          <option value={{0.625}}>⅝</option>
+          <option value={{0.75}}>¾</option>
+          <option value={{0.875}}>⅞</option>
+        </select>
+        <%}%>
+      
       <small class="error-message" ng-if="enrollableForm.$validated && enrollableForm.height.$error.required">Campo
         requerido</small>
-    </div>
+      </div>
+      </div>
+    <% if( htmlWebpackPlugin.options.features.squared){%>
     <div class="form-group">
       <label>m²</label>
       <input type="number" name="m2" ng-model="enrollable.m2" disabled="disabled" min="0" class="form-control"
@@ -96,6 +112,7 @@
       <small class="error-message" ng-if="enrollableForm.$validated && enrollableForm.m2.$error.required">Campo
         requerido</small>
     </div>
+    <%}%>
     <div class="form-group"
       ng-show="enrollable.type=='Enrollables' || enrollable.type == 'Solar Screen' || enrollable.type == 'Solar Blackout'">
       <label><%= htmlWebpackPlugin.options.enrollable.fall %></label>
@@ -122,20 +139,22 @@
           <input type="checkbox" name="controlHeightCheckbox" id="controlHeightCheckbox"
             ng-model="controlHeightCheckbox" ng-change="controlHeightChange()" checked><%= htmlWebpackPlugin.options.enrollable.standard %></label>
       </div>
-      <input <%= htmlWebpackPlugin.options.features.fraction_style %> type="number" name="controlHeight" id="controlHeight" step="0.1" class="form-control"
+      <div style="display:flex">
+      <input <%= htmlWebpackPlugin.options.features.fractions_style %> type="number" name="controlHeight" id="controlHeight" step="0.1" class="form-control"
         ng-model="enrollable.controlHeight" ng-hide="controlHeightCheckbox == true">
         <%if (htmlWebpackPlugin.options.features.fractions){%>
-          <select style="width: min-content;" name="extra" ng-model="enrollable.control_h_fraction" class="form-control" ng-change="controlHeightChange()">
-            <option value={{0}}>0</option>
-            <option value={{0.125}}>⅛</option>
-            <option value={{0.25}}>¼</option>
-            <option value={{0.375}}>⅜</option>
-            <option value={{0.5}}>½</option>
-            <option value={{0.625}}>⅝</option>
-            <option value={{0.75}}>¾</option>
-            <option value={{0.875}}>⅞</option>
+          <select style="width: min-content;" name="extra" ng-hide="controlHeightCheckbox == true" ng-model="enrollable.control_h_fraction" class="form-control" >
+            <option ng-value={{0}}>0</option>
+            <option ng-value={{0.125}}>⅛</option>
+            <option ng-value={{0.25}}>¼</option>
+            <option ng-value={{0.375}}>⅜</option>
+            <option ng-value={{0.5}}>½</option>
+            <option ng-value={{0.625}}>⅝</option>
+            <option ng-value={{0.75}}>¾</option>
+            <option ng-value={{0.875}}>⅞</option>
           </select>
         <%}%>
+      </div>
     </div>
 
     <div ng-show="valid">

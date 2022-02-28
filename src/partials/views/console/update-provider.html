@@ -6,7 +6,7 @@
     autocomplete="off">
 
         <div class="form-group">
-            <label><%= htmlWebpackPlugin.options.console.provider_id  %></label>
+            <label><%= htmlWebpackPlugin.options.order_list.supplier  %></label>
             <input hard-cap="false" type="text" name="providerId" ng-model="providerId" class="form-control" required="">
             <small class="error-message" ng-if="providerForm.$validated && providerForm.providerId.$error.required">
                 <%= htmlWebpackPlugin.options.general.required_field  %>

@@ -31,6 +31,29 @@
 			<span ng-show="dateType == 'arrival' || dateType == 'endProduction'" class="form-control">{{ date | date : 'dd/MM/yyyy'}}</span>
 		</div>
 
+		<div ng-show="dateType == 'arrival' ">
+			<div>
+			<label><%= htmlWebpackPlugin.options.datepicker.folio %></label>
+				<input type="text"  class=" form-control" name="folioID" ng-model="dateModel.orderTransitInvoice">
+			</div>
+			<div>
+			<br>
+			<label><%= htmlWebpackPlugin.options.datepicker.guide %></label>
+			<button type="button" class="btn btn-primary" ng-click="addDataToRepeater(dateModel,'guides')">+</button>
+			<div>
+				<div   ng-repeat="guide in dateModel.guides track by $index" >
+					<div style="display:flex">
+					<input style="max-width:90%" ng-model="dateModel.guides[$index]" type="text"  class="form-control"  >
+					<button type="button" class="btn btn-primary" ng-click="removeDataFromRepeater(dateModel,'guides',$index)">x</button>
+					</div>
+					<br>
+				</div>
+				
+			</div>
+
+			</div>
+		</div>
+
 		<div ng-hide="dateType == 'commitment'" class="form-group notes">
 			<label>
 				<%= htmlWebpackPlugin.options.datepicker.comments %>

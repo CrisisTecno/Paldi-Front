@@ -144,7 +144,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				}
 
 				if (
-					user.role == "SUPERADMIN" &&
+					(user.role == "SUPERADMIN"  || user.role == "MANAGER") &&
 					order.status != "QUOTE" &&
 					order.status != "REJECTED" &&
 					order.status != "PENDING" &&

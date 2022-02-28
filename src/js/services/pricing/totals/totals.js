@@ -118,7 +118,7 @@ const getProductsTotal = (order) => {
 
 const getDiscounts = (order, totals) => {
   const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
-
+  
   const getTotal = (name) => totals[`${name.toLowerCase()}Total`]
   const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
   const getDiscount = (name) => getOrderDiscount(name) ? toValue(getTotal(name) * getOrderDiscount(name)) : undefined
@@ -133,13 +133,15 @@ const getDiscounts = (order, totals) => {
     + toValue(enrollableDiscount)
     + toValue(filtrasolDiscount)
 
-  const fullDiscount = order.discountPercent ? (totals.productsTotal
+
+  const fullDiscount = (order.discountPercent || order.discountPercent==0) ? (totals.productsTotal
     + totals.plusTotal
     + totals.motorTotal * !IS_ZELBA
   ) * toDecimalPercent(order.discountPercent) : order.discount
 
 
   const discount = order.type === 'Mixta' ? mixedDiscount : fullDiscount
+  
 
   return {
     ...({balanceDiscount, shutterDiscount, enrollableDiscount, filtrasolDiscount}),
@@ -167,6 +169,7 @@ export const getTotals = (order) => {
     ...products,
     // shipping: getShippingCost(order.products) * order.hasShipping
   }
+
   const discounts = getDiscounts(order, totals)
 
   const subTotal = totals.productsTotal

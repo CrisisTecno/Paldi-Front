@@ -3,6 +3,7 @@ import {globals} from "./index";
 import moment from "moment";
 import {buildReportsService} from "./paldi/reports";
 import {getQuoteStatusFromList} from "./order/defaults";
+import { reports } from "../../../webpack/locale/es";
 
 // TODO: Agregar esto a un modulo
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
@@ -272,7 +273,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
 
-    list: function (page, size, sort) {
+    list: function (page, size, sort,user) {
       let params = {}
       if (EXECUTION_ENV === "INTERNAL") {
         params = {
@@ -297,7 +298,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           globals.apiURL +
           "/quotes/clients",
           {
-            authentication: "yokozuna",
+            authentication:"yokozuna",
             params: params
           }
         )
@@ -366,6 +367,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
 
     find: function (search) {
+      
       return $http
         .get(globals.apiURL + "/quotes/clients/search/" + search, {
           authentication: "yokozuna",
@@ -373,6 +375,8 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         .then(function (response) {
           return response.data;
         });
+      
+
     },
   };
 
@@ -557,6 +561,29 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         .then(function (response) {
           return response.data;
         });
+    },
+    setGuides : function (order){
+      console.log("Posting Order",order)
+      return $http
+      .put(
+        globals.apiURL +
+        "/quotes/orders/" +
+        order.id +
+        "/guides",{},
+        {
+          authentication: "yokozuna",
+          params: {
+          user: $rootScope.currentUser.id,
+          folio:  order.orderTransitInvoice,
+          guides: order.guides
+          },
+
+        }
+      )
+      .then(function (response) {
+        console.log(response,order)
+        return response.data;
+      });
     },
 
     updateStatus: function (order, status) {

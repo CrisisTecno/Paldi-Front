@@ -23,7 +23,12 @@ pdApp.controller(
 
 			paldiService.users.get(id).then(
 				function (user) {
+					if(user.realRole){
+						user.role =user.realRole
+					}
+		
 					console.log("USR",user)
+
 					$scope.user = user;
 					$scope.user.warehouseId = user.warehouse
 						? user.warehouse.id

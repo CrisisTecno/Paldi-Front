@@ -22,6 +22,14 @@ module.exports = {
     error_phone: "El número de teléfono debe tener 10 dígitos",
     error_not_exists: "El cliente no existe",
     error_no_clients: "No hay clientes para mostrar",
+    client_options:`
+    <select class="form-control" name="type" ng-model="client.type" required="" selected="{{client.type}}">
+    <option value="DIRECT_SALE"> {{pretty('clientType', 'DIRECT_SALE')}} </option>
+    <option value="DISTRIBUTOR_INDEPENDENT"> {{pretty('clientType', 'DISTRIBUTOR_INDEPENDENT')}} </option>
+    <option value="DISTRIBUTOR_PREMIUM"> {{pretty('clientType', 'DISTRIBUTOR_PREMIUM')}} </option>
+    <option value="PROJECTS"> {{pretty('clientType', 'PROJECTS')}} </option>
+    <option value="ARCHITECT_INTERIOR"> {{pretty('clientType', 'ARCHITECT_INTERIOR')}} </option>
+    </select>`
   },
   costing: {
     ov_movements: "Movimientos de OV",
@@ -46,6 +54,9 @@ module.exports = {
     selected_date:"Fecha Seleccionada",
   },
   general: {
+    send:"Enviar",
+    create:"Crear",
+    date:"Fecha",
     edit: "Editar",
     cancel: "Cancelar",
     save: "Guardar",
@@ -131,13 +142,13 @@ module.exports = {
     piso: true,
     fractions:false,
     faction_style:``,
+    step:0.1
   },
   console:{
     update_provider: "Actualizar Proveedor",
-    provider_id: "ID de Proveedor",
 
     observations:"Observaciones",
-
+    supplier:"ID Proveedor",
     statistics:"Estadistícas",
     configuration:"Configuracion",
     city:"Ciudad",
@@ -274,6 +285,8 @@ module.exports = {
 
   },
   datepicker:{
+    folio:"Folio de Pedido",
+    guide:"Guia de Rastreo",
     supplier_id:"ID del proveedor",
     due_date:"Fecha de Salida de Producción",
     arrival:"Fecha de Llegada",
@@ -757,6 +770,7 @@ module.exports = {
     line:"Línea",
   },
   quote_commons:{
+    products:"Productos",
     price_per_box:"Precio por caja",
     installation_price:"Precio de Instalación",
     total:"Total",
@@ -780,7 +794,7 @@ module.exports = {
     add_additionals:"Agregar Adicional",
     additional:"Adicional:",
     add_motor:"Agregar Motorización",
-    motor:"Motortización:",
+    motor:"Motorización:",
     meter_price:"Precio Metro",
     unit_price:"Precio Unitario",
     rotate_fabric:"Girar Textil",
@@ -913,6 +927,8 @@ module.exports = {
 
   },
   order_list:{
+    supplier:"ID del Proveedor",
+
     orders:"Órdenes",
     manual_register:"Registro Orden Manual",
     download_orders:"Descargar Ordenes",
@@ -934,7 +950,7 @@ module.exports = {
     installation_date:"Fecha de Instalación",
     products:"Productos",
     additionals:"Adicionales",
-    motor:"Morotizacion",
+    motor:"Motorizacion",
     discount:"Descuento",
     installation:"Instalación",
     sub_total:"Sub-Total",
@@ -942,10 +958,92 @@ module.exports = {
     total:"TOTAL",
     balance:"Saldo",
     payments:"Pagos",
-    Folio:"No. Folio",
+    folio:"No. Folio",
     date:"Fecha",
-    amount:"Monto"
+    amount:"Monto",
 
+
+  },
+  order_details:{
+    event:"{{pretty('event', event.action)}}",
+    order_status_p:"{{pretty('orderStatus',order.quoteStatus)}}",
+    change_status:"Cambiar Estado",
+    quote:"Cotización",
+    order:"Orden",
+    details_quote:"Detalles de Cotización",
+    details_order:"Detalles de Orden",
+    state_coments:"Comentatios de Estado",
+    quote_status:"Estado de Cotizacion",
+    quote_options:`
+    <option ng-if="order.quoteStatus == 'Nueva'" value="Nueva">Nueva </option>
+    <option value="Seguimiento">Seguimiento</option>
+    <option value="Duplicada">Duplicada</option>
+    <option value="Venta Perdida">Venta Perdida</option>
+    `,
+    reason:"Razon",
+    reason_options:`
+    <option value="Precio Menor">Precio Menor</option>
+    <option value="Tiempo de entrega menor">Tiempo de entrega menor </option>
+    <option value="Busca otro producto">Busca otro producto</option>
+    <option value="Falta Seguimiento">Falta de Seguimiento</option>
+    `,
+    postal_code:"C.P",
+    seller:"Vendedor",
+    proyect:"Proyecto",
+    cycle_time:"Tiempo de Ciclo",
+    dpfc:"DPFC",
+    production_days:"T. Entrega de Producción",
+    transit_days:"T. Entrega Tránsito",
+    history:"Historial",
+    history_options:`
+    <th>Fecha</th>
+    <th>Acción</th>
+    <th>Usuario</th>
+    <th>Observaciones</th>
+    `,
+    hide_history:"Ocultar Historial",
+    products:"Productos",
+    product_notes:"Observaciones de Producto",
+    hide:"Ocultar",
+    addi_motors:"Adicionales/Mototizacion",
+    addi_motor_options:`
+    <th>Ítem</th>
+              <th>Cant</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Total</th>
+    `,
+    download_invoice:"Descargar Recibo",
+    download_pdf:"Descargar PDF",
+    send_client:"Enviar al Cliente",
+    send_work_order:"Enviar Orden de Trabajo",
+    canceled:"Cancelado",
+    register_payment:"Registrar Pago",
+    need_invoice:"Necesita Factura",
+    send_as_order:"Enviar Como Orden",
+    approve_order:"Aprovar Orden",
+    reject:"Rechazar orden",
+    send_prod:"Enviar a producción",
+    send_back:"Enviar a Backorder",
+    send_transit:"Enviar a tránsito",
+    finish:"Terminar",
+    inst_date:"Fecha de Inst.",
+    work_order:"Orden de Trabajo",
+    installation_order:"Orden de Instalación",
+    installed:"Instalado",
+    partial_install:"Instalada Parcial",
+    inconform_install:"Instalada Inconforme",
+    change_provider:"Cambiar ID de Provedor",
+    change_state:"Cambiar Estado",
+    order_not_found:"No se encontró la orden",
+    show_history:"Mostrar Historial",
+    order_stats:"{{pretty('orderStatus', order.status)}}"
+  },
+  send_as_order:{
+    send_order:"Enviar como Orden",
+    with_advance:"Sin Anticipo",
+    without_advance:"Con Anticipo"
   }
+  
 }
 

@@ -1,4 +1,4 @@
-import { pdApp } from "../index";
+import { globals, pdApp } from "../index";
 
 import { getConfirmPayment } from "./order-details/confirm-payment";
 import { showSwal } from "../../utils/swal/show";
@@ -23,9 +23,8 @@ pdApp.controller(
     orderService,
     permissionService
   ) {
-    console.log($scope)
-    console.log(EXECUTION_ENV)
     
+    console.log("LANG",globals)
     var loadOrder = function () {
       var id = $stateParams.orderId;
       $scope.step = "loading";
@@ -169,22 +168,22 @@ pdApp.controller(
     $scope.sendToClient = function (order) {
       var objName;
       if (order.status == "QUOTE") {
-        objName = EXECUTION_ENV=="EXTERNAL" ? "cotización":"Quote";
+        objName = (EXECUTION_ENV!="EXTERNAL" ? "cotización":"Quote");
       } else {
-        objName = EXECUTION_ENV=="EXTERNAL" ? "orden" : "Order";
+        objName = (EXECUTION_ENV!="EXTERNAL" ? "orden" : "Order");
       }
 
       swal(
         {
           title:
-            "¿Seguro que deseas enviar la " +
+          (EXECUTION_ENV=="EXTERNAL"?"Do you want to send the ":"¿Seguro que deseas enviar la ") +
             objName +
-            " al cliente?",
+          (EXECUTION_ENV=="EXTERNAL"?" to the client?":" al cliente?"),
           type: "warning",
           showCancelButton: true,
           confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Enviar",
-          cancelButtonText: "Cancelar",
+          confirmButtonText: EXECUTION_ENV=="EXTERNAL"?"Send":"Enviar",
+          cancelButtonText: EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar",
           closeOnConfirm: true,
           closeOnCancel: false,
         },
@@ -195,22 +194,45 @@ pdApp.controller(
               .sendOrder(id)
               .then(function (order) {
                 swal({
-                  title: "Enviado",
-                  text: "Se envió la " + objName,
+                  title: (EXECUTION_ENV=="EXTERNAL"?"Sent":"Enviado"),
+                  text: (EXECUTION_ENV=="EXTERNAL"?(objName + " Sent" ):("Se envió la " + objName)),
                   type: "success",
-                  confirmButtonText: "Aceptar",
+                  confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
                 });
               });
           } else {
             swal({
-              title: "Cancelado",
+              title: (EXECUTION_ENV=="EXTERNAL"?"Canceled":"Cancelado"),
               type: "error",
-              confirmButtonText: "Aceptar",
+              confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar") ,
             });
           }
         }
       );
     };
+   
+    function toFraction(amt) {
+      console.log(amt)
+      if(amt == undefined) return ""
+      if (amt > 0 && amt <= .125+(.125/7)) return '1/8';
+      if (amt <= .25+(.125/7)) return '1/4';
+      if (amt <= .375+(.125/7)) return '3/8';
+      if (amt <= .5+(.125/7)) return '1/2';
+      if (amt <= .625+(.125/7)) return '5/8';
+      if (amt <= .75+(.125/7)) return '3/4';
+      if (amt <= 1) return '7/8';
+      // etc
+    }
+    $scope.units ={
+     to_fraction:function(val){
+       val = val.toString();
+       val = val.split(".")
+       console.log("VALUES",val)
+       if(val[1]!= undefined) val[1] = parseFloat("."+val[1])
+       return val[0] + " " +toFraction(val[1])
+
+     }
+     }
 
     $scope.sendToSpecialEmail = function (order) {
 
@@ -237,12 +259,12 @@ pdApp.controller(
       // console.log(getProviderEmail(order.products[0].productType))
       
       swal({
-        title: "¿Seguro que desea enviar la " + objName + " al correo?",
+        title: (EXECUTION_ENV=="EXTERNAL"?("Do you want to send the" + objName + "to the mail"):("¿Seguro que desea enviar la " + objName + " al correo?")),
         type: "input",
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Enviar",
-        cancelButtonText: "Cancelar",
+        confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Send":"Enviar"),
+        cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
         closeOnConfirm: true,
         closeOnCancel: true,
         inputValue: getProviderEmail(order.products[0].productType)
@@ -252,16 +274,16 @@ pdApp.controller(
             return
           // console.log(value)
           if (value.trim() === "") {
-            swal.showInputError("Es necesario escribir una dirección de correo");
+            swal.showInputError((EXECUTION_ENV=="EXTERNAL"?"A mail direction is required":"Es necesario escribir una dirección de correo"));
             return false
           }
           var id = $stateParams.orderId;
           paldiService.orders.sendOrderTo(id, value).then(function (order) {
             swal({
-              title: "Enviado",
-              text: "Se envió la " + objName,
+              title: (EXECUTION_ENV=="EXTERNAL"?"Sent":"Enviado"),
+              text: (EXECUTION_ENV=="EXTERNAL"?(objName + "sent"):("Se envió la " + objName)),
               type: "success",
-              confirmButtonText: "Aceptar"
+              confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar")
             });
           });
         });
@@ -301,9 +323,9 @@ pdApp.controller(
               console.error(error);
               $scope.isPaying = false;
               if (error.data.exception == 'io.lkmx.paldi.quote.components.error.InventoryNotEnoughException') {
-                swal({ title: 'No hay inventario suficiente', type: 'error', confirmButtonText: 'Aceptar' });
+                swal({ title: (EXECUTION_ENV=="EXTERNAL"?"Not enough inventory available":'No hay inventario suficiente'), type: 'error', confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":'Aceptar') });
               } else {
-                swal({ title: 'Ocurrió un error', type: 'error', confirmButtonText: 'Aceptar' });
+                swal({ title: (EXECUTION_ENV=="EXTERNAL"?"An error ocurred":'Ocurrió un error'), type: 'error', confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":'Aceptar') });
                 loadOrder();
               }
 
@@ -316,7 +338,7 @@ pdApp.controller(
             }, function (error) {
               console.error(error);
               $scope.isPaying = false;
-              swal({ title: 'Ocurrió un error', type: 'error', confirmButtonText: 'Aceptar' });
+              swal({ title: (EXECUTION_ENV=="EXTERNAL"?"An error ocurred":'Ocurrió un error'), type: 'error', confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":'Aceptar') });
               loadOrder();
             });
           }
@@ -386,9 +408,9 @@ pdApp.controller(
     $scope.sendToOrderDialog = function () {
       if (!$scope.order.user.warehouse) {
         swal({
-          title: "El vendedor no está asignado a un almacén",
+          title:  (EXECUTION_ENV=="EXTERNAL"?"The seller is not afilliated to a warehouse":"El vendedor no está asignado a un almacén"),
           type: "error",
-          confirmButtonText: "Continuar",
+          confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Continue":"Continuar"),
         });
       } else {
         $scope.dialog = ngDialog.open({
@@ -416,9 +438,9 @@ pdApp.controller(
           .updateProvider($scope.order, providerId)
           .then(function (order) {
             swal({
-              title: "Proveedor Actualizado",
+              title:  (EXECUTION_ENV=="EXTERNAL"?"Supplier Updated":"Proveedor Actualizado"),
               type: "success",
-              confirmButtonText: "Aceptar",
+              confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
             });
             loadOrder();
           });
@@ -431,14 +453,14 @@ pdApp.controller(
       swal(
         {
           title:
-            "¿Cambiar estado de la cotización a " +
-            quoteStatus +
+          (EXECUTION_ENV=="EXTERNAL"?"Do you want to change the quote status to ":"¿Cambiar estado de la cotización a ") +
+          (EXECUTION_ENV=="EXTERNAL"?$scope.pretty("orderStatusEn", quoteStatus):quoteStatus) +
             "?",
           type: "warning",
           showCancelButton: true,
           confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Aceptar",
-          cancelButtonText: "Cancelar",
+          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
+          cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
           closeOnConfirm: true,
           closeOnCancel: false,
         },
@@ -447,9 +469,9 @@ pdApp.controller(
             changeQuoteStatus();
           } else {
             swal({
-              title: "Cancelado",
+              title:  (EXECUTION_ENV=="EXTERNAL"?"Canceled":"Cancelado"),
               type: "error",
-              confirmButtonText: "Aceptar",
+              confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
             });
           }
         }
@@ -459,30 +481,36 @@ pdApp.controller(
     $scope.changeStatusDialog = function (status) {
       if (status && status == "LINE" && !$scope.order.user.warehouse) {
         swal({
-          title: "El vendedor no está asignado a un almacén",
+          title:  (EXECUTION_ENV=="EXTERNAL"?"Sales Rep is not afiliated to a warehouse":"El vendedor no está asignado a un almacén"),
           type: "error",
-          confirmButtonText: "Continuar",
+          confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Continue":"Continuar"),
         });
       } else if (status) {
         swal(
           {
             title:
-              "¿Cambiar estado de la orden a " +
-              $scope.pretty("orderStatus", status) +
+            (EXECUTION_ENV=="EXTERNAL"?"Do you want to change the order status to ":"¿Cambiar estado de la orden a ") +
+            (EXECUTION_ENV=="EXTERNAL"?$scope.pretty("orderStatusEn", status): $scope.pretty("orderStatus", status)) +
               "?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Aceptar",
-            cancelButtonText: "Cancelar",
+            confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
+            cancelButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
             closeOnConfirm: true,
             closeOnCancel: false,
           },
           function (isConfirm) {
-            if (isConfirm) {
+            
+            if (isConfirm  ) {
               $scope.newStatus = status;
               //	// console.log($scope.newStatus);
               if (status === "PENDING") {
+
+                if(EXECUTION_ENV=="EXTERNAL"){
+                  $scope.statusNotesDialog();
+                  return
+                }
                 showCreateInstallationSheetDialog($scope, () =>
                   showSwal(
                     "messages.installation_sheet.created",
@@ -525,9 +553,9 @@ pdApp.controller(
               }
             } else {
               swal({
-                title: "Cancelado",
+                title:  (EXECUTION_ENV=="EXTERNAL"?"Canceled":"Cancelado"),
                 type: "error",
-                confirmButtonText: "Aceptar",
+                confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
               });
             }
           }
@@ -550,9 +578,9 @@ pdApp.controller(
           .updateRetroStatus($scope.order, status)
           .then(function (order) {
             swal({
-              title: "Estado Actualizado",
+              title:  (EXECUTION_ENV=="EXTERNAL"?"Status Updated":"Estado Actualizado"),
               type: "success",
-              confirmButtonText: "Aceptar",
+              confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
             });
             loadOrder();
             if (order.orderParent !== null) {
@@ -612,14 +640,11 @@ pdApp.controller(
             function (order) {
               swal({
                 title:
-                  "Estado: " +
-                  $scope.pretty(
-                    "orderStatus",
-                    $scope.newStatus
-                  ),
-                text: "Estado de orden cambiado",
+                (EXECUTION_ENV=="EXTERNAL"?"Status: ":"Estado: ") +
+                (EXECUTION_ENV=="EXTERNAL"?$scope.pretty("orderStatusEN",$scope.newStatus):$scope.pretty("orderStatus",$scope.newStatus)),
+                text: (EXECUTION_ENV=="EXTERNAL"?"Order Status updated":"Estado de orden cambiado"),
                 type: "success",
-                confirmButtonText: "Aceptar",
+                confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
               });
 
               if (
@@ -651,15 +676,15 @@ pdApp.controller(
                 "io.lkmx.paldi.quote.components.error.InventoryNotEnoughException"
               ) {
                 swal({
-                  title: "No hay inventario suficiente",
+                  title: (EXECUTION_ENV=="EXTERNAL"?"Not enough Inventory":"No hay inventario suficiente"),
                   type: "error",
-                  confirmButtonText: "Aceptar",
+                  confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
                 });
               } else {
                 swal({
-                  title: "Ocurrió un error",
+                  title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Ocurrió un error"),
                   type: "error",
-                  confirmButtonText: "Aceptar",
+                  confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
                 });
                 loadOrder();
               }
@@ -676,6 +701,9 @@ pdApp.controller(
       $scope.dialog.close();
       var updatedOrder = $scope.order;
       updatedOrder.statusNotes = model.notes;
+      updatedOrder.orderTransitInvoice=model.orderTransitInvoice
+      updatedOrder.guides = model.guides
+      console.log(updatedOrder)
       paldiService.orders
         .updateStatus(updatedOrder, "TRANSIT")
         .then(function (order) {
@@ -685,14 +713,18 @@ pdApp.controller(
               $scope.dateType,
               $scope.date,
               model.notes
-            )
+            ).then( ()=>{
+              
+              paldiService.orders.setGuides(
+                updatedOrder
+              )})
             .then(
               function () {
                 swal({
-                  title: "Orden en Tránsito",
-                  text: "Se marcó la orden como en tránsito",
+                  title: (EXECUTION_ENV=="EXTERNAL"?"Order in Transit":"Orden en Tránsito"),
+                  text: (EXECUTION_ENV=="EXTERNAL"?"Order set as In Transit":"Se marcó la orden como en tránsito"),
                   type: "success",
-                  confirmButtonText: "Aceptar",
+                  confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
                 });
                 loadOrder();
                 if (order.orderParent !== null) {
@@ -705,9 +737,9 @@ pdApp.controller(
               },
               function (error) {
                 swal({
-                  title: "Ocurrió un error",
+                  title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Ocurrió un error"),
                   type: "error",
-                  confirmButtonText: "Aceptar",
+                  confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
                 });
                 loadOrder();
               }
@@ -736,10 +768,10 @@ pdApp.controller(
               .then(
                 function () {
                   swal({
-                    title: "Orden en Producción",
-                    text: "Se marcó la orden como en producción",
+                    title: (EXECUTION_ENV=="EXTERNAL"?"Order In Production":"Orden en Producción"),
+                    text: (EXECUTION_ENV=="EXTERNAL"?"Order set as in Production":"Se marcó la orden como en producción"),
                     type: "success",
-                    confirmButtonText: "Aceptar",
+                    confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
                   });
                   loadOrder();
 
@@ -753,9 +785,9 @@ pdApp.controller(
                 },
                 function (error) {
                   swal({
-                    title: "Ocurrió un error",
+                    title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Ocurrió un error"),
                     type: "error",
-                    confirmButtonText: "Aceptar",
+                    confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
                   });
                   loadOrder();
                 }
@@ -832,6 +864,7 @@ pdApp.controller(
     $scope.date.setHours(0, 0, 0, 0);
 
     $scope.dateDialog = function (dateType) {
+      
       $scope.dateModel = {};
       $scope.dateType = dateType;
 
@@ -841,6 +874,29 @@ pdApp.controller(
         showClose: false,
       });
     };
+
+    $scope.addDataToRepeater = function(model,type){
+      console.log("ADDING DATA")
+      if(type=="guides"){
+        console.log("Works Here")
+        if(!model.guides){
+          model.guides = [""]
+        }
+        else{
+          model.guides.push("")
+        }
+      }
+
+    }
+
+    $scope.removeDataFromRepeater = function(model,type,index){
+      
+      if(type=="guides"){
+        model.guides.splice(index,1)
+        
+      }
+
+    }
 
     $scope.changeDate = function (model, form) {
       if ($scope.dateType == "install") {
@@ -883,10 +939,10 @@ pdApp.controller(
         .then(
           function () {
             swal({
-              title: "Fecha de Instalación",
-              text: "Se capturó la fecha de instalación",
+              title: (EXECUTION_ENV=="EXTERNAL"?"Installation Date":"Fecha de Instalación"),
+              text:  (EXECUTION_ENV=="EXTERNAL"?"Installation Date set":"Se capturó la fecha de instalación"),
               type: "success",
-              confirmButtonText: "Aceptar",
+              confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
             });
             loadOrder();
             if ($scope.order.orderParent !== null) {
@@ -899,9 +955,9 @@ pdApp.controller(
           },
           function (error) {
             swal({
-              title: "Ocurrió un error",
+              title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Ocurrió un error"),
               type: "error",
-              confirmButtonText: "Aceptar",
+              confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
             });
             loadOrder();
           }
@@ -915,12 +971,12 @@ pdApp.controller(
     $scope.needsBill = function () {
       swal(
         {
-          title: "¿Seguro que deseas marcar la orden como Necesita Factura?",
+          title: (EXECUTION_ENV=="EXTERNAL"?"Do you want to mark the order as Need Invoice?":"¿Seguro que deseas marcar la orden como Necesita Factura?"),
           type: "warning",
           showCancelButton: true,
           confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Aceptar",
-          cancelButtonText: "Cancelar",
+          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
+          cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
           closeOnConfirm: false,
           closeOnCancel: false,
         },
@@ -931,9 +987,9 @@ pdApp.controller(
               .then(
                 function (order) {
                   swal({
-                    title: "Orden marcada como Necesita factura",
+                    title: (EXECUTION_ENV=="EXTERNAL"?"Order Set as Needs Invoice":"Orden marcada como Necesita factura"),
                     type: "success",
-                    confirmButtonText: "Aceptar",
+                    confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
                   });
                   loadOrder();
                 },
@@ -943,9 +999,9 @@ pdApp.controller(
               );
           } else {
             swal({
-              title: "Cancelado",
+              title: (EXECUTION_ENV=="EXTERNAL"?"Canceled":"Cancelado"),
               type: "error",
-              confirmButtonText: "Aceptar",
+              confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
             });
           }
         }
@@ -965,12 +1021,12 @@ pdApp.controller(
       if (form.$valid) {
         swal(
           {
-            title: "¿Seguro que desea cancelar el Pago?",
+            title: (EXECUTION_ENV=="EXTERNAL"?"Dou you want to cancel de payment?":"¿Seguro que desea cancelar el Pago?"),
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Aceptar",
-            cancelButtonText: "Cancelar",
+            confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
+            cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
             closeOnConfirm: false,
             closeOnCancel: false,
           },
@@ -985,9 +1041,9 @@ pdApp.controller(
               paldiService.payments.cancel(cancelRequest).then(
                 function () {
                   swal({
-                    title: "Pago cancelado",
+                    title: (EXECUTION_ENV=="EXTERNAL"?"Payment Canceled":"Pago cancelado"),
                     type: "success",
-                    confirmButtonText: "Aceptar",
+                    confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
                   });
                   loadOrder();
                   $scope.dialog.close();
@@ -995,9 +1051,9 @@ pdApp.controller(
                 },
                 function (error) {
                   swal({
-                    title: "Ocurrió un error",
+                    title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Ocurrió un error"),
                     type: "error",
-                    confirmButtonText: "Aceptar",
+                    confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
                   });
                   $scope.isCancellingPayment = false;
                   loadOrder();
@@ -1005,7 +1061,7 @@ pdApp.controller(
               );
             } else {
               swal({
-                title: "Cancelado",
+                title: (EXECUTION_ENV=="EXTERNAL"?"Canceled":"Cancelado"),
                 type: "error",
                 confirmButtonText: "Aceptar",
               });
@@ -1294,7 +1350,7 @@ pdApp.controller(
       .withDisplayLength(25)
       .withOption("ordering", false)
       .withDOM("rt")
-      .withLanguage("lang/table_lang.json");
+      .withLanguage((EXECUTION_ENV=="EXTERNAL"?"lang/table_lang_en.json":"lang/table_lang.json"));
 
     $scope.tableColumns = [
       DTColumnDefBuilder.newColumnDef(1).withOption(
@@ -1303,5 +1359,6 @@ pdApp.controller(
       ),
     ];
   }
+  
 
 );

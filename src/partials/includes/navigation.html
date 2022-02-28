@@ -13,7 +13,7 @@
             <li ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'"><a ui-sref="console.quote-list">
                 <%= htmlWebpackPlugin.options.navigation.quotes %>
             </a></li>
-            <li><a ui-sref="console.statistics">
+            <li ng-if="currentUser.realRole!='EXTERNAL_CONSULTANT'" ><a ui-sref="console.statistics">
                 <%= htmlWebpackPlugin.options.navigation.statistics %>
             </a></li>
             <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT'"><a ui-sref="console.quote-new">
@@ -50,7 +50,7 @@
             <li><a ui-sref="console.quote-new">
                 <%= htmlWebpackPlugin.options.navigation.new_quote %>
             </a></li>
-            <li><a ui-sref="console.statistics">
+            <li  ng-if="currentUser.realRole!='EXTERNAL_CONSULTANT'" ><a ui-sref="console.statistics">
                 <%= htmlWebpackPlugin.options.navigation.statistics %>
             </a></li>
         </ul>
@@ -62,7 +62,7 @@
         </span></a>
     </metis-item>
 
-    <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT'">
+    <metis-item ui-sref-active="selected" ng-if="currentUser.role == 'CONSULTANT' && !currentUser.realRole">
         <a ui-sref="console.commissions"><i class="fa fa-suitcase fa-lg"></i> <span class="nav-label" style="font-size: 8.8px">
             <%= htmlWebpackPlugin.options.navigation.commissions %>    
         </span></a>

@@ -22,6 +22,15 @@ module.exports = {
     error_phone: "The phone number must be 10 digits long",
     error_not_exists: "The client does not exist",
     error_no_clients: "No clients found",
+    client_options:`
+    <select class="form-control" name="type" ng-model="client.type" required="" selected="{{client.type}}">
+    <option value="DIRECT_SALE"> {{pretty('clientTypeEN', 'DIRECT_SALE')}} </option>
+    <option value="DISTRIBUTOR_INDEPENDENT"> {{pretty('clientTypeEN', 'DISTRIBUTOR_INDEPENDENT')}} </option>
+    <option value="DISTRIBUTOR_PREMIUM"> {{pretty('clientTypeEN', 'DISTRIBUTOR_PREMIUM')}} </option>
+    <option value="PROJECTS"> {{pretty('clientTypeEN', 'PROJECTS')}} </option>
+    <option value="ARCHITECT_INTERIOR"> {{pretty('clientTypeEN', 'ARCHITECT_INTERIOR')}} </option>
+    </select>
+    `
   },
   costing: {
     ov_movements: "OV Movements",
@@ -45,6 +54,9 @@ module.exports = {
     selected_date:"Selected date:"
   },
   general: {
+    send:"Send",
+    create:"Create",
+    date:"Date",
     edit: "Edit",
     cancel: "Cancel",
     save: "Save",
@@ -124,6 +136,7 @@ module.exports = {
     cortinas: false,
     fractions:true,
     fraction_style:` style="width: 80%"`,
+    step:1,
 
   },
   console:{
@@ -132,7 +145,7 @@ module.exports = {
     currency_ex:"Exchange Rate",
     logout:"Logout",
     update_provider: "Update Supplier",
-    provider_id: "Supplier ID",
+    supplier: "Supplier ID",
 
     observations:"Notes",
 
@@ -272,6 +285,8 @@ module.exports = {
 
   },
   datepicker:{
+    folio:"Order Sheed Id",
+    guide:"Tracking Number",
     supplier_id:"Supplier Order Id",
     due_date:"Production due date",
     arrival:"Arrival",
@@ -400,11 +415,12 @@ module.exports = {
      role_options:`
       <option value="CONSULTANT">Sales Rep</option>
       <option value="MANAGER" ng-if="currentUser.canAdmin">Purchasing manager</option>
-      <option value="INSTALLATION_MANAGER" ng-if="currentUser.canAdmin">Instalation manager</option>
+      <option value="INSTALLATION_MANAGER" ng-if="currentUser.canAdmin">Installation manager</option>
       <option value="SALES_MANAGER" ng-if="currentUser.canAdmin">Sales manager</option>
-      <option value="BUYER">Comprador</option>
+      <option value="BUYER">Buyer</option>
       <option value="ADMIN" ng-if="currentUser.role=='SUPERADMIN'">Admin</option>
       <option value="SUPERADMIN" ng-if="currentUser.canAdmin">Super Admin</option>
+      <option value="EXTERNAL_CONSULTANT" ng-if="currentUser.canAdmin">External Consultant</option>
      `,
      load_user:"Loading User",
   },
@@ -754,6 +770,7 @@ module.exports = {
     line:"Line",
   },
   quote_commons:{
+    products:"Products",
     price_per_box:"Price Per Box",
     installation_price:"Price per Installation",
     total:"Total",
@@ -870,11 +887,11 @@ module.exports = {
     new_client:"New Client",
   },
   balance:{
-    balances:"Cronice",
+    balances:"Cornices",
     types:`
     <option value="De madera">Wood</option>`,
     width:"Width/front (Inch)",
-    height:"Height/frnt (Inch)",
+    height:"Height/front (Inch)",
     way:"Way",
     right_return:"Right Return",
     left_return:"Left Return",
@@ -892,13 +909,14 @@ module.exports = {
 
   },
   order_list:{
+    supplier:"Supplier ID",
     orders:"Orders",
     manual_register:"Manual Register",
     download_orders:"Download Orders",
     order_details:"Order Details",
     order_no:"Order Number",
     state:"State",
-    proyect:"Proyct",
+    proyect:"Proyect",
     client:"Client",
     client_type:"Client Type",
     seller:"Sales Rep",
@@ -924,8 +942,92 @@ module.exports = {
     folio:"Invoice Number",
     date:"Date",
     amount:"Price"
+  },
+  order_details:{
+    event:"{{pretty('eventEn', event.action)}}",
+    order_status_p:"{{pretty('orderStatusEn',order.quoteStatus)}}",
+    change_status:"Change Status",
+    quote:"Quote",
+    order:"Order",
+    details_quote:"Quote Details",
+    details_order:"Order Details",
+    state_coments:"Status Comments",
+    quote_status:"Quote Status",
+    quote_options:`
+    <option ng-if="order.quoteStatus == 'Nueva'" value="Nueva">New </option>
+    <option value="Seguimiento">Following</option>
+    <option value="Duplicada">Duplicated</option>
+    <option value="Venta Perdida">Lost Sale</option>
+    `,
+    reason:"Motive",
+    reason_options:`
+    <option value="Precio Menor">Less Price</option>
+    <option value="Tiempo de entrega menor">Shorter Commitment Date </option>
+    <option value="Busca otro producto">Searching For Another Product</option>
+    <option value="Falta Seguimiento">Lack of Attention</option>
+    `,
+    postal_code:"Postal Code",
+    seller:"Sales Rep",
+    proyect:"Proyect",
+    cycle_time:"Cycle Time",
+    dpfc:"Days to due date",
+    production_days:"Production Date",
+    transit_days:"Transit Days",
+    history:"History",
+    history_options:`
+    <th>Date</th>
+    <th>Actions</th>
+    <th>User</th>
+    <th>Notes</th>
+    `,
+    hide_history:"Hide History",
+    products:"Products",
+    product_notes:"Product Notes",
+    hide:"Hide",
+    addi_motors:"Additionals/Motors",
+    addi_motor_options:`
+    <th>Item</th>
+              <th>Qty</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Total</th>
+    `,
+    download_invoice:"Download Invoice",
+    download_pdf:"Download PDF",
+    send_client:"Send To Client",
+    send_work_order:"Send Work Order",
+    canceled:"Canceled",
+    register_payment:"Registrer Payment",
+    need_invoice:"Needs Invoce",
+    send_as_order:"Send as Order",
+    approve_order:"Approve Order",
+    reject:"Reject order",
+    send_prod:"Send to production",
+    send_back:"Send to Backorder",
+    sent_transit:"Send Transit",
+    finish:"Finish",
+    inst_date:"Installation Date",
+    work_order:"Work Order",
+    installation_order:"Installation Order",
+    installed:"Installed",
+    partial_install:"Partially Installed",
+    inconform_install:"Inconform Installation",
+    change_provider:"Change Provider ID",
+    change_state:"Change State",
+    order_not_found:"Order Not Found",
+    show_history:"Show History",
+    order_stats:"{{pretty('orderStatusEn', order.status)}}"
+  },
+  send_as_order:{
+    send_order:"Send as order",
+    with_advance:"With Advance",
+    without_advance:"No Advance"
+  },
+  installation_order:{
 
   }
+  
+  
   
  
   

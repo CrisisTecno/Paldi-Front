@@ -27,7 +27,7 @@
 		"dev-stg-internal-en": "webpack serve --config webpack.config.js --env stage=internal_staging locale=en",
 		"dev-stg-external-en": "webpack serve --config webpack.config.js --env stage=external_staging locale=en",
 		"dev-local-internal-en": "webpack serve --config webpack.config.js --env stage=internal_local locale=en",
-		"dev-local-external-en": "webpack serve --config webpack.config.js --env stage=external_loca locale=enl"
+		"dev-local-external-en": "webpack serve --config webpack.config.js --env stage=external_loca locale=en"
 	},
 	"keywords": [],
 	"author": "",

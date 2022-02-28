@@ -24,10 +24,11 @@ pdApp.controller(
 		$scope.isSuborder = false;
 		$scope.selectedType = "all";
 		console.log($scope)
-		$scope.orderTypes = [
-			{ value: "consultant", label: "Mis órdenes" },
-			{ value: "all", label: "Òrdenes generales" },
-		];
+		$scope.orderTypes =$scope.currentUser.realRole!="EXTERNAL_CONSULTANT" ? [
+			{value: "consultant", label: "Mis cotizaciones"},
+			{value: "all", label: "Cotizaciones generales"},
+		  ] : [{value: "consultant", label: "My Quotes"},
+			];
 
 		//============= Data tables =============
 
@@ -173,10 +174,10 @@ pdApp.controller(
 		};
 
 		$scope.dropdownTranslations = {
-			checkAll: "Seleccionar Todos",
-			uncheckAll: "Deseleccionar Todos",
-			buttonDefaultText: "Estados de Orden",
-		};
+			checkAll: EXECUTION_ENV!="EXTERNAL" ? "Seleccionar Todos":"Select all",
+			uncheckAll: EXECUTION_ENV!="EXTERNAL" ? "Deseleccionar Todos":"Unselect All",
+			buttonDefaultText: EXECUTION_ENV!="EXTERNAL" ?  "Estados de Orden":"Order Stages",
+		  }
 
 		$scope.toggleDetails = function (orderId) {
 			if (orderId) {
@@ -204,7 +205,7 @@ pdApp.controller(
 		};
 
 		$scope.tableOptions = DTOptionsBuilder.newOptions()
-			.withLanguageSource("lang/table_lang.json")
+			.withLanguageSource( EXECUTION_ENV!="EXTERNAL" ? "lang/table_lang.json" :"lang/table_lang_en.json")
 			.withFnServerData(serverData)
 			.withOption("processing", true)
 			.withOption("serverSide", true)
@@ -216,7 +217,7 @@ pdApp.controller(
 		var adminColumns = [
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "date_dt")
-				.withTitle("Fecha")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ? "Fecha":"Date")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					return (
@@ -229,7 +230,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "no_l")
-				.withTitle("Orden")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ? "Orden":"Order")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					if (!data.isSuborder_b) {
@@ -252,7 +253,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "clientName_txt")
-				.withTitle("Cliente")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ? "Cliente":"Client")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					return (
@@ -265,7 +266,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "assesor_txt")
-				.withTitle("Vendedor")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Vendedor":"Sales Rep")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					return (
@@ -291,7 +292,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "balance_d")
-				.withTitle("Saldo")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Saldo":"Balance")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 
@@ -319,7 +320,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "status_s")
-				.withTitle("Estado")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Estado":"Order Status")
 				.renderWith(function (data, type) {
 					var id = "&#39;" + data.id + "&#39;";
 					var status = $scope.pretty(
@@ -332,7 +333,7 @@ pdApp.controller(
 						')" class="status-block ' +
 						status +
 						'">' +
-						data.status_s +
+						(EXECUTION_ENV!="EXTERNAL"?$scope.pretty("orderStatus", status):$scope.pretty("orderStatusEn", status)) +
 						"</a>";
 					if (
 						type == "display" &&
@@ -357,7 +358,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "dpfc")
-				.withTitle("D.P.F.C")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"D.P.F.C":"Days To Due Date")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.cycleStartDate_dt
@@ -399,7 +400,7 @@ pdApp.controller(
 
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "cycle")
-				.withTitle("Tiempo de Ciclo")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Tiempo de Ciclo":"Cycle Time")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.cycleStartDate_dt
@@ -425,7 +426,7 @@ pdApp.controller(
 		var salesManagerColumns = [
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "date_dt")
-				.withTitle("Fecha")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Fecha":"DAte")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					return (
@@ -438,7 +439,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "no_l")
-				.withTitle("Orden")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Orden":"Order")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					if (!data.isSuborder_b) {
@@ -461,7 +462,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "clientName_txt")
-				.withTitle("Cliente")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Cliente":"Client")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					return (
@@ -474,7 +475,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "assesor_txt")
-				.withTitle("Vendedor")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Vendedor":"Sales Rep.")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					return (
@@ -500,7 +501,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "balance_d")
-				.withTitle("Saldo")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Saldo":"Balance")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 
@@ -528,7 +529,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "status_s")
-				.withTitle("Estado")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Estado":"Order Status")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var status = $scope.pretty(
@@ -541,14 +542,14 @@ pdApp.controller(
 						')" class="status-block ' +
 						status +
 						'">' +
-						data.status_s +
+						(EXECUTION_ENV!="EXTERNAL"?$scope.pretty("orderStatus", status):$scope.pretty("orderStatusEn", status)) +
 						"</a>"
 					);
 				}),
 
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "dpfc")
-				.withTitle("D.P.F.C")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"D.P.F.C":"Days to Due Date")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.cycleStartDate_dt
@@ -589,7 +590,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "cycle")
-				.withTitle("Tiempo de Ciclo")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Tiempo de Ciclo":"Cycle Time")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.cycleStartDate_dt
@@ -615,7 +616,7 @@ pdApp.controller(
 		var consultantColumns = [
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "date_dt")
-				.withTitle("Fecha")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Fecha":"Date")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					return (
@@ -628,7 +629,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "no_l")
-				.withTitle("Orden")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Orden":"Order")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					if (!data.isSuborder_b) {
@@ -651,7 +652,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "clientName_txt")
-				.withTitle("Cliente")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Cliente":"Client")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					return (
@@ -664,7 +665,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "status_s")
-				.withTitle("Estado")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Estado":"Order Status")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var status = $scope.pretty(
@@ -677,13 +678,13 @@ pdApp.controller(
 						')" class="status-block ' +
 						status +
 						'">' +
-						data.status_s +
+						(EXECUTION_ENV!="EXTERNAL"?$scope.pretty("orderStatus", status):$scope.pretty("orderStatusEn", status)) +
 						"</a>"
 					);
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "dpfc")
-				.withTitle("D.P.F.C")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"D.P.F.C":"Days To due Date")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.cycleStartDate_dt
@@ -724,7 +725,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "programmedDate_dt")
-				.withTitle("F. Programación")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"F. Programación":"Scheduled Installation")
 				.renderWith(function (data) {
 					var date =
 						data.programmedDate_dt != null
@@ -741,7 +742,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "installationDate_dt")
-				.withTitle("F. Instalación")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"F. Instalación":"Installation Date")
 				.renderWith(function (data) {
 					var date =
 						data.installationDate_dt != null
@@ -758,7 +759,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "cycle")
-				.withTitle("Tiempo de Ciclo")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Tiempo de Ciclo":"Cycle Time")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.cycleStartDate_dt
@@ -784,7 +785,7 @@ pdApp.controller(
 		var managerColumns = [
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "no_l")
-				.withTitle("Orden")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Orden":"Order")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					if (!data.isSuborder_b) {
@@ -807,7 +808,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "clientName_txt")
-				.withTitle("Cliente")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Cliente":"Client")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					return (
@@ -820,7 +821,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "status_s")
-				.withTitle("Estado")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Estado":"Order Status")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var status = $scope.pretty(
@@ -833,14 +834,14 @@ pdApp.controller(
 						')" class="status-block ' +
 						status +
 						'">' +
-						data.status_s +
+						(EXECUTION_ENV!="EXTERNAL"?$scope.pretty("orderStatus", status):$scope.pretty("orderStatusEn", status)) +
 						"</a>"
 					);
 				}),
 
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "providerId_s")
-				.withTitle("Proveedor")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Proveedor":"Provider")
 				.renderWith(function (data) {
 					var provider = data.providerId_s
 						? data.providerId_s
@@ -855,7 +856,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "dpfc")
-				.withTitle("D.P.F.C")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"D.P.F.C":"Days to due Date")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.cycleStartDate_dt
@@ -896,7 +897,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "te_produccion")
-				.withTitle("T. Entrega Producción")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"T. Entrega Producción":"Production Days")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.productionDate_dt
@@ -938,7 +939,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "endProductionDate_dt")
-				.withTitle("Salida de Producción")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Salida de Producción":"Production Out Date")
 				.renderWith(function (data) {
 					var date =
 						data.endProductionDate_dt != null
@@ -955,7 +956,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "te_transit")
-				.withTitle("T. Entrega Tránsito")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"T. Entrega Tránsito":"Transit Date")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.transitDate_dt
@@ -987,7 +988,7 @@ pdApp.controller(
 
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "cycle")
-				.withTitle("Tiempo de Ciclo")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Tiempo de Ciclo":"Cycle Time")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.cycleStartDate_dt
@@ -1010,7 +1011,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "commitmentDate_dt")
-				.withTitle("Fecha Compromiso")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Fecha Compromiso":"Commitment Date")
 				.renderWith(function (data) {
 					var date =
 						data.commitmentDate_dt != null
@@ -1030,7 +1031,7 @@ pdApp.controller(
 		var installationManagerColumns = [
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "date_dt")
-				.withTitle("Fecha")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Fecha":"Date")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					return (
@@ -1043,7 +1044,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "no_l")
-				.withTitle("Orden")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Orden":"Order")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					if (!data.isSuborder_b) {
@@ -1066,7 +1067,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "clientName_txt")
-				.withTitle("Cliente")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Cliente":"Client")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					return (
@@ -1079,7 +1080,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "status_s")
-				.withTitle("Estado")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Estado":"Order Status")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var status = $scope.pretty(
@@ -1092,13 +1093,13 @@ pdApp.controller(
 						')" class="status-block ' +
 						status +
 						'">' +
-						data.status_s +
+						(EXECUTION_ENV!="EXTERNAL"?$scope.pretty("orderStatus", status):$scope.pretty("orderStatusEn", status)) +
 						"</a>"
 					);
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "arrivalDate_dt")
-				.withTitle("F. Llegada")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"F. Llegada":"Arrival Date")
 				.renderWith(function (data) {
 					var date =
 						data.arrivalDate_dt != null ? data.arrivalDate_dt : "-";
@@ -1113,7 +1114,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "dpfc")
-				.withTitle("D.P.F.C")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"D.P.F.C":"Days to due Date")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.cycleStartDate_dt
@@ -1154,7 +1155,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "te_transit")
-				.withTitle("T. Entrega Tránsito")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"T. Entrega Tránsito":"Transit Date")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.transitDate_dt
@@ -1185,7 +1186,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "cycle")
-				.withTitle("Tiempo de Ciclo")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Tiempo de Ciclo":"Cycle Time")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
 					var startDate = data.cycleStartDate_dt
@@ -1208,7 +1209,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "commitmentDate_dt")
-				.withTitle("Fecha Compromiso")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Fecha Compromiso":"Commitment Date")
 				.renderWith(function (data) {
 					var date =
 						data.commitmentDate_dt != null
@@ -1261,8 +1262,9 @@ pdApp.controller(
 
 		var fillStatusList = function (list) {
 			angular.forEach(list, function (status) {
+				console.log("STATUS",status)
 				$scope.availableStatusList.push({
-					label: $scope.pretty("orderStatus", status),
+					label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),
 					value: status,
 				});
 			});

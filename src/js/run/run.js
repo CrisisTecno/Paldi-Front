@@ -152,10 +152,14 @@ pdApp.run(function (
   $rootScope.pretty = function (type, ugly) {
     if (type === "clientType") {
       return prettyHelper.getClientType(ugly)
+    }if (type === "clientTypeEN") {
+        return prettyHelper.getClientTypeEN(ugly)
     } else if (type === "reverseOrderStatus") {
       return prettyHelper.getReverseOrderStatus(ugly)
     } else if (type === "orderStatus") {
       return prettyHelper.getOrderStatus(ugly)
+    } else if (type==="orderStatusEn"){
+      return prettyHelper.getOrderStatusEn(ugly)
     } else if (type === "plusPriceType") {
       return prettyHelper.getPlusPriceType(ugly)
     } else if (type === "userRole") {
@@ -168,6 +172,8 @@ pdApp.run(function (
       return prettyHelper.getProductType(ugly)
     } else if (type === "event") {
       return prettyHelper.getEvent(ugly)
+    } else if (type === "eventEn") {
+      return prettyHelper.getEventEn(ugly)
     } else if (type === "month") {
       return prettyHelper.getMonth(ugly)
     } else if (type === "plusStatus") {
