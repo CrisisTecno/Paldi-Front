@@ -36,7 +36,7 @@ pdApp.controller(
           $state.go("access.login")
         },
         function (error) {
-          // console.log(error);
+          // //console.log(error);
           swal({
             title: "Petición procesada",
             type: "success",
@@ -86,7 +86,7 @@ pdApp.controller(
           ...data.user,
           ...data.permissions,
         }
-        console.log("SETTING CURRENT USER: ", $scope.currentUser)
+        //console.log("SETTING CURRENT USER: ", $scope.currentUser)
         sessionHelper.initOrderStatusList(data.user.role)
         goIn()
       }

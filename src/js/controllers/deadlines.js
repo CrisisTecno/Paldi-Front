@@ -59,6 +59,7 @@ pdApp.controller(
 
 		//=========================================================================
 		function createdRow(row, data, dataIndex) {
+			console.log($scope)
 			$compile(angular.element(row).contents())($scope);
 		}
 
@@ -188,6 +189,16 @@ pdApp.controller(
 						);
 					}
 				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("Id", "no_l")
+				.withTitle("Nombre")
+				.renderWith(function (data) {
+					return (
+						'<a>' 
+						+ data.clientName_txt +
+						"</a>"
+					);
+				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "providerId_s")
 				.withTitle("Proveedor")
@@ -201,6 +212,30 @@ pdApp.controller(
 						'">' +
 						provider +
 						"<a>"
+					);
+				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("refer", "no_l")
+				.withTitle("Folio de Producción")
+				.renderWith(function (data) {
+					console.log(data)
+					
+					return (
+						'<a>' 
+						+ data.dataB.orderTransitInvoice +
+						"</a>"
+					);
+				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("refer1", "no_l")
+				.withTitle("Rastreo")
+				.renderWith(function (data) {
+					console.log(data)
+					
+					return (
+						'<a>' 
+						+ data.dataB.guides[0] +
+						"</a>"
 					);
 				}),
 			DTColumnBuilder.newColumn(null)

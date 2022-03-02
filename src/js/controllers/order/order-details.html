@@ -134,6 +134,16 @@
           <small><%= htmlWebpackPlugin.options.order_list.supplier%> : </small>
           <span>{{order.providerId}}</span>
         </li>
+        <li ng-show="order.orderTransitInvoice">
+          <small><%= htmlWebpackPlugin.options.order_list.transitInvoice%> : </small>
+          <span>{{order.orderTransitInvoice}}</span>
+        </li>
+        <li ng-show="order.guides">
+          <div ng-repeat="track in order.guides track by $index">
+          <small><%= htmlWebpackPlugin.options.order_list.trackingId%> {{$index +1}} : </small>
+          <span>{{track}}</span>
+        </div>
+        </li>
         <li ng-show="order.commitmentDate">
           <small><%= htmlWebpackPlugin.options.order_list.commitment%>:</small>
           <span>{{order.commitmentDate | date : 'dd MMM, yyyy' }}</span>

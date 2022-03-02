@@ -60,7 +60,7 @@ pdApp.controller(
 						$scope.loaded = true;
 					},
 					function (error) {
-						// console.log(error);
+						// //console.log(error);
 					}
 				);
 		};

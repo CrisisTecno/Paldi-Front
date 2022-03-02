@@ -3,7 +3,7 @@ import {globals} from "./index";
 import moment from "moment";
 import {buildReportsService} from "./paldi/reports";
 import {getQuoteStatusFromList} from "./order/defaults";
-import { reports } from "../../../webpack/locale/es";
+import { console_costing, reports } from "../../../webpack/locale/es";
 
 // TODO: Agregar esto a un modulo
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
@@ -388,6 +388,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           authentication: "yokozuna",
         })
         .then(function (response) {
+          console.log("aaa",response);
           return response.data;
         });
     },
@@ -1103,6 +1104,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   //------------------------- DEADLINES -----------------
   service.deadlines = {
     getDeadlines: function (deadlineType, status, start, rows, sort) {
+      
       return $http
         .get(
           globals.apiURL +
@@ -1115,7 +1117,17 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
             params: {start: start, rows: rows, sort: sort},
           }
         )
-        .then(function (response) {
+        .then(async function (response) {
+          console.log("aaf",response)
+          for(const f of response.data.response.docs)
+          {
+            console.log("eee", f);
+            
+              console.log(f.id);
+              var fullData = await service.orders.get(f["id"])
+              f["dataB"] = fullData
+          }
+          console.log("datosmod",response)
           return response.data.response;
         });
     },

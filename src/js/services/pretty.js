@@ -18,7 +18,7 @@ pdApp.factory("prettyHelper", function () {
 		},
 
 		getClientTypeEN: function (type) {
-			console.log("TYPE",type)
+			//console.log("TYPE",type)
 			switch (type) {
 				case "DIRECT_SALE":
 					return "Direct Sale";
@@ -68,7 +68,7 @@ pdApp.factory("prettyHelper", function () {
 			return status;
 		},
 		getOrderStatusEn: function (status) {
-			console.log("I WAS CALLED")
+			//console.log("I WAS CALLED")
 			switch (status) {
 				case "QUOTE":
 					return "Quote";
@@ -99,7 +99,7 @@ pdApp.factory("prettyHelper", function () {
 				case "INSTALLED_NONCONFORM":
 					return "Installation Inconform";
 			}
-			console.log("NOTHING FOUND HERE")
+			//console.log("NOTHING FOUND HERE")
 			return this.getReverseOrderStatusEn(status);
 		},
 		getReverseOrderStatusEn: function (status) {

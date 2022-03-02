@@ -12,7 +12,7 @@ pdApp.controller(
 				},
 				function (error) {
 					$scope.step = "empty";
-					// console.log(error);
+					// //console.log(error);
 				}
 			);
 		};
@@ -30,7 +30,7 @@ pdApp.controller(
 						$state.go("console.client-list");
 					},
 					function (error) {
-						// console.log(error);
+						// //console.log(error);
 						swal({
 							title: "Error",
 							text:

@@ -34,7 +34,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.productData.cortina = {
       motors, sistemas, colores, acabados, allAdditionals
     }
-    //console.log("Loaded product data: ", $scope.productData)
+    console.log("Loaded product data: ", $scope.productData)
   }
   $scope.setupTemplate()
 

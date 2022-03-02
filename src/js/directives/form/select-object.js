@@ -1,4 +1,4 @@
-// console.log("loaded ?")
+// //console.log("loaded ?")
 
 angular.module("formDirectives", [])
   .directive("selectObject", function () {
@@ -14,7 +14,7 @@ angular.module("formDirectives", [])
         scope: "=?scope",
       },
       link: function ($scope) {
-        // console.log("linking")
+        // //console.log("linking")
         $scope.evalIf = (entry) => {
           if (!$scope.ifFunctionProperty) {
             return true

@@ -151,7 +151,7 @@ const getDiscounts = (order, totals) => {
 
 
 export const getTotals = (order) => {
-  // console.log("Calculating totals of: ", order)
+  // //console.log("Calculating totals of: ", order)
 
   if (!order.products instanceof Array) {
     return

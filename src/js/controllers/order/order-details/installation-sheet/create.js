@@ -148,8 +148,8 @@ export const showCreateInstallationSheetDialog = async (
 
     },
   };
-  // //console.log($scope);
-  //console.log($scope);
+  // console.log($scope);
+  console.log($scope);
   
 
   $scope.dialog = $scope.ngDialog.open({
@@ -179,7 +179,7 @@ export const showCreateInstallationSheetDialog = async (
         geocoder.geocode({
           latLng: pos
         }, function(responses) {
-          //console.log(responses.length)
+          console.log(responses.length)
           if (responses && responses.length > 0) {
             $scope.updateMarkerAddress(responses[0]);
           } else {
@@ -193,7 +193,7 @@ export const showCreateInstallationSheetDialog = async (
         await geocoder.geocode({
           address: addr
         }, function(responses) {
-          //console.log(responses.length)
+          console.log(responses.length)
           if (responses && responses.length > 0) {
             res = responses[0]
           } else {
@@ -222,13 +222,13 @@ export const showCreateInstallationSheetDialog = async (
       }
     
       $scope.updateMarkerAddress = function(str) {
-        ////console.log(str)
+        //console.log(str)
         document.getElementById('address').value = str.formatted_address
         $scope.installationSheet.address = str.formatted_address
         str.address_components.forEach(elem=>{
         
           if(elem.types.includes('postal_code')){
-            //console.log("AAAAA", elem)
+            console.log("AAAAA", elem)
             document.getElementById('postalCode').value=elem.long_name;
             $scope.installationSheet.postalCode=elem.long_name;
           }
@@ -297,7 +297,7 @@ export const showCreateInstallationSheetDialog = async (
   
         google.maps.event.addListener(marker, 'drag', function() {
           $scope.updateMarkerPosition(marker.getPosition());
-          //console.log($scope.installationSheet.address)
+          console.log($scope.installationSheet.address)
         });
         
         google.maps.event.addListener(marker, 'dragend', function() {

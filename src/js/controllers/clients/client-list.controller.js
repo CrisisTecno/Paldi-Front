@@ -10,7 +10,7 @@ pdApp.controller(
 		DTColumnDefBuilder,
 		DTColumnBuilder
 	) {
-		console.log("ENTERS")
+		//console.log("ENTERS")
 
 		function createdRow(row, data, dataIndex) {
 			$compile(angular.element(row).contents())($scope);
@@ -67,7 +67,7 @@ pdApp.controller(
 				.withOption("name", "name")
 				.withTitle(EXECUTION_ENV!="EXTERNAL"?"Nombre":"Name")
 				.renderWith(function (data) {
-					console.log(data)
+					//console.log(data)
 					return (
 						'<a href="#/console/client/' +
 						(EXECUTION_ENV!="EXTERNAL"?data.id:data._id) +
