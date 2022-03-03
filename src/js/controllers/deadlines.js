@@ -218,7 +218,7 @@ pdApp.controller(
 				.withOption("refer", "no_l")
 				.withTitle("Folio de Producción")
 				.renderWith(function (data) {
-					console.log(data)
+					console.log("DATA READED",data)
 					
 					return (
 						'<a>' 
@@ -233,8 +233,8 @@ pdApp.controller(
 					console.log(data)
 					
 					return (
-						'<a>' 
-						+ data.dataB.guides[0] +
+						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides? data.dataB.guides[0].trim() :"") + '">' 
+						+ (data.dataB.guides? data.dataB.guides[0] :"") +
 						"</a>"
 					);
 				}),
@@ -309,6 +309,16 @@ pdApp.controller(
 						);
 					}
 				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("Id", "no_l")
+				.withTitle("Nombre")
+				.renderWith(function (data) {
+					return (
+						'<a>' 
+						+ data.client +
+						"</a>"
+					);
+				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "providerId")
 				.withTitle("Proveedor")
@@ -320,6 +330,30 @@ pdApp.controller(
 						'">' +
 						provider +
 						"<a>"
+					);
+				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("refer", "no_l")
+				.withTitle("Folio de Producción")
+				.renderWith(function (data) {
+					console.log(data)
+					
+					return (
+						'<a>' 
+						+ data.dataB.orderTransitInvoice +
+						"</a>"
+					);
+				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("refer1", "no_l")
+				.withTitle("Rastreo")
+				.renderWith(function (data) {
+					console.log(data)
+					
+					return (
+						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides? data.dataB.guides[0].trim() :"") + '">' 
+						+ (data.dataB.guides? data.dataB.guides[0] :"") +
+						"</a>"
 					);
 				}),
 			DTColumnBuilder.newColumn(null)
@@ -417,6 +451,16 @@ pdApp.controller(
 						);
 					}
 				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("Id", "no_l")
+				.withTitle("Nombre")
+				.renderWith(function (data) {
+					return (
+						'<a>' 
+						+ data.clientName_txt +
+						"</a>"
+					);
+				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "providerId_s")
 				.withTitle("Proveedor")
@@ -430,6 +474,30 @@ pdApp.controller(
 						'">' +
 						provider +
 						"<a>"
+					);
+				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("refer", "no_l")
+				.withTitle("Folio de Producción")
+				.renderWith(function (data) {
+				
+					
+					return (
+						'<a>' 
+						+ data.dataB.orderTransitInvoice +
+						"</a>"
+					);
+				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("refer1", "no_l")
+				.withTitle("Rastreo")
+				.renderWith(function (data) {
+					
+					
+					return (
+						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides? data.dataB.guides[0].trim() :"") + '">' 
+						+ (data.dataB.guides? data.dataB.guides[0] :"") +
+						"</a>"
 					);
 				}),
 			DTColumnBuilder.newColumn(null)
@@ -497,6 +565,18 @@ pdApp.controller(
 						"<a>"
 					);
 				}),
+
+				DTColumnBuilder.newColumn(null)
+				.withOption("Id", "no_l")
+				.withTitle("Nombre")
+				.renderWith(function (data) {
+					return (
+						'<a>' 
+						+ data.clientName +
+						"</a>"
+					);
+				}),
+				
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "providerId")
 				.withTitle("Proveedor")
@@ -508,6 +588,30 @@ pdApp.controller(
 						'">' +
 						provider +
 						"<a>"
+					);
+				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("refer", "no_l")
+				.withTitle("Folio de Producción")
+				.renderWith(function (data) {
+					console.log(data)
+					
+					return (
+						'<a>' 
+						+ data.dataB.orderTransitInvoice +
+						"</a>"
+					);
+				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("refer1", "no_l")
+				.withTitle("Rastreo")
+				.renderWith(function (data) {
+					console.log(data)
+					
+					return (
+						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides? data.dataB.guides[0].trim() :"") + '">' 
+						+ (data.dataB.guides? data.dataB.guides[0] :"") +
+						"</a>"
 					);
 				}),
 			DTColumnBuilder.newColumn(null)

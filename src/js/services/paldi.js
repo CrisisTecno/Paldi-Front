@@ -1118,16 +1118,14 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           }
         )
         .then(async function (response) {
-          console.log("aaf",response)
+          
           for(const f of response.data.response.docs)
           {
-            console.log("eee", f);
-            
-              console.log(f.id);
+           
               var fullData = await service.orders.get(f["id"])
               f["dataB"] = fullData
           }
-          console.log("datosmod",response)
+         
           return response.data.response;
         });
     },
@@ -1146,7 +1144,14 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           sort,
           {authentication: "yokozuna"}
         )
-        .then(function (response) {
+        .then(async function (response) {
+          console.log("Received Data ",response)
+          for(const f of response.data.content)
+          {
+           
+              var fullData = await service.orders.get(f["orderId"])
+              f["dataB"] = fullData
+          }
           return response.data;
         });
     },

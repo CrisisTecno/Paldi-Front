@@ -1043,8 +1043,8 @@ module.exports = {
   },
   send_as_order:{
     send_order:"Enviar como Orden",
-    with_advance:"Sin Anticipo",
-    without_advance:"Con Anticipo"
+    with_advance:"Con Anticipo",
+    without_advance:"Sin Anticipo"
   }
   
 }
