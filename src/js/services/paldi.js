@@ -279,7 +279,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         params = {
           page: page,
           size: size,
-          sort: sort,
+          sort: {[sort.split(",")[0]]: sort.split(",") === "asc" ? 1 : -1,},
         }
       } else {
         const query = JSON.stringify({

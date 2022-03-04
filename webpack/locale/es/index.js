@@ -145,6 +145,14 @@ module.exports = {
     step:0.1
   },
   console:{
+
+
+    personal_info:"Información Personal",
+    change_pass:"Cambiar Contraseña",
+    currency_ex:"Tipo de Cambio",
+    logout:"Cerrar Cesión",
+
+
     update_provider: "Actualizar Proveedor",
 
     observations:"Observaciones",
@@ -664,7 +672,7 @@ module.exports = {
     add_additional:"Agregar Adicionales",
     additional:"Adicionales:",
     quantity:"Cantidad",
-    name:"ombre",
+    name:"Nombre",
     add_motor:"Agregar Motorización",
     motorization:"Motorización:",
     notes:"Observaciones",
@@ -701,8 +709,8 @@ module.exports = {
 
     installation_type:"Tipo de Inst.",
     squared:true,
-    units_height:"{{p.width}}",
-    units_width:"{{p.height}}",
+    units_height:"{{p.height}}",
+    units_width:"{{p.width}}"  ,
 
     yes:"Si",
     no:"No"
@@ -918,13 +926,6 @@ module.exports = {
     recover_pass:"Recuperar Contraseña",
     send_pass:"Recordar",
     back_login:"Volver a ingreso"
-  },
-  console:{
-    personal_info:"Información Personal",
-    change_pass:"Cambiar Contraseña",
-    currency_ex:"Tipo de Cambio",
-    logout:"Cerrar Cesión",
-
   },
   order_list:{
     supplier:"ID del Proveedor",

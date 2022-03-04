@@ -14,7 +14,7 @@
             <ul class="client-data">
                 <li><small><%= htmlWebpackPlugin.options.general.name%>:</small> {{quote.seller.name + ' ' + quote.seller.lastName}}</li>
                 <li><small><%= htmlWebpackPlugin.options.general.email%>:</small> {{quote.seller.email}}</li>
-                <li><small><%= htmlWebpackPlugin.options.custom.phonem%>:</small> {{quote.seller.phoneNumber}}</li>
+                <li><small><%= htmlWebpackPlugin.options.general.phone %>:</small> {{quote.seller.phoneNumber}}</li>
             </ul>
             <button type="button" class="btn btn-default" ng-if="editing == false" ng-click="changeSeller()">
                 <%= htmlWebpackPlugin.options.custom.change_seller%>

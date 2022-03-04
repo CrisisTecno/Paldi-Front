@@ -702,8 +702,8 @@ module.exports = {
     
     installation_type:"Installation Type",
     squared:true,
-    units_height:"{{units.to_fraction(p.width)}}",
-    units_width:"{{units.to_fraction(p.height)}}",
+    units_height:"{{units.to_fraction(p.height)}}",
+    units_width:"{{units.to_fraction(p.width)}}",
     
     yes:"Yes",
     no:"No"

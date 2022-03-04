@@ -52,7 +52,7 @@
 						<small class="error-message" ng-if="filterForm.$validated && filterForm.city.$error.required">
 							<%= htmlWebpackPlugin.options.general.required_field %>
 						</small>
-						<% } %>
+						<%}%>
 					</div>
 					<div class="pull-right" style="display: inline-block; margin-bottom: 1rem; margin-top: 35px;">
 						<button class="pull-right btn btn-primary-right" type="submit"> 
@@ -68,7 +68,7 @@
 			
 			<div style="width: 85%; margin: 100px auto;" ng-if="salesData.labels.length > 0">
 				<legend ng-if="salesData.labels.length > 0">
-					<%= htmlWebpackPlugin.options.console.time %>
+					<%= htmlWebpackPlugin.options.console.time_origin %>
 				</legend>
 				<button class="btn btn-default" type="button" ng-click="changeBarChartType('WEEKLY')"> 
 					<%= htmlWebpackPlugin.options.console.weekly %>
@@ -111,7 +111,7 @@
 			<br><br>
 			<div ng-if="sellersData.length > 0">
 				<legend>
-					<%= htmlWebpackPlugin.options.console.stats %>
+					<%= htmlWebpackPlugin.options.console.stats%>
 				</legend>
 				<table class="table table-striped  table-hover" id="sellersTable">
 					<thead>

@@ -109,12 +109,12 @@
             <th><%= htmlWebpackPlugin.options.general.cost %></th>
             <th><%= htmlWebpackPlugin.options.general.emission_date %></th>
             <th><%= htmlWebpackPlugin.options.general.download %></th>
-            <th ng-if="currentUser.canAdmin">
+            <th ng-if="currentUser.canAdmin || currentUser.role=='MANAGER'">
               <%= htmlWebpackPlugin.options.general.delete %>
             </th>
           </thead>
           <tbody ng-repeat="bill in bills">
-            <td>{{bill.folio}}</td>
+            <td ng-click="console.log(bill)">{{bill.folio}} </td>
             <td>{{bill.value | currency}}</td>
             <td>{{bill.date}}</td>
             <td>
@@ -125,7 +125,7 @@
                 <%= htmlWebpackPlugin.options.general.download %>
               </a>
             </td>
-            <td ng-if="currentUser.canAdmin">
+            <td ng-if="currentUser.canAdmin || currentUser.role=='MANAGER'">
               <button 
                   class="btn btn-danger" 
                   ng-click="deleteBill(bill.id)">
@@ -139,7 +139,7 @@
         <%= htmlWebpackPlugin.options.general.no_data %>
       </p>
       <p ng-show="step=='loading'">
-        <%= htmlWebpackPlugin.options.general.login %>
+        <%= htmlWebpackPlugin.options.general.loading %>
       </p>
     </div>
   </div>
