@@ -4,7 +4,7 @@ const default_config = {
   iva: 0.08,
   env: "local",
   creation_permission: ($rootScope) => {
-    // //console.log("evaluating something")
+    // console.log("evaluating something")
     return $rootScope.currentUser.canAdmin
   },
   test: [

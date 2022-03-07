@@ -15,7 +15,7 @@ pdApp.controller(
 	) {
 		$timeout(function () {
 			if (!$scope.currentUser.canAdmin) {
-				//console.log("WORKS")
+				console.log("WORKS")
 				$state.go("console.quote-list");
 			}
 		}, 200);

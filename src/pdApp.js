@@ -364,11 +364,11 @@ const pdApp = angular
         $scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
 
         google.maps.event.addListener($scope.gPlace, 'place_changed', function (v) {
-          // //console.log(element)
-          // //console.log('vvvv', v)
+          // console.log(element)
+          // console.log('vvvv', v)
           $scope.$apply(function () {
-            // //console.log(scope)
-            // //console.log(model)
+            // console.log(scope)
+            // console.log(model)
             model.$setViewValue(element.val());
           });
         });

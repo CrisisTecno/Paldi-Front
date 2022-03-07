@@ -1,12 +1,12 @@
 const glob = require("glob")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
-//console.log("loading html localizer")
+console.log("loading html localizer")
 
 function getHtmlFiles(path) {
   const files = glob.sync(`${path}/**/*.html`).filter(v => v.replace(/\\/g, "/").split("/").length > 2)
   for (const file of files) {
-    //console.log("HTML ", file)
+    console.log("HTML ", file)
   }
   return files
 }

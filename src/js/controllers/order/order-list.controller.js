@@ -23,7 +23,7 @@ pdApp.controller(
 		$scope.isEmpty = true;
 		$scope.isSuborder = false;
 		$scope.selectedType = "all";
-		//console.log($scope)
+		console.log($scope)
 		$scope.orderTypes =$scope.currentUser.realRole!="EXTERNAL_CONSULTANT" ? [
 			{value: "consultant", label: "Mis cotizaciones"},
 			{value: "all", label: "Cotizaciones generales"},
@@ -43,7 +43,7 @@ pdApp.controller(
 			: ($scope.isConsultant = false);
 
 		var serverData = function (sSource, aoData, fnCallback, oSettings) {
-      // //console.log(sSource, aoData, fnCallback, oSettings)
+      // console.log(sSource, aoData, fnCallback, oSettings)
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var sort = sear
@@ -1262,7 +1262,7 @@ pdApp.controller(
 
 		var fillStatusList = function (list) {
 			angular.forEach(list, function (status) {
-				//console.log("STATUS",status)
+				console.log("STATUS",status)
 				$scope.availableStatusList.push({
 					label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),
 					value: status,

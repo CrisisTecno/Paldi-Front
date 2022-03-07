@@ -18,7 +18,7 @@ const getSwal = (tag) => {
 	let actual = swals;
 	for (const subKey of path) {
 		actual = actual[subKey];
-		// //console.log(actual)
+		// console.log(actual)
 	}
 	return actual;
 };
@@ -36,4 +36,4 @@ const swals = {
 	},
 };
 
-// //console.log(swals)
+// console.log(swals)
