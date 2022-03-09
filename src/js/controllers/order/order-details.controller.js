@@ -24,7 +24,7 @@ pdApp.controller(
     permissionService
   ) {
     
-    //console.log("LANG",globals)
+    console.log("LANG",globals)
     var loadOrder = function () {
       var id = $stateParams.orderId;
       $scope.step = "loading";
@@ -47,8 +47,8 @@ pdApp.controller(
 
       paldiService.orders.get(id).then(async function (order) {
         $scope.order = order;
-        //console.log("orden",$scope.order);
-        //console.log(paldiService.orders)
+        console.log("orden",$scope.order);
+        console.log(paldiService.orders)
         $scope.quoteStatus = order.quoteStatus;
         $scope.quoteSubStatus = order.quoteSubStatus;
         $scope.products = order.products;
@@ -77,7 +77,7 @@ pdApp.controller(
             })
           }
         }
-        // //console.log(order)
+        // console.log(order)
 
         if (order.orderParent) {
           $scope.isSuborder = true;
@@ -130,7 +130,7 @@ pdApp.controller(
         // $("#download_installation_sheet").attr('href', $scope.installationSheet.pdfLink)
 
 
-        // //console.log($scope.order.pdfInstallationSheetLink)
+        // console.log($scope.order.pdfInstallationSheetLink)
         $scope.perms = permissionService.setDependencies([
           ["user", $rootScope.currentUser],
           ["order", $scope.order],
@@ -139,7 +139,7 @@ pdApp.controller(
           }],
         ]);
 
-        // //console.log($scope.perms)
+        // console.log($scope.perms)
         $timeout(async function () {
           $scope.permissions = permissionsHelper.get(order, $rootScope.currentUser);
           $scope.canManagePayments = $scope.currentUser.role != 'MANAGER' && $scope.currentUser.role != 'INSTALLATION_MANAGER';
@@ -147,13 +147,13 @@ pdApp.controller(
           //   "MANAGER",
           //   "INSTALLATION_MANAGER",
           // // ].includes($scope.currentUser.role);
-          // //console.log('FINISHED LOADING SOMETHING')
-          // //console.log($scope)
+          // console.log('FINISHED LOADING SOMETHING')
+          // console.log($scope)
         });
 
       }, function (error) {
         $scope.step = "empty";
-        // //console.log(error);
+        // console.log(error);
       });
     }
 
@@ -213,7 +213,7 @@ pdApp.controller(
     };
    
     function toFraction(amt) {
-      //console.log(amt)
+      console.log(amt)
       if(amt == undefined) return ""
       if (amt > 0 && amt <= .125+(.125/7)) return '1/8';
       if (amt <= .25+(.125/7)) return '1/4';
@@ -228,7 +228,7 @@ pdApp.controller(
      to_fraction:function(val){
        val = val.toString();
        val = val.split(".")
-       //console.log("VALUES",val)
+       console.log("VALUES",val)
        if(val[1]!= undefined) val[1] = parseFloat("."+val[1])
        return val[0] + " " +toFraction(val[1])
 
@@ -243,7 +243,7 @@ pdApp.controller(
       } else {
         objName = EXECUTION_ENV=="EXTERNAL" ? "orden" : Order;
       }
-      // //console.log(order)
+      // console.log(order)
 
       const getProviderEmail = (type) => {
         const emails = {
@@ -255,9 +255,9 @@ pdApp.controller(
           return "Correo"
         return emails[type]
       }
-      // //console.log("------ PROVIDER EMAIL")
-      // //console.log(order.type)
-      // //console.log(getProviderEmail(order.products[0].productType))
+      // console.log("------ PROVIDER EMAIL")
+      // console.log(order.type)
+      // console.log(getProviderEmail(order.products[0].productType))
       
       swal({
         title: (EXECUTION_ENV=="EXTERNAL"?("Do you want to send the" + objName + "to the mail"):("¿Seguro que desea enviar la " + objName + " al correo?")),
@@ -273,7 +273,7 @@ pdApp.controller(
         function (value) {
           if (!value)
             return
-          // //console.log(value)
+          // console.log(value)
           if (value.trim() === "") {
             swal.showInputError((EXECUTION_ENV=="EXTERNAL"?"A mail direction is required":"Es necesario escribir una dirección de correo"));
             return false
@@ -343,7 +343,7 @@ pdApp.controller(
               loadOrder();
             });
           }
-          // //console.log(suborder)
+          // console.log(suborder)
         })
 
       })
@@ -505,7 +505,7 @@ pdApp.controller(
             
             if (isConfirm  ) {
               $scope.newStatus = status;
-              //	// //console.log($scope.newStatus);
+              //	// console.log($scope.newStatus);
               if (status === "PENDING") {
 
                 if(EXECUTION_ENV=="EXTERNAL"){
@@ -670,7 +670,7 @@ pdApp.controller(
               }
             },
             function (error) {
-              // //console.log(error);
+              // console.log(error);
 
               if (
                 error.data.exception ==
@@ -704,7 +704,7 @@ pdApp.controller(
       updatedOrder.statusNotes = model.notes;
       updatedOrder.orderTransitInvoice=model.orderTransitInvoice
       updatedOrder.guides = model.guides
-      //console.log(updatedOrder)
+      console.log(updatedOrder)
       paldiService.orders
         .updateStatus(updatedOrder, "TRANSIT")
         .then(function (order) {
@@ -883,9 +883,9 @@ pdApp.controller(
     };
 
     $scope.addDataToRepeater = function(model,type){
-      //console.log("ADDING DATA")
+      console.log("ADDING DATA")
       if(type=="guides"){
-        //console.log("Works Here")
+        console.log("Works Here")
         if(!model.guides){
           model.guides = [""]
         }
@@ -1001,7 +1001,7 @@ pdApp.controller(
                   loadOrder();
                 },
                 function (error) {
-                  // //console.log(error);
+                  // console.log(error);
                 }
               );
           } else {

@@ -66,6 +66,7 @@ pdApp.controller(
 				sort = newSort;
 			}
 			var pastSort = newSort;
+			console.log("aiuddaa2",sear,draw,size,page,sort)
 
 			if ($scope.endDate) {
 				$scope.endDate = moment($scope.endDate).endOf("day").toDate();
@@ -73,6 +74,7 @@ pdApp.controller(
 
 			paldiService.orders
 				.getCosting(
+					sear,
 					statusList,
 					page * size,
 					size,
@@ -123,7 +125,7 @@ pdApp.controller(
 			.withOption("processing", true)
 			.withOption("serverSide", true)
 			.withDisplayLength(20)
-			.withDOM("tp")
+			.withDOM("ftp")
 			.withOption("createdRow", createdRow)
 			.withOption("order", [0, "desc"]);
 
@@ -132,6 +134,7 @@ pdApp.controller(
 				.withOption("name", "date_dt")
 				.withTitle("Fecha")
 				.renderWith(function (data) {
+					console.log("z1",data)
 					return (
 						'<a href="#/console/order/' +
 						data.id +
@@ -165,13 +168,13 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "project_txt")
-				.withTitle("Proyecto")
+				.withTitle("Cliente")
 				.renderWith(function (data) {
 					return (
 						'<a href="#/console/order/' +
 						data.id +
 						'">' +
-						data.project_txt +
+						data.clientName_txt +
 						"</a>"
 					);
 				}),

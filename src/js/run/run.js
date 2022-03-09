@@ -16,7 +16,7 @@ pdApp.run(function (
   $rootScope.currentVersion = globals.version
 
   function loadUser(user) {
-    //console.log(EXECUTION_ENV)
+    console.log(EXECUTION_ENV)
     if (EXECUTION_ENV === "INTERNAL") {
       $rootScope.currentUser = user
       // paldiService.users
@@ -32,9 +32,9 @@ pdApp.run(function (
         user.role == "INSTALLATION_MANAGER" ||
         user.role == "SALES_MANAGER"
     } else {
-      //console.log("WHOAMI USER: ", $rootScope)
-      //console.log(user)
-      //console.log($rootScope)
+      console.log("WHOAMI USER: ", $rootScope)
+      console.log(user)
+      console.log($rootScope)
       $rootScope.currentUser = user
     }
   }
@@ -42,7 +42,7 @@ pdApp.run(function (
   var isLogged = function () {
     paldiService.users.whoAmI().then(
       function (user) {
-        //console.log(user)
+        console.log(user)
         loadUser(user)
         colorPriceService.getExchangeRate().then(function (rate) {
           $rootScope.currentExchangeRate = rate

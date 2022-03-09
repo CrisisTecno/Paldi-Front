@@ -42,7 +42,7 @@ pdApp.factory(
 
       // Update Scope
       updatePrice: function (product, model, meta) {
-        // //console.log("Updating price of:", product)
+        // console.log("Updating price of:", product)
        
        
         switch (product) {
@@ -77,7 +77,7 @@ pdApp.factory(
       },
 
       updateTotals: function (product, model) {
-        //console.log("TotalUpdate", product, model);
+        console.log("TotalUpdate", product, model);
         let pisoDiscount = false
         angular.forEach(model.products, function (product, key) {
           if (model.type == "Piso" && product.type == "Laminados" && model.client && model.client.type != "DIRECT_SALE") {
@@ -101,14 +101,14 @@ pdApp.factory(
 
         // Update Quote/Order Object
         const totals = pricingService.getTotals(model)
-        // //console.log('Calculated', totals)
+        // console.log('Calculated', totals)
         for (const [key, value] of Object.entries(totals)) {
           model[key] = value
         }
 
         // Update Plus Total
         const additionalTotals = getAdditionalsSubTotal(model)
-        // //console.log("Calculated additional totals: ", additionalTotals)
+        // console.log("Calculated additional totals: ", additionalTotals)
         model.products?.forEach((product, i) => {
           product.plusList?.forEach((additional, j) => {
             additional.total = additionalTotals[i][j]
@@ -351,7 +351,7 @@ pdApp.factory(
       if (!model)
         return
 
-      // //console.log("Calculating cortina price for ", model)
+      // console.log("Calculating cortina price for ", model)
       const payload = {
         product: "Cortina",
         finish: model.finish,
@@ -361,7 +361,7 @@ pdApp.factory(
       }
 
       const result = await paldiService.products.fetchPrice(payload)
-      // //console.log("Calculated cortina price", result)
+      // console.log("Calculated cortina price", result)
       model.m2 = Math.round(model.width * model.height * 100) / 100
       model.price = result.price
       model.total = result.price * model.quantity
@@ -427,7 +427,7 @@ else{
 			},
 
 			updatePrice: function (product, model, meta) {
-        // //console.log(product, model, meta)
+        // console.log(product, model, meta)
 				switch (product) {
 					case "Balance":
 						getBalancePrice(model);
@@ -477,7 +477,7 @@ else{
 
         // Update Quote/Order Object
         const totals = pricingService.getTotals(model)
-        //console.log('Calculated', totals)
+        console.log('Calculated', totals)
         for (const [key, value] of Object.entries(totals)) {
           model[key] = value
         } 
@@ -668,7 +668,7 @@ else{
 						params: { type: type, code: code },
 					})
 					.then(function (response) {
-            // //console.log('API CALL: /pricing/prices/piso')
+            // console.log('API CALL: /pricing/prices/piso')
 						return response.data;
 					});
 			},
@@ -844,7 +844,7 @@ else{
 			}
 
 			if (isValid) {
-        // //console.log(balance)
+        // console.log(balance)
         const obj = {
           ...balance, 
           width: inches_to_meters(balance.width + parseFloat(balance.w_fraction ?? 0)),
@@ -855,7 +855,7 @@ else{
 						authentication: "yokozuna",
 					})
 					.then(function (response) {
-            // //console.log('API CALL: /pricing/prices/balance', response)
+            // console.log('API CALL: /pricing/prices/balance', response)
 						var price = sq_inches_to_meters(response.data.price);
 						balance.unit = price;
 						balance.price = balance.width 
@@ -885,7 +885,7 @@ else{
 						{ authentication: "yokozuna" }
 					)
 					.then(function (response) {
-            // //console.log('API CALL: /pricing/colors/balances/', response)
+            // console.log('API CALL: /pricing/colors/balances/', response)
             response.data.forEach((element) => {
               // element.minWidth= meters_to_inches(parseFloat(element.minWidth))
               element.maxWidth = meters_to_inches(parseFloat(element.maxWidth))
@@ -942,7 +942,7 @@ else{
 						var m2 =  
 							(shutter.width  + parseFloat(shutter.w_fraction ?? 0) + incheQuantity) *
 							(shutter.height + parseFloat(shutter.h_fraction ?? 0) + incheQuantity);
-            // //console.log(m2)
+            // console.log(m2)
 						m2 = m2 >= ft * 8 ? m2 : ft * 8;
 						// shutter.m2 = Math.round(m2 * 100) / 100;
 						shutter.unit = price;
@@ -970,7 +970,7 @@ else{
 						{ authentication: "yokozuna" }
 					)
 					.then(function (response) {
-            // //console.log('API CALL: /pricing/colors/shutters/', response)
+            // console.log('API CALL: /pricing/colors/shutters/', response)
             response.data.forEach((element) => {
               // element.minWidth= meters_to_inches(parseFloat(element.minWidth))
               element.maxWidth = meters_to_inches(parseFloat(element.maxWidth))
@@ -1033,7 +1033,7 @@ else{
 						authentication: "yokozuna",
 					})
 					.then(function (response) {
-            // //console.log('API CALL: /pricing/prices/toldo')
+            // console.log('API CALL: /pricing/prices/toldo')
 						if (!response.data) {
 							toldo.doable = false;
 							toldo.price = null;
@@ -1065,8 +1065,8 @@ else{
 						{ authentication: "yokozuna" }
 					)
 					.then(function (response) {
-            // //console.log('API CALL: /pricing/colors/toldos', response)
-            //console.log("TOLDO COLORS")
+            // console.log('API CALL: /pricing/colors/toldos', response)
+            console.log("TOLDO COLORS")
             response.data.forEach((element) => {
               element.minWidth= meters_to_inches(parseFloat(element.minWidth))
               element.maxWidth = meters_to_inches(parseFloat(element.maxWidth))
@@ -1117,8 +1117,8 @@ else{
 
       const width = inches_to_meters(enrollable.width + parseFloat(enrollable.w_fraction ?? 0))
       const height = inches_to_meters(enrollable.height + parseFloat(enrollable.h_fraction ?? 0))
-      // //console.log("---------------------- DIMENSIONS")
-      // //console.log(width, height)
+      // console.log("---------------------- DIMENSIONS")
+      // console.log(width, height)
 
 			if (enrollable.width && enrollable.height) {
 				enrollable.m2 =
@@ -1149,7 +1149,7 @@ else{
 						authentication: "yokozuna",
 					})
 					.then(function (response) {
-            // //console.log('API CALL: /pricing/prices/enrollable', response)
+            // console.log('API CALL: /pricing/prices/enrollable', response)
 						if (!response.data) {
 							enrollable.doable = false;
 							enrollable.unit = null;
@@ -1196,7 +1196,7 @@ else{
 						{ authentication: "yokozuna" }
 					)
 					.then(function (response) {
-            // //console.log('API CALL: /pricing/colors/enrollables/', response)
+            // console.log('API CALL: /pricing/colors/enrollables/', response)
             response.data.forEach((element) => {
               // element.minWidth= meters_to_inches(parseFloat(element.minWidth))
               element.maxWidth = meters_to_inches(parseFloat(element.maxWidth))
@@ -1272,8 +1272,8 @@ else{
 						authentication: "yokozuna",
 					})
 					.then(function (response) {
-            // //console.log('API CALL: /pricing/prices/filtrasol')
-            // //console.log(response)
+            // console.log('API CALL: /pricing/prices/filtrasol')
+            // console.log(response)
 						if (!response.data) {
 							filtrasol.doable = false;
 							filtrasol.unit = null;
@@ -1318,14 +1318,14 @@ else{
 						{ authentication: "yokozuna" }
 					)
 					.then(function (response) {
-            // //console.log('API CALL: /pricing/colors/filtrasoles/', response)
+            // console.log('API CALL: /pricing/colors/filtrasoles/', response)
             response.data.forEach((element) => {
               // element.minWidth= meters_to_inches(parseFloat(element.minWidth))
               element.maxWidth = meters_to_inches(parseFloat(element.maxWidth))
               // element.minHeight= meters_to_inches(parseFloat(element.minHeight))
               element.maxHeight = meters_to_inches(parseFloat(element.maxHeight))
             })
-            // //console.log(response)
+            // console.log(response)
 						filtrasol.colors = [];
 						response.data.forEach(function (element, index) {
 							filtrasol.colors.push({
@@ -1333,7 +1333,7 @@ else{
 								value: element,
 							});
 						});
-            // //console.log(filtrasol.colors)
+            // console.log(filtrasol.colors)
 					});
 			}
 		};

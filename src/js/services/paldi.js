@@ -803,6 +803,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
     getCosting: function (
+      sear,
       statusList,
       start,
       rows,
@@ -817,6 +818,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         .get(globals.apiURL + "/quotes/orders/costing", {
           authentication: "yokozuna",
           params: {
+            sear:sear,
             start: start,
             rows: rows,
             sort: sort,

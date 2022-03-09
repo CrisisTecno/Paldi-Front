@@ -27,7 +27,7 @@ pdApp.controller(
 						user.role =user.realRole
 					}
 		
-					//console.log("USR",user)
+					console.log("USR",user)
 
 					$scope.user = user;
 					$scope.user.warehouseId = user.warehouse
@@ -37,7 +37,7 @@ pdApp.controller(
 				},
 				function (error) {
 					$scope.step = "empty";
-					// //console.log(error);
+					// console.log(error);
 				}
 			);
 		};
@@ -59,7 +59,7 @@ pdApp.controller(
 						$state.go("console.user-list");
 					},
 					function (error) {
-						// //console.log(error);
+						// console.log(error);
 					}
 				);
 			} else {
@@ -92,7 +92,7 @@ pdApp.controller(
 							},
 							function (error) {
 								$scope.step = "empty";
-								// //console.log(error);
+								// console.log(error);
 							}
 						);
 					} else {
@@ -130,7 +130,7 @@ pdApp.controller(
 								});
 							},
 							function (error) {
-								// //console.log(error);
+								// console.log(error);
 							}
 						);
 					} else {
@@ -168,7 +168,7 @@ pdApp.controller(
 								});
 							},
 							function (error) {
-								// //console.log(error);
+								// console.log(error);
 							}
 						);
 					} else {

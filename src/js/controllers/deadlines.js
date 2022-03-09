@@ -296,7 +296,7 @@ pdApp.controller(
 							'<a href="#/console/order/' +
 							data.id +
 							'">' +
-							data.no_l +
+							data.orderNo +
 							"<a>"
 						);
 					} else {
@@ -570,9 +570,10 @@ pdApp.controller(
 				.withOption("Id", "no_l")
 				.withTitle("Nombre")
 				.renderWith(function (data) {
+					console.log("aiudaaa",data)
 					return (
 						'<a>' 
-						+ data.clientName +
+						+ data.client +
 						"</a>"
 					);
 				}),

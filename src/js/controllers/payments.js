@@ -292,7 +292,7 @@ pdApp.controller(
 									$scope.isPaying = false;
 								},
 								function (error) {
-									// //console.log(error);
+									// console.log(error);
 									$scope.isPaying = false;
 								}
 							);

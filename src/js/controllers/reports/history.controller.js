@@ -9,20 +9,20 @@ export const buildHistoryObject = (
   const history = {}
 
   const fetchServerData = (_, props, callback, features) => {
-    // //console.log("FETCH SERVER DATA CALLED")
-    // //console.log(props, callback, features)
+    // console.log("FETCH SERVER DATA CALLED")
+    // console.log(props, callback, features)
 
     const start = props[3].value
     const length = props[4].value
     const page = start / length + 1
 
-    // //console.log(page)
+    // console.log(page)
 
     paldiService.reports.getHistory({
       page: page,
       amount: length
     }).success((data) => {
-      // //console.log(data)
+      // console.log(data)
       callback({
         draw: props[0].value,
         recordsTotal: data.currentTotal,

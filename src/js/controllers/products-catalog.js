@@ -76,7 +76,7 @@ pdApp.controller(
 						type: "error",
 						confirmButtonText: "Aceptar",
 					});
-					// //console.log(error);
+					// console.log(error);
 				}
 			);
 		};

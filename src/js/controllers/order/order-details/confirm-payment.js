@@ -72,10 +72,10 @@ const updateOrder = async function (context, $scope, updatedOrder, model) {
       $scope.isPaying = false;
       context.loadOrder();
 		};
-		// //console.log("showing create installation sheet dialog");
+		// console.log("showing create installation sheet dialog");
 		await showCreateInstallationSheetDialog($scope, callback);
 	} catch (error) {
-		// //console.log('ERROR BEFORE INSTALLATION SHEET DIALOG', error);
+		// console.log('ERROR BEFORE INSTALLATION SHEET DIALOG', error);
     const callback = () => {
       $scope.isPaying = false;
       context.loadOrder();
@@ -107,7 +107,7 @@ const perfomAdvance = async (context, $scope, updatedOrder, model) => {
 const processPayment = (context, $scope, model) => {
 	$scope.isPaying = true;
 	let updatedOrder = $scope.order;
-	// //console.log(getPaymentInfo($scope, model));
+	// console.log(getPaymentInfo($scope, model));
 	updatedOrder.payment = getPaymentInfo($scope, model);
 
 	if ($scope.paymentType === "payment")
