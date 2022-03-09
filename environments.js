@@ -100,7 +100,7 @@ config = {
   },
   internal_staging: {
     ...default_config,
-    apiURL: "http://cotizadorpaldi.com.mx:9999",
+    apiURL: "http://192.241.238.176:9999",
     ...internal_api,
     env: "staging",
   },
@@ -110,6 +110,13 @@ config = {
     ...internal_api,
     env: "production",
   },
+  new_internal_staging: {
+    ...default_config,
+    apiURL: "http://192.241.238.176:9999",
+    ...internal_api,
+    env: "staging",
+  }
+  
 }
 
 function parseConfig(data) {

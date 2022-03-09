@@ -299,7 +299,7 @@ module.exports = {
     due_date:"Fecha de Salida de Producción",
     arrival:"Fecha de Llegada",
     installation:"Fecha de Instalación",
-    comments:"Obsevaciones",
+    comments:"Observaciones",
     save:"Capturar datos"
   },
   console_costing:{
@@ -1024,7 +1024,7 @@ module.exports = {
     register_payment:"Registrar Pago",
     need_invoice:"Necesita Factura",
     send_as_order:"Enviar Como Orden",
-    approve_order:"Aprovar Orden",
+    approve_order:"Aprobar Orden",
     reject:"Rechazar orden",
     send_prod:"Enviar a producción",
     send_back:"Enviar a Backorder",

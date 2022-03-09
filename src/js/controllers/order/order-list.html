@@ -136,7 +136,7 @@
                                         <span>{{selectedOrder.endProductionDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
                                     <li ng-show="selectedOrder.transitDate">
-                                        <small><%=htmlWebpackPlugin.options.transit_date%>:</small>
+                                        <small><%=htmlWebpackPlugin.options.order_list.transit_date%>:</small>
                                         <span>{{selectedOrder.transitDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
                                     <li ng-show="selectedOrder.arrivalDate">

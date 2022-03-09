@@ -868,12 +868,18 @@ pdApp.controller(
       
       $scope.dateModel = {};
       $scope.dateType = dateType;
+      if(dateType=='arrival'){
+        $scope.dateModel['guides']=$scope.order.guides??[]
+        $scope.dateModel['orderTransitInvoice']=$scope.order.orderTransitInvoice??""
 
+
+      }
       $scope.dialog = ngDialog.open({
         template: "partials/views/console/datepicker.html",
         scope: $scope,
         showClose: false,
       });
+
     };
 
     $scope.addDataToRepeater = function(model,type){
