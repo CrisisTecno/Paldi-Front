@@ -16,7 +16,7 @@ pdApp.run(function (
   $rootScope.currentVersion = globals.version
 
   function loadUser(user) {
-    console.log(EXECUTION_ENV)
+    
     if (EXECUTION_ENV === "INTERNAL") {
       $rootScope.currentUser = user
       // paldiService.users
@@ -32,21 +32,33 @@ pdApp.run(function (
         user.role == "INSTALLATION_MANAGER" ||
         user.role == "SALES_MANAGER"
     } else {
-      console.log("WHOAMI USER: ", $rootScope)
-      console.log(user)
-      console.log($rootScope)
+   
       $rootScope.currentUser = user
     }
+  }
+
+  $rootScope.updateBankRate= ()=>{
+
+    colorPriceService.getBankExchangeRate().then((data)=>{
+
+      $rootScope.bankRate = data[0]
+      
+    })
   }
 
   var isLogged = function () {
     paldiService.users.whoAmI().then(
       function (user) {
-        console.log(user)
+        
         loadUser(user)
         colorPriceService.getExchangeRate().then(function (rate) {
           $rootScope.currentExchangeRate = rate
         })
+        if (EXECUTION_ENV=="INTERNAL"){
+
+        $rootScope.updateBankRate()
+        }
+        
 
         if ($rootScope.currentUser.reset) {
           $state.go("console.change-password")
@@ -63,6 +75,7 @@ pdApp.run(function (
         permissionsHelper
           .getStatusList("QUOTE")
           .forEach(function (status) {
+            console.log(status)
             $rootScope.quoteStatusList.push({id: status})
           })
 

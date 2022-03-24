@@ -388,7 +388,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           authentication: "yokozuna",
         })
         .then(function (response) {
-          console.log("aaa",response);
+          
           return response.data;
         });
     },
@@ -564,7 +564,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
     setGuides : function (order){
-      console.log("Posting Order",order)
+      
       return $http
       .put(
         globals.apiURL +
@@ -582,7 +582,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         }
       )
       .then(function (response) {
-        console.log(response,order)
+        
         return response.data;
       });
     },
@@ -743,7 +743,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           query: JSON.stringify(query),
           sort: JSON.stringify({orderNo: -1})
         }
-        console.log(query)
+       
 
       } else {
         sort = !sort ? "" : sort;
@@ -1147,7 +1147,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           {authentication: "yokozuna"}
         )
         .then(async function (response) {
-          console.log("Received Data ",response)
+         
           for(const f of response.data.content)
           {
            

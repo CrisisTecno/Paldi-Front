@@ -150,9 +150,10 @@ module.exports = {
     personal_info:"Información Personal",
     change_pass:"Cambiar Contraseña",
     currency_ex:"Tipo de Cambio",
+    bank_ex:"Tipo de Cambio Actual",
     logout:"Cerrar Cesión",
 
-
+    
     update_provider: "Actualizar Proveedor",
 
     observations:"Observaciones",
@@ -660,7 +661,7 @@ module.exports = {
   toldos:{
     exterior_products:"Productos para el exterior",
     no_doable:"No realizable",
-    room:"Location",
+    room:"Ubicación",
     type:"Tipo",
     width:"Ancho (Metros)",
     projection:"Proyeción/ Caída (Metros)",
@@ -945,7 +946,7 @@ module.exports = {
     commitment:"Fecha de Compromiso",
     production_in:"Entrada a producción",
     production_out:"Salida de Produccion",
-    trackingId:"Guia de Seguimiento",
+    trackingId:"Guia de Rastreo",
     transit_date:"Fecha de Embarque",
     transitInvoice:"Folio de Pedido",
     arrival_date:"Fecha de Llegada",
@@ -1037,6 +1038,7 @@ module.exports = {
     partial_install:"Instalada Parcial",
     inconform_install:"Instalada Inconforme",
     change_provider:"Cambiar ID de Provedor",
+    change_guides:"Editar Guias",
     change_state:"Cambiar Estado",
     order_not_found:"No se encontró la orden",
     show_history:"Mostrar Historial",

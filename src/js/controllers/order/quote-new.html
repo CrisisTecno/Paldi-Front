@@ -23,7 +23,7 @@
               typeahead-no-results="clientsNotFound"
               typeahead-on-select="selectClient($item)"
               typeahead-template-url="js/controllers/clients/client-typeahead.html"
-              uib-typeahead="client.name + ' ' + client.lastName for client in findClients($viewValue)"
+              uib-typeahead="client.name + ' ' + client.lastName for client in findClients($viewValue)  "
           >
           <small ng-if="clientsLoading"><%= htmlWebpackPlugin.options.general.searching %>...</small>
           <small class="error-message" ng-if="clientsNotFound"><%= htmlWebpackPlugin.options.general.no_client %></small>
@@ -215,6 +215,26 @@
                           title="Remover"
                           type="button"
                       >X</i></button>
+                      <button
+                          class="btn btn-edit"
+                          ng-click="exchangeProduct(indexProduct,indexProduct-1, indexList)"
+                          ng-disabled="indexProduct==0"
+                          title="Mover Arriba"
+                          type="button"
+                      ><i class="fa fa-arrow-up "></i></button>
+                      <button
+                          class="btn btn-edit"
+                          ng-click="exchangeProduct(indexProduct,indexProduct+1, indexList)"
+                          ng-disabled="productTypeList.products.length-1 == indexProduct"
+                          title="Mover Abajo"
+                          type="button"
+                      ><i class="fa fa-arrow-down "></i></button>
+                      <button
+                          class="btn btn-edit"
+                          ng-click="cloneProduct(indexProduct, indexList)"
+                          title="Duplicar"
+                          type="button"
+                      ><i class="fa fa-clone "></i></button>
                     </td>
                   </tr>
                   </tbody>

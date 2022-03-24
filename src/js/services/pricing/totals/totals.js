@@ -139,7 +139,7 @@ const getDiscounts = (order, totals) => {
     + totals.motorTotal * !IS_ZELBA
   ) * toDecimalPercent(order.discountPercent) : order.discount
 
-
+  
   const discount = order.type === 'Mixta' ? mixedDiscount : fullDiscount
   
 
@@ -151,7 +151,7 @@ const getDiscounts = (order, totals) => {
 
 
 export const getTotals = (order) => {
-  // console.log("Calculating totals of: ", order)
+   
 
   if (!order.products instanceof Array) {
     return

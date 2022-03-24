@@ -2,7 +2,7 @@
 	<legend>
 		<%= htmlWebpackPlugin.options.modals.admission_xml %>
 	</legend>
-	<input type="file" id="fileUpload" name="file" onchange="angular.element(this).scope().selectFile(this.files)"/>
+	<input type="file" accept="text/xml,application/xml" multiple="true" id="fileUpload" name="file" onchange="angular.element(this).scope().selectFile(this.files)"/>
 	<span class="text-danger" ng-if="fileEmpty">
 		<%= htmlWebpackPlugin.options.modals.empty_file %>
 	</span>

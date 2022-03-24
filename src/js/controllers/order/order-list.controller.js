@@ -23,7 +23,6 @@ pdApp.controller(
 		$scope.isEmpty = true;
 		$scope.isSuborder = false;
 		$scope.selectedType = "all";
-		console.log($scope)
 		$scope.orderTypes =$scope.currentUser.realRole!="EXTERNAL_CONSULTANT" ? [
 			{value: "consultant", label: "Mis cotizaciones"},
 			{value: "all", label: "Cotizaciones generales"},
@@ -1262,7 +1261,6 @@ pdApp.controller(
 
 		var fillStatusList = function (list) {
 			angular.forEach(list, function (status) {
-				console.log("STATUS",status)
 				$scope.availableStatusList.push({
 					label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),
 					value: status,

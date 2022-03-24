@@ -463,7 +463,7 @@
               <a ng-show="perms.order.installation_sheet.edit" ng-click="editInstallationSheet()" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
                 <span class="btn-icon glyphicon glyphicon glyphicon-edit"></span><%= htmlWebpackPlugin.options.general.edit%>  </a>
               <div class="dropdown-divider"></div>
-              <a ng-show="perms.order.installation_sheet.download" href="{{order.installationSheetPdfLink}}" target="_blank" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
+              <a ng-show="perms.order.installation_sheet.download" ng-href="{{order.installationSheetPdfLink}}" download="{{order.installationSheetPdfLink}}" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
                 <span class="btn-icon glyphicon glyphicon glyphicon-save"></span><%= htmlWebpackPlugin.options.general.download%>  </a>
             </div>
           </div>
@@ -473,6 +473,7 @@
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canPartialInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED_NONCONFORM')">
             <span class="btn-icon glyphicon glyphicon-th"></span><%= htmlWebpackPlugin.options.order_details.inconform_install%> </button>
           <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" ng-show="permissions.canUpdateProvider " ng-click="updateProviderDialog()"><span class="btn-icon glyphicon glyphicon-edit   "></span><%= htmlWebpackPlugin.options.order_details.change_provider%>  </button>
+          <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" ng-show="permissions.canUpdateProvider && order.orderTransitInvoice" ng-click="updateGuidesDialog()"><span class="btn-icon glyphicon glyphicon-edit   "></span><%= htmlWebpackPlugin.options.order_details.change_guides%>  </button>
           <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" ng-show="permissions.canChangeStatus   " ng-click="changeStatusDialog()"><span class="btn-icon glyphicon glyphicon-refresh   "></span><%= htmlWebpackPlugin.options.order_details.change_state%>  </button>
           <button type="button" ng-show="order.status ==  'QUOTE' && permissions.canCancel" class="btn btn-tertiary-actions btn-sm btn-square" ng-click="changeStatusDialog('CANCELED')"><span class="btn-icon glyphicon glyphicon-remove   "></span><%= htmlWebpackPlugin.options.general.cancel%>  </button>
           <button type="button" ng-show="order.status !=  'QUOTE' && order.orderParent == null && order.status !=  'ORDER_CANCELED' && permissions.canCancel && order.balance >= 0.1" class="btn btn-tertiary-actions btn-sm btn-square" ng-click="changeStatusDialog('ORDER_CANCELED')">

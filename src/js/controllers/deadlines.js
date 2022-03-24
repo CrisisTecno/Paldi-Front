@@ -59,7 +59,7 @@ pdApp.controller(
 
 		//=========================================================================
 		function createdRow(row, data, dataIndex) {
-			console.log($scope)
+		
 			$compile(angular.element(row).contents())($scope);
 		}
 
@@ -218,7 +218,7 @@ pdApp.controller(
 				.withOption("refer", "no_l")
 				.withTitle("Folio de Producción")
 				.renderWith(function (data) {
-					console.log("DATA READED",data)
+					
 					
 					return (
 						'<a>' 
@@ -228,9 +228,9 @@ pdApp.controller(
 				}),
 				DTColumnBuilder.newColumn(null)
 				.withOption("refer1", "no_l")
-				.withTitle("Rastreo")
+				.withTitle("Guía de Rastreo")
 				.renderWith(function (data) {
-					console.log(data)
+					
 					
 					return (
 						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides? data.dataB.guides[0].trim() :"") + '">' 
@@ -336,7 +336,7 @@ pdApp.controller(
 				.withOption("refer", "no_l")
 				.withTitle("Folio de Producción")
 				.renderWith(function (data) {
-					console.log(data)
+					
 					
 					return (
 						'<a>' 
@@ -346,9 +346,9 @@ pdApp.controller(
 				}),
 				DTColumnBuilder.newColumn(null)
 				.withOption("refer1", "no_l")
-				.withTitle("Rastreo")
+				.withTitle("Guía de Rastreo")
 				.renderWith(function (data) {
-					console.log(data)
+					
 					
 					return (
 						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides? data.dataB.guides[0].trim() :"") + '">' 
@@ -490,7 +490,7 @@ pdApp.controller(
 				}),
 				DTColumnBuilder.newColumn(null)
 				.withOption("refer1", "no_l")
-				.withTitle("Rastreo")
+				.withTitle("Guía de Rastreo")
 				.renderWith(function (data) {
 					
 					
@@ -570,7 +570,7 @@ pdApp.controller(
 				.withOption("Id", "no_l")
 				.withTitle("Nombre")
 				.renderWith(function (data) {
-					console.log("aiudaaa",data)
+					
 					return (
 						'<a>' 
 						+ data.client +
@@ -595,7 +595,7 @@ pdApp.controller(
 				.withOption("refer", "no_l")
 				.withTitle("Folio de Producción")
 				.renderWith(function (data) {
-					console.log(data)
+					
 					
 					return (
 						'<a>' 
@@ -605,9 +605,9 @@ pdApp.controller(
 				}),
 				DTColumnBuilder.newColumn(null)
 				.withOption("refer1", "no_l")
-				.withTitle("Rastreo")
+				.withTitle("Guía de Rastreo")
 				.renderWith(function (data) {
-					console.log(data)
+					
 					
 					return (
 						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides? data.dataB.guides[0].trim() :"") + '">' 

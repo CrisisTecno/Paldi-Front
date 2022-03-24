@@ -11,7 +11,7 @@ export function generateBalanceHandlers($http) {
     if (!balance.type) {
       isValid = false;
     }
-
+    console.log("BALANCE",balance)
     if (isValid) {
       $http
         .post(globals.apiURL + "/pricing/prices/balance", balance, {

@@ -66,7 +66,7 @@ pdApp.controller(
 				sort = newSort;
 			}
 			var pastSort = newSort;
-			console.log("aiuddaa2",sear,draw,size,page,sort)
+			
 
 			if ($scope.endDate) {
 				$scope.endDate = moment($scope.endDate).endOf("day").toDate();
@@ -134,7 +134,7 @@ pdApp.controller(
 				.withOption("name", "date_dt")
 				.withTitle("Fecha")
 				.renderWith(function (data) {
-					console.log("z1",data)
+					
 					return (
 						'<a href="#/console/order/' +
 						data.id +

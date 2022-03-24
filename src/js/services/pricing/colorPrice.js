@@ -40,6 +40,16 @@ pdApp.factory(
           });
       },
 
+	  getBankExchangeRate: function(){
+		  return $http.get(
+			  globals.apiURL + "/newapi/currency/exchangerate",
+			  {
+				  authentication:"yokozuna"
+			  }
+		  ).then((response)=> {
+			  return response.data.data
+		  })
+	  },
       // Update Scope
       updatePrice: function (product, model, meta) {
         // console.log("Updating price of:", product)
@@ -77,7 +87,7 @@ pdApp.factory(
       },
 
       updateTotals: function (product, model) {
-        console.log("TotalUpdate", product, model);
+       
         let pisoDiscount = false
         angular.forEach(model.products, function (product, key) {
           if (model.type == "Piso" && product.type == "Laminados" && model.client && model.client.type != "DIRECT_SALE") {
@@ -477,7 +487,7 @@ else{
 
         // Update Quote/Order Object
         const totals = pricingService.getTotals(model)
-        console.log('Calculated', totals)
+        
         for (const [key, value] of Object.entries(totals)) {
           model[key] = value
         } 
@@ -1066,7 +1076,7 @@ else{
 					)
 					.then(function (response) {
             // console.log('API CALL: /pricing/colors/toldos', response)
-            console.log("TOLDO COLORS")
+            
             response.data.forEach((element) => {
               element.minWidth= meters_to_inches(parseFloat(element.minWidth))
               element.maxWidth = meters_to_inches(parseFloat(element.maxWidth))

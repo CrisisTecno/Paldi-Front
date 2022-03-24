@@ -41,6 +41,7 @@ module.exports = (env) => ({
     new webpack.DefinePlugin({
       GLOBALS: environment[env.stage],
       EXECUTION_ENV: JSON.stringify(env.stage.toUpperCase().split("_")[0]),
+      LANG:JSON.stringify(env.locale),
       IS_ZELBA: env.locale==="en",
 
       // FEATURE SWITCHES

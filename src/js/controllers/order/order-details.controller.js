@@ -24,7 +24,7 @@ pdApp.controller(
     permissionService
   ) {
     
-    console.log("LANG",globals)
+    
     var loadOrder = function () {
       var id = $stateParams.orderId;
       $scope.step = "loading";
@@ -47,8 +47,8 @@ pdApp.controller(
 
       paldiService.orders.get(id).then(async function (order) {
         $scope.order = order;
-        console.log("orden",$scope.order);
-        console.log(paldiService.orders)
+      
+      
         $scope.quoteStatus = order.quoteStatus;
         $scope.quoteSubStatus = order.quoteSubStatus;
         $scope.products = order.products;
@@ -213,7 +213,7 @@ pdApp.controller(
     };
    
     function toFraction(amt) {
-      console.log(amt)
+      
       if(amt == undefined) return ""
       if (amt > 0 && amt <= .125+(.125/7)) return '1/8';
       if (amt <= .25+(.125/7)) return '1/4';
@@ -241,7 +241,7 @@ pdApp.controller(
       if (order.status == "QUOTE") {
         objName = EXECUTION_ENV=="EXTERNAL" ? "cotización" :"Quote" ;
       } else {
-        objName = EXECUTION_ENV=="EXTERNAL" ? "orden" : Order;
+        objName = EXECUTION_ENV=="EXTERNAL" ? "order" : "Orden";
       }
       // console.log(order)
 
@@ -431,6 +431,33 @@ pdApp.controller(
         showClose: false,
       });
     };
+
+    $scope.updateGuidesDialog = function () {
+      $scope.dateModel = {};
+     
+
+      $scope.dateModel['guides']=$scope.order.guides??[]
+      $scope.dateModel['orderTransitInvoice']=$scope.order.orderTransitInvoice??""
+    
+
+      $scope.dialog = ngDialog.open({
+        scope: $scope,
+        template: "partials/views/console/update-guides.html",
+        showClose: false,
+      });
+    };
+
+    $scope.updateGuides = function (){
+      $scope.dialog.close();
+      var updatedOrder = $scope.order;
+      updatedOrder.statusNotes = $scope.dateModel.notes;
+      updatedOrder.orderTransitInvoice=$scope.dateModel.orderTransitInvoice
+      updatedOrder.guides = $scope.dateModel.guides
+
+      paldiService.orders.setGuides(updatedOrder).then(()=>{
+        loadOrder();
+      })
+    }
 
     $scope.updateProvider = function (form, providerId) {
       if (form.$valid) {
@@ -704,7 +731,7 @@ pdApp.controller(
       updatedOrder.statusNotes = model.notes;
       updatedOrder.orderTransitInvoice=model.orderTransitInvoice
       updatedOrder.guides = model.guides
-      console.log(updatedOrder)
+      
       paldiService.orders
         .updateStatus(updatedOrder, "TRANSIT")
         .then(function (order) {
@@ -871,8 +898,6 @@ pdApp.controller(
       if(dateType=='arrival'){
         $scope.dateModel['guides']=$scope.order.guides??[]
         $scope.dateModel['orderTransitInvoice']=$scope.order.orderTransitInvoice??""
-
-
       }
       $scope.dialog = ngDialog.open({
         template: "partials/views/console/datepicker.html",
@@ -883,9 +908,8 @@ pdApp.controller(
     };
 
     $scope.addDataToRepeater = function(model,type){
-      console.log("ADDING DATA")
+     
       if(type=="guides"){
-        console.log("Works Here")
         if(!model.guides){
           model.guides = [""]
         }

@@ -205,7 +205,7 @@ pdApp.controller(
 			DTColumnBuilder.newColumn(null).renderWith(function (data) {
 				var id = "&#39;" + data.id + "&#39;";
 				var showButton =
-					$scope.currentUser.role == "SUPERADMIN" ? "true" : "false";
+					($scope.currentUser.role == "SUPERADMIN" || $scope.currentUser.role=="MANAGER") ? "true" : "false";
 				return (
 					'<button ng-if="' +
 					showButton +
@@ -230,31 +230,40 @@ pdApp.controller(
 		};
 
 		$scope.selectFile = function (files) {
-			$scope.fd = new FormData();
-			$scope.fileValid = false;
+			$scope.fd = []
+			$scope.fileValid = [];
 			$scope.fileEmpty = false;
+			for (const file of files){
 			if (
-				files[0].type == "text/xml" ||
-				files[0].type == "application/xml"
+				file.type == "text/xml" ||
+				file.type == "application/xml"
 			) {
-				if (files[0].size) {
-					$scope.fd.append("file", files[0]);
-					$scope.fileValid = true;
+				if (file.size) {
+					let form = new FormData()
+					form.append("file", file);
+					$scope.fd.push(form)
+					$scope.fileValid.push(true);
 				} else {
 					$scope.fileEmpty = true;
 				}
 			}
+			}
+			if($scope.fileValid.length==$scope.fd.length){
+				$scope.fileValid=true
+			}
+			else{
+				$scope.fileValid=false
+			}
 			$scope.$apply();
 		};
 
-		$scope.uploadBill = function () {
+		$scope.uploadBill = async function () {
 			$scope.uploading = true;
-			paldiService.bills.uploadBill(selectedOrderId, $scope.fd).then(
+			let promises = $scope.fd.map(file=>{
+			return paldiService.bills.uploadBill(selectedOrderId, file).then(
 				function (data) {
-					$scope.uploading = false;
-					$scope.fd = null;
-					selectedOrderId = false;
-					$scope.dialog.close();
+					
+					console.log("AAAAA")
 					swal({
 						title: "Factura subida",
 						text: "Se cargó la factura correctamente",
@@ -266,10 +275,9 @@ pdApp.controller(
 					}, 1500);
 				},
 				function (error) {
-					$scope.uploading = false;
-					$scope.fd = null;
-					selectedOrderId = false;
-					$scope.dialog.close();
+					
+					
+					
 					swal({
 						title: "Error",
 						text: "Favor de revisar que el formato de la factura sea el correcto",
@@ -279,6 +287,13 @@ pdApp.controller(
 					// console.log(error);
 				}
 			);
+			})
+			let res = await Promise.all(promises)
+			console.log(res,promises)
+			$scope.dialog.close()
+			$scope.fd=null
+			$scope.uploading=false
+			selectedOrderId=false
 		};
 
 		$scope.needsBill = function (orderId) {

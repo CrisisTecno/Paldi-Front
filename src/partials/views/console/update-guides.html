@@ -1,0 +1,41 @@
+<div>
+    <h3 class="form-title">
+        <%= htmlWebpackPlugin.options.order_list.change_guides %>
+    </h3>
+    <form name="guidesForm" role="form" novalidate ng-submit="updateGuides()" 
+    autocomplete="off">
+
+        <div class="form-group">
+            
+            <div>
+                <label><%= htmlWebpackPlugin.options.datepicker.folio %></label>
+                    <input type="text"  class=" form-control" name="folioID" ng-model="dateModel.orderTransitInvoice">
+                </div>
+                <div>
+                <br>
+                <label><%= htmlWebpackPlugin.options.datepicker.guide %></label>
+                <button type="button" class="btn btn-primary" ng-click="addDataToRepeater(dateModel,'guides')">+</button>
+                <div>
+                    <div   ng-repeat="guide in dateModel.guides track by $index" >
+                        <div style="display:flex">
+                        <input style="max-width:90%; margin:auto;" ng-model="dateModel.guides[$index]" type="text"  class="form-control">
+                        <button type="button" class="btn btn-primary" ng-click="removeDataFromRepeater(dateModel,'guides',$index)">x</button>
+                        </div>
+                        <br>
+                    </div>
+                    
+                </div>
+    
+                </div>
+
+        <div>
+            <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">
+                <%= htmlWebpackPlugin.options.general.cancel %>
+            </button>
+            <button type="submit" class="btn btn-primary">
+                <%= htmlWebpackPlugin.options.general.update %>
+            </button>
+        </div>
+
+    </form>
+</div>

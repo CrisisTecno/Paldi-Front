@@ -477,44 +477,73 @@ pdApp.controller(
 			}
 			$scope.$apply();
 		};
+		$scope.selectFile = function (files) {
+			$scope.fd = []
+			$scope.fileValid = [];
+			for (const file of files){
+			if (
+				file.type == "text/xml" ||
+				file.type == "application/xml"
+			) {
+				if (file.size) {
+					let form = new FormData()
+					form.append("file", file);
+					$scope.fd.push(form)
+					$scope.fileValid.push(true);
+				} else {
+					$scope.fileEmpty = true;
+				}
+			}
+			}
+			if($scope.fileValid.length==$scope.fd.length){
+				$scope.fileValid=true
+			}
+			else{
+				$scope.fileValid=false
+			}
+			$scope.$apply();
+		};
 
-		$scope.uploadBill = function () {
+		$scope.uploadBill = async function () {
 			$scope.uploading = true;
-			paldiService.bills.uploadBill(selectedOrderId, $scope.fd).then(
+			let promises = $scope.fd.map(file=>{
+			return paldiService.bills.uploadBill(selectedOrderId, file).then(
 				function (data) {
-					$scope.uploading = false;
-					$scope.fd = null;
 					if ($scope.selectedOrderId == selectedOrderId) {
 						loadBills(selectedOrderId);
 					}
-					selectedOrderId = null;
-					$timeout(function () {
-						$scope.drawTable();
-					}, 2000);
-					$scope.dialog.close();
 					swal({
 						title: "Factura subida",
 						text: "Se cargó la factura correctamente",
 						type: "success",
 						confirmButtonText: "Aceptar",
 					});
+					$timeout(function () {
+						$scope.drawTable();
+					}, 2000);
 				},
 				function (error) {
-					$scope.uploading = false;
-					$scope.fd = null;
-					selectedOrderId = null;
-					$scope.dialog.close();
+					
+					
+					
 					swal({
 						title: "Error",
-						text: "Ocurrió un error",
+						text: "Favor de revisar que el formato de la factura sea el correcto",
 						type: "error",
 						confirmButtonText: "Aceptar",
 					});
 					// console.log(error);
 				}
 			);
+			})
+			let res = await Promise.all(promises)
+			console.log(res,promises)
+			$scope.dialog.close()
+			$scope.fd=null
+			$scope.uploading=false
+			selectedOrderId=false
 		};
-
+		
 		$scope.deleteBill = function (id) {
 			swal(
 				{

@@ -13,18 +13,24 @@ export function generateFiltrasolHandlers($http, $rootScope) {
       isValid = false;
       filtrasol = {};
     }
+    
     if (!filtrasol.type) {
       isValid = false;
+      console.log("FALSE ON TYPE")
     } else if (meta.priceType == "METER") {
       isUnitPrice = true;
+      console.log("FALSE ON PRICE")
     }
     if (!filtrasol.colorObj) {
+      console.log("FALSE ON COLOR")
       isValid = false;
     }
     if (!isUnitPrice && !filtrasol.width) {
+      console.log("FALSE ON WIDTH")
       isValid = false;
     }
     if (!isUnitPrice && !filtrasol.height) {
+      console.log("FALSE ON HIEGHT")
       isValid = false;
     }
 
@@ -54,6 +60,7 @@ export function generateFiltrasolHandlers($http, $rootScope) {
           authentication: "yokozuna",
         })
         .then(function (response) {
+          console.log("HTTP REPONSE",response)
           if (!response.data) {
             filtrasol.doable = false;
             filtrasol.unit = null;

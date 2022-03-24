@@ -86,7 +86,7 @@ pdApp.controller(
           ...data.user,
           ...data.permissions,
         }
-        console.log("SETTING CURRENT USER: ", $scope.currentUser)
+        
         sessionHelper.initOrderStatusList(data.user.role)
         goIn()
       }

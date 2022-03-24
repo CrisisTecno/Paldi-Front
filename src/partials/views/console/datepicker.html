@@ -43,7 +43,7 @@
 			<div>
 				<div   ng-repeat="guide in dateModel.guides track by $index" >
 					<div style="display:flex">
-					<input style="max-width:90%" ng-model="dateModel.guides[$index]" type="text"  class="form-control"  >
+					<input style="max-width:90%; margin:auto;" ng-model="dateModel.guides[$index]" type="text"  class="form-control">
 					<button type="button" class="btn btn-primary" ng-click="removeDataFromRepeater(dateModel,'guides',$index)">x</button>
 					</div>
 					<br>

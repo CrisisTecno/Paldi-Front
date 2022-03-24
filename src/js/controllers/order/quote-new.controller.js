@@ -1,19 +1,55 @@
+
 import {pdApp} from "../index"
 
 pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $stateParams, paldiService, colorPriceService, $timeout, jsonService, DTOptionsBuilder, DTColumnDefBuilder, permissionsHelper,) {
   const MIXED_ORDER = "Mixta"
+ 
+  $scope.sortProductsByType = function(){
+    $scope.productsSorted.forEach((productTypeList,idx) =>{
+        
+      productTypeList.products.sort(function(a,b){
+        return a['idx']-b['idx']
+      })
+      
+    })
+  }
+  
+  $scope.exchangeProduct = function(current,next,productIndex){
+    setIndexforProducts()
+    
+    $scope.productsSorted[productIndex].products[current]['idx']=next
+    $scope.productsSorted[productIndex].products[next]['idx']=current
+    
+    sortProducts()
+    $scope.sortProductsByType()
+   
+    
+  }
+
+  $scope.cloneProduct= function(productIndex,ListIndex){
+    // console.log($scope.productsSorted)
+    // console.log(productIndex,ListIndex)
+    let copy = angular.copy($scope.productsSorted[ListIndex].products[productIndex])
+    if(copy['idx']!=undefined) delete copy['idx']
+    // console.log(copy)
+    let mod = angular.copy(copy)
+    updateMeta($scope,copy)
+    // console.log("UpdatedModel",copy)
+    // console.log($scope.productMeta)
+    $scope.addProduct(copy.productType,true,copy)
+  }
 
 
   $scope.filterColors = function (item) {
-    //  // console.log("Input of Filter :", item)
-    //  // console.log("Current Value: ", document.getElementById("cortinacolor").value )
+    //  // // console.log("Input of Filter :", item)
+    //  // // console.log("Current Value: ", document.getElementById("cortinacolor").value )
     let match = document.getElementById("cortinacolor").value
     const matchval = match.toString().toLowerCase()
     const name = item.color.toLowerCase()
     const code = item.code.toLowerCase()
-    //  // console.log(matchval,name,code)
-    //  // console.log(name.includes(matchval))
-    //  // console.log(code.includes(matchval))
+    //  // // console.log(matchval,name,code)
+    //  // // console.log(name.includes(matchval))
+    //  // // console.log(code.includes(matchval))
     if (name.includes(matchval) || code.includes(matchval))
 
       return item
@@ -34,7 +70,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.productData.cortina = {
       motors, sistemas, colores, acabados, allAdditionals
     }
-    console.log("Loaded product data: ", $scope.productData)
+   
   }
   $scope.setupTemplate()
 
@@ -47,18 +83,19 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.selectSeller = function (seller) {
-     // console.log("Selected seller: ", seller)
+     // // console.log("Selected seller: ", seller)
     $scope.quote.seller = seller
     $scope.sellerStep = "selected"
   }
 
   $scope.changeSeller = function () {
-     // console.log("Changed seller")
+     // // console.log("Changed seller")
     $scope.quote.seller = null
     $scope.sellerStep = "empty"
   }
 
   $scope.findClients = function (name) {
+    
     return paldiService.clients.find(name)
   }
 
@@ -114,6 +151,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
   $scope.saveClient = function (form, client) {
     if (form.$valid) {
+      if (EXECUTION_ENV=="EXTERNAL") {
+        client.city = "Any"
+      }
       $scope.clientStep = "loading"
       paldiService.clients.save(client).then(function (client) {
         swal({
@@ -124,7 +164,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.clientStep = "selected"
         updateDiscount()
       }, function (error) {
-        //  // console.log(error);
+        //  // // console.log(error);
         swal({
           title: "Error",
           text: (EXECUTION_ENV=="EXTERNAL"?("There is already a client with the email" + client.email ):("Ya existe un cliente con el E-mail: " + client.email)),
@@ -171,10 +211,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.productsFiltered = []
   $scope.productsMixed = []
 
+  
+
   // @note addProduct new quote
   $scope.addProduct = function (product, form, model) {
-     // console.log("Adding new product to quote: ", product, form, model)
-    //  // console.log(product,form,model)
+     // // console.log("Adding new product to quote: ", product, form, model)
+    //  // // console.log(product,form,model)
     // addProduct(productName, undefined, undefined) is called when adding a
     // new product from the quote-new view buttons
     if (!form) {
@@ -189,51 +231,72 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     // addProduct(productName, productDetails, $scope.{product}) is called
     // when a product is added from the views/console/products/{product}.html
     if (form) {
-      //  // console.log("Handling product submit")
-      //  // console.log("Model: ", model)
-
+      //  // // console.log("Handling product submit")
+      //  // // console.log("Model: ", model)
+      // console.log("BEFORE",angular.copy(model))
       $scope.updatePrices(product, model)
 
       const sellerValid = validateSeller(product, $scope)
 
       $scope.systemsValid = validateSystems($scope, model)
-      //  // console.log("Valid Systems",$scope.systemsValid)
-      //  // console.log("Valid Form",form.$valid)
-      //  // console.log("model Total",model.total)
-      //  // console.log("Model Price",model.price)
-      //  // console.log("Valid Seller",sellerValid)
 
-      if (form.$valid && model.total && model.price && $scope.systemsValid && sellerValid) {
-        //  // console.log("a")
+      
+      //  // // console.log("Valid Systems",$scope.systemsValid)
+      //  // // console.log("Valid Form",form.$valid)
+      //  // // console.log("model Total",model.total)
+      //  // // console.log("Model Price",model.price)
+      //  // // console.log("Valid Seller",sellerValid)
+    
+      // console.log(( typeof(form)=='boolean' || form.$valid) , model.total , model.price , $scope.systemsValid , sellerValid )
+
+      if (( typeof(form)=='boolean' || form.$valid) && model.total && model.price && $scope.systemsValid && sellerValid ) {
+        
+        
         model.productType = product
         $scope.quote.type = product
 
+       
         if (product.toUpperCase() === "CUSTOM") {
           model.seller = $scope.quote.seller
         }
 
         setModelColor(product, model)
-
+        
+        if(typeof(form)!='boolean'){
         model.plusList = $scope.plusList
         model.motorList = $scope.motorList
         model.installationPlusList = $scope.installationPlusList
         model.rotated = $scope.rotated
-
+        }
+        
         setModelControlHeight(product, $scope, model)
 
+       
+        setIndexforProducts()
+        
         updateProductList()
+        
 
         $scope.hasAdditionals()
         $scope.hasMultipleProducts()
         colorPriceService.updateTotals(product, $scope.quote)
 
         // @todo Abstract product list separation
+        
         $scope.productsSorted.forEach(function (typeList) {
           typeList.products = []
         })
+        sortProducts()
+        // console.log("A",$scope.quote.products)
         $scope.quote.products.forEach(function (product) {
+          
           orderProductsByType(product)
         })
+        // console.log($scope.sortProductsByType)
+        $scope.sortProductsByType()
+        
+
+        
 
         $scope.editFlag = false
 
@@ -241,8 +304,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.cancelProduct()
         // remove the data in $scope.{product}
         angular.copy({}, model)
-
+        if(typeof(form)!='boolean'){
         form.$validated = false
+        }
       } else {
         form.$validated = true
       }
@@ -250,31 +314,74 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
     $scope.filterProducts()
 
+    
+
+    
+
     function updateProductList() {
       if ($scope.editFlag) {
-        $scope.quote.products.splice(edittedProductIndex, 0, angular.copy(model),)
-        $scope.productsSorted[editedObjectIndex].products.splice(editedProductIndex, 0, angular.copy(model),)
+        let editedProduct = angular.copy(model)
+        editedProduct['idx']=edittedProductIndex
+        $scope.quote.products.splice(edittedProductIndex, 0, editedProduct,)
+        $scope.productsSorted[editedObjectIndex].products.splice(editedProductIndex, 0, editedProduct,)
         editedObjectIndex = null
         editedProductIndex = null
         edittedProductIndex = null
       } else {
-        $scope.quote.products.push(angular.copy(model))
+        let newProduct = angular.copy(model)
+        let pos = $scope.quote.products.length
+        newProduct['idx']=pos
+        $scope.quote.products.push(newProduct)
       }
     }
   }
-
+  function setIndexforProducts (){
+    $scope.productsSorted.forEach((productTypeList,idx) =>{
+      
+      productTypeList.products.forEach((element,index)=>{
+        if(element['idx']==undefined) element['idx']= index + ( $scope.editFlag && edittedProductIndex>index ? 0:1)
+        productTypeList.products[index]=element
+      })
+      
+    })
+  }
+  
+  function sortProducts(){
+    $scope.quote.products.sort((a,b)=>{
+      if (a['idx']==undefined || b['idx']==undefined){
+        if(a['idx']==undefined && b['idx']==undefined){
+          return 0
+        }
+        else if (a['idx']==undefined){
+          return 1
+        }
+        else{
+          return -1
+        }
+      }
+      else{
+        return a['idx']-b['idx']
+      }
+    })
+  }
 
   var orderProductsByType = function (product) {
     var pos = $scope.productsSorted.findIndex(function (t) {
+      // console.log(product.productType)
       return t.type === product.productType
     })
+    if(product['idx']==undefined){
+      let size = $scope.productsSorted[pos].products.length
+      product['idx']=size
+    }
+    // console.log($scope.productsSorted[pos],pos)
     $scope.productsSorted[pos].products.push(product)
   }
 
   $scope.cancelProduct = function () {
     $scope.valid = false
     $scope.rotated = false
-    //  // console.log($scope)
+    //  // // console.log($scope)
 
     $scope.product = ""
     $scope.plusList = []
@@ -367,7 +474,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.product = product.productType
     $scope.quote.type = product.productType
 
-     // console.log("Edit Product", product, indexList, indexProduct)
+     // // console.log("Edit Product", product, indexList, indexProduct)
     $scope.valid = product.rotated === true
     $scope.valid |= product.productType === "Filtrasol" && product.type === "Filtrasol Enrollables"
     $scope.valid |= product.productType === "Enrollable" && product.type === "Enrollables"
@@ -472,7 +579,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.plusTemplate = additionals
   }
   $scope.addPlus = function (plus, qty) {
-     // console.log("addPlus: ", plus, qty)
+     // // console.log("addPlus: ", plus, qty)
     if (plus && qty > 0) {
       if (!$scope.plusList) {
         $scope.plusList = []
@@ -542,7 +649,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.addMotor = function (motor, qty, product = undefined) {
-    //  // console.log(motor,qty,product)
+    //  // // console.log(motor,qty,product)
     if (motor && qty > 0) {
       if (product != undefined) {
         let res = $scope.productData.cortina.motors
@@ -552,7 +659,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       if (!$scope.motorList) {
         $scope.motorList = []
       }
-      //  // console.log(motor)
+      //  // // console.log(motor)
 
       motor.value.quantity = qty
 
@@ -815,23 +922,19 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
   // @note updatePrices
   $scope.updatePrices = function (product, model) {
-     // console.log("Updating price of: ", product, model)
-     // console.log("Scope:", $scope)
+     // // console.log("Updating price of: ", product, model)
+     // // console.log("Scope:", $scope)
     // this should not be done in here, but best place to put it
     // quick and dirty, todo: clean later
     if (product === "Cortina") {
-      //  // console.log("HELLO?, UPDATING PRICE OF CORTINA")
-      //  // console.log(model, $scope.productData.cortina)
-      console.log(model.color)
-      console.log(model.textil)
-      console.log($scope.productData.cortina.colores)
-      console.log( $scope.productData.cortina.colores[model.textil])
-      console.log($scope.productData.cortina.colores[model.textil]?.filter(color => color.color === model.colorName))
+      //  // // console.log("HELLO?, UPDATING PRICE OF CORTINA")
+      //  // // console.log(model, $scope.productData.cortina)
+     
       model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color === model.colorName)[0]
       model.color.name = model.color.color
       model.color.type = "Cortina"
 
-      //  // console.log("Translated product color: ", model.color)
+      //  // // console.log("Translated product color: ", model.color)
     }
 
     if (product == "Piso") {
@@ -915,8 +1018,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         })
         
         paldiService.orders.save($scope.quote).then(function (quote) {
-           // console.log("SAVING")
-           // console.log($scope.quote)
+           // // console.log("SAVING")
+           // // console.log($scope.quote)
           $scope.saveDisabled = false
           swal({
             title: "Cotización guardada exitosamente", type: "success", confirmButtonText: "Aceptar",
@@ -936,7 +1039,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
           }
         }, function (error) {
           $scope.saveDisabled = false
-          //  // console.log(error);
+          //  // // console.log(error);
         },)
       } else {
         if ($scope.quote.type === "Mixta") {
@@ -954,7 +1057,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
             $state.go("console.quote-list")
           }, function (error) {
             $scope.saveDisabled = false
-            //  // console.log(error);
+            //  // // console.log(error);
           },)
         } else {
           colorPriceService.prepare($scope.quote.type, $scope.quote,)
@@ -971,7 +1074,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
             })
           }, function (error) {
             $scope.saveDisabled = false
-            //  // console.log(error);
+            //  // // console.log(error);
           },)
         }
       }
@@ -979,7 +1082,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.getTemplate = function (product) {
-    //  // console.log(product)
+    //  // // console.log(product)
     var path = "js/controllers/order/products/"
     switch (product) {
       case "Balance":
@@ -1020,11 +1123,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     if(val[1]!= undefined) {val[1] = parseFloat("."+val[1])}
     else{val[1]=0}
     let fracs = toFraction(val[1])
-     // console.log("FRACS RESULT",fracs)
+     // // console.log("FRACS RESULT",fracs)
     return [Math.round(parseFloat(val[0])+parseFloat(fracs[1])),fracs[0]]
   }
 
   $scope.getSubQuoteDiscount = function (product, model) {
+   
     switch (product) {
       case "Balance":
         model.discountPercent = $scope.quote.discountPercentBalance
@@ -1048,8 +1152,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       $scope.subquote.type = $scope.productsMixed[i].type
 
       $scope.getSubQuoteDiscount($scope.productsMixed[i].type, $scope.subquote,)
-
       colorPriceService.updateTotals($scope.productsMixed[i].type, $scope.subquote,)
+      
       paldiService.orders
         .saveSubOrder($scope.subquote, $scope.productsMixed[i].type)
         .then(function (suborder) {
@@ -1058,7 +1162,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
           createSuborders(i)
         }, function (error) {
           $scope.saveDisabled = false
-          //  // console.log(error);
+          //  // // console.log(error);
         },)
     } else {
       return
@@ -1071,6 +1175,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       $scope.subquote = angular.copy($scope.quote)
       $scope.subquote.products = $scope.productsMixed[i].products
       $scope.subquote.type = $scope.productsMixed[i].type
+      $scope.getSubQuoteDiscount($scope.productsMixed[i].type, $scope.subquote,)
       colorPriceService.prepare($scope.productsMixed[i].type, $scope.subquote,)
       paldiService.orders
         .updateSuborder(orderMasterId, $scope.subquote)
@@ -1079,7 +1184,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
           updateSuborders(orderMasterId, i)
         }, function (error) {
           $scope.saveDisabled = false
-          //  // console.log(error);
+          //  // // console.log(error);
         },)
     } else {
       return
@@ -1092,7 +1197,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   // ---------------------------------------------------------------------------------------------//
 
   $scope.colorSelected = function (color, product, model) {
-    console.log("COLOR SELECTED EXECUTED", color, product, model)
+    // console.log("COLOR SELECTED EXECUTED", color, product, model)
     model.colorObj = color.value
     model.color = color
     // if (["SHUTTER"].includes(product.toUpperCase()))
@@ -1107,6 +1212,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     if (!model.height && !model.width) {
       $scope.updatePrices(product, model)
     }
+
   }
 
   $scope.rotate = (product, model) => {
@@ -1175,7 +1281,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   else{
     if (model.width) {
       model.w_fraction = parseFloat(model.w_fraction ?? 0)
-       // console.log("Making Parse")
+       // // console.log("Making Parse")
       model.width = parseFloat(model.width.toString().match(/.*\..{0,3}|.*/)[0]);
 
       if ($scope.rotated) {
@@ -1314,7 +1420,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.updateType = function (product, model, color) {
-     // console.log(model)
+     // // console.log(model)
     if ($scope.rotated) {
       $scope.rotate(product, model)
     }
@@ -1381,7 +1487,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       colorPriceService.getPlusColorsList(product, model)
     }
     $scope.updatePrices(product, model)
-     // console.log("Update Type", product, model)
+     // // console.log("Update Type", product, model)
     $scope.rotated = false
     $scope.valid = product === "Filtrasol" && model.type === "Filtrasol Enrollables"
     $scope.valid |= product === "Enrollable" && model.type === "Enrollables"
@@ -1389,6 +1495,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.updateTypeNoErasing = function (product, model) {
+    // console.log("UPDATING PRODUCT META")
     if (model.type) {
       if (product == "Enrollable") {
         $scope.productMeta = $scope.enrollablesMeta[model.type]
@@ -1426,14 +1533,14 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       $scope.enrollablesMeta = products
     }, function (error) {
       $scope.step = "empty"
-      //  // console.log(error);
+      //  // // console.log(error);
     },)
 
     jsonService.products.listFiltrasoles().then(function (products) {
       $scope.filtrasolesMeta = products
     }, function (error) {
       $scope.step = "empty"
-      //  // console.log(error);
+      //  // // console.log(error);
     },)
   }
 
@@ -1490,19 +1597,19 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         }
         $scope.orderParentId = order.id
         $scope.quote = angular.copy(order)
-         console.log("Loading order",order)
+         // console.log("Loading order",order)
         $scope.quote.products = angular.copy(order.products)
 
         if(EXECUTION_ENV=="EXTERNAL"){
           $scope.quote.products.forEach(prod=>{
-             // console.log("BEFORE",prod)
+             // // console.log("BEFORE",prod)
             let res =to_fraction(prod.width)
             prod.width=res[0]
             prod.w_fraction =res[1] 
             res =to_fraction(prod.height)
             prod.height = res[0] 
             prod.h_fraction = res[1]
-             // console.log("AFTER",prod)
+             // // console.log("AFTER",prod)
           })
         }
 
@@ -1542,7 +1649,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         }
       }, 200)
     }, function (error) {
-      //  // console.log(error);
+      //  // // console.log(error);
       $state.go("console.order-details", {
         orderId: $stateParams.orderId,
       })
@@ -1573,6 +1680,7 @@ function setModelControlHeight(product, $scope, model) {
 }
 
 function setModelColor(product, model) {
+    // console.log("MODEL COLOR OBJ",model.colorObj)
   if (product != "Custom") {
     if (["Toldo", "Enrollable", "Filtrasol", "Piso", // "Shutter",
     ].includes(model.productType)) {
@@ -1598,6 +1706,69 @@ function validateSeller(product, $scope) {
     sellerValid = false
   }
   return sellerValid
+}
+
+
+function updateMeta($scope,product){
+  switch (product.productType) {
+    case "Enrollable":
+      $scope.enrollable = angular.copy(product)
+      $scope.updateTypeNoErasing("Enrollable", $scope.enrollable)
+      $scope.colorSelected({
+        label: $scope.pretty("color", product.color), value: product.color,
+      }, "Enrollable", product,)
+      if ($scope.enrollable.controlHeight == 0) {
+        $scope.controlHeightCheckbox = true
+      }
+      break
+    case "Filtrasol":
+      $scope.filtrasol = angular.copy(product)
+      $scope.updateTypeNoErasing("Filtrasol", $scope.filtrasol)
+      $scope.colorSelected({
+        label: $scope.pretty("color", product.color), value: product.color,
+      }, "Filtrasol", product,)
+      if ($scope.filtrasol.controlHeight == 0) {
+        $scope.controlHeightCheckbox = true
+      }
+      break
+    case "Toldo":
+      $scope.toldo = angular.copy(product)
+      $scope.updateTypeNoErasing("Toldo", $scope.toldo)
+      $scope.colorSelected({
+        label: $scope.pretty("color", product.color), value: product.color,
+      }, "Toldo", $scope.toldo,)
+      break
+    case "Shutter":
+      $scope.shutter = angular.copy(product)
+      $scope.updateTypeNoErasing("Shutter", $scope.shutter)
+      $scope.colorSelected({
+        label: product.color.code, value: {code: product.color},
+      }, "Shutter", product,)
+      break
+    case "Balance":
+      $scope.balance = angular.copy(product)
+      $scope.updateTypeNoErasing("Balance", $scope.balance)
+      $scope.colorSelected({
+        label: product.color.code, value: {code: product.color},
+      }, "Balance",product,)
+      break
+    case "Piso":
+      $scope.piso = angular.copy(product)
+      $scope.updateTypeNoErasing("Piso", $scope.piso)
+      product.color.m2Box = product.m2Box
+      $scope.colorSelected({
+        label: product.color.name + " - " + product.color.code, value: product.color,
+      }, "Piso", product,)
+      break
+    case "Custom":
+      $scope.custom = angular.copy(product);
+      $scope.selectSeller(product.seller);
+      $scope.date = product.commitmentDate;
+      break;
+    case "Cortina":
+      $scope.cortina = angular.copy(product);
+      $scope.updateTypeNoErasing("Cortina", product);
+  }
 }
 
 function addNewProduct($scope, product) {

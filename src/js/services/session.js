@@ -107,6 +107,7 @@ pdApp.factory("sessionHelper", function ($rootScope, permissionsHelper) {
 		initQuoteStatusList: function () {
 			$rootScope.quoteStatusList = [];
 			permissionsHelper.getStatusList("QUOTE").forEach(function (status) {
+				console.log("STATUS")
 				$rootScope.quoteStatusList.push({ id: status });
 			});
 		},
