@@ -84,7 +84,7 @@ config = {
   },
   external_staging: {
     ...default_config,
-    apiURL: "http://cotizadorpaldi.com.mx:7777",
+    apiURL: "http://zelba.io:7777",
     ...external_api,
     env: "staging",
   },
