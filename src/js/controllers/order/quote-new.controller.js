@@ -1,9 +1,45 @@
 
 import {pdApp} from "../index"
+import {normalizeText} from "../../utils/normalization"
 
 pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $stateParams, paldiService, colorPriceService, $timeout, jsonService, DTOptionsBuilder, DTColumnDefBuilder, permissionsHelper,) {
   const MIXED_ORDER = "Mixta"
  
+  $scope.fixedDiscounts = EXECUTION_ENV=="EXTERNAL"
+
+  if(EXECUTION_ENV=="EXTERNAL"){
+  paldiService.users.getExternalDiscount($scope.currentUser.id).then(
+    res=>{
+      $scope.externalDiscount = res.data
+      console.log(res) 
+      
+    }
+  )
+  }
+  
+  var updateDiscountExternal = function(){
+    console.log("UPDATING DISCOUNT")
+    console.log($scope.quote)
+    console.log($scope.quote.type)
+
+    if($scope.quote.type=="Enrollable"){
+      console.log($scope.externalDiscount.shadesDiscount)
+      $scope.quote.discountPercent = $scope.externalDiscount.shadesDiscount ?? 0
+     
+    }
+    
+    if($scope.quote.type=="Balance"){
+      console.log($scope.externalDiscount.cornicesDiscount)
+      $scope.quote.discountPercent = $scope.externalDiscount.cornicesDiscount ?? 0
+      
+    }
+    if($scope.quote.type=="Toldo"){
+      console.log($scope.externalDiscount.toldosDiscount)
+      $scope.quote.discountPercent = $scope.externalDiscount.toldosDiscount ?? 0
+    }
+    $scope.quote.discountPercentEnrollable = $scope.externalDiscount.shadesDiscount ?? 0
+    $scope.quote.discountPercentBalance = $scope.externalDiscount.cornicesDiscount ?? 0
+  }
   $scope.sortProductsByType = function(){
     $scope.productsSorted.forEach((productTypeList,idx) =>{
         
@@ -33,8 +69,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     if(copy['idx']!=undefined) delete copy['idx']
     // console.log(copy)
     let mod = angular.copy(copy)
+    console.log(mod)
     updateMeta($scope,copy)
-    // console.log("UpdatedModel",copy)
+
+    console.log("UpdatedModel",angular.copy(copy))
     // console.log($scope.productMeta)
     $scope.addProduct(copy.productType,true,copy)
   }
@@ -115,6 +153,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.changeClient = function () {
     $scope.quote.client = null
     $scope.quote.clientMaxDiscount = 0
+
     $scope.quote.discountPercent = 0
     $scope.quote.discountPercentBalance = 0
     $scope.quote.discountPercentShutter = 0
@@ -138,6 +177,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.quote.discountPercentShutter = $scope.editing ? $scope.quote.discountPercentShutter : 0
     $scope.quote.discountPercentEnrollable = $scope.editing ? $scope.quote.discountPercentEnrollable : 0
     $scope.quote.discountPercentFiltrasol = $scope.editing ? $scope.quote.discountPercentFiltrasol : 0
+
+    if (EXECUTION_ENV=="EXTERNAL"){
+      updateDiscountExternal()
+    }
     colorPriceService.updateTotals($scope.quote.type, $scope.quote)
   }
 
@@ -234,7 +277,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       //  // // console.log("Handling product submit")
       //  // // console.log("Model: ", model)
       // console.log("BEFORE",angular.copy(model))
-      $scope.updatePrices(product, model)
+      
+     
 
       const sellerValid = validateSeller(product, $scope)
 
@@ -254,7 +298,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         
         model.productType = product
         $scope.quote.type = product
-
+        if(EXECUTION_ENV=="EXTERNAL"){
+        updateDiscountExternal()
+        }
        
         if (product.toUpperCase() === "CUSTOM") {
           model.seller = $scope.quote.seller
@@ -1212,7 +1258,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     if (!model.height && !model.width) {
       $scope.updatePrices(product, model)
     }
-
+    console.log("AAAAAAAAAAAAA")
+    console.log(product,angular.copy(model))
   }
 
   $scope.rotate = (product, model) => {
@@ -1280,7 +1327,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
   else{
     if (model.width) {
-      model.w_fraction = parseFloat(model.w_fraction ?? 0)
+      
        // // console.log("Making Parse")
       model.width = parseFloat(model.width.toString().match(/.*\..{0,3}|.*/)[0]);
 
@@ -1325,7 +1372,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     else{
       if (model.height) {
         model.height = parseFloat(model.height.toString().match(/.*\..{0,3}|.*/)[0]);
-        model.h_fraction = parseFloat(model.h_fraction ?? 0)
+       
         const height = parseFloat(model.h_fraction ?? 0) + model.height
         if ($scope.rotated) {
           if ($scope.color.maxHeight && height >$scope.color.maxWidth - 0.3) {
@@ -1347,6 +1394,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.changeSimpleWidth = function (product, model) {
+
+    if(EXECUTION_ENV!="EXTERNAL"){
     let color;
     let textil;
     if(product=="Cortina"){
@@ -1364,6 +1413,35 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       else if (model.width > color.maxWidth) model.width = parseFloat(color.maxWidth)
       else model.width = width
     }
+  }
+  else{
+    if(product=="Cortina"){
+    let textil = $scope.productData.cortina.colores[model.textil]
+    let color;
+    textil.forEach(element => {
+      if(element.color==model.colorName)
+        color=element
+    });
+    }
+
+    if (model.width) {
+      
+      let width = parseFloat(model.width.toString().match(/.*\..{0,3}|.*/)[0],)
+      if(product=="Cortina"){
+      let w = width + parseFloat(model.w_fraction ?? 0)
+      if ( w < metersToInches(color.minWidth)) model.width = parseFloat(metersToInches(color.minWidth)) - parseFloat(model.w_fraction ?? 0)
+      else if (w > metersToInches(color.maxWidth)) model.width = parseFloat(metersToInches(color.maxWidth)) - parseFloat(model.w_fraction ?? 0)
+      else model.width = width
+      }
+      else{
+        model.width = width
+      }
+    
+
+
+    }
+
+  }
     $scope.updatePrices(product, model)
   }
 
@@ -1386,20 +1464,28 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     }
   }
   else{
+
+    if(product=="Cortina"){
     let textil = $scope.productData.cortina.colores[model.textil]
     let color;
     textil.forEach(element => {
       if(element.color==model.colorName)
         color=element
     });
+  }
 
     if (model.height) {
-      model.h_fraction = parseFloat(model.h_fraction ?? 0)
+      
       let height = parseFloat(model.height.toString().match(/.*\..{0,3}|.*/)[0],)
+      if(product=="Cortina"){
       let h = height + parseFloat(model.h_fraction ?? 0)
-      if ( h < metersToInches(color.minHeight)) model.height = parseFloat(metersToInches(color.minHeight)) - model.h_fraction
-      else if (h > metersToInches(color.maxHeight)) model.height = parseFloat(metersToInches(color.maxHeight)) - model.h_fraction
+      if ( h < metersToInches(color.minHeight)) model.height = parseFloat(metersToInches(color.minHeight)) - parseFloat(model.h_fraction ?? 0)
+      else if (h > metersToInches(color.maxHeight)) model.height = parseFloat(metersToInches(color.maxHeight)) - parseFloat(model.h_fraction ?? 0)
       else model.height = height
+      }
+      else{
+        model.height = height
+      }
     
 
 
@@ -1487,7 +1573,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       colorPriceService.getPlusColorsList(product, model)
     }
     $scope.updatePrices(product, model)
-     // // console.log("Update Type", product, model)
+     / console.log("Update Type", product, model)
     $scope.rotated = false
     $scope.valid = product === "Filtrasol" && model.type === "Filtrasol Enrollables"
     $scope.valid |= product === "Enrollable" && model.type === "Enrollables"
@@ -1513,8 +1599,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       }
 
       if (product == "Toldo") {
-        model.operationMode = null
-        model.controlSide = null
+        console.log(product,model)
       }
       $scope.updatePrices(product, model)
       colorPriceService.getColors(product, model)
@@ -1615,8 +1700,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
         $scope.quote.products.forEach(prod =>{
           if (prod.productType=="Cortina"){
-            prod.colorName=prod.color.name.trim()
-            prod.textil=prod.color.textil.trim()
+            console.log(prod)
+            prod.colorName=normalizeText(prod.color.name.trim())
+            prod.textil=normalizeText(prod.color.textil.trim())
           }
         })
         $scope.editing = true
@@ -1710,6 +1796,7 @@ function validateSeller(product, $scope) {
 
 
 function updateMeta($scope,product){
+  
   switch (product.productType) {
     case "Enrollable":
       $scope.enrollable = angular.copy(product)
@@ -1732,11 +1819,13 @@ function updateMeta($scope,product){
       }
       break
     case "Toldo":
+      console.log("UPDATING PRODUCT")
       $scope.toldo = angular.copy(product)
       $scope.updateTypeNoErasing("Toldo", $scope.toldo)
+      console.log("AAAA",$scope.toldo,"BBB",angular.copy(product))
       $scope.colorSelected({
         label: $scope.pretty("color", product.color), value: product.color,
-      }, "Toldo", $scope.toldo,)
+      }, "Toldo", product,)
       break
     case "Shutter":
       $scope.shutter = angular.copy(product)

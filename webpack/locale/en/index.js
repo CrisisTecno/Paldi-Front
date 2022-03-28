@@ -16,8 +16,8 @@ module.exports = {
     address: "<span>Address:</span> {{client.address}}",
     city: "<span>City:</span> {{client.city}}",
     loading: "Loading Client",
-    postal_code: "<span>Postal Code:</span> {{client.postalCode}}",
-    error_postal_code: "The postal code must be 5 digits long",
+    postal_code: "<span>Zip Code:</span> {{client.postalCode}}",
+    error_postal_code: "The Zip code must be 5 digits long",
     error_email: "The e-mail is not valid",
     error_phone: "The phone number must be 10 digits long",
     error_not_exists: "The client does not exist",
@@ -98,7 +98,7 @@ module.exports = {
     last_name: "Last Name",
     address: "Address",
     city: "City",
-    postal_code: "Postal Code",
+    postal_code: "Zip Code",
     email: "E-Mail",
     phone: "Phone number",
     type: "Type", 
@@ -343,7 +343,7 @@ module.exports = {
   },
   navigation:{
     manage_quotes:"Manage Quotes",
-    quotes:"Quote",
+    quotes:"Quotes",
     statistics:"Statistics",
     new_quote:"New Quote",
 
@@ -351,7 +351,7 @@ module.exports = {
     order_tracking:"Order tracking",
     manual_register:"Manual Registry",
 
-    my_sells:"My sells",
+    my_sells:"My sales",
     my_orders:"My orders",
     commissions:"Commissions",
     payments:"Payments",
@@ -461,12 +461,13 @@ module.exports = {
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[3].products.length > 0"
-                ><small>Disc Shades:</small></li>
+                ><small>Disc. Shades:</small></li>
                 
 
 
 
     `,
+    percentages:"",
     change_client:"Change customer",
     details:"Quote Details",
     sidemark:"Sidermark",
@@ -969,7 +970,7 @@ module.exports = {
     <option value="Busca otro producto">Searching For Another Product</option>
     <option value="Falta Seguimiento">Lack of Attention</option>
     `,
-    postal_code:"Postal Code",
+    postal_code:"Zip Code",
     seller:"Sales Rep",
     proyect:"Sidemark",
     cycle_time:"Cycle Time",

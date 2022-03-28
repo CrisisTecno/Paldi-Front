@@ -124,7 +124,7 @@ pdApp.controller(
     $scope.dropdownTranslations = {
       checkAll: EXECUTION_ENV!="EXTERNAL" ? "Seleccionar Todos":"Select all",
       uncheckAll: EXECUTION_ENV!="EXTERNAL" ? "Deseleccionar Todos":"Unselect All",
-      buttonDefaultText: EXECUTION_ENV!="EXTERNAL" ?  "Estados de Cotización":"Quote Stages",
+      buttonDefaultText: EXECUTION_ENV!="EXTERNAL" ?  "Estados de Cotización":"Quote Status",
     }
 
     function createdRow(row, data, dataIndex) {
@@ -289,13 +289,14 @@ pdApp.controller(
         }),
       DTColumnBuilder.newColumn(null)
         .withOption("name", "clientType_txt")
-        .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Tipo de Cliente":"Client Type")
+        .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Tipo de Cliente":"Sidemark")
         .renderWith(function (data) {
+          console.log(data)
           return (
             "<a href=\"#/console/order/" +
             data.id +
             "\">" +
-            data.clientType_txt +
+            (EXECUTION_ENV!="EXTERNAL" ? data.clientType_txt : data.project_txt) +
             "<a>"
           )
         }),
@@ -373,7 +374,7 @@ pdApp.controller(
         }),
         DTColumnBuilder.newColumn(null)
         .withOption("name", "cloneButton")
-        .withTitle("Acciones")
+        .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Acciones":"Actions")
         .renderWith(function (data) {
           
           return (

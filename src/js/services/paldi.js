@@ -114,6 +114,16 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
 
+    getExternalDiscount:function(id){
+      return $http
+      .get(globals.apiURL + "/newapi/orgs/organizations/" + id, {
+        authentication: "yokozuna",
+      })
+      .then(function (response) {
+        return response.data;
+      });
+
+    },
     get: function (id) {
       return $http
         .get(globals.apiURL + "/quotes/users/" + id, {

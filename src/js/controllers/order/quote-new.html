@@ -55,11 +55,11 @@
             <div class="pull-left" style="width:27%;">
               <ul class="client-data">
                 <li><small><%= htmlWebpackPlugin.options.quotes.client_type %>:</small></li>
-                <li><small><%= htmlWebpackPlugin.options.quotes.name %>:</small></li>
+                <li><small><%= htmlWebpackPlugin.options.quotes.name %></small></li>
                 <li><small><%= htmlWebpackPlugin.options.general.email %>:</small></li>
-                <li><small><%= htmlWebpackPlugin.options.quotes.phone %>:</small></li>
-                <li><small><%= htmlWebpackPlugin.options.quotes.address %>:</small></li>
-                <%= htmlWebpackPlugin.options.quotes.discount %>
+                <li><small><%= htmlWebpackPlugin.options.quotes.phone %></small></li>
+                <li><small><%= htmlWebpackPlugin.options.quotes.address %></small></li>
+                <%= htmlWebpackPlugin.options.quotes.discounts %>
               </ul>
             </div>
             <div class="pull-left" style="width:60%;">
@@ -77,9 +77,11 @@
                     min="0"
                     ng-change="validateDiscounts()"
                     ng-model="quote.discountPercent"
+                    ng-disabled="fixedDiscounts"
                     type="number"
-                >% (Max {{quote.clientMaxDiscount}}%)
+                >% <%= htmlWebpackPlugin.options.quotes.percentages %>
                 </li>
+               
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"
@@ -89,7 +91,8 @@
                     ng-change="validateDiscounts()"
                     ng-model="quote.discountPercentBalance"
                     type="number"
-                >% (Max {{quote.clientMaxDiscount}}%)
+                    ng-disabled="fixedDiscounts"
+                >% <%= htmlWebpackPlugin.options.quotes.percentages %>
                 </li>
                 <li
                     class="discount"
@@ -99,8 +102,9 @@
                     min="0"
                     ng-change="validateDiscounts()"
                     ng-model="quote.discountPercentShutter"
+                    ng-disabled="fixedDiscounts"
                     type="number"
-                >% (Max {{quote.clientMaxDiscount}}%)
+                >% <%= htmlWebpackPlugin.options.quotes.percentages %>
                 </li>
                 <li
                     class="discount"
@@ -109,9 +113,10 @@
                     max="{{quote.clientMaxDiscount}}"
                     min="0"
                     ng-change="validateDiscounts()"
+                    ng-disabled="fixedDiscounts"
                     ng-model="quote.discountPercentEnrollable"
                     type="number"
-                >% (Max {{quote.clientMaxDiscount}}%)
+                >% <%= htmlWebpackPlugin.options.quotes.percentages %>
                 </li>
                 <li
                     class="discount"
@@ -120,9 +125,10 @@
                     max="{{currentUser.canAdmin ? quote.clientMaxDiscount  : 15}}"
                     min="0"
                     ng-change="validateDiscounts()"
+                    ng-disabled="fixedDiscounts"
                     ng-model="quote.discountPercentFiltrasol"
                     type="number"
-                >% (Max {{currentUser.canAdmin ? quote.clientMaxDiscount : 15}}%)
+                >% <%= htmlWebpackPlugin.options.quotes.percentages %>
                 </li>
               </ul>
             </div>

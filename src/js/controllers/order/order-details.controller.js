@@ -407,7 +407,8 @@ pdApp.controller(
     //========================= STATUS ===========================
 
     $scope.sendToOrderDialog = function () {
-      if (!$scope.order.user.warehouse) {
+      console.log($scope.order.user)
+      if (!$scope.order.user.warehouse && $scope.order.user.role!="EXTERNAL_CONSULTANT") {
         swal({
           title:  (EXECUTION_ENV=="EXTERNAL"?"The seller is not afilliated to a warehouse":"El vendedor no está asignado a un almacén"),
           type: "error",

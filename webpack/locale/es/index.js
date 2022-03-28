@@ -474,6 +474,7 @@ module.exports = {
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[4].products.length > 0"
                 ><small>Desc. Filtrasol:</small></li>
     `,
+    percentages:"(Max {{quote.clientMaxDiscount}}%)",
     change_client:"Cambiar Cliente",
     details:"Detalles",
     sidemark:"Proyecto",

@@ -81,7 +81,7 @@ pdApp.controller(
           },
         )
       } else {
-        
+        console.log("RECEIVED DATA", data)
         $scope.currentUser = {
           ...data.user,
           ...data.permissions,

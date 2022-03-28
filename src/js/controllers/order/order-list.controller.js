@@ -26,7 +26,7 @@ pdApp.controller(
 		$scope.orderTypes =$scope.currentUser.realRole!="EXTERNAL_CONSULTANT" ? [
 			{value: "consultant", label: "Mis cotizaciones"},
 			{value: "all", label: "Cotizaciones generales"},
-		  ] : [{value: "consultant", label: "My Quotes"},
+		  ] : [{value: "consultant", label: "My Sales"},
 			];
 
 		//============= Data tables =============
@@ -175,7 +175,7 @@ pdApp.controller(
 		$scope.dropdownTranslations = {
 			checkAll: EXECUTION_ENV!="EXTERNAL" ? "Seleccionar Todos":"Select all",
 			uncheckAll: EXECUTION_ENV!="EXTERNAL" ? "Deseleccionar Todos":"Unselect All",
-			buttonDefaultText: EXECUTION_ENV!="EXTERNAL" ?  "Estados de Orden":"Order Stages",
+			buttonDefaultText: EXECUTION_ENV!="EXTERNAL" ?  "Estados de Orden":"Order Status",
 		  }
 
 		$scope.toggleDetails = function (orderId) {
@@ -1225,6 +1225,171 @@ pdApp.controller(
 				}),
 		];
 
+		var consultantExternalColumns = [
+			DTColumnBuilder.newColumn(null)
+				.withOption("name", "date_dt")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Fecha":"Date")
+				.renderWith(function (data) {
+					var id = "&#39;" + data.id + "&#39;";
+					return (
+						'<a ng-click="toggleDetails(' +
+						id +
+						')">' +
+						$filter("date")(data.date_dt, "dd/MM/yyyy") +
+						"</a>"
+					);
+				}),
+			DTColumnBuilder.newColumn(null)
+				.withOption("name", "no_l")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Orden":"Order #")
+				.renderWith(function (data) {
+					var id = "&#39;" + data.id + "&#39;";
+					if (!data.isSuborder_b) {
+						return (
+							'<a ng-click="toggleDetails(' +
+							id +
+							')">' +
+							data.no_l +
+							"</a>"
+						);
+					} else {
+						return (
+							'<a ng-click="toggleDetails(' +
+							id +
+							')">' +
+							data.suborderNo +
+							"</a>"
+						);
+					}
+				}),
+				DTColumnBuilder.newColumn(null)
+				.withOption("name", "clientType_txt")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ? "Tipo de Cliente":"Sidemark")
+				.renderWith(function (data) {
+				  console.log(data)
+				  return (
+					"<a href=\"#/console/order/" +
+					data.id +
+					"\">" +
+					(EXECUTION_ENV!="EXTERNAL" ? data.clientType_txt : data.project_txt) +
+					"<a>"
+				  )
+				}),
+			DTColumnBuilder.newColumn(null)
+				.withOption("name", "clientName_txt")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Cliente":"Client")
+				.renderWith(function (data) {
+					var id = "&#39;" + data.id + "&#39;";
+					return (
+						'<a ng-click="toggleDetails(' +
+						id +
+						')">' +
+						data.clientName_txt +
+						"</a>"
+					);
+				}),
+			DTColumnBuilder.newColumn(null)
+				.withOption("name", "status_s")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Estado":"Order Status")
+				.renderWith(function (data) {
+					var id = "&#39;" + data.id + "&#39;";
+					var status = $scope.pretty(
+						"reverseOrderStatus",
+						data.status_s
+					);
+					return (
+						'<a ng-click="toggleDetails(' +
+						id +
+						')" class="status-block ' +
+						status +
+						'">' +
+						(EXECUTION_ENV!="EXTERNAL"?$scope.pretty("orderStatus", status):$scope.pretty("orderStatusEn", status)) +
+						"</a>"
+					);
+				}),
+			DTColumnBuilder.newColumn(null)
+				.withOption("name", "dpfc")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"D.P.F.C":"Days To due Date")
+				.renderWith(function (data) {
+					var id = "&#39;" + data.id + "&#39;";
+					var startDate = data.cycleStartDate_dt
+						? moment(data.cycleStartDate_dt)
+						: null;
+					var commitmentDate = data.commitmentDate_dt
+						? moment(data.commitmentDate_dt)
+						: null;
+					var endDate = data.cycleFinishDate_dt
+						? moment(data.cycleFinishDate_dt)
+						: null;
+					var days = getRemainingDays(
+						startDate,
+						commitmentDate,
+						endDate
+					);
+					var commitmentStatus = getCountdownStatus(
+						startDate,
+						days,
+						commitmentDate,
+						endDate
+					);
+					var dpfcDays = getDPFCDays(
+						days,
+						data.status_s,
+						startDate,
+						commitmentDate
+					);
+					return (
+						'<a ng-click="toggleDetails(' +
+						id +
+						')" class="order-cycle ' +
+						commitmentStatus +
+						'">' +
+						dpfcDays +
+						"</a>"
+					);
+				}),
+			DTColumnBuilder.newColumn(null)
+				.withOption("name", "installationDate_dt")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"F. Instalación":"Installation Date")
+				.renderWith(function (data) {
+					var date =
+						data.installationDate_dt != null
+							? data.installationDate_dt
+							: "-";
+					var id = "&#39;" + data.id + "&#39;";
+					return (
+						'<a ng-click="toggleDetails(' +
+						id +
+						')">' +
+						$filter("date")(date, "dd/MM/yyyy") +
+						"</a>"
+					);
+				}),
+			DTColumnBuilder.newColumn(null)
+				.withOption("name", "cycle")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Tiempo de Ciclo":"Cycle Time")
+				.renderWith(function (data) {
+					var id = "&#39;" + data.id + "&#39;";
+					var startDate = data.cycleStartDate_dt
+						? moment(data.cycleStartDate_dt)
+						: null;
+					var endDate = data.cycleFinishDate_dt
+						? moment(data.cycleFinishDate_dt)
+						: null;
+					var status = getCycleStatus(startDate, endDate);
+					var days = getCycleDays(startDate, endDate);
+					return (
+						'<a ng-click="toggleDetails(' +
+						id +
+						')" class="order-cycle ' +
+						status +
+						'">' +
+						days +
+						"</a>"
+					);
+				}),
+		];
+
 		var loadColumns = function () {
 			switch ($scope.currentUser.role) {
 				case "ADMIN":
@@ -1247,6 +1412,9 @@ pdApp.controller(
 					break;
 				case "CONSULTANT":
 					$scope.tableColumns = consultantColumns;
+					if(EXECUTION_ENV=="EXTERNAL"){
+						$scope.tableColumns = consultantExternalColumns;
+					}
 					break;
 			}
 			fillStatusList(
