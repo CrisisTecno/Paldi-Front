@@ -277,9 +277,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       //  // // console.log("Handling product submit")
       //  // // console.log("Model: ", model)
       // console.log("BEFORE",angular.copy(model))
-      
+    console.log("A")
      
-
+      $scope.updatePrices(product, model)
       const sellerValid = validateSeller(product, $scope)
 
       $scope.systemsValid = validateSystems($scope, model)
@@ -291,7 +291,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       //  // // console.log("Model Price",model.price)
       //  // // console.log("Valid Seller",sellerValid)
     
-      // console.log(( typeof(form)=='boolean' || form.$valid) , model.total , model.price , $scope.systemsValid , sellerValid )
+       
 
       if (( typeof(form)=='boolean' || form.$valid) && model.total && model.price && $scope.systemsValid && sellerValid ) {
         
