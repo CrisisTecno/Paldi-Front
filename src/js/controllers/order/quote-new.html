@@ -206,7 +206,7 @@
                   <tr ng-repeat="(indexProduct, p) in productTypeList.products">
                     <td>{{p.quantity}}</td>
                     <td>{{p.location}}</td>
-                    <td>{{p.type}}</td>
+                    <td>{{translateType(p.type)}}</td>
                     <td>{{p.total | currency}}</td>
                     <td>
                       <button
@@ -370,7 +370,13 @@
 
         <li><small>Sub-Total:</small> <span>{{quote.subTotal | currency}}</span>
         </li>
-        <li><small><%= htmlWebpackPlugin.options.quotes.tax %>:</small> <span>{{quote.iva | currency}}</span></li>
+        <li><small>
+          <% if(!htmlWebpackPlugin.options.features.city){%>
+          <input type="checkbox" ng-model="quote.hasTaxes", ng-init="quote.hasTaxes=true"
+          ng-change="updateTotals('Totals',quote)" 
+          >
+          <%}%>
+          <%= htmlWebpackPlugin.options.quotes.tax %>:</small> <span>{{quote.iva | currency}}</span></li>
         <li><small>TOTAL:</small> <span>{{quote.total | currency}}</span></li>
       </ul>
       <ul ng-show="false">

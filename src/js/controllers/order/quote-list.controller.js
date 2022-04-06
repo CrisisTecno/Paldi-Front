@@ -83,7 +83,7 @@ pdApp.controller(
       }
       return status
     }
-    $scope.quotesTypes = $scope.currentUser.realRole!="EXTERNAL_CONSULTANT" ? [
+    $scope.quotesTypes = $rootScope.currentUser.realRole!="EXTERNAL_CONSULTANT" ? [
       {value: "consultant", label: "Mis cotizaciones"},
       {value: "all", label: "Cotizaciones generales"},
     ] : [{value: "consultant", label: "My Quotes"},

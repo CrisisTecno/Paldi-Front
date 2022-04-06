@@ -4,6 +4,17 @@ import {normalizeText} from "../../utils/normalization"
 
 pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $stateParams, paldiService, colorPriceService, $timeout, jsonService, DTOptionsBuilder, DTColumnDefBuilder, permissionsHelper,) {
   const MIXED_ORDER = "Mixta"
+  $scope.updateTotals = colorPriceService.updateTotals
+
+  $scope.translateType = function(name){
+    if (EXECUTION_ENV!="EXTERNAL") return name
+    switch(name){
+      case "De madera":
+        return "Wood"
+      default:
+        return name
+    }
+  }
  
   $scope.fixedDiscounts = EXECUTION_ENV=="EXTERNAL"
   var isMixta = function(){

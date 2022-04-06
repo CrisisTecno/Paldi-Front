@@ -181,7 +181,14 @@ export const getTotals = (order) => {
     // + totals.shipping
     - discounts.discount
 
-  const iva = subTotal * globals.iva // * order.hasTaxes
+  let iva
+  if(EXECUTION_ENV!="EXTERNAL"){
+   iva = subTotal * globals.iva // * order.hasTaxes
+ }
+ else{
+   iva = subTotal * globals.iva * order.hasTaxes
+ }
+  
   const total = subTotal + iva
 
   return {

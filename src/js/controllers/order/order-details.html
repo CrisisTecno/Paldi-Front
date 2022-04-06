@@ -2,8 +2,9 @@
   <div class="ibox">
     <div class="ibox-title">
       <h3 ng-if="order.status == 'QUOTE' && step=='loaded'"><%= htmlWebpackPlugin.options.order_details.quote%> #{{order.orderNo}}</h3>
-      <h3 ng-if="order.status != 'QUOTE' && step=='loaded' && !isSuborder"><%= htmlWebpackPlugin.options.order_details.order%> #{{order.orderNo}}</h3>
-      <h3 ng-if="order.status != 'QUOTE' && step=='loaded' && isSuborder"><%= htmlWebpackPlugin.options.order_details.order%> #{{order.orderNo}}-{{order.suborderNo}} </h3>
+      <h3 ng-if="(order.status != 'QUOTE' || order.status=='PENDING') && step=='loaded' && !isSuborder"> <%= htmlWebpackPlugin.options.order_details.quote%> #{{order.orderNo}}</h3>
+      <h3 ng-if="(order.status != 'QUOTE' && order.status!='PENDING') && step=='loaded' && !isSuborder"> <%= htmlWebpackPlugin.options.order_details.order%> #{{order.orderNo}}</h3>
+      <h3 ng-if="order.status != 'QUOTE' && step=='loaded' && isSuborder"> <%= htmlWebpackPlugin.options.order_details.order%> #{{order.orderNo}}-{{order.suborderNo}} </h3>
     </div>
     <div class="ibox-content">
       <!--/////////////////////// Cliente ///////////////////////-->
