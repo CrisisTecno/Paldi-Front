@@ -29,9 +29,9 @@
             <td>{{p.system ? p.system : 'N/A'}}</td>
 
             <td>{{pretty( "color", p.color ) }}</td>
-            <td>{{p.width}}</td>
-            <td>{{p.height}}</td>
-            <% if (htmlWebpackPlugin.options.details_headers.height) {%>
+            <td><%= htmlWebpackPlugin.options.details_headers.units_width%></td>
+            <td><%= htmlWebpackPlugin.options.details_headers.units_height%></td>
+            <% if (htmlWebpackPlugin.options.details_headers.squared) {%>
             <td>{{p.m2}}</td>
             <%}%>
 

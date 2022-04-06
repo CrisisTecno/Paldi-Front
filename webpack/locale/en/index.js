@@ -5,7 +5,7 @@ module.exports = {
     name: "<span>Name:</span> {{client.name}}",
     last_name: "<span>Last Name:</span> {{client.lastName}}",
     type: "Client Type",
-    category: "<span>Category:</span> {{pretty('clientType', client.type)}}",
+    category: "<span>Category:</span> {{pretty('clientTypeEN', client.type)}}",
     contact_information: "Contact Information",
     email: `
       <span>E-mail:</span>
@@ -231,7 +231,7 @@ module.exports = {
     payment:"Payment",
     payment_advance:"Payment advance",
     currency:"Currency",
-    exhange_rate:"Exchange rate",
+    exchange_rate:"Exchange rate",
     currency_options:`
 
     <option value="DOLLARS">Dollars</option>
@@ -239,7 +239,7 @@ module.exports = {
     amount:"Amount",
     min_payment:"The minimun amount is:",
     min_percentage:"The minimun amount is 50% of the total",
-    payment_method:"PAyment method",
+    payment_method:"Payment method",
     payment_options:`
       <option value ="CASH">Cash</option>
       <option value="CREDIT_CARD">Credit Card</option>
@@ -703,7 +703,7 @@ module.exports = {
     color:"Color",
     
     installation_type:"Installation Type",
-    squared:true,
+    squared:false,
     units_height:"{{units.to_fraction(p.height)}}",
     units_width:"{{units.to_fraction(p.width)}}",
     
@@ -793,7 +793,7 @@ module.exports = {
     width:"Width (Inches)",
     height:"Height (Inches)",
     squared:false,
-    add_additionals:"add Additionals",
+    add_additionals:"Add Additionals",
     additional:"Additionals:",
     add_motor:"Add Motor & Cornices",
     motor:"Motor & Cornices:",
@@ -911,6 +911,7 @@ module.exports = {
 
   },
   order_list:{
+    order_client:"<span>{{pretty('clientTypeEN', selectedOrder.client.type)}}</span>",
     supplier:"Supplier ID",
     orders:"Orders",
     manual_register:"Manual Register",
@@ -959,7 +960,7 @@ module.exports = {
     quote_status:"Quote Status",
     quote_options:`
     <option ng-if="order.quoteStatus == 'Nueva'" value="Nueva">New </option>
-    <option value="Seguimiento">Following</option>
+    <option value="Seguimiento">Open</option>
     <option value="Duplicada">Duplicated</option>
     <option value="Venta Perdida">Lost Sale</option>
     `,
@@ -1001,7 +1002,7 @@ module.exports = {
     send_client:"Send To Client",
     send_work_order:"Send Work Order",
     canceled:"Canceled",
-    register_payment:"Registrer Payment",
+    register_payment:"Register Payment",
     need_invoice:"Needs Invoce",
     send_as_order:"Send as Order",
     approve_order:"Approve Order",
@@ -1021,7 +1022,11 @@ module.exports = {
     change_state:"Change State",
     order_not_found:"Order Not Found",
     show_history:"Show History",
-    order_stats:"{{pretty('orderStatusEn', order.status)}}"
+    order_stats:"{{pretty('orderStatusEn', order.status)}}",
+    folio:"Invoice #",
+    date:"Date",
+    amount:"Amount",
+    charged:"Charged"
   },
   send_as_order:{
     send_order:"Send as order",
@@ -1030,6 +1035,27 @@ module.exports = {
   },
   installation_order:{
 
+  },
+  change_pass:{
+    change_pass:"Change Password",
+    alert_pass:"Por cuestiones de seguridad debe crear una nueva contraseña",
+    actual_pass:"Actual Password",
+    incorrect_pass:"Wrong Password",
+    different_pass:"Password must be diffent from the previous one",
+    recent_pass:"This password was used recently, please create a new one",
+    valid_pass:"8 Characters minimum including an upper case, lower case, a number and a special character (! ( ) - . _ ` ~ @)",
+    confirm_pass:"Password Confirmation",
+    no_match:"Password doesn't match",
+    new_pass:"New Password"
+  },
+  button_commons:{
+    today:"Today",
+    clean:"Clean",
+    duplicate:"Duplicate",
+    close:"Close",
+    move_up:"Move Up",
+    move_down:"Move Down",
+    
   }
   
   

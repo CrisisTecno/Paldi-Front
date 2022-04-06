@@ -4,6 +4,7 @@ import moment from "moment";
 import {buildReportsService} from "./paldi/reports";
 import {getQuoteStatusFromList} from "./order/defaults";
 import { console_costing, reports } from "../../../webpack/locale/es";
+import { inches_to_meters, meters_to_inches, sq_inches_to_meters, sq_meters_to_inches } from "../utils/units";
 
 // TODO: Agregar esto a un modulo
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
@@ -392,7 +393,40 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
   //--------------- ORDERS ---------------
   service.orders = {
+
     get: function (id) {
+
+      if(EXECUTION_ENV=="EXTERNAL"){
+        const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
+      return $http
+        .get(globals.apiURL + "/quotes/orders/" + id, {
+          authentication: "yokozuna",
+        })
+        .then(function (response) {
+          let order = response.data
+          order.hasTaxes = !(order.iva < 0.001)
+          order.hasShipping = !(order.shiping < 0.001)
+          for (const product of PRODUCTS) {
+            order[product]?.forEach((product) => {
+              product.width = meters_to_inches(product.width)
+              product.height = meters_to_inches(product.height)
+              product.m2 = sq_meters_to_inches(parseFloat(product.m2))
+            })
+          }
+          order.products?.forEach((product) => {
+            console.log(product, product.width, product.height, product.m2)
+            product.width = meters_to_inches(product.width)
+            product.height = meters_to_inches(product.height)
+            product.m2 = sq_meters_to_inches(parseFloat(product.m2))
+          })
+
+          console.log('fetched order', order)
+
+          // console.log("API CALL: /quotes/orders/{id}")
+          // console.log(order)
+          return order;
+        });
+      }
       return $http
         .get(globals.apiURL + "/quotes/orders/" + id, {
           authentication: "yokozuna",
@@ -515,6 +549,28 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
 
     save: function (order) {
+
+      if(EXECUTION_ENV=="EXTERNAL"){
+        console.log("SAVING ORDER: ", order)
+      order = { ...order }
+      order.products = [...(order.products.map(v => ({
+        ...v,
+        width: inches_to_meters(v.width + parseFloat(v.w_fraction || 0)),
+        height: inches_to_meters(v.height + parseFloat(v.h_fraction || 0)),
+        m2: sq_inches_to_meters(v.m2),
+        ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {})
+      })))]
+      console.log("ORDER ", order)
+      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
+      for (const product of PRODUCTS) {
+        order[product]?.forEach((product) => {
+          product.width = inches_to_meters(product.width + parseFloat(product.w_fraction || 0))
+          product.height = inches_to_meters(product.height + parseFloat(product.h_fraction || 0))
+          product.m2 = sq_inches_to_meters(parseFloat(product.m2))
+        })
+      }
+      }
+
       return $http
         .post(globals.apiURL + "/quotes/orders", order, {
           authentication: "yokozuna",
@@ -524,6 +580,29 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
     saveSubOrder: function (order, orderType) {
+
+      if(EXECUTION_ENV=="EXTERNAL"){
+        order = { ...order }
+      order.products = [...(order.products.map(v => ({
+        ...v,
+        width: inches_to_meters(v.width + parseFloat(v.w_fraction || 0)),
+        height: inches_to_meters(v.height + parseFloat(v.h_fraction || 0)),
+        m2: sq_inches_to_meters(v.m2),
+        ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {})
+      })))]
+
+      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
+      for (const product of PRODUCTS) {
+        order[product]?.forEach((product) => {
+          product.width = inches_to_meters(product.width + parseFloat(product.w_fraction || 0))
+          product.height = inches_to_meters(product.height + parseFloat(product.h_fraction || 0))
+          product.m2 = sq_inches_to_meters(parseFloat(product.m2))
+        })
+      }
+
+      console.log("SUB ORDER ", order)
+      }
+
       return $http
         .post(globals.apiURL + "/quotes/orders/suborder", order, {
           authentication: "yokozuna",
@@ -535,6 +614,26 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
 
     update: function (order) {
+
+      if(EXECUTION_ENV=="EXTERNAL"){
+        order = { ...order }
+      order.products = [...(order.products.map(v => ({
+        ...v,
+        width: inches_to_meters(v.width + parseFloat(v.w_fraction || 0)),
+        height: inches_to_meters(v.height + parseFloat(v.h_fraction || 0)),
+        m2: sq_inches_to_meters(v.m2),
+        ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {})
+      })))]
+
+      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
+      for (const product of PRODUCTS) {
+        order[product]?.forEach((product) => {
+          product.width = inches_to_meters(product.width + parseFloat(product.w_fraction || 0))
+          product.height = inches_to_meters(product.height + parseFloat(product.h_fraction || 0))
+          product.m2 = sq_inches_to_meters(parseFloat(product.m2))
+        })
+      }
+      }
       return $http
         .put(globals.apiURL + "/quotes/orders/" + order.id, order, {
           authentication: "yokozuna",
@@ -546,6 +645,28 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
 
     updateSuborder: function (orderMasterId, order) {
+
+      if(EXECUTION_ENV=="EXTERNAL"){
+        order = { ...order }
+      order.products = [...(order.products.map(v => ({
+        ...v,
+        width: inches_to_meters(v.width + parseFloat(v.w_fraction || 0)),
+        height: inches_to_meters(v.height + parseFloat(v.h_fraction || 0)),
+        m2: sq_inches_to_meters(v.m2),
+        ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {})
+      })))]
+
+      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
+      for (const product of PRODUCTS) {
+        order[product]?.forEach((product) => {
+          product.width = inches_to_meters(product.width + parseFloat(product.w_fraction || 0))
+          product.height = inches_to_meters(product.height + parseFloat(product.h_fraction || 0))
+          product.m2 = sq_inches_to_meters(parseFloat(product.m2))
+        })
+      }
+
+      console.log("UPDATE SUB ", order)
+      }
       return $http
         .put(
           globals.apiURL + "/quotes/orders/suborder/" + orderMasterId,
@@ -878,12 +999,30 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
       );
     },
     getByOrderParent: function (orderParentId) {
+      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
       return $http
         .get(
           globals.apiURL + "/quotes/orders/suborder/" + orderParentId,
           {authentication: "yokozuna"}
         )
         .then(function (response) {
+          response.data.forEach((order) => {
+            order.hasTaxes = !(order.iva < 0.001)
+            order.hasShipping = !(order.shiping < 0.001)
+            for (const product of PRODUCTS) {
+              order[product]?.forEach((product) => {
+                product.width = meters_to_inches(product.width)
+                product.height = meters_to_inches(product.height)
+                product.m2 = sq_meters_to_inches(parseFloat(product.m2))
+              })
+            }
+            order.products?.forEach((product) => {
+              product.width = meters_to_inches(product.width)
+              product.height = meters_to_inches(product.height)
+              product.m2 = sq_meters_to_inches(parseFloat(product.m2))
+            })
+            // return order;
+          })
           return response.data;
         });
     },

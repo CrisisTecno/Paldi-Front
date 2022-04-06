@@ -22,9 +22,9 @@ pdApp.controller(
 				paldiService.clients.update(client).then(
 					function (client) {
 						swal({
-							title: "Cliente modificado exitosamente",
+							title:  (EXECUTION_ENV=="EXTERNAL"?"Client Modified Successfully" :"Cliente modificado exitosamente"),
 							type: "success",
-							confirmButtonText: "Aceptar",
+							confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
 						});
 
 						$state.go("console.client-list");
@@ -34,10 +34,10 @@ pdApp.controller(
 						swal({
 							title: "Error",
 							text:
-								"Ya existe un cliente con el E-mail: " +
+							(EXECUTION_ENV=="EXTERNAL"?"There is already a client with the E-mail: ":"Ya existe un cliente con el E-mail: ") +
 								client.email,
 							type: "error",
-							confirmButtonText: "Aceptar",
+							confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
 						});
 					}
 				);

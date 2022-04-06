@@ -47,6 +47,7 @@ pdApp.controller(
 
       paldiService.orders.get(id).then(async function (order) {
         $scope.order = order;
+        
       
       
         $scope.quoteStatus = order.quoteStatus;
@@ -63,6 +64,7 @@ pdApp.controller(
               $scope.suborders.push(suborder);
               if (suborder.products) {
                 suborder.products.forEach(function (product) {
+                  console.log(product)
                   orderProductsByType(product);
                 })
               }
@@ -228,7 +230,7 @@ pdApp.controller(
      to_fraction:function(val){
        val = val.toString();
        val = val.split(".")
-       console.log("VALUES",val)
+       //console.log("VALUES",val)
        if(val[1]!= undefined) val[1] = parseFloat("."+val[1])
        return val[0] + " " +toFraction(val[1])
 
@@ -406,8 +408,8 @@ pdApp.controller(
 
     //========================= STATUS ===========================
 
-    $scope.sendToOrderDialog = function () {
-      console.log($scope.order.user)
+    $scope.sendToOrderDialog = async function () {
+      //console.log($scope.order.user)
       if (!$scope.order.user.warehouse && $scope.order.user.role!="EXTERNAL_CONSULTANT") {
         swal({
           title:  (EXECUTION_ENV=="EXTERNAL"?"The seller is not afilliated to a warehouse":"El vendedor no está asignado a un almacén"),
@@ -415,12 +417,53 @@ pdApp.controller(
           confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Continue":"Continuar"),
         });
       } else {
+        if(EXECUTION_ENV=="EXTERNAL"){
+           swal({
+          title:"Do you want to move your order to production?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
+          cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
+          closeOnConfirm: true,
+          closeOnCancel: false,
+          },
+          function(isConfirm){
+          if(isConfirm){
+          setTimeout(function(){
+             swal({
+              title:"Order Sent",
+              type:"success",
+              text:"Your order has been moved to production, customer service will reach out for payment details",
+              confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Continue":"Continuar")
+  
+            },
+            function(isConfirm){
+              if(isConfirm){
+                setTimeout(function(){
+                  $scope.changeStatusDialog('PENDING')
+                },500)
+              }
+            }
+            
+            )
+          },500)
+        }
+        }
+          )
+          
+
+          
+         
+        }
+        else{
         $scope.dialog = ngDialog.open({
           scope: $scope,
           template: "js/controllers/order/order-send.html",
           // template: "partials/views/console/order-send.html",
           showClose: false,
         });
+      }
       }
     };
 
@@ -433,6 +476,15 @@ pdApp.controller(
       });
     };
 
+    var triggerMsg = async function(){
+      let owo = await swal({
+        title:"Order Sent",
+        type:"success",
+        text:"Your order has been moved to production, customer service will reach out for payment details",
+        confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Continue":"Continuar")
+
+      })
+    }
     $scope.updateGuidesDialog = function () {
       $scope.dateModel = {};
      

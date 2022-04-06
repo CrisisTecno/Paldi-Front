@@ -13,7 +13,7 @@ const getBankPaymentType = (model) =>
 	model.type == "BANK" ? model.bankType : null;
 
 const getProps = (model) => ({
-	title: `¿Seguro que deseas enviar la orden con $${model.advance} ${
+	title: `${EXECUTION_ENV=="EXTERNAL"?"Do you want do sent the order with ":"¿Seguro que deseas enviar la orden con"} $${model.advance} ${
 		model.currency == "PESOS" ? "M.N." : "Dlls"
 	}?`,
 	type: "warning",

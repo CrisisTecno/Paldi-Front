@@ -24,14 +24,19 @@ pdApp.controller(
 		};
 
 		var editUser = function (model) {
-			paldiService.users.update(model).then(
+			let mod = angular.copy(model)
+			if(EXECUTION_ENV=="EXTERNAL"){
+				mod.role = $scope.user.realRole
+			}
+			paldiService.users.update(mod).then(
+				
 				function (user) {
 					$scope.isEditing = false;
 					swal({
-						title: "Cambios realizados",
-						text: "Cuenta editada",
+						title: EXECUTION_ENV=="EXTERNAL"?"Changes performed":"Cambios realizados",
+						text: EXECUTION_ENV=="EXTERNAL"?"Account Edited":"Cuenta editada",
 						type: "success",
-						confirmButtonText: "Aceptar",
+						confirmButtonText: EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar",
 					});
 					load();
 					$rootScope.$emit("user:mightBeAvailable");

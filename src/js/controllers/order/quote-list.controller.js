@@ -17,6 +17,25 @@ pdApp.controller(
     DTColumnDefBuilder,
     DTColumnBuilder,
   ) {
+
+    $scope.external = EXECUTION_ENV=="EXTERNAL";
+
+    var productTypeTranslate = function(name){
+      console.log("A")
+      if (EXECUTION_ENV!="EXTERNAL") return name
+       console.log(name[0])
+      switch(name[0]){
+        case "Persianas":
+         
+          return "Shades"
+        case "Producto para el Exterior":
+          return "Exterior Products"
+        case "Balance":
+          return "Cornices"
+        default:
+          return name
+      }
+    }
     $scope.ready = false
     $scope.statusList = []
     var cleanStatusList = []
@@ -39,7 +58,7 @@ pdApp.controller(
     $scope.availableStatusList = [
       {label: EXECUTION_ENV!="EXTERNAL" ? "Nueva" :"New", value: "NEW"},
       {label: EXECUTION_ENV!="EXTERNAL" ? "Duplicada" :"Duplicated", value: "DUPLICATE"},
-      {label: EXECUTION_ENV!="EXTERNAL" ? "Seguimiento":"Following", value: "FOLLOWING"},
+      {label: EXECUTION_ENV!="EXTERNAL" ? "Seguimiento":"Open", value: "FOLLOWING"},
       {label: EXECUTION_ENV!="EXTERNAL" ? "Venta Perdida":"Lost Sale", value: "LOST_SALE"},
       {label: EXECUTION_ENV!="EXTERNAL" ? "Pendiente" :"Pending", value: "PENDING"},
       {label: EXECUTION_ENV!="EXTERNAL" ? "Rechazada" :"Rejected", value: "REJECTED"},
@@ -291,7 +310,7 @@ pdApp.controller(
         .withOption("name", "clientType_txt")
         .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Tipo de Cliente":"Sidemark")
         .renderWith(function (data) {
-          console.log(data)
+        
           return (
             "<a href=\"#/console/order/" +
             data.id +
@@ -321,7 +340,7 @@ pdApp.controller(
             "<a href=\"#/console/order/" +
             data.id +
             "\">" +
-            data.productType_txt +
+            productTypeTranslate( data.productType_txt) +
             "<a>"
           )
         }),
@@ -382,7 +401,7 @@ pdApp.controller(
                       <button
                           class="btn btn-edit"
                           ng-click="cloneQuote(${"'"+data.id+"'"})"
-                          title="Duplicar"
+                          title="${EXECUTION_ENV=="EXTERNAL"?"Duplicate":"Duplica"}"
                           type="button"
                       ><i class="fa fa-clone "></i></button>
             `
@@ -466,7 +485,7 @@ pdApp.controller(
          
       
         swal({
-          title: "Cotización duplicada exitosamente", type: "success", confirmButtonText: "Aceptar",
+          title:  (EXECUTION_ENV=="EXTERNAL"?"Quote duplicated succesfully" :"Cotización duplicada exitosamente"), type: "success", confirmButtonText: "Aceptar",
         })
 
         if ($scope.quote.type=="Mixta") {

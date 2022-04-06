@@ -81,7 +81,7 @@
                     <%= htmlWebpackPlugin.options.payments.payment_type %>
                 </label>
                 <select name="discountPayment" ng-model="payment.isDiscountPayment" class="form-control" required>
-                    <option value=false>Pago</option>
+                    <option value=false> <%= htmlWebpackPlugin.options.payments.payment %></option>
                     <option ng-if="paymentType!='advance'" value=true>
                         <%= htmlWebpackPlugin.options.payments.sale_disccount %>
                     </option>

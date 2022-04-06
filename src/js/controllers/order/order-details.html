@@ -352,7 +352,7 @@
               <small><%= htmlWebpackPlugin.options.payments.motor%>:</small>
               <span>{{order.motorTotal | currency}}</span>
             </li>
-            <li ng-show="order.discountPercent">
+            <li ng-show="order.discountPercent && !(order.discountPercentBalance > 0 || order.discountPercentShutter > 0 || order.discountPercentEnrollable > 0 || order.discountPercentFiltrasol > 0 )">
               <small><%= htmlWebpackPlugin.options.payments.discount%> ({{order.discountPercent}}%):</small>
               <span>{{order.discount | currency}}</span>
             </li>
@@ -390,10 +390,10 @@
             <table class="table table-striped  table-hover">
               <thead>
                 <tr>
-                  <th><%= htmlWebpackPlugin.options.quote_commons.folio%></th>
-                  <th><%= htmlWebpackPlugin.options.quote_commons.date%></th>
-                  <th><%= htmlWebpackPlugin.options.quote_commons.amount%></th>
-                  <th><%= htmlWebpackPlugin.options.quote_commons.charged%></th>
+                  <th><%= htmlWebpackPlugin.options.order_details.folio%></th>
+                  <th><%= htmlWebpackPlugin.options.order_details.date%></th>
+                  <th><%= htmlWebpackPlugin.options.order_details.amount%></th>
+                  <th><%= htmlWebpackPlugin.options.order_details.charged%></th>
                   <th><%= htmlWebpackPlugin.options.quote_commons.notes%></th>
                   <th ng-if="canManagePayments"></th>
                   <th></th>
@@ -424,7 +424,7 @@
         <h3 class="details-title" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida'  || order.status == 'ORDER_CANCELED'"> <%= htmlWebpackPlugin.options.details_headers.actions%></h3>
         <div class="pull-right" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida' || order.status == 'ORDER_CANCELED'">
           <a href="{{order.pdfLink}}" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canDownload" download><span class="btn-icon glyphicon glyphicon glyphicon-save"></span><%= htmlWebpackPlugin.options.order_details.download_pdf%></a>
-          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canMail" ng-click="sendToClient(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span><%= htmlWebpackPlugin.options.order_details.send_client%> </button>
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canMail && external" ng-click="sendToClient(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span><%= htmlWebpackPlugin.options.order_details.send_client%> </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="currentUser.role == 'BUYER' && currentUser.role == 'SALES_MANAGER' && currentUser.role == 'SUPERADMIN'" ng-click="sendToSpecialEmail(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span>
             <%= htmlWebpackPlugin.options.order_details.send_work_order%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canEdit" ng-click="editOrder() "><span class="btn-icon glyphicon glyphicon-pencil   "></span><%= htmlWebpackPlugin.options.general.edit%> </button>
@@ -443,7 +443,7 @@
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canSetInstallDate  && !isMaster" ng-click="dateDialog('install')"><span class="btn-icon glyphicon glyphicon-calendar "></span><%= htmlWebpackPlugin.options.order_details.inst_date%>  </button>
           <!-- TODO: retire the inline-style -->
           <div class="dropdown show" style="width: min-content;" ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'ADMIN' || currentUser.role == 'INSTALLATION_MANAGER'">
-            <button class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button ng-show="!currentUser.realRole"class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="btn-icon glyphicon glyphicon-menu-down"></span><%= htmlWebpackPlugin.options.order_details.work_order%>  </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item btn btn-secondary-actions btn-sm btn-square" ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN'" ng-click="sendToSpecialEmail(order)" style="margin-bottom: 0;"><span class="btn-icon glyphicon glyphicon-envelope"></span>

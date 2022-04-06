@@ -1,6 +1,6 @@
 export const swalErrorFactory = (details) => ({
   title: "Error",
-  text: "Ocurrió un error: " + details,
+  text: EXECUTION_ENV=="EXTERNAL"?"An error has ocurred":"Ocurrió un error: " + details,
   type: "error",
-  confirmButtonText: "Aceptar",
+  confirmButtonText: EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar",
 })

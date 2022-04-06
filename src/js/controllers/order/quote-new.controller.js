@@ -6,21 +6,28 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   const MIXED_ORDER = "Mixta"
  
   $scope.fixedDiscounts = EXECUTION_ENV=="EXTERNAL"
-
+  var isMixta = function(){
+    let elementList = []
+     $scope.productsSorted.forEach(element=>{
+       if(element.products.length > 0){
+         elementList.push(element.type)
+       }
+     })
+     console.log("IS MIXTA",elementList.length >= 2)
+     return elementList.length >= 2
+  }
   if(EXECUTION_ENV=="EXTERNAL"){
   paldiService.users.getExternalDiscount($scope.currentUser.id).then(
     res=>{
       $scope.externalDiscount = res.data
       console.log(res) 
-      
+      updateDiscountExternal()
     }
   )
   }
   
   var updateDiscountExternal = function(){
-    console.log("UPDATING DISCOUNT")
-    console.log($scope.quote)
-    console.log($scope.quote.type)
+    
 
     if($scope.quote.type=="Enrollable"){
       console.log($scope.externalDiscount.shadesDiscount)
@@ -39,6 +46,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     }
     $scope.quote.discountPercentEnrollable = $scope.externalDiscount.shadesDiscount ?? 0
     $scope.quote.discountPercentBalance = $scope.externalDiscount.cornicesDiscount ?? 0
+   
+    if(isMixta()){
+      $scope.discountPercent=0
+    }
   }
   $scope.sortProductsByType = function(){
     $scope.productsSorted.forEach((productTypeList,idx) =>{
@@ -160,6 +171,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.quote.discountPercentEnrollable = 0
     $scope.quote.discountPercentFiltrasol = 0
     $scope.clientStep = "loaded"
+    updateDiscount()
     if ($scope.product == "Piso" && $scope.pisoModel) {
       $scope.pisoModel.clientType = ""
       $scope.updatePrices("Piso", $scope.pisoModel)
@@ -287,7 +299,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       
       //  // // console.log("Valid Systems",$scope.systemsValid)
       //  // // console.log("Valid Form",form.$valid)
-      //  // // console.log("model Total",model.total)
+       console.log("model Total",model.total)
       //  // // console.log("Model Price",model.price)
       //  // // console.log("Valid Seller",sellerValid)
     
@@ -367,6 +379,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     function updateProductList() {
       if ($scope.editFlag) {
         let editedProduct = angular.copy(model)
+        delete newProduct['colors']
         editedProduct['idx']=edittedProductIndex
         $scope.quote.products.splice(edittedProductIndex, 0, editedProduct,)
         $scope.productsSorted[editedObjectIndex].products.splice(editedProductIndex, 0, editedProduct,)
@@ -376,6 +389,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       } else {
         let newProduct = angular.copy(model)
         let pos = $scope.quote.products.length
+        delete newProduct['colors']
         newProduct['idx']=pos
         $scope.quote.products.push(newProduct)
       }
@@ -411,7 +425,18 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     })
   }
 
+  const nameMappings = {
+    "Rollershade": "Solar Screen",
+    "Sheer Elegance": "Solar Blackout"
+  }
+  
+   const reverseEnrollableName = (name) => {
+    return nameMappings[name] ?? name
+  }
   var orderProductsByType = function (product) {
+    if (EXECUTION_ENV=="EXTERNAL" && product.productType === "Enrollable"){
+    product.type = reverseEnrollableName(product.type)
+    }
     var pos = $scope.productsSorted.findIndex(function (t) {
       // console.log(product.productType)
       return t.type === product.productType
@@ -476,7 +501,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       } else {
         swal({
           title: "Error",
-          text: (EXECUTION_ENV=="EXTERNAL"?"2 Prouct types are required in a custom quote" :"Se requieren mínimo 2 tipos de productos en una cotización mixta"),
+          text: (EXECUTION_ENV=="EXTERNAL"?"2 Product types are required in a custom quote" :"Se requieren mínimo 2 tipos de productos en una cotización mixta"),
           type: "error",
           confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept" :"Aceptar"),
         })
@@ -513,6 +538,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.editProduct = function (product, indexList, indexProduct) {
     $scope.editFlag = true
     $scope.producInEdit = angular.copy(product)
+    if(EXECUTION_ENV=="EXTERNAL"){
+      
+    
+      
+    }
+    console.log(angular.copy(product))
     editedObjectIndex = indexList
     editedProductIndex = indexProduct
     $scope.removeProduct(product, indexList, indexProduct)
@@ -1038,6 +1069,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.quote.discountPercent = 0
       }
     }
+    if(EXECUTION_ENV=="EXTERNAL"){
+      updateDiscountExternal()
+    }
     colorPriceService.updateTotals($scope.quote.type, $scope.quote)
   }
 
@@ -1068,7 +1102,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
            // // console.log($scope.quote)
           $scope.saveDisabled = false
           swal({
-            title: "Cotización guardada exitosamente", type: "success", confirmButtonText: "Aceptar",
+            title:  (EXECUTION_ENV=="EXTERNAL"?"Quote saved succesfully":"Cotización guardada exitosamente"), type: "success", confirmButtonText: "Aceptar",
           })
 
           if ($scope.isMultiple) {
@@ -1164,6 +1198,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
   let to_fraction =function(val){
     val = val;
+    console.log(val)
     val = val.toString();
     val = val.split(".")
     if(val[1]!= undefined) {val[1] = parseFloat("."+val[1])}
@@ -1449,12 +1484,16 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
   $scope.changeSimpleHeight = function (product, model) {
     if(EXECUTION_ENV!="EXTERNAL"){
-    let textil = $scope.productData.cortina.colores[model.textil]
+    let textil;
     let color;
+    if (product=="Cortina"){
+    textil= $scope.productData.cortina.colores[model.textil]
+    
     textil.forEach(element => {
       if(element.color==model.colorName)
         color=element
     });
+    }
 
     if (model.height) {
       let height = parseFloat(model.height.toString().match(/.*\..{0,3}|.*/)[0],)
@@ -1573,7 +1612,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       colorPriceService.getPlusColorsList(product, model)
     }
     $scope.updatePrices(product, model)
-     / console.log("Update Type", product, model)
+     // console.log("Update Type", product, model)
     $scope.rotated = false
     $scope.valid = product === "Filtrasol" && model.type === "Filtrasol Enrollables"
     $scope.valid |= product === "Enrollable" && model.type === "Enrollables"
@@ -1584,8 +1623,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     // console.log("UPDATING PRODUCT META")
     if (model.type) {
       if (product == "Enrollable") {
+        console.log(model.type)
+        loadProductMap()
         $scope.productMeta = $scope.enrollablesMeta[model.type]
-
+        console.log(angular.copy($scope.productMeta),angular.copy($scope.enrollablesMeta))
+        
         if ($scope.productMeta.systems != undefined) {
           $scope.hasSystems = $scope.productMeta.systems.length > 0
         } else {
@@ -1616,6 +1658,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   var loadProductMap = function () {
     jsonService.products.listEnrollables().then(function (products) {
       $scope.enrollablesMeta = products
+      console.log("Enrollables Meta",products)
     }, function (error) {
       $scope.step = "empty"
       //  // // console.log(error);
@@ -1688,12 +1731,16 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         if(EXECUTION_ENV=="EXTERNAL"){
           $scope.quote.products.forEach(prod=>{
              // // console.log("BEFORE",prod)
+            if(prod.width){
             let res =to_fraction(prod.width)
             prod.width=res[0]
             prod.w_fraction =res[1] 
-            res =to_fraction(prod.height)
+            }
+            if(prod.height){
+            let res =to_fraction(prod.height)
             prod.height = res[0] 
             prod.h_fraction = res[1]
+            }
              // // console.log("AFTER",prod)
           })
         }
@@ -1793,6 +1840,8 @@ function validateSeller(product, $scope) {
   }
   return sellerValid
 }
+
+
 
 
 function updateMeta($scope,product){

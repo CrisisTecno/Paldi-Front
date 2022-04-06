@@ -12,7 +12,7 @@
         </div>
 
          <div ng-show="payment.currency == 'DOLLARS'" class="form-group">
-            <label><%= htmlWebpackPlugin.options.payments.exhange_rate %></label>
+            <label><%= htmlWebpackPlugin.options.payments.exchange_rate %></label>
             <input ng-currency type="text" name="exchangeRate" ng-model="payment.exchangeRate" min="0.01" class="form-control" ng-required="payment.currency == 'DOLLARS'" ng-change="exchangeRateChange(payment)">
             <small class="error-message" ng-if="paymentForm.$validated && paymentForm.exchangeRate.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>

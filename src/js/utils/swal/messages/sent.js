@@ -1,7 +1,7 @@
 export const sent = (callback) => {
   swal({
-    title: "Pago Enviado",
+    title: EXECUTION_ENV=="EXTERNAL"?"Payment Sent":"Pago Enviado",
     type: "success",
-    confirmButtonText: "Aceptar",
+    confirmButtonText: EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar",
   }, callback)
 }

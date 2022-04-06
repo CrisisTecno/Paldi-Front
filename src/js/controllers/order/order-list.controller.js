@@ -23,7 +23,8 @@ pdApp.controller(
 		$scope.isEmpty = true;
 		$scope.isSuborder = false;
 		$scope.selectedType = "all";
-		$scope.orderTypes =$scope.currentUser.realRole!="EXTERNAL_CONSULTANT" ? [
+		console.log($scope.currentUser,EXECUTION_ENV)
+		$scope.orderTypes =$rootScope.currentUser.realRole!="EXTERNAL_CONSULTANT" ? [
 			{value: "consultant", label: "Mis cotizaciones"},
 			{value: "all", label: "Cotizaciones generales"},
 		  ] : [{value: "consultant", label: "My Sales"},
@@ -1266,7 +1267,7 @@ pdApp.controller(
 				.withOption("name", "clientType_txt")
 				.withTitle(EXECUTION_ENV!="EXTERNAL" ? "Tipo de Cliente":"Sidemark")
 				.renderWith(function (data) {
-				  console.log(data)
+				  
 				  return (
 					"<a href=\"#/console/order/" +
 					data.id +

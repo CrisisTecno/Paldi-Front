@@ -1,0 +1,45 @@
+{
+    "Rollershade": { 
+      "NEW_NAME_IDK": "OWO",
+          "colorLabel" : "Color",
+          "priceType" : "TOTAL",
+          "configs" : ["IM", "OM", "EFW"]
+      },
+      "Sheer Elegance": {
+      "NEW_NAME_IDK": "Sheer Elegance",
+          "colorLabel" : "Color",
+          "priceType" : "TOTAL",
+          "configs" : ["IM", "OM", "EFW"]
+      },  
+  
+      "Solar Screen": { 
+      "NEW_NAME_IDK": "Rollershade",
+          "colorLabel" : "Color",
+          "priceType" : "TOTAL",
+          "configs" : ["IM", "OM", "EFW"]
+      },
+      "Solar Blackout": {
+      "NEW_NAME_IDK": "Sheer Elegance",
+          "colorLabel" : "Color",
+          "priceType" : "TOTAL",
+          "configs" : ["IM", "OM", "EFW"]
+      },
+      "Cascade": {
+      "NEW_NAME_IDK": "Vertical PVC",
+          "colorLabel" : "Color",
+          "priceType" : "TOTAL",
+          "configs" : ["IM", "OM", "EFW"]
+      },
+      "Triple Shade": {
+      "NEW_NAME_IDK": "NONE",
+          "colorLabel" : "Color",
+          "priceType" : "TOTAL",
+          "configs" : ["IM", "OM", "EFW"]
+      },
+      "Horizontales de Madera": {
+      "NEW_NAME_IDK": "Horizontal wood blinds",
+          "colorLabel" : "Color",
+          "priceType" : "TOTAL",
+          "configs" : ["IM", "OM", "EFW"]
+      }
+  }

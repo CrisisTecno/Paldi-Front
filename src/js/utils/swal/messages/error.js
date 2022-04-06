@@ -1,7 +1,7 @@
 export const error = (callback) => {
   swal({
-    title: "Ocurrió un error",
+    title: EXECUTION_ENV=="EXTERNAL"?"An Error has Ocurred":"Ocurrió un error",
     type: "error",
-    confirmButtonText: "Aceptar",
+    confirmButtonText: EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar",
   }, callback)
 }

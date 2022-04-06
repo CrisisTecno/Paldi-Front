@@ -87,12 +87,14 @@ config = {
     apiURL: "http://zelba.io:7777",
     ...external_api,
     env: "staging",
+    iva: 0.0775,
   },
   external_production:{
     ...default_config,
-    apiURL: "https://cotizadorpaldi.com.mx:3333",
+    apiURL: "http://zelba.io/api2",
     ...external_api,
     env: "production",
+    iva: 0.0775,
   },
   internal_local: {
     ...default_config,

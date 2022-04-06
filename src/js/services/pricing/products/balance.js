@@ -27,6 +27,7 @@ export function generateBalanceHandlers($http) {
             balance.width && balance.quantity && balance.price
               ? balance.price * balance.quantity
               : null;
+          console.log("PRICE OF BALANCE",balance.total)
         });
     } else {
       balance.unit = null;

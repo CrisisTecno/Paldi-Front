@@ -35,7 +35,9 @@
                     uib-datepicker-popup="{{format}}" ng-model="startDate"
                     is-open="startDatePopup.opened"
                     datepicker-options="startDateOptions" required="true"
-                    close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"
+                    close-text="<%= htmlWebpackPlugin.options.button_commons.close %>" 
+                    current-text="<%= htmlWebpackPlugin.options.button_commons.today %>" 
+                    clear-text="<%= htmlWebpackPlugin.options.button_commons.clean %>"
                     alt-input-formats="altInputFormats"
                     ng-change="startDateChange()" />
             </p>
@@ -50,7 +52,9 @@
                     uib-datepicker-popup="{{format}}" ng-model="endDate"
                     is-open="endDatePopup.opened"
                     datepicker-options="endDateOptions" required="true"
-                    close-text="Cerrar" current-text="Hoy" clear-text="Limpiar"
+                    close-text="<%= htmlWebpackPlugin.options.button_commons.close %>" 
+                    current-text="<%= htmlWebpackPlugin.options.button_commons.today %>" 
+                    clear-text="<%= htmlWebpackPlugin.options.button_commons.clean %>"
                     alt-input-formats="altInputFormats"
                     ng-change="endDateChange()" />
             </p>
@@ -96,7 +100,8 @@
                                             {{selectedOrder.client.lastName}}</span>
                                     </li>
                                     <li><small><%=htmlWebpackPlugin.options.order_list.client_type%>:</small>
-                                        <span>{{pretty('clientType', selectedOrder.client.type)}}</span>
+                                        
+                                        <%=htmlWebpackPlugin.options.order_list.order_client%>
                                     </li>
                                     <% if(htmlWebpackPlugin.options.features.city){%>
                                     <li><small>Ciudad:</small>

@@ -89,15 +89,15 @@ pdApp.factory("prettyHelper", function () {
 				case "TRANSIT":
 					return "Transit";
 				case "FINISHED":
-					return "Finished";
+					return "Done";
 				case "PROGRAMMED":
-					return "Scheduled";
+					return "Shipped";
 				case "INSTALLED":
-					return "Installed";
+					return "Delivered";
 				case "INSTALLED_INCOMPLETE":
-					return "Incomplete Installation";
+					return "Partial Delivery";
 				case "INSTALLED_NONCONFORM":
-					return "Installation Inconform";
+					return "Product Defect";
 			}
 			
 			return this.getReverseOrderStatusEn(status);
@@ -105,7 +105,7 @@ pdApp.factory("prettyHelper", function () {
 		getReverseOrderStatusEn: function (status) {
 			switch (status) {
 				case "Cotizacion":
-					return "Qote";
+					return "Quote";
 				case "Rechazada":
 					return "Rejected";
 				case "Cancelada":
@@ -133,7 +133,7 @@ pdApp.factory("prettyHelper", function () {
 				case "Orden Cancelada":
 					return "Canceled Order";
 				case "Seguimiento":
-					return "Following"
+					return "Open"
 				case "Venta Perdida":
 					return "Lost Sale"
 				case "Duplicada":
@@ -180,6 +180,7 @@ pdApp.factory("prettyHelper", function () {
 		},
 
 		getPlusPriceType: function (priceType) {
+			if (EXECUTION_ENV!="EXTERNAL"){
 			switch (priceType) {
 				case "WIDTH":
 					return "Ancho (metro lineal)";
@@ -189,6 +190,17 @@ pdApp.factory("prettyHelper", function () {
 					return "Metro cuadrado";
 			}
 			return "Unidad";
+		}
+		
+			switch (priceType) {
+				case "WIDTH":
+					return "Width (lineal)";
+				case "HEIGHT":
+					return "Height (lineal)";
+				case "METER":
+					return "Squared Inch";
+			}
+			return "Unit";
 		},
 
 		getPlusStatus: function (status) {
@@ -272,6 +284,11 @@ pdApp.factory("prettyHelper", function () {
 		},
 
 		getProductType: function (type) {
+		
+			if(EXECUTION_ENV=="EXTERNAL"){
+				
+				return this.getProductTypeEN(type)
+			}
 			switch (type) {
 				case "Enrollable":
 					return "Persianas";
@@ -291,6 +308,7 @@ pdApp.factory("prettyHelper", function () {
 			return type;
 		},
 		getProductTypeEN: function (type) {
+			console.log("AAAAAA")
 			switch (type) {
 				case "Enrollable":
 					return "Shades";

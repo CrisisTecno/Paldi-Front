@@ -25,7 +25,7 @@
                             <%= htmlWebpackPlugin.options.date.from %>
                             <i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
-                    <input name="startDate" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="startDate" is-open="startDatePopup.opened" datepicker-options="startDateOptions" required="true" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" alt-input-formats="altInputFormats" ng-change="startDateChange()"/>
+                    <input name="startDate" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="startDate" is-open="startDatePopup.opened" datepicker-options="startDateOptions" required="true" close-text="<%= htmlWebpackPlugin.options.button_commons.close %>" current-text="<%= htmlWebpackPlugin.options.button_commons.today %>" clear-text="<%= htmlWebpackPlugin.options.button_commons.clean %>" alt-input-formats="altInputFormats" ng-change="startDateChange()"/>
                 </p>
 
                 <p class="input-group" style="width: 25%; margin-right: 1rem;">
@@ -34,7 +34,7 @@
                             <%= htmlWebpackPlugin.options.date.to %>
                             <i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
-                    <input name="endDate" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="endDate" is-open="endDatePopup.opened" datepicker-options="endDateOptions" required="true" close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" alt-input-formats="altInputFormats" ng-change="endDateChange()"/>
+                    <input name="endDate" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="endDate" is-open="endDatePopup.opened" datepicker-options="endDateOptions" required="true" close-text="<%= htmlWebpackPlugin.options.button_commons.close %>" current-text="<%= htmlWebpackPlugin.options.button_commons.today %>" clear-text="<%= htmlWebpackPlugin.options.button_commons.clean %>" alt-input-formats="altInputFormats" ng-change="endDateChange()"/>
                 </p>
 
 

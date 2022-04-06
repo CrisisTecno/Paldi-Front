@@ -1,7 +1,7 @@
 export const cancel = (callback) => {
   swal({
-    title: "Cancelado",
+    title: EXECUTION_ENV=="EXTERNAL"?"Canceled":"Cancelado ",
     type: "error",
-    confirmButtonText: "Aceptar",
+    confirmButtonText: EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar",
   }, callback)
 }

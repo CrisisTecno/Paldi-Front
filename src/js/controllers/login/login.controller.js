@@ -86,6 +86,10 @@ pdApp.controller(
           ...data.user,
           ...data.permissions,
         }
+        $rootScope.currentUser ={
+          ...data.user,
+          ...data.permissions,
+        }
         
         sessionHelper.initOrderStatusList(data.user.role)
         goIn()

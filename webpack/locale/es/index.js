@@ -239,7 +239,7 @@ module.exports = {
     payment:"Pago",
     payment_advance:"Pago de Anticipo",
     currency:"Moneda",
-    exhange_rate:"Tipo de Cambio",
+    exchange_rate:"Tipo de Cambio",
     currency_options:`
     <option value="PESOS">Pesos</option>
     <option value="DOLLARS">Dollars</option>
@@ -930,6 +930,7 @@ module.exports = {
     back_login:"Volver a ingreso"
   },
   order_list:{
+    order_client:"<span>{{pretty('clientType', selectedOrder.client.type)}}</span>",
     supplier:"ID del Proveedor",
 
     orders:"Órdenes",
@@ -1043,12 +1044,38 @@ module.exports = {
     change_state:"Cambiar Estado",
     order_not_found:"No se encontró la orden",
     show_history:"Mostrar Historial",
-    order_stats:"{{pretty('orderStatus', order.status)}}"
+    order_stats:"{{pretty('orderStatus', order.status)}}",
+
+    folio:"No. Folio",
+    date:"Fecha",
+    amount:"Monto",
+    charged:"Cobró"
   },
   send_as_order:{
     send_order:"Enviar como Orden",
     with_advance:"Con Anticipo",
     without_advance:"Sin Anticipo"
+  },
+  change_pass:{
+    change_pass:"Cambiar Contraseña",
+    alert_pass:"Por cuestiones de seguridad debe crear una nueva contraseña",
+    actual_pass:"Contraseña actual",
+    incorrect_pass:"Contraseña incorrecta",
+    different_pass:"La Contraseña nueva debe ser diferente a la anterior",
+    recent_pass:"Esta contraseña fue utilizada recientemente, cree una nueva",
+    valid_pass:"Mínimo 8 caractéres, incluyendo al menos una mayúscula, una minúscula, un número y un caracter especial (! ( ) - . _ ` ~ @)",
+    confirm_pass:"Confirmación de contraseña",
+    no_match:"Contraseñas no coincide",
+    new_pass:"Contraseña nueva"
+  },
+  button_commons:{
+    today:"Hoy",
+    clean:"Limpiar",
+    duplicate:"Duplicar",
+    close:"Cerrar",
+    move_up:"Mover Arriba",
+    move_down:"Mover Abajo",
+    
   }
   
 }

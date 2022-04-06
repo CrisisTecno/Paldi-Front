@@ -25,9 +25,9 @@ pdApp.controller(
 								form.$validated = false;
 
 								swal({
-									title: "Contraseña actualizada",
+									title: EXECUTION_ENV=="EXTERNAL"?"Updated Pasword":"Contraseña actualizada",
 									type: "success",
-									confirmButtonText: "Aceptar",
+									confirmButtonText: EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar",
 								});
 								$rootScope.$emit("user:mightBeAvailable");
 								$state.go("console.order-list");
