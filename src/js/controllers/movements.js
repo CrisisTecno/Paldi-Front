@@ -374,7 +374,7 @@ pdApp.controller(
 			DTColumnBuilder.newColumn(null).renderWith(function (data) {
 				var id = "&#39;" + data.id + "&#39;";
 				return (
-					'<i ng-if="currentUser.canAdmin" class="btn fa fa-file-o" accept=".xml, application/xml" ng-click="uploadBillDialog(' +
+					`<i ng-if="currentUser.canAdmin || currentUser.role=='MANAGER'" class="btn fa fa-file-o" accept=".xml, application/xml" ng-click="uploadBillDialog(` +
 					id +
 					')"> Cargar factura</i>'
 				);

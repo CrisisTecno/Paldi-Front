@@ -33,13 +33,14 @@ pdApp.controller(
 					recordsFiltered: data.totalElements,
 					data: data.content,
 				};
+				console.log(typeof(data.content))
 				fnCallback(result);
 			};
 
 			if (sear) {
 				
 				paldiService.clients
-					.search(page, size, sort, sear)
+					.search(page, size, sort, sear,$scope.currentUser)
 					.then(function (data) {
 						processResult(data, fnCallback);
 					});

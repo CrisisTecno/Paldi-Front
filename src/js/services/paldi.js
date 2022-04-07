@@ -358,7 +358,8 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
 
-    search: function (page, size, sort, search) {
+    search: function (page, size, sort, search,user) {
+      console.log(user)
       return $http
         .get(
           globals.apiURL +
@@ -369,7 +370,9 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           "&size=" +
           size +
           "&sort=" +
-          sort,
+          sort + 
+          (EXECUTION_ENV =="EXTERNAL"?'&user=' + user.id:"")
+          ,
           {authentication: "yokozuna"}
         )
         .then(function (response) {

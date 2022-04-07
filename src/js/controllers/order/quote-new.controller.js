@@ -390,7 +390,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     function updateProductList() {
       if ($scope.editFlag) {
         let editedProduct = angular.copy(model)
-        delete newProduct['colors']
+        delete editedProduct['colors']
         editedProduct['idx']=edittedProductIndex
         $scope.quote.products.splice(edittedProductIndex, 0, editedProduct,)
         $scope.productsSorted[editedObjectIndex].products.splice(editedProductIndex, 0, editedProduct,)

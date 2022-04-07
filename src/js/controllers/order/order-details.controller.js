@@ -24,7 +24,7 @@ pdApp.controller(
     permissionService
   ) {
     
-    
+    $scope.external = EXECUTION_ENV=="EXTERNAL"
     var loadOrder = function () {
       var id = $stateParams.orderId;
       $scope.step = "loading";
