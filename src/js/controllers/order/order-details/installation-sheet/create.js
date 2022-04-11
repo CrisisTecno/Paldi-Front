@@ -48,6 +48,7 @@ const getInstallationSheetState = async ($scope, order) => {
 
 export const showCreateInstallationSheetDialog = async (
   $scope,
+  $timeout,
   callback,
   mode = "create"
 ) => {
@@ -202,8 +203,18 @@ export const showCreateInstallationSheetDialog = async (
         });
         return res;
       };
+     
+      $scope.timer = '';
+      $scope.updateMapMarker= function(str){
+
+        $timeout.cancel($scope.timer)
+        $scope.timer = $timeout(()=>{$scope.updateMarker(str)},3000);
+
+      }
+   
       
       $scope.updateMarker = async(str)=>{
+        console.log("AAAAAAAA")
         var res = await $scope.addressToGeocode(str)
         
         res.address_components.forEach(elem=>{

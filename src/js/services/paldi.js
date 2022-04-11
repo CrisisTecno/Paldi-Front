@@ -1009,6 +1009,8 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           {authentication: "yokozuna"}
         )
         .then(function (response) {
+          
+          if(EXECUTION_ENV=="EXTERNAL"){
           response.data.forEach((order) => {
             order.hasTaxes = !(order.iva < 0.001)
             order.hasShipping = !(order.shiping < 0.001)
@@ -1026,6 +1028,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
             })
             // return order;
           })
+        }
           return response.data;
         });
     },

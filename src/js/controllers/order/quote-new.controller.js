@@ -28,10 +28,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
      return elementList.length >= 2
   }
   if(EXECUTION_ENV=="EXTERNAL"){
-  paldiService.users.getExternalDiscount($scope.currentUser.id).then(
+  paldiService.users.getExternalDiscount($rootScope.currentUser.id).then(
     res=>{
       $scope.externalDiscount = res.data
-      console.log(res) 
       updateDiscountExternal()
     }
   )
@@ -59,7 +58,13 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.quote.discountPercentBalance = $scope.externalDiscount.cornicesDiscount ?? 0
    
     if(isMixta()){
-      $scope.discountPercent=0
+      $scope.quote.discountPercent=0
+      
+      
+    }
+    else{
+    $scope.quote.discountPercentEnrollable =  0
+    $scope.quote.discountPercentBalance =  0
     }
   }
   $scope.sortProductsByType = function(){
@@ -297,10 +302,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     // addProduct(productName, productDetails, $scope.{product}) is called
     // when a product is added from the views/console/products/{product}.html
     if (form) {
-      //  // // console.log("Handling product submit")
-      //  // // console.log("Model: ", model)
-      // console.log("BEFORE",angular.copy(model))
-    console.log("A")
+      
      
       $scope.updatePrices(product, model)
       const sellerValid = validateSeller(product, $scope)
@@ -310,7 +312,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       
       //  // // console.log("Valid Systems",$scope.systemsValid)
       //  // // console.log("Valid Form",form.$valid)
-       console.log("model Total",model.total)
+      // console.log("model Total",model.total)
       //  // // console.log("Model Price",model.price)
       //  // // console.log("Valid Seller",sellerValid)
     
@@ -344,7 +346,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         setIndexforProducts()
         
         updateProductList()
-        
+       
 
         $scope.hasAdditionals()
         $scope.hasMultipleProducts()
@@ -379,6 +381,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       } else {
         form.$validated = true
       }
+      if(EXECUTION_ENV=="EXTERNAL"){
+        updateDiscountExternal()
+        colorPriceService.updateTotals(product, $scope.quote)
+        }
     }
 
     $scope.filterProducts()
@@ -1780,6 +1786,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
                     orderProductsByType(product)
                     colorPriceService.updateTotals($scope.quote.type, $scope.quote,)
                   })
+                  if(EXECUTION_ENV=="EXTERNAL"){
+                    updateDiscountExternal()
+                    }
                 }
               })
             })
@@ -1789,9 +1798,14 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
             $scope.quote.products.forEach(function (product,) {
               orderProductsByType(product)
             })
+            if(EXECUTION_ENV=="EXTERNAL"){
+            updateDiscountExternal()
+            }
           }
         }
       }, 200)
+
+     
     }, function (error) {
       //  // // console.log(error);
       $state.go("console.order-details", {

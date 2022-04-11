@@ -294,14 +294,14 @@ pdApp.controller(
 
 
     $scope.createInstallationSheet = () => {
-      showCreateInstallationSheetDialog($scope, () => {
+      showCreateInstallationSheetDialog($scope,$timeout, () => {
         showSwal("messages.installation_sheet.created");
       });
     };
 
     $scope.editInstallationSheet = () => {
       showCreateInstallationSheetDialog(
-        $scope,
+        $scope,$timeout,
         () => {
           showSwal("messages.installation_sheet.edited");
         },
@@ -378,7 +378,7 @@ pdApp.controller(
     };
 
     $scope.pay = function (form, model) {
-      const confirmPayment = getConfirmPayment(this, $scope, model);
+      const confirmPayment = getConfirmPayment(this, $scope,$timeout, model);
       if (form.$valid) {
         $scope.dialog.close();
         confirmPayment(model);
@@ -592,7 +592,7 @@ pdApp.controller(
                   $scope.statusNotesDialog();
                   return
                 }
-                showCreateInstallationSheetDialog($scope, () =>
+                showCreateInstallationSheetDialog($scope,$timeout, () =>
                   showSwal(
                     "messages.installation_sheet.created",
                     () => $scope.statusNotesDialog()

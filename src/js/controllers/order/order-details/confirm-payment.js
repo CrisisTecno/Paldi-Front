@@ -56,7 +56,7 @@ const performCustomAdvance = (context, $scope, updatedOrder) => {
 	$scope.updatedCustomOrder = updatedOrder;
 };
 
-const updateOrder = async function (context, $scope, updatedOrder, model) {
+const updateOrder = async function (context, $scope,$timeout, updatedOrder, model) {
 
 	try {
 		const callback = async function () {
@@ -73,7 +73,7 @@ const updateOrder = async function (context, $scope, updatedOrder, model) {
       context.loadOrder();
 		};
 		// console.log("showing create installation sheet dialog");
-		await showCreateInstallationSheetDialog($scope, callback);
+		await showCreateInstallationSheetDialog($scope,$timeout, callback);
 	} catch (error) {
 		// console.log('ERROR BEFORE INSTALLATION SHEET DIALOG', error);
     const callback = () => {
@@ -91,20 +91,20 @@ const updateOrder = async function (context, $scope, updatedOrder, model) {
 	}
 };
 
-const perfomAdvance = async (context, $scope, updatedOrder, model) => {
+const perfomAdvance = async (context, $scope,$timeout, updatedOrder, model) => {
 	if ($scope.productType == "Custom")
 		return performCustomAdvance(context, $scope, updatedOrder, model);
 
 	const order = await context.paldiService.orders.get(updatedOrder.id);
 	if (order.quote) {
-		await updateOrder(context, $scope, updatedOrder, model);
+		await updateOrder(context, $scope,$timeout, updatedOrder, model);
 	} else {
 		context.loadOrder();
 		context.$timeout(() => showSwal("messages.error"), 400);
 	}
 };
 
-const processPayment = (context, $scope, model) => {
+const processPayment = (context, $scope,$timeout, model) => {
 	$scope.isPaying = true;
 	let updatedOrder = $scope.order;
 	// console.log(getPaymentInfo($scope, model));
@@ -113,12 +113,12 @@ const processPayment = (context, $scope, model) => {
 	if ($scope.paymentType === "payment")
 		performPayment(context, $scope, updatedOrder, model);
 	if ($scope.paymentType == "advance")
-		perfomAdvance(context, $scope, updatedOrder, model);
+		perfomAdvance(context, $scope,$timeout, updatedOrder, model);
 	$scope.paymentType = "";
 };
 
 
-export const getConfirmPayment = (context, $scope, model) => {
+export const getConfirmPayment = (context, $scope,$timeout, model) => {
 	function paymentSwalHandler (model, confirm) {
 		context = $scope;
 		if ($scope.isPaying || !confirm) {
@@ -126,7 +126,7 @@ export const getConfirmPayment = (context, $scope, model) => {
 			showSwal("messages.cancel");
 			return;
 		}
-		processPayment(context, $scope, model);
+		processPayment(context, $scope,$timeout, model);
 		$scope.paymentType = "";
 	};
 
