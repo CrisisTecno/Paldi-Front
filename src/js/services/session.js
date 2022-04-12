@@ -99,6 +99,7 @@ pdApp.factory("sessionHelper", function ($rootScope, permissionsHelper) {
 
 		initOrderStatusList: function (role) {
 			$rootScope.orderStatusList = [];
+			
 			permissionsHelper.getStatusList(role).forEach(function (status) {
 				$rootScope.orderStatusList.push({ id: status });
 			});

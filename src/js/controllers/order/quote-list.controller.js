@@ -21,9 +21,9 @@ pdApp.controller(
     $scope.external = EXECUTION_ENV=="EXTERNAL";
 
     var productTypeTranslate = function(name){
-      console.log("A")
+      
       if (EXECUTION_ENV!="EXTERNAL") return name
-       console.log(name[0])
+       
       switch(name[0]){
         case "Persianas":
          
@@ -83,7 +83,7 @@ pdApp.controller(
       }
       return status
     }
-    $scope.quotesTypes = $rootScope.currentUser.realRole!="EXTERNAL_CONSULTANT" ? [
+    $scope.quotesTypes = EXECUTION_ENV!="EXTERNAL" ? [
       {value: "consultant", label: "Mis cotizaciones"},
       {value: "all", label: "Cotizaciones generales"},
     ] : [{value: "consultant", label: "My Quotes"},
@@ -98,7 +98,7 @@ pdApp.controller(
         $scope.endDate,
         cleanStatusList,
       )
-      console.log($scope.downloadLink)
+      
     }
 
     $scope.drawTable = function () {
@@ -120,7 +120,7 @@ pdApp.controller(
         cleanStatusList.push(status.id)
       })
       $rootScope.quoteStatusList = $scope.statusList
-      console.log($scope.statusList)
+      
       $scope.drawTable()
     }
 

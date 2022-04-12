@@ -16,6 +16,7 @@ pdApp.controller(
 		DTColumnDefBuilder,
 		DTColumnBuilder
 	) {
+		$timeout(function(){},2000)
 		$scope.statusList = [];
 		$scope.availableStatusList = [];
 		var cleanStatusList = [];
@@ -24,7 +25,7 @@ pdApp.controller(
 		$scope.isSuborder = false;
 		$scope.selectedType = "all";
 		console.log($scope.currentUser,EXECUTION_ENV)
-		$scope.orderTypes =$rootScope.currentUser.realRole!="EXTERNAL_CONSULTANT" ? [
+		$scope.orderTypes =EXECUTION_ENV!="EXTERNAL" ? [
 			{value: "consultant", label: "Mis cotizaciones"},
 			{value: "all", label: "Cotizaciones generales"},
 		  ] : [{value: "consultant", label: "My Sales"},
@@ -1406,6 +1407,9 @@ pdApp.controller(
 				permissionsHelper.getStatusList($rootScope.currentUser.role)
 			);
 			$scope.statusList = $rootScope.orderStatusList;
+			console.log($scope.statusList)
+			typeChange();
+			typeChange();
 			$timeout(function () {
 				typeChange();
 			}, 1000);

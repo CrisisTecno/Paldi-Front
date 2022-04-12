@@ -283,7 +283,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				];
 			}
 
-			if (list == "CONSULTANT") {
+			if (list == "CONSULTANT" || list=="EXTERNAL_CONSULTANT") {
 				statusList = [
 					"LINE",
 					"BACKORDER",
@@ -297,6 +297,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"ORDER_CANCELED",
 				];
 			}
+			
 
 			if (list == "QUOTE") {
 				statusList = [
