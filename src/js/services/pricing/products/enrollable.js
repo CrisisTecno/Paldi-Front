@@ -54,12 +54,19 @@ export function generateEnrollableHandlers($http, $rootScope) {
         obj.system =
           enrollable.system != "N/A" ? enrollable.system : null;
       }
+      console.log(enrollable)
+      if(enrollable.type=="Triple Shade" || enrollable.type=="Celular"){
+        obj.textil = enrollable.colorObj.name
+        obj.line = enrollable.colorObj.textil
+      }
+     
 
       $http
         .post(globals.apiURL + "/pricing/prices/enrollable", obj, {
           authentication: "yokozuna",
         })
         .then(function (response) {
+          console.log(response.data)
           if (!response.data) {
             enrollable.doable = false;
             enrollable.unit = null;

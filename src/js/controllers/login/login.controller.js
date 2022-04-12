@@ -50,11 +50,12 @@ pdApp.controller(
 
     function goIn() {
       $scope.$emit("user:mightBeAvailable")
+      let name = (EXECUTION_ENV=="EXTERNAL"?"console.quote-list":"console.order-list")
       if ($rootScope.currentUser) {
-        yokozuna.goLastVisitedOrElse("console.order-list")
+        yokozuna.goLastVisitedOrElse(name)
       } else {
         $timeout(function () {
-          yokozuna.goLastVisitedOrElse("console.order-list")
+          yokozuna.goLastVisitedOrElse(name)
         }, 2000)
       }
     }
@@ -81,7 +82,7 @@ pdApp.controller(
           },
         )
       } else {
-        console.log("RECEIVED DATA", data)
+       
         $scope.currentUser = {
           ...data.user,
           ...data.permissions,
@@ -90,6 +91,7 @@ pdApp.controller(
           ...data.user,
           ...data.permissions,
         }
+        
         
         sessionHelper.initOrderStatusList(data.user.role)
         goIn()

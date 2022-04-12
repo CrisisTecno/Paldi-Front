@@ -853,8 +853,6 @@ module.exports = {
   enrollable:{
     shades:"Persianas",
     type_options:`
-    <option value="Solar Screen">Solar Screen</option>
-    <option value="Solar Blackout">Solar Blackout</option>
     <option value="Cascade">Cascade</option>
     <option value="Triple Shade">Triple Shade</option>
     <option value="Horizontales de Madera">Horizontales de Madera</option>

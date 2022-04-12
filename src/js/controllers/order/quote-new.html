@@ -370,6 +370,12 @@
 
         <li><small>Sub-Total:</small> <span>{{quote.subTotal | currency}}</span>
         </li>
+        <% if(!htmlWebpackPlugin.options.features.city){%>
+          <li><small>
+            Shipping:</small> <span>{{quote.shipping | currency}}</span></li>
+          </small>
+          </li>
+          <%}%>
         <li><small>
           <% if(!htmlWebpackPlugin.options.features.city){%>
           <input type="checkbox" ng-model="quote.hasTaxes", ng-init="quote.hasTaxes=true"

@@ -1159,7 +1159,7 @@ else{
 						authentication: "yokozuna",
 					})
 					.then(function (response) {
-            // console.log('API CALL: /pricing/prices/enrollable', response)
+              //console.log('API CALL: /pricing/prices/enrollable', response)
 						if (!response.data) {
 							enrollable.doable = false;
 							enrollable.unit = null;

@@ -1,4 +1,5 @@
 import {globals} from "../.."
+import { getShippingCost } from "./shipping"
 
 const toValue = v => isNaN(v) ? 0 : Number(v)
 
@@ -169,24 +170,30 @@ export const getTotals = (order) => {
     ...motors,
     ...installation,
     ...products,
-    // shipping: getShippingCost(order.products) * order.hasShipping
+   
   }
-
+ if (EXECUTION_ENV=="EXTERNAL"){
+     totals.shipping= getShippingCost(order.products) 
+ }
   const discounts = getDiscounts(order, totals)
 
-  const subTotal = totals.productsTotal
+    let subTotal = totals.productsTotal
     + totals.plusTotal
     + totals.motorTotal
     + totals.installationTotal
     // + totals.shipping
     - discounts.discount
 
+    if(EXECUTION_ENV=="EXTERNAL"){
+      subTotal+= totals.shipping
+    }
+
   let iva
   if(EXECUTION_ENV!="EXTERNAL"){
    iva = subTotal * globals.iva // * order.hasTaxes
  }
  else{
-   iva = subTotal * globals.iva * order.hasTaxes
+   iva = (subTotal-totals.shipping) * globals.iva * order.hasTaxes
  }
   
   const total = subTotal + iva

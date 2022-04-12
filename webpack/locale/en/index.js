@@ -523,12 +523,12 @@ module.exports = {
 
 
             </button>
-            <button
-                class="btn btn-default"
-                ng-click="addProduct('Toldo')"
-                ng-show="!quote.type || quote.type=='Toldo'"
-            >Exterior Products
-            </button>
+           
+
+
+
+
+
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Enrollable')"
@@ -570,12 +570,12 @@ module.exports = {
 
 
 
-<button
-    class="btn btn-default"
-    ng-click="addProduct('Toldo')"
-    ng-show="!quote.type || quote.type=='Toldo'"
->Exterior Products
-</button>
+
+
+
+
+
+
 <button
     class="btn btn-default"
     ng-click="addProduct('Enrollable')"
