@@ -967,10 +967,11 @@ module.exports = {
     folio:"No. Folio",
     date:"Fecha",
     amount:"Monto",
-
+    
 
   },
   order_details:{
+    condition_action:"",
     event:"{{pretty('event', event.action)}}",
     order_status_p:"{{pretty('orderStatus',order.quoteStatus)}}",
     change_status:"Cambiar Estado",

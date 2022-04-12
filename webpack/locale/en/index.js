@@ -964,6 +964,7 @@ module.exports = {
     <option value="Duplicada">Duplicated</option>
     <option value="Venta Perdida">Lost Sale</option>
     `,
+    condition_action:" || order.status != 'QUOTE'",
     reason:"Motive",
     reason_options:`
     <option value="Precio Menor">Less Price</option>

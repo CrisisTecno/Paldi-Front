@@ -1309,64 +1309,47 @@ pdApp.controller(
 					);
 				}),
 			DTColumnBuilder.newColumn(null)
-				.withOption("name", "dpfc")
-				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"D.P.F.C":"Days To due Date")
+				.withOption("name", "total_d")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"D.P.F.C":" Total")
 				.renderWith(function (data) {
-					var id = "&#39;" + data.id + "&#39;";
-					var startDate = data.cycleStartDate_dt
-						? moment(data.cycleStartDate_dt)
-						: null;
-					var commitmentDate = data.commitmentDate_dt
-						? moment(data.commitmentDate_dt)
-						: null;
-					var endDate = data.cycleFinishDate_dt
-						? moment(data.cycleFinishDate_dt)
-						: null;
-					var days = getRemainingDays(
-						startDate,
-						commitmentDate,
-						endDate
-					);
-					var commitmentStatus = getCountdownStatus(
-						startDate,
-						days,
-						commitmentDate,
-						endDate
-					);
-					var dpfcDays = getDPFCDays(
-						days,
-						data.status_s,
-						startDate,
-						commitmentDate
-					);
-					return (
-						'<a ng-click="toggleDetails(' +
-						id +
-						')" class="order-cycle ' +
-						commitmentStatus +
-						'">' +
-						dpfcDays +
-						"</a>"
-					);
-				}),
-			DTColumnBuilder.newColumn(null)
-				.withOption("name", "installationDate_dt")
-				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"F. Instalación":"Installation Date")
-				.renderWith(function (data) {
-					var date =
-						data.installationDate_dt != null
-							? data.installationDate_dt
-							: "-";
 					var id = "&#39;" + data.id + "&#39;";
 					return (
 						'<a ng-click="toggleDetails(' +
 						id +
 						')">' +
-						$filter("date")(date, "dd/MM/yyyy") +
+						$filter("currency")(data.total_d) +
 						"</a>"
 					);
 				}),
-			DTColumnBuilder.newColumn(null)
+				DTColumnBuilder.newColumn(null)
+				.withOption("name", "balance_d")
+				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Saldo":"Balance")
+				.renderWith(function (data) {
+					var id = "&#39;" + data.id + "&#39;";
+
+					if (!data.isSuborder_b) {
+						var balance =
+							data.balance_d == null
+								? data.total_d
+								: data.balance_d;
+						return (
+							'<a ng-click="toggleDetails(' +
+							id +
+							')">' +
+							$filter("currency")(balance) +
+							"</a>"
+						);
+					} else {
+						return (
+							'<a ng-click="toggleDetails(' +
+							id +
+							')">' +
+							"-" +
+							"</a>"
+						);
+					}
+				}),
+			/*DTColumnBuilder.newColumn(null)
 				.withOption("name", "cycle")
 				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Tiempo de Ciclo":"Cycle Time")
 				.renderWith(function (data) {
@@ -1389,6 +1372,7 @@ pdApp.controller(
 						"</a>"
 					);
 				}),
+				*/
 		];
 
 		var loadColumns = function () {

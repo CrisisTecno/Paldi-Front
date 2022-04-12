@@ -131,7 +131,8 @@
         </li>
         <li ng-show="order.status ==  'QUOTE' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
         </li>
-        <li ng-show="order.providerId">
+        <% if (htmlWebpackPlugin.options.features.city) { %>
+          <li ng-show="order.providerId">
           <small><%= htmlWebpackPlugin.options.order_list.supplier%> : </small>
           <span>{{order.providerId}}</span>
         </li>
@@ -145,10 +146,15 @@
           <span ><a href="https://paquetexpress.com.mx/rastreo/{{track.trim()}}">{{track}}</a></span>
         </div>
         </li>
+
+          <%}%>
+        
         <li ng-show="order.commitmentDate">
           <small><%= htmlWebpackPlugin.options.order_list.commitment%>:</small>
           <span>{{order.commitmentDate | date : 'dd MMM, yyyy' }}</span>
         </li>
+        <% if (htmlWebpackPlugin.options.features.city) { %>
+          
         <li ng-show="order.productionDate">
           <small><%= htmlWebpackPlugin.options.order_list.production_in%>:</small>
           <span>{{order.productionDate | date : 'dd MMM, yyyy'}}</span>
@@ -189,13 +195,14 @@
           <small><%= htmlWebpackPlugin.options.order_details.transit_days%>:</small>
           <span>{{transitDays}}</span>
         </li>
+        <%}%>
       </ul>
       <br>
       <button ng-if="!showLog && order.events.length > 0" class="btn btn-secondary-left pull-right" ng-click="toggleLog()"> <%= htmlWebpackPlugin.options.order_details.show_history%></button>
       <div ng-if="showLog">
         <legend class="details-title"><%= htmlWebpackPlugin.options.order_details.history%></legend>
         <br />
-        <div class="ibox-content">
+        <div class="ibox-contef
           <table class="table table-striped  table-hover">
             <thead>
               <tr>
@@ -361,6 +368,13 @@
               <small><%= htmlWebpackPlugin.options.payments.discount%>:</small>
               <span>{{order.discount | currency}}</span>
             </li>
+            <% if (htmlWebpackPlugin.options.features.city) { %>
+              <li ng-show="order.shipping">
+                <small>shipping</small>
+                <span>{{order.shipping}}</span>
+              </li>
+
+              <%}%>
             <li ng-show="order.installationTotal">
               <small><%= htmlWebpackPlugin.options.payments.installation%>:</small>
               <span>{{order.installationTotal | currency}}</span>
@@ -422,7 +436,7 @@
         </div>
         <br><br>
         <!--/////////////////////// Botones ///////////////////////-->
-        <h3 class="details-title" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida'  || order.status == 'ORDER_CANCELED'"> <%= htmlWebpackPlugin.options.details_headers.actions%></h3>
+        <h3 class="details-title" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida'  || order.status == 'ORDER_CANCELED' <%= htmlWebpackPlugin.options.order_details.condition_action%>"> <%= htmlWebpackPlugin.options.details_headers.actions%></h3>
         <div class="pull-right" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida' || order.status == 'ORDER_CANCELED'">
           <a href="{{order.pdfLink}}" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canDownload" download><span class="btn-icon glyphicon glyphicon glyphicon-save"></span><%= htmlWebpackPlugin.options.order_details.download_pdf%></a>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canMail && !external" ng-click="sendToClient(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span><%= htmlWebpackPlugin.options.order_details.send_client%> </button>
