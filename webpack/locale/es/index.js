@@ -864,6 +864,7 @@ module.exports = {
     <option value="Verticales de PVC">Verticales de PVC</option>
     <option value="Horizontales de Aluminio">Horizontales de Aluminio</option>
     <option value="Celular">Celular</option>
+    <option value="Enrollables Molken">Enrollables Molken</option>
     `,
     system:"Sistema",
     config:"Config",
