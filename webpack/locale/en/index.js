@@ -136,6 +136,7 @@ module.exports = {
     cortinas: false,
     fractions:true,
     fraction_style:` style="width: 80%"`,
+    shipping: true,
     step:1,
 
   },
@@ -998,7 +999,7 @@ module.exports = {
               <th>Price</th>
               <th>Total</th>
     `,
-    download_invoice:"Download Invoice",
+    download_invoice:"Download Receipt",
     download_pdf:"Download PDF",
     send_client:"Send To Client",
     send_work_order:"Send Work Order",
@@ -1056,6 +1057,7 @@ module.exports = {
     close:"Close",
     move_up:"Move Up",
     move_down:"Move Down",
+    remove_btn:"Remove",
     
   }
   

@@ -212,33 +212,33 @@
                       <button
                           class="btn btn-edit"
                           ng-click="editProduct(p, indexList, indexProduct)"
-                          title="Editar"
+                          title="<%= htmlWebpackPlugin.options.general.edit %>"
                           type="button"
                       ><i class="fa fa-pencil fa-lg"></i></button>
                       <button
                           class="btn btn-remove"
                           ng-click="removeProduct(p, indexList, indexProduct)"
-                          title="Remover"
+                          title="<%= htmlWebpackPlugin.options.button_commons.remove_btn %>"
                           type="button"
                       >X</i></button>
                       <button
                           class="btn btn-edit"
                           ng-click="exchangeProduct(indexProduct,indexProduct-1, indexList)"
                           ng-disabled="indexProduct==0"
-                          title="Mover Arriba"
+                          title="<%= htmlWebpackPlugin.options.button_commons.move_up %>"
                           type="button"
                       ><i class="fa fa-arrow-up "></i></button>
                       <button
                           class="btn btn-edit"
                           ng-click="exchangeProduct(indexProduct,indexProduct+1, indexList)"
                           ng-disabled="productTypeList.products.length-1 == indexProduct"
-                          title="Mover Abajo"
+                          title="<%= htmlWebpackPlugin.options.button_commons.move_down %>"
                           type="button"
                       ><i class="fa fa-arrow-down "></i></button>
                       <button
                           class="btn btn-edit"
                           ng-click="cloneProduct(indexProduct, indexList)"
-                          title="Duplicar"
+                          title="<%= htmlWebpackPlugin.options.button_commons.duplicate %>"
                           type="button"
                       ><i class="fa fa-clone "></i></button>
                     </td>

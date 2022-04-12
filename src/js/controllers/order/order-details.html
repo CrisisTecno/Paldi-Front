@@ -198,7 +198,10 @@
         <%}%>
       </ul>
       <br>
-      <button ng-if="!showLog && order.events.length > 0" class="btn btn-secondary-left pull-right" ng-click="toggleLog()"> <%= htmlWebpackPlugin.options.order_details.show_history%></button>
+      <% if (htmlWebpackPlugin.options.features.city) { %>
+        <button ng-if="!showLog && order.events.length > 0" class="btn btn-secondary-left pull-right" ng-click="toggleLog()"> <%= htmlWebpackPlugin.options.order_details.show_history%></button>
+        <%}%>
+      
       <div ng-if="showLog">
         <legend class="details-title"><%= htmlWebpackPlugin.options.order_details.history%></legend>
         <br />
@@ -368,10 +371,10 @@
               <small><%= htmlWebpackPlugin.options.payments.discount%>:</small>
               <span>{{order.discount | currency}}</span>
             </li>
-            <% if (htmlWebpackPlugin.options.features.city) { %>
-              <li ng-show="order.shipping">
-                <small>shipping</small>
-                <span>{{order.shipping}}</span>
+            <% if  (htmlWebpackPlugin.options.features.shipping) { %>
+              <li>
+                <small>Shipping: </small>
+                <span>{{order.shipping | currency}}</span>
               </li>
 
               <%}%>
@@ -400,7 +403,7 @@
         </div>
         <!--/////////////////////// Pagos ///////////////////////-->
         <div ng-if="order.payments.length > 0">
-          <h3 class="details-title">Pagos</h3>
+          <h3 class="details-title"><%= htmlWebpackPlugin.options.console.payments %></h3>
           <div class="ibox-content">
             <table class="table table-striped  table-hover">
               <thead>
@@ -408,7 +411,9 @@
                   <th><%= htmlWebpackPlugin.options.order_details.folio%></th>
                   <th><%= htmlWebpackPlugin.options.order_details.date%></th>
                   <th><%= htmlWebpackPlugin.options.order_details.amount%></th>
+                  <% if (htmlWebpackPlugin.options.features.city) { %>
                   <th><%= htmlWebpackPlugin.options.order_details.charged%></th>
+                    <%}%>
                   <th><%= htmlWebpackPlugin.options.quote_commons.notes%></th>
                   <th ng-if="canManagePayments"></th>
                   <th></th>
@@ -419,7 +424,9 @@
                   <td>{{payment.folio}}</td>
                   <td>{{payment.date | date : 'dd/MM/yyyy HH:mm' }}</td>
                   <td>{{payment.advance | currency}}</td>
+                  <% if (htmlWebpackPlugin.options.features.city) { %>
                   <td>{{payment.user.name}} {{payment.user.lastName}}</td>
+                    <%}%>
                   <td>{{payment.notes}}</td>
                   <td ng-if="canManagePayments"><a class="btn btn-info pull-right" href="{{payment.receiptLink}}" download="Recibo_{{payment.folio}}.pdf"><%= htmlWebpackPlugin.options.order_details.download_invoice%></a></td>
                   <td ng-if="payment.cancelled"><b><%=htmlWebpackPlugin.options.order_details.canceled%></b></td>

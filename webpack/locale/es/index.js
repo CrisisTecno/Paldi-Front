@@ -142,6 +142,7 @@ module.exports = {
     piso: true,
     fractions:false,
     faction_style:``,
+    shipping: false,
     step:0.1
   },
   console:{

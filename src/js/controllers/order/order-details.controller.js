@@ -45,7 +45,9 @@ pdApp.controller(
       $scope.limitDays = 20;
       $scope.maxDate;
 
+      
       paldiService.orders.get(id).then(async function (order) {
+        console.log(order)
         $scope.order = order;
         
       
