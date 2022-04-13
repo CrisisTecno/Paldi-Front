@@ -32,6 +32,8 @@ pdApp.controller(
           return "Exterior Products"
         case "Balance":
           return "Cornices"
+        case "Cortina":
+          return "Curtains"
         default:
           return name
       }

@@ -6,12 +6,12 @@
     <div class="form-group">
       <label><%= htmlWebpackPlugin.options.quote_commons.quantity%></label>
       <input type="number" min="1" value="1" name="quantity" ng-model="cortina.quantity" class="form-control" ng-change="updatePrices('Cortina', cortina)" step="1" required="" pattern="[0-9]*">
-      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
     </div>
     <div class="form-group">
       <label><%= htmlWebpackPlugin.options.quote_commons.room%></label>
       <input type="text" name="quantity" ng-model="cortina.location" class="form-control" ng-change="updatePrices('Cortina', cortina)" step="1" required="">
-      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
     </div>
     <!-- Sistema -> Product price is calculated using 'finish' and 'texti' -->
     <div class="form-group">
@@ -34,17 +34,17 @@
     <div class="form-group">
       <label><%= htmlWebpackPlugin.options.quote_commons.color%></label>
       <input type="text" ng-disabled='!cortina.textil' id="cortinacolor" ng-model="cortina.colorName" class="form-control" ng-change="updatePrices('Cortina', cortina)" required="" uib-typeahead="colors.color for colors in productData.cortina.colores[cortina.textil] | filter: filterColors  |limitTo:12">
-      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required">Campo requerido</small>
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.quantity.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
     </div>
     <div class="form-group">
       <label><%= htmlWebpackPlugin.options.quote_commons.width%></label>
       <input type="number" ng-disabled=!cortina.colorName name="width" id="width" ng-model="cortina.width" min="0.1" class="form-control" ng-change="changeSimpleWidth('Cortina', cortina)" required="" step="0.1">
-      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.width.$error.required">Campo requerido</small>
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.width.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
     </div>
     <div class="form-group">
       <label><%= htmlWebpackPlugin.options.quote_commons.height%></label>
       <input type="number" ng-disabled=!cortina.colorName name="height" id="height" ng-model="cortina.height" min="0.1" class="form-control" required="" step="0.1" ng-change="changeSimpleHeight('Cortina', cortina)">
-      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.height.$error.required">Campo requerido</small>
+      <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.height.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
     </div>
     <!-- Tipo is only shown when there is more than one type on the cortinas excel -->
     <span ng-init="cortina.sistema.type='Cortina'">
@@ -74,7 +74,7 @@
     </div>
     <hr />
     <span ng-show="addingPlus == false" ng-repeat="(name, additionals) in productData.cortina.allAdditionals">
-      <button type="button" class="btn btn-default" ng-click="newPlus(name, additionals)"><%= htmlWebpackPlugin.options.general.add%> {{name}}</button>
+      <button type="button" class="btn btn-default" ng-click="newPlus(name, additionals)"><%= htmlWebpackPlugin.options.general.add%> {{translateAddis(name)}}</button>
     </span>
     <hr />
     <div class="form-adding" ng-show="addingPlus == true">

@@ -2,6 +2,9 @@ import { pdApp } from "./index";
 pdApp.factory("prettyHelper", function () {
 	var service = {
 		getClientType: function (type) {
+			if(EXECUTION_ENV=="EXTERNAL"){
+				return this.getClientTypeEN(type)
+			}
 			switch (type) {
 				case "DIRECT_SALE":
 					return "Venta Directa al Público";
@@ -21,11 +24,11 @@ pdApp.factory("prettyHelper", function () {
 			
 			switch (type) {
 				case "DIRECT_SALE":
-					return "Direct Sale";
+					return "Retail";
 				case "DISTRIBUTOR_INDEPENDENT":
-					return "Independant Distributor";
+					return "Distributor Independent";
 				case "DISTRIBUTOR_PREMIUM":
-					return "Distributor Premium";
+					return "Wholesale";
 				case "PROJECTS":
 					return "Proyects";
 				case "ARCHITECT_INTERIOR":
@@ -81,15 +84,15 @@ pdApp.factory("prettyHelper", function () {
 				case "PENDING":
 					return "Pending";
 				case "LINE":
-					return "Line";
+					return "Production";
 				case "BACKORDER":
 					return "Backorder";
 				case "PRODUCTION":
 					return "Production";
 				case "TRANSIT":
-					return "Transit";
+					return "Production";
 				case "FINISHED":
-					return "Done";
+					return "Production";
 				case "PROGRAMMED":
 					return "Shipped";
 				case "INSTALLED":
@@ -322,6 +325,8 @@ pdApp.factory("prettyHelper", function () {
 					return "Floors";
 				case "Filtrasol":
 					return "Filtrasol";
+				case "Cortina":
+					return "Curtains"
 				case "Custom":
 					return "Custom";
 			}

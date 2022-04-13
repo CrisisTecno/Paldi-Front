@@ -257,7 +257,9 @@
                     <tr ng-repeat="plus in p.plusList">
                       <td>{{plus.quantity}}</td>
                       <td>{{plus.name}}</td>
+                      <td>{{plus.color}}</td>
                       <td>{{plus.price | currency}}
+                        
                         {{pretty('plusPriceType', plus.priceType)}}
                       </td>
                       <td>{{plus.total | currency}}</td>

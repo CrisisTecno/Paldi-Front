@@ -25,10 +25,7 @@ module.exports = {
     client_options:`
     <select class="form-control" name="type" ng-model="client.type" required="" selected="{{client.type}}">
     <option value="DIRECT_SALE"> {{pretty('clientTypeEN', 'DIRECT_SALE')}} </option>
-    <option value="DISTRIBUTOR_INDEPENDENT"> {{pretty('clientTypeEN', 'DISTRIBUTOR_INDEPENDENT')}} </option>
-    <option value="DISTRIBUTOR_PREMIUM"> {{pretty('clientTypeEN', 'DISTRIBUTOR_PREMIUM')}} </option>
-    <option value="PROJECTS"> {{pretty('clientTypeEN', 'PROJECTS')}} </option>
-    <option value="ARCHITECT_INTERIOR"> {{pretty('clientTypeEN', 'ARCHITECT_INTERIOR')}} </option>
+    <option value="DISTRIBUTOR_INDEPENDENT"> {{pretty('clientTypeEN', 'DISTRIBUTOR_PREMIUM')}} </option>
     </select>
     `
   },
@@ -352,7 +349,7 @@ module.exports = {
     order_tracking:"Order tracking",
     manual_register:"Manual Registry",
 
-    my_sells:"My sales",
+    my_sells:"My quotes",
     my_orders:"My orders",
     commissions:"Commissions",
     payments:"Payments",
@@ -536,6 +533,15 @@ module.exports = {
                 ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta'"
             >Shades
             </button>
+
+   
+
+  <button
+      class="btn btn-default"
+      ng-click="addProduct('Cortina')"
+      ng-show="!quote.type || quote.type=='Cortina'"
+  >Curtain
+  </button>
             
 
 
@@ -588,7 +594,12 @@ module.exports = {
 
 
 
-
+<button
+class="btn btn-default"
+ng-click="addProduct('Cortina')"
+ng-show="!quote.type || quote.type=='Cortina'"
+>Curtain
+</button>
 
 
 
@@ -616,6 +627,7 @@ module.exports = {
     additionals_headers:`
     <th>Quantity</th>
     <th>Name</th>
+    <th>Color</th>
     <th>Price</th>
     <th>Total</th>
     `,
@@ -698,9 +710,9 @@ module.exports = {
     price:"Price",
     actions:"Actions",
     product:"Product",
-    finish:"Acabado",
+    finish:"Finish",
     textil:"Textil",
-    opening:"Apertura",
+    opening:"Opening",
     color:"Color",
     
     installation_type:"Installation Type",
@@ -802,7 +814,8 @@ module.exports = {
     unit_price:"Unit Price",
     rotate_fabric:"Rotate Frabric",
     cancel_turn:"Cancel Turn",
-    qty:"Qty."
+    qty:"Qty.",
+    system:"System"
   
   },
   molding_form:{
@@ -848,6 +861,7 @@ module.exports = {
     type_options:`
     <option value="Solar Screen">Rollershade</option>
     <option value="Solar Blackout">Sheer Elegance</option>
+    <option value="Triple Shade">Triple Shade</option>
     `,
     system:"System",
     config:"Mount",
@@ -881,9 +895,9 @@ module.exports = {
   },
   cortina:{
     cortina:"Curtain",
-    textil:"Textile",
-    opening:"opening",
-    installation:"installation",
+    textil:"Textil",
+    opening:"Opening",
+    installation:"Installation",
 
   },
   new_client:{

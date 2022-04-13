@@ -3,7 +3,11 @@
         <tr>
             <th><%= htmlWebpackPlugin.options.details_headers.qty%></th>
             <th><%= htmlWebpackPlugin.options.details_headers.name%></th>
+            <% if(htmlWebpackPlugin.options.features.fractions){%>
+                <th>Color</th>
+                    <%}%>
             <th><%= htmlWebpackPlugin.options.details_headers.price%></th>
+            
             <th><%= htmlWebpackPlugin.options.details_headers.actions%></th>
         </tr>
     </thead>
@@ -11,7 +15,11 @@
         <tr>
             <td>{{p.quantity}}</td>
             <td>{{p.name}}</td>
+            <% if(htmlWebpackPlugin.options.features.fractions){%>
+                <td>{{p.color}}</td>
+            <%}%>
             <td>{{p.price | currency}} {{pretty('plusPriceType', p.priceType)}}</td>
+            
             <td class="table-actions">
                 <button type="button" class="btn btn-edit" ng-click="editPlus(p,plusList)" title="<%= htmlWebpackPlugin.options.general.edit%>"><i class="fa fa-pencil fa-lg"></i></button>
                 <button type="button" class="btn btn-remove" ng-click="removeAdditional(p,plusList)" title="<%= htmlWebpackPlugin.options.general.remove%>">X</button>

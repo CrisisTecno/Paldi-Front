@@ -25,6 +25,31 @@ pdApp.controller(
   ) {
     
     $scope.external = EXECUTION_ENV=="EXTERNAL"
+    $scope.getMatchDiscount = function(){
+      if(EXECUTION_ENV=="INTERNAL" ) return "Descuento"
+      if($scope.order.type=="Mixta") return "Discount"
+      
+      return $scope.pretty("productType",$scope.order.type) + " & Add Ins Discount"
+    }
+
+    $scope.getMatchDiscounts = function(name){
+      if(EXECUTION_ENV=="INTERNAL") return name
+      let formated
+      console.log(name)
+      switch(name){
+        case"Descuento Balance":
+          formated="Cornices";
+          break;
+        case"Descuento Persiana":
+          formated ="Shades";
+          break;
+        default:
+          formated = name.split(" ")[1];
+      }
+      return formated + " & Add Ins Discount"
+    }
+
+
     var loadOrder = function () {
       var id = $stateParams.orderId;
       $scope.step = "loading";
@@ -443,7 +468,7 @@ pdApp.controller(
             function(isConfirm){
               if(isConfirm){
                 setTimeout(function(){
-                  $scope.changeStatusDialog('PENDING')
+                  paldiService.orders.updateStatus($scope.order, "PENDING").then(loadOrder())
                 },500)
               }
             }

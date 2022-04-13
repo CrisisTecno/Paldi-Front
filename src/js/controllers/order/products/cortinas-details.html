@@ -5,7 +5,9 @@
             
             <th><%= htmlWebpackPlugin.options.details_headers.qty%></th>
             <th><%= htmlWebpackPlugin.options.details_headers.location%></th>
+            <% if (htmlWebpackPlugin.options.features.city) {%>
             <th><%= htmlWebpackPlugin.options.details_headers.type%></th>
+            <%}%>
             <th><%= htmlWebpackPlugin.options.details_headers.finish%></th>
             <th><%= htmlWebpackPlugin.options.details_headers.textil%></th>
             <th><%= htmlWebpackPlugin.options.details_headers.color%></th>
@@ -24,7 +26,9 @@
             <td>{{p.item}}</td>
             <td>{{p.quantity}}</td>
             <td>{{p.location}}</td>
+            <% if (htmlWebpackPlugin.options.features.city) {%>
             <td>{{p.productType}}</td>
+            <%}%>
             <td>{{p.finish}}</td>
             <td>{{p.color.textil}}</td>
             <td>{{p.color.name}}</td>

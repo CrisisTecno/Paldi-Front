@@ -28,7 +28,7 @@ pdApp.controller(
 		$scope.orderTypes =EXECUTION_ENV!="EXTERNAL" ? [
 			{value: "consultant", label: "Mis cotizaciones"},
 			{value: "all", label: "Cotizaciones generales"},
-		  ] : [{value: "consultant", label: "My Sales"},
+		  ] : [{value: "consultant", label: "My Quotes"},
 			];
 
 		//============= Data tables =============

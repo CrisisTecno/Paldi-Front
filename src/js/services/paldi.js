@@ -5,7 +5,7 @@ import {buildReportsService} from "./paldi/reports";
 import {getQuoteStatusFromList} from "./order/defaults";
 import { console_costing, reports } from "../../../webpack/locale/es";
 import { inches_to_meters, meters_to_inches, sq_inches_to_meters, sq_meters_to_inches } from "../utils/units";
-
+const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
 // TODO: Agregar esto a un modulo
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   let service = {};
@@ -14,6 +14,14 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
   service.products = {
     fetchPrice: async (data) => {
+      if(EXECUTION_ENV=="EXTERNAL"){
+      let obj = {...data,
+        width: inches_to_meters(data.width + parseFloat(data.w_fraction??0)),
+        height: inches_to_meters(data.height + parseFloat(data.h_fraction??0))
+        }
+        return (await $http.post(globals.apiURL + "/newapi/products/price", obj)).data.data
+      }
+
       return (await $http.post(globals.apiURL + "/newapi/products/price", data)).data.data
     },
     fetchAdditionals: async (data) => {
@@ -400,7 +408,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     get: function (id) {
 
       if(EXECUTION_ENV=="EXTERNAL"){
-        const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
+        const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
       return $http
         .get(globals.apiURL + "/quotes/orders/" + id, {
           authentication: "yokozuna",
@@ -564,7 +572,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {})
       })))]
       console.log("ORDER ", order)
-      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
+      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
       for (const product of PRODUCTS) {
         order[product]?.forEach((product) => {
           product.width = inches_to_meters(product.width + parseFloat(product.w_fraction || 0))
@@ -594,7 +602,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {})
       })))]
 
-      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
+      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
       for (const product of PRODUCTS) {
         order[product]?.forEach((product) => {
           product.width = inches_to_meters(product.width + parseFloat(product.w_fraction || 0))
@@ -628,7 +636,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {})
       })))]
 
-      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
+      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
       for (const product of PRODUCTS) {
         order[product]?.forEach((product) => {
           product.width = inches_to_meters(product.width + parseFloat(product.w_fraction || 0))
@@ -659,7 +667,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {})
       })))]
 
-      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
+      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
       for (const product of PRODUCTS) {
         order[product]?.forEach((product) => {
           product.width = inches_to_meters(product.width + parseFloat(product.w_fraction || 0))
@@ -1002,7 +1010,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
       );
     },
     getByOrderParent: function (orderParentId) {
-      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings']
+      const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
       return $http
         .get(
           globals.apiURL + "/quotes/orders/suborder/" + orderParentId,

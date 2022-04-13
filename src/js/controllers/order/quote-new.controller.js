@@ -1,6 +1,7 @@
 
 import {pdApp} from "../index"
 import {normalizeText} from "../../utils/normalization"
+import { meters_to_inches } from "../../utils/units"
 
 pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $stateParams, paldiService, colorPriceService, $timeout, jsonService, DTOptionsBuilder, DTColumnDefBuilder, permissionsHelper,) {
   const MIXED_ORDER = "Mixta"
@@ -11,6 +12,21 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     switch(name){
       case "De madera":
         return "Wood"
+      default:
+        return name
+    }
+  }
+
+  $scope.translateAddis = function(name){
+    if (EXECUTION_ENV!="EXTERNAL") return name
+    console.log(name)
+    switch(name){
+      case "Motorizacion ":
+        return "Motor";
+      case "Bastilla":
+        return "Bastille";
+      case "Cortinero y Bastones":
+        return "Curtain rod and canes";
       default:
         return name
     }
@@ -43,6 +59,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       console.log($scope.externalDiscount.shadesDiscount)
       $scope.quote.discountPercent = $scope.externalDiscount.shadesDiscount ?? 0
      
+    }
+    if($scope.quote.type=="Cortina"){
+      console.log($scope.externalDiscount.cortinaDiscount)
+      $scope.quote.discountPercent = $scope.externalDiscount.cortinaDiscount ?? 0
     }
     
     if($scope.quote.type=="Balance"){
@@ -673,12 +693,13 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.plusTemplate = additionals
   }
   $scope.addPlus = function (plus, qty) {
-     // // console.log("addPlus: ", plus, qty)
+     
     if (plus && qty > 0) {
       if (!$scope.plusList) {
         $scope.plusList = []
       }
       plus.value.quantity = qty
+      plus.value.color = plus.color
 
       if ($scope.plusList.length > 0) {
         var plusExists = false
@@ -1221,7 +1242,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     if(val[1]!= undefined) {val[1] = parseFloat("."+val[1])}
     else{val[1]=0}
     let fracs = toFraction(val[1])
-     // // console.log("FRACS RESULT",fracs)
+      console.log("FRACS RESULT",fracs)
     return [Math.round(parseFloat(val[0])+parseFloat(fracs[1])),fracs[0]]
   }
 
@@ -1467,9 +1488,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     }
   }
   else{
+    let color;
     if(product=="Cortina"){
     let textil = $scope.productData.cortina.colores[model.textil]
-    let color;
+    
     textil.forEach(element => {
       if(element.color==model.colorName)
         color=element
@@ -1520,16 +1542,16 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     }
   }
   else{
-
+    let color;
     if(product=="Cortina"){
     let textil = $scope.productData.cortina.colores[model.textil]
-    let color;
+    
     textil.forEach(element => {
       if(element.color==model.colorName)
         color=element
     });
   }
-
+    
     if (model.height) {
       
       let height = parseFloat(model.height.toString().match(/.*\..{0,3}|.*/)[0],)
@@ -1548,6 +1570,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     }
   }
     $scope.updatePrices(product, model)
+  }
+
+  function metersToInches(val){
+    return meters_to_inches(parseFloat(val)??0)
+
   }
 
   $scope.hasControl = function (control) {
@@ -1745,22 +1772,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
          // console.log("Loading order",order)
         $scope.quote.products = angular.copy(order.products)
 
-        if(EXECUTION_ENV=="EXTERNAL"){
-          $scope.quote.products.forEach(prod=>{
-             // // console.log("BEFORE",prod)
-            if(prod.width){
-            let res =to_fraction(prod.width)
-            prod.width=res[0]
-            prod.w_fraction =res[1] 
-            }
-            if(prod.height){
-            let res =to_fraction(prod.height)
-            prod.height = res[0] 
-            prod.h_fraction = res[1]
-            }
-             // // console.log("AFTER",prod)
-          })
-        }
+      
 
         $scope.quote.products.forEach(prod =>{
           if (prod.productType=="Cortina"){

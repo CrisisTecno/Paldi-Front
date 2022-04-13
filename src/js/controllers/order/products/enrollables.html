@@ -195,6 +195,16 @@
           uib-typeahead="plus as plus.label for plus in enrollable.plusList | filter:$viewValue | limitTo:12"
           typeahead-editable="false">
       </div>
+      <div class="form-group">
+        <label>Color</label>
+      <select name="color_Cassette" ng-model="enrollable.plus.color" class="ng-pristine ng-valid ng-empty ng-touched"><option value="? undefined:undefined ?"></option> 
+        <option value="White"> White</option>
+        <option value="Ivory"> Ivory</option>
+        <option value="Silver"> Silver</option>
+        <option value="Chocolate"> Chocolate </option>
+        <option value="Black"> Black </option>
+      </select>
+      </div>
       <div>
         <button type="button" class="btn btn-secondary-left"
           ng-click="addPlus(enrollable.plus, enrollable.plusQuantity)"><%= htmlWebpackPlugin.options.general.add %></button>

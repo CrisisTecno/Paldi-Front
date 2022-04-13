@@ -460,6 +460,9 @@ else{
 					case "Custom":
 						getCustomPrice(model);
 						break;
+					case "Cortina":
+						getCortinaPrice(model);
+						break;
 				}
 			},
 
@@ -545,6 +548,13 @@ else{
 					case "Piso":
 						model.pisos = filterProducts(model.products, product);
 						break;
+						case "Cortina":
+							model.cortinas = filterProducts(
+							  model.products,
+							  product
+							)
+						break;
+
 					case "Custom":
 						model.customs = filterProducts(model.products, product);
 						break;
@@ -738,7 +748,29 @@ else{
 				}
 			},
 		};
+//------------------------------ Cortinas ----------------------------
 
+	async function getCortinaPrice(model) {
+		if (!model)
+		return
+
+		// console.log("Calculating cortina price for ", model)
+		const payload = {
+		product: "Cortina",
+		finish: model.finish,
+		textil: model.textil,
+		width: model.width,
+		height: model.height,
+		}
+
+		const result = await paldiService.products.fetchPrice(payload)
+		// console.log("Calculated cortina price", result)
+		model.m2 = Math.round(model.width * model.height * 100) / 100
+		model.price = result.price
+		model.total = result.price * model.quantity
+
+		return model
+	}
 		//------------------------------ Custom ------------------------------
 		var getCustomPrice = function (custom) {
 			custom.total = custom.price;
