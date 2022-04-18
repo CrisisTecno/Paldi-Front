@@ -123,10 +123,11 @@
 
                                     <li><small><%=htmlWebpackPlugin.options.order_list.product_qty%>:</small>
                                         <span>{{productsQuantity}}</span></li>
-
+                                        <% if(htmlWebpackPlugin.options.features.city){%>
                                     <li><small><%=htmlWebpackPlugin.options.order_list.date%>:</small>
                                         <span>{{selectedOrder.date | date : 'dd MMM, yyyy'}}</span>
                                     </li>
+                                    
                                     <li ng-show="selectedOrder.commitmentDate">
                                         <small><%=htmlWebpackPlugin.options.order_list.commitment%>:</small>
                                         <span>{{selectedOrder.commitmentDate | date : 'dd MMM, yyyy'}}</span>
@@ -140,10 +141,12 @@
                                         <small><%=htmlWebpackPlugin.options.order_list.production_out%>:</small>
                                         <span>{{selectedOrder.endProductionDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
+                                    <%}%>
                                     <li ng-show="selectedOrder.transitDate">
                                         <small><%=htmlWebpackPlugin.options.order_list.transit_date%>:</small>
                                         <span>{{selectedOrder.transitDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
+                                    <% if(htmlWebpackPlugin.options.features.city){%>
                                     <li ng-show="selectedOrder.arrivalDate">
                                         <small><%=htmlWebpackPlugin.options.order_list.arrival_date%>:</small>
                                         <span>{{selectedOrder.arrivalDate | date : 'dd MMM, yyyy'}}</span>
@@ -158,6 +161,7 @@
                                         <small><%=htmlWebpackPlugin.options.order_list.installation_date%>:</small>
                                         <span>{{selectedOrder.installationDate | date : 'dd MMM, yyyy'}}</span>
                                     </li>
+                                    <%}%>
                                 </ul>
 
                                 <hr>

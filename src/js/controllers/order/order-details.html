@@ -18,7 +18,7 @@
               <tr class="not-hover">
                 <td>{{client.name}} {{client.lastName}}</td>
                 <td>{{client.phoneNumber}}</td>
-                <td>{{order.date | date : 'dd MMM, yyyy' }}</td>
+                <td>{{order.date | date : external?'MMM dd, yyyy':'dd MMM, yyyy' }}</td>
               </tr>
             </tbody>
             <tfoot>
@@ -423,7 +423,7 @@
               <tbody ng-repeat="payment in order.payments">
                 <tr>
                   <td>{{payment.folio}}</td>
-                  <td>{{payment.date | date : 'dd/MM/yyyy HH:mm' }}</td>
+                  <td>{{payment.date | date : external?'MM/dd/yyyy HH:mm':'dd/MM/yyyy HH:mm' }}</td>
                   <td>{{payment.advance | currency}}</td>
                   <% if (htmlWebpackPlugin.options.features.city) { %>
                   <td>{{payment.user.name}} {{payment.user.lastName}}</td>

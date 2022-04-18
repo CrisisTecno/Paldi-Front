@@ -79,7 +79,8 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					order.status != "PENDING" &&
 					user.role != "MANAGER" &&
 					user.role != "BUYER" &&
-					user.role != "INSTALLATION_MANAGER"
+					user.role != "INSTALLATION_MANAGER" &&
+					EXECUTION_ENV!="EXTERNAL"
 				) {
 					canPay = true;
 				}

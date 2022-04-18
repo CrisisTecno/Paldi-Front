@@ -38,6 +38,9 @@ pdApp.factory("prettyHelper", function () {
 		},
 
 		getOrderStatus: function (status) {
+			if(EXECUTION_ENV=="EXTERNAL"){
+				return this.getOrderStatusEn(status)
+			}
 			switch (status) {
 				case "QUOTE":
 					return "Cotización";

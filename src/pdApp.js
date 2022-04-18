@@ -51,106 +51,122 @@ const pdApp = angular
         abstract: true,
         url: "/access",
         templateUrl: "js/controllers/login/access.html",
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("access.login", {
         url: "/login",
         templateUrl: "js/controllers/login/login.html",
         controller: "LogInCtrl",
-        title: "Iniciar Sesion",
+        title: EXECUTION_ENV=="EXTERNAL"?"LogIn":"Iniciar Sesion",
         authRequired: false,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("access.forgot-password", {
         url: "/forgot-password",
         templateUrl: "js/controllers/login/forgot-password.html",
         controller: "LogInCtrl",
-        title: "Recordar password",
+        title: EXECUTION_ENV=="EXTERNAL"?"Forgot Password":"Recordar password",
         authRequired: false,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console", {
         abstract: true,
         url: "/console",
         templateUrl: "js/controllers/login/console.html",
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.personal-info", {
         url: "/personal-info",
         templateUrl: "partials/views/console/personal-info.html",
         controller: "PersonalInfoCtrl",
-        title: "Informacion personal",
+        title: EXECUTION_ENV=="EXTERNAL"?"Personal Info":"Informacion personal",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.change-password", {
         url: "/change-password",
         templateUrl: "js/controllers/login/change-password.html",
         controller: "ChangePasswordCtrl",
-        title: "Cambiar password",
+        title: EXECUTION_ENV=="EXTERNAL"?"Change Password":"Cambiar password",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.exchange-rate", {
         url: "/exchange-rate",
         templateUrl: "partials/views/console/exchange-rate.html",
         controller: "ExchangeRateCtrl",
-        title: "Tipo de Cambio",
+        title: EXECUTION_ENV=="EXTERNAL"?"Exchange Rate":"Tipo de Cambio",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       // @note Controller quote-new pdApp
       .state("console.quote-new", {
         url: "/new/quote",
         templateUrl: "js/controllers/order/quote-new.html",
         controller: "QuoteNewCtrl",
-        title: "Cotizar",
+        title: EXECUTION_ENV=="EXTERNAL"?"Quote":"Cotizar",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.quote-new-manual", {
         url: "/new/quote/manual",
         templateUrl: "js/controllers/order/quote-new.html",
         controller: "QuoteNewCtrl",
-        title: "Cotizar",
+        title: EXECUTION_ENV=="EXTERNAL"?"Quote":"Cotizar",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.quote-edit", {
         url: "/edit/quote/:orderId",
         templateUrl: "js/controllers/order/quote-new.html",
         controller: "QuoteNewCtrl",
-        title: "Cotizar",
+        title: EXECUTION_ENV=="EXTERNAL"?"Quote":"Cotizar",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.quote-list", {
         url: "/quote-list",
         templateUrl: "js/controllers/order/quote-list.html",
         controller: "QuoteListCtrl",
-        title: "Cotizaciones",
+        title: EXECUTION_ENV=="EXTERNAL"?"Quotes":"Cotizaciones",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.order-list", {
         url: "/order",
         templateUrl: "js/controllers/order/order-list.html",
         controller: "OrderListCtrl",
-        title: "Ordenes",
+        title: EXECUTION_ENV=="EXTERNAL"?"Orders":"Ordenes",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.order-details", {
         url: "/order/:orderId",
         templateUrl: "js/controllers/order/order-details.html",
         controller: "OrderDetailsCtrl",
-        title: "Detalles de orden",
+        title: EXECUTION_ENV=="EXTERNAL"?"Order Details":"Detalles de orden",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.user-list", {
         url: "/user",
         templateUrl: "js/controllers/users/user-list.html",
         controller: "UserListCtrl",
-        title: "Usuarios",
+        title: EXECUTION_ENV=="EXTERNAL"?"Users":"Usuarios",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
+
       })
       .state("console.user-details", {
         url: "/user/:userId",
         templateUrl: "js/controllers/users/user-details.html",
         controller: "UserDetailsCtrl",
-        title: "Detalles de usuario",
+        title: EXECUTION_ENV=="EXTERNAL"?"User Details":"Detalles de usuario",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.user-new", {
         url: "/new/user",
@@ -158,28 +174,32 @@ const pdApp = angular
         controller: "UserNewCtrl",
         title: "Nuevo usuario",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.client-list", {
         url: "/client",
         templateUrl: "js/controllers/clients/client-list.html",
         controller: "ClientListCtrl",
-        title: "Clientes",
+        title: EXECUTION_ENV=="EXTERNAL"?"Clients":"Clientes",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.client-details", {
         url: "/client/:clientId",
         templateUrl: "js/controllers/clients/client-details.html",
         controller: "ClientDetailsCtrl",
-        title: "Detalles del cliente",
+        title: EXECUTION_ENV=="EXTERNAL"?"Client Details":"Detalles del cliente",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.client-new", {
         url: "/new/client",
         templateUrl: "js/controllers/clients/client-new.html",
         controller: "ClientNewCtrl",
-        title: "Nuevo cliente",
+        title: EXECUTION_ENV=="EXTERNAL"?"New Client":"Nuevo cliente",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.deadlines", {
         url: "/deadlines",
@@ -187,6 +207,7 @@ const pdApp = angular
         controller: "DeadlinesCtrl",
         title: "Operaciones",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.statistics", {
         url: "/statistics",
@@ -194,6 +215,7 @@ const pdApp = angular
         controller: "StatisticsCtrl",
         title: "Estadísticas",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.payments", {
@@ -202,6 +224,7 @@ const pdApp = angular
         controller: "PaymentsCtrl",
         title: "Pagos",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.commissions", {
@@ -210,6 +233,7 @@ const pdApp = angular
         controller: "CommissionsCtrl",
         title: "Comisiones",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.bills", {
@@ -218,6 +242,7 @@ const pdApp = angular
         controller: "BillsCtrl",
         title: "Facturas",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.costing", {
@@ -226,6 +251,7 @@ const pdApp = angular
         controller: "CostingCtrl",
         title: "Costeo",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.movements", {
@@ -234,6 +260,7 @@ const pdApp = angular
         controller: "MovementsCtrl",
         title: "Movimientos de OV",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.products", {
@@ -243,6 +270,7 @@ const pdApp = angular
         title: "Productos",
         authRequired: true,
         roles: ["SUPERADMIN", "ADMIN", "MANAGER"],
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi",
       })
 
       .state("console.products-catalog", {
@@ -252,6 +280,7 @@ const pdApp = angular
         title: "Catálogo de productos",
         authRequired: true,
         roles: ["SUPERADMIN", "ADMIN", "MANAGER"],
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.reports", {
@@ -260,7 +289,8 @@ const pdApp = angular
         controller: "ReportsController",
         title: "Reportes",
         authRequired: true,
-        roles: ["SUPERADMIN", "ADMIN"]
+        roles: ["SUPERADMIN", "ADMIN"],
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.product-details", {
@@ -269,6 +299,7 @@ const pdApp = angular
         controller: "ProductDetailsCtrl",
         title: "Detalles de producto",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.product-new", {
         url: "/product/:productType/new",
@@ -276,6 +307,7 @@ const pdApp = angular
         controller: "ProductNewCtrl",
         title: "Agregar productos",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.warehouses", {
         url: "/warehouses",
@@ -283,6 +315,7 @@ const pdApp = angular
         controller: "WarehousesCtrl",
         title: "Almacenes",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.warehouse-details", {
@@ -291,6 +324,7 @@ const pdApp = angular
         controller: "WarehouseDetailsCtrl",
         title: "Detalles de almacén",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.molding-details", {
@@ -299,6 +333,7 @@ const pdApp = angular
         controller: "MoldingDetailsCtrl",
         title: "Detalles de moldura/adicional",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.inventory-movements", {
@@ -307,6 +342,7 @@ const pdApp = angular
         controller: "InventoryMovementsCtrl",
         title: "Reporte de Movimientos",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.inventory-report", {
@@ -315,6 +351,7 @@ const pdApp = angular
         controller: "InventoryReportCtrl",
         title: "Reporte de Inventarios",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
       .state("console.inventory-in", {
@@ -323,6 +360,7 @@ const pdApp = angular
         controller: "InventoryInCtrl",
         title: "Entradas",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
       .state("console.inventory-cross", {
         url: "/inventory/cross",
@@ -330,6 +368,7 @@ const pdApp = angular
         controller: "InventoryCrossCtrl",
         title: "Traslados",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi",
       })
       .state("console.inventory-adjustments", {
         url: "/inventory/adjustments",
@@ -338,6 +377,7 @@ const pdApp = angular
         controller: "InventoryAdjustmentsCtrl",
         title: "Ajustes",
         authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi",
       });
 
     $urlRouterProvider.otherwise("/access/login");
