@@ -144,7 +144,7 @@
                                     <%}%>
                                     <li ng-show="selectedOrder.transitDate">
                                         <small><%=htmlWebpackPlugin.options.order_list.transit_date%>:</small>
-                                        <span>{{selectedOrder.transitDate | date : 'dd MMM, yyyy'}}</span>
+                                        <span>{{selectedOrder.transitDate | date : external?'MMM dd, yyyy':'dd MMM, yyyy'}}</span>
                                     </li>
                                     <% if(htmlWebpackPlugin.options.features.city){%>
                                     <li ng-show="selectedOrder.arrivalDate">

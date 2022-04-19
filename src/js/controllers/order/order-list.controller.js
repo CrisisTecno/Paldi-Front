@@ -17,6 +17,8 @@ pdApp.controller(
 		DTColumnBuilder
 	) {
 		$timeout(function(){},2000)
+
+		$scope.external = EXECUTION_ENV=="EXTERNAL"
 		$scope.statusList = [];
 		$scope.availableStatusList = [];
 		var cleanStatusList = [];
