@@ -286,6 +286,9 @@
               <th><%= htmlWebpackPlugin.options.details_headers.item%></th>
               <th><%= htmlWebpackPlugin.options.quote_commons.qty%></th>
               <th><%= htmlWebpackPlugin.options.quote_commons.name%></th>
+              <% if(htmlWebpackPlugin.options.features.fractions){%>
+              <th>Color</th>
+                <%}%>
               <th><%= htmlWebpackPlugin.options.quote_commons.price%></th>
               <th><%= htmlWebpackPlugin.options.quote_commons.total%></th>
             </tr>
@@ -295,6 +298,9 @@
               <td>{{plus.item}}</td>
               <td>{{plus.quantity}}</td>
               <td>{{plus.name}}</td>
+              <% if(htmlWebpackPlugin.options.features.fractions){%>
+                <td>{{plus.color}}</td>
+                  <%}%>
               <td>{{plus.price | currency}} {{pretty('plusPriceType', plus.priceType)}}</td>
               <td>{{plus.price * plus.quantity | currency}}</td>
             </tr>
