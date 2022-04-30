@@ -754,7 +754,7 @@ else{
 		if (!model)
 		return
 
-		// console.log("Calculating cortina price for ", model)
+		console.log("Calculating cortina price for ", model)
 		const payload = {
 		product: "Cortina",
 		finish: model.finish,

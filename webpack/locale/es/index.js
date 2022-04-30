@@ -143,7 +143,8 @@ module.exports = {
     fractions:false,
     faction_style:``,
     shipping: false,
-    step:0.1
+    step:0.1,
+    min:0.1
   },
   console:{
 

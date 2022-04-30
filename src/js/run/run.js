@@ -32,7 +32,7 @@ pdApp.run(function (
         user.role == "INSTALLATION_MANAGER" ||
         user.role == "SALES_MANAGER"
     } else {
-      console.log("LOAD USER",user)
+      //console.log("LOAD USER",user)
       $rootScope.currentUser = user
     }
   }

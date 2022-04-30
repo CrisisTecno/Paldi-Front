@@ -31,7 +31,7 @@
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.width%></label>
             <div style="display:flex">
-            <input type="number" name="width" id="width" ng-model="balance.width" min="0.1" class="form-control" ng-change="changeSimpleWidth('Balance', balance)" required="" step="0.1">
+            <input type="number" name="width" id="width" ng-model="balance.width" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" ng-change="changeSimpleWidth('Balance', balance)" required="" step="<%= htmlWebpackPlugin.options.features.step%>">
             <% if(htmlWebpackPlugin.options.features.fractions){%>
                 <select style="width: min-content;" name="extra" ng-model="balance.w_fraction" class="form-control" ng-change="changeSimpleWidth('Balance', balance)">
                     <option value={{0}}>0</option>
@@ -50,7 +50,7 @@
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.height%></label>
             <div style="display:flex">
-            <input type="number" name="height" id="height" ng-model="balance.height" min="0.1" class="form-control" required="" step="0.1" ng-change="changeSimpleHeight('Balance', balance)">
+            <input type="number" name="height" id="height" ng-model="balance.height" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" required="" step="<%= htmlWebpackPlugin.options.features.step%>" ng-change="changeSimpleHeight('Balance', balance)">
             <% if(htmlWebpackPlugin.options.features.fractions){%>
                 <select style="width: min-content;" name="extra" ng-model="balance.h_fraction" class="form-control" ng-change="changeSimpleHeight('Balance', balance)">
                     <option value={{0}}>0</option>

@@ -62,8 +62,8 @@
       <label><%= htmlWebpackPlugin.options.quote_commons.width%></label>
       <div style="display:flex">
       
-      <input <%= htmlWebpackPlugin.options.features.fraction_style%> type="number" name="width" id="width" ng-model="enrollable.width" ng-disabled="!color" min="0.1"
-        class="form-control" ng-change="changeWidth('Enrollable', enrollable)" required="" step="0.1">
+      <input <%= htmlWebpackPlugin.options.features.fraction_style%> type="number" name="width" id="width" ng-model="enrollable.width" ng-disabled="!color" min="<%= htmlWebpackPlugin.options.features.min%>"
+        class="form-control" ng-change="changeWidth('Enrollable', enrollable)" required="" step="<%= htmlWebpackPlugin.options.features.step%>">
       <% if (htmlWebpackPlugin.options.features.fractions){%>
         <select style="width: min-content;" name="extra" ng-model="enrollable.w_fraction" class="form-control" ng-change="changeWidth('Enrollable', enrollable)">
           <option value={{0}}>0</option>
@@ -85,8 +85,8 @@
     <div class="form-group">
       <label><%= htmlWebpackPlugin.options.quote_commons.height %></label>
       <div style="display: flex;">
-      <input  <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" name="height" id="height" ng-model="enrollable.height" ng-disabled="!color" min="0.1"
-        class="form-control" ng-change="changeHeight('Enrollable', enrollable)" required="" step="0.1">
+      <input  <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" name="height" id="height" ng-model="enrollable.height" ng-disabled="!color" min="<%= htmlWebpackPlugin.options.features.min%>"
+        class="form-control" ng-change="changeHeight('Enrollable', enrollable)" required="" step="<%= htmlWebpackPlugin.options.features.step%>">
         <%if(htmlWebpackPlugin.options.features.fractions){%>
         <select style="width: min-content;" name="extra" ng-model="enrollable.h_fraction" class="form-control" ng-change="changeHeight('Enrollable', enrollable)">
           <option value={{0}}>0</option>

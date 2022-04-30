@@ -47,14 +47,14 @@
             <input <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" id="width" name="width" ng-model="toldo.width" ng-disabled="!color" min="0.1" class="form-control" ng-change="changeWidth('Toldo', toldo)" required="" step="0.1">
             <% if(htmlWebpackPlugin.options.features.fractions){%>
             <select style="width: min-content;" name="extra" ng-model="toldo.w_fraction" class="form-control" ng-change="changeWidth('Toldo', toldo)">
-                <option ng-value={{0}}>0</option>
-                <option ng-value={{0.125}}>⅛</option>
-                <option ng-value={{0.25}}>¼</option>
-                <option ng-value={{0.375}}>⅜</option>
-                <option ng-value={{0.5}}>½</option>
-                <option ng-value={{0.625}}>⅝</option>
-                <option ng-value={{0.75}}>¾</option>
-                <option ng-value={{0.875}}>⅞</option>
+                <option value={{0}}>0</option>
+                <option value={{0.125}}>⅛</option>
+                <option value={{0.25}}>¼</option>
+                <option value={{0.375}}>⅜</option>
+                <option value={{0.5}}>½</option>
+                <option value={{0.625}}>⅝</option>
+                <option value={{0.75}}>¾</option>
+                <option value={{0.875}}>⅞</option>
               </select>
               <%}%>
               </div>
@@ -68,14 +68,14 @@
             <input <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" id="height" name="height" ng-model="toldo.height" ng-disabled="!color" min="0.1" class="form-control" ng-change="changeHeight('Toldo', toldo)" required="" step="<%=htmlWebpackPlugin.options.features.step%>">
             <% if(htmlWebpackPlugin.options.features.fractions){%>
             <select style="width: min-content;" name="extra" ng-model="toldo.h_fraction" class="form-control" ng-change="changeHeight('Toldo', toldo)">
-                <option ng-value={{0}}>0</option>
-                <option ng-value={{0.125}}>⅛</option>
-                <option ng-value={{0.25}}>¼</option>
-                <option ng-value={{0.375}}>⅜</option>
-                <option ng-value={{0.5}}>½</option>
-                <option ng-value={{0.625}}>⅝</option>
-                <option ng-value={{0.75}}>¾</option>
-                <option ng-value={{0.875}}>⅞</option>
+                <option value={{0}}>0</option>
+                <option value={{0.125}}>⅛</option>
+                <option value={{0.25}}>¼</option>
+                <option value={{0.375}}>⅜</option>
+                <option value={{0.5}}>½</option>
+                <option value={{0.625}}>⅝</option>
+                <option value={{0.75}}>¾</option>
+                <option value={{0.875}}>⅞</option>
               </select>
               <%}%>
             </div>

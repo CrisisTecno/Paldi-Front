@@ -102,6 +102,14 @@ pdApp.controller(
 							fnCallback(result);
 						});
 				} else {
+					let listStatus = cleanStatusList
+					if (EXECUTION_ENV=="EXTERNAL" && cleanStatusList.includes("PRODUCTION")){
+						
+						angular.forEach(notAllowedList,function(stat){cleanStatusList.push(stat)})
+							
+						   
+					}
+				
 					paldiService.orders
 						.searchByUser(
 							cleanStatusList,
@@ -149,10 +157,12 @@ pdApp.controller(
 			$scope.ready = true;
 			$scope.drawTable();
 		};
-
+		let notAllowedList = ["LINE","TRANSIT","FINISHED"]
 		var typeChange = function () {
 			cleanStatusList = [];
+			
 			angular.forEach($scope.statusList, function (status) {
+				
 				cleanStatusList.push(status.id);
 			});
 			$rootScope.orderStatusList = $scope.statusList;
@@ -223,11 +233,12 @@ pdApp.controller(
 				.withTitle(EXECUTION_ENV!="EXTERNAL" ? "Fecha":"Date")
 				.renderWith(function (data) {
 					var id = "&#39;" + data.id + "&#39;";
+					let dateform = EXECUTION_ENV!="EXTERNAL" ?  "dd/MM/yyyy" : "MM/dd/yyyy"
 					return (
 						'<a ng-click="toggleDetails(' +
 						id +
 						')">' +
-						$filter("date")(data.date_dt, "dd/MM/yyyy") +
+						$filter("date")(data.date_dt, dateform) +
 						"</a>"
 					);
 				}),
@@ -1239,7 +1250,7 @@ pdApp.controller(
 						'<a ng-click="toggleDetails(' +
 						id +
 						')">' +
-						$filter("date")(data.date_dt, "dd/MM/yyyy") +
+						$filter("date")(data.date_dt, "MM/dd/yyyy") +
 						"</a>"
 					);
 				}),
@@ -1409,7 +1420,11 @@ pdApp.controller(
 				permissionsHelper.getStatusList($rootScope.currentUser.role)
 			);
 			$scope.statusList = $rootScope.orderStatusList;
-			console.log($scope.statusList)
+			if (EXECUTION_ENV=="EXTERNAL"){
+				let notAllowedList = ["LINE","TRANSIT","FINISHED"]
+				$scope.statusList = $scope.statusList.filter(status => !notAllowedList.includes(status.id))
+			}
+			console.log("FILTERED STATUS LIST",$scope.statusList)
 			typeChange();
 			typeChange();
 			$timeout(function () {
@@ -1419,11 +1434,28 @@ pdApp.controller(
 		};
 
 		var fillStatusList = function (list) {
+			let notAllowedList = ["LINE","TRANSIT","FINISHED"]
 			angular.forEach(list, function (status) {
+				
+				if(EXECUTION_ENV=="EXTERNAL"){
+					if(notAllowedList.includes(status)){
+						
+					}
+					else{
+						$scope.availableStatusList.push({
+					
+							label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),
+							value: status,
+						});
+					}
+				}
+				else{
 				$scope.availableStatusList.push({
+					
 					label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),
 					value: status,
 				});
+			}
 			});
 			if (!$rootScope.orderStatusList) {
 				$rootScope.orderStatusList = [];

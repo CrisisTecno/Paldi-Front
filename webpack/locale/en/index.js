@@ -135,6 +135,7 @@ module.exports = {
     fraction_style:` style="width: 80%"`,
     shipping: true,
     step:1,
+    min:0,
 
   },
   console:{
@@ -717,8 +718,8 @@ ng-show="!quote.type || quote.type=='Cortina'"
     
     installation_type:"Installation Type",
     squared:false,
-    units_height:"{{units.to_fraction(p.height)}}",
-    units_width:"{{units.to_fraction(p.width)}}",
+    units_height:"{{units.to_fraction(p.height, p.h_fraction)}}",
+    units_width:"{{units.to_fraction(p.width, p.w_fraction)}}",
     
     yes:"Yes",
     no:"No"

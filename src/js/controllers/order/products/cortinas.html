@@ -38,12 +38,41 @@
     </div>
     <div class="form-group">
       <label><%= htmlWebpackPlugin.options.quote_commons.width%></label>
-      <input type="number" ng-disabled=!cortina.colorName name="width" id="width" ng-model="cortina.width" min="0.1" class="form-control" ng-change="changeSimpleWidth('Cortina', cortina)" required="" step="0.1">
+      <div style="display:flex">
+      <input  <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" ng-disabled=!cortina.colorName name="width" id="width" ng-model="cortina.width" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" ng-change="changeSimpleWidth('Cortina', cortina)" required="" step="<%= htmlWebpackPlugin.options.features.step%>">
+      <% if(htmlWebpackPlugin.options.features.fractions){%>
+        <select style="width: min-content;" name="extra" ng-model="cortina.w_fraction" class="form-control" ng-change="changeSimpleWidth('Cortina', cortina)">
+            <option value={{0}}>0</option>
+            <option value={{0.125}}>⅛</option>
+            <option value={{0.25}}>¼</option>
+            <option value={{0.375}}>⅜</option>
+            <option value={{0.5}}>½</option>
+            <option value={{0.625}}>⅝</option>
+            <option value={{0.75}}>¾</option>
+            <option value={{0.875}}>⅞</option>
+          </select>
+        <%}%>
+    
+    </div>
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.width.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
     </div>
     <div class="form-group">
       <label><%= htmlWebpackPlugin.options.quote_commons.height%></label>
-      <input type="number" ng-disabled=!cortina.colorName name="height" id="height" ng-model="cortina.height" min="0.1" class="form-control" required="" step="0.1" ng-change="changeSimpleHeight('Cortina', cortina)">
+      <div style="display:flex">
+      <input <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" ng-disabled=!cortina.colorName name="height" id="height" ng-model="cortina.height" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" required="" step="<%= htmlWebpackPlugin.options.features.step%>" ng-change="changeSimpleHeight('Cortina', cortina)">
+      <% if(htmlWebpackPlugin.options.features.fractions){%>
+        <select style="width: min-content;" name="extra" ng-model="cortina.h_fraction" class="form-control" ng-change="changeSimpleHeight('Cortina', cortina)">
+            <option value={{0}}>0</option>
+            <option value={{0.125}}>⅛</option>
+            <option value={{0.25}}>¼</option>
+            <option value={{0.375}}>⅜</option>
+            <option value={{0.5}}>½</option>
+            <option value={{0.625}}>⅝</option>
+            <option value={{0.75}}>¾</option>
+            <option value={{0.875}}>⅞</option>
+          </select>
+          <%}%>
+    </div>
       <small class="error-message" ng-if="cortinaForm.$validated && cortinaForm.height.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
     </div>
     <!-- Tipo is only shown when there is more than one type on the cortinas excel -->

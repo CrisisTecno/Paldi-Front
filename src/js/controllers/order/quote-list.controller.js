@@ -288,11 +288,12 @@ pdApp.controller(
         .withOption("name", "date_dt")
         .withTitle(EXECUTION_ENV!="EXTERNAL" ?  "Fecha" : "Date")
         .renderWith(function (data) {
+          let dateform = EXECUTION_ENV!="EXTERNAL" ?  "dd/MM/yyyy" : "MM/dd/yyyy"
           return (
             "<a href=\"#/console/order/" +
             data.id +
             "\">" +
-            $filter("date")(data.date_dt, "dd/MM/yyyy") +
+            $filter("date")(data.date_dt, dateform) +
             "</a>"
           )
         }),

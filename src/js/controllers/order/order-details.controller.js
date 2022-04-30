@@ -82,7 +82,7 @@ pdApp.controller(
         $scope.products = order.products;
         $scope.isSuborder = false;
         $scope.isMaster = false;
-
+        console.log($scope.products)
         if (order.type === 'Mixta') {
           $scope.isMaster = true;
           (order.mixedLabel !== null) ? $scope.mixedLabel = order.mixedLabel : $scope.mixedLabel = "Mixta";
@@ -254,12 +254,10 @@ pdApp.controller(
       // etc
     }
     $scope.units ={
-     to_fraction:function(val){
-       val = val.toString();
-       val = val.split(".")
-       //console.log("VALUES",val)
-       if(val[1]!= undefined) val[1] = parseFloat("."+val[1])
-       return val[0] + " " +toFraction(val[1])
+     to_fraction:function(int,float){
+      
+      
+       return int + " " +toFraction(parseFloat(float))
 
      }
      }
