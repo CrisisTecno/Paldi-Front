@@ -70,7 +70,7 @@
               <option value="Tecate">Tecate</option>
               <option value="Tijuana">Tijuana</option>
             </select>
-            <small class="error-message" ng-if="clientForm.$validated && clientForm.city.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="clientForm.$validated && clientForm.city.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
           </div>       
         <% } %>
 

@@ -35,7 +35,7 @@
         ng-change="updatePrices('Enrollable', enrollable)">
         <option ng-repeat="system in productMeta.systems" value="{{system}}">{{system}}</option>
       </select>
-      <small class="error-message" ng-if="enrollableForm.$validated && !enrollable.system">Campo requerido</small>
+      <small class="error-message" ng-if="enrollableForm.$validated && !enrollable.system"><%= htmlWebpackPlugin.options.general.required_field %></small>
     </div>
 
     <div class="form-group">
@@ -46,7 +46,7 @@
         uib-typeahead="color.label for color in enrollable.colors | filter: $viewValue | limitTo:12"
         typeahead-on-select="colorSelected($item, 'Enrollable', enrollable)" typeahead-editable="false">
       <small ng-hide="showSpinner" class="error-message"
-        ng-if="enrollableForm.$validated && enrollableForm.color.$error.required">Campo requerido</small>
+        ng-if="enrollableForm.$validated && enrollableForm.color.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
       <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
     </div>
     <div class="form-group">

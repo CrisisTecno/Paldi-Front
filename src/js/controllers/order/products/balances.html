@@ -6,25 +6,25 @@
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.quote_commons.quantity%></label>
             <input type="number" min="1" value="1" name="quantity" ng-model="balance.quantity" class="form-control" ng-change="updatePrices('Balance', balance)" step="1" required="" pattern="[0-9]*">
-            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.quantity.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.quantity.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.quote_commons.room%></label>
             <input type="text" name="location" ng-model="balance.location" class="form-control" required="">
-            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.location.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.location.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.quote_commons.type%></label>
             <select name="type" ng-model="balance.type" class="form-control" ng-change="updateType('Balance', balance)" required="">
                 <%= htmlWebpackPlugin.options.balance.types%>
             </select>
-            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.type.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.type.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
 
         <div class="form-group">
             <label ng-hide="showSpinner"><%= htmlWebpackPlugin.options.quote_commons.color%></label>
             <input ng-hide="showSpinner" type="text" name="color" ng-model="color" id="color" ng-disabled="!balance.type" class="form-control" value="{{modaa}}" required="" uib-typeahead="color.label for color in balance.colors | filter: $viewValue | limitTo:12" typeahead-editable="false" typeahead-on-select="colorSelected($item, 'Balance', balance)">
-            <small ng-hide="showSpinner" class="error-message" ng-if="balanceForm.$validated && balanceForm.color.$error.required">Campo requerido</small>
+            <small ng-hide="showSpinner" class="error-message" ng-if="balanceForm.$validated && balanceForm.color.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
             <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
         </div>
 
@@ -45,7 +45,7 @@
                   </select>
             <%}%>
             </div>
-            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.width.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.width.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.height%></label>
@@ -64,24 +64,24 @@
                   </select>
             <%}%>
             </div>
-            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.height.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.height.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
 
 
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.way%></label>
             <input type="number" name="tapa" ng-model="balance.tapa" min="0" class="form-control" required="">
-            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.tapa.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.tapa.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.right_return%></label>
             <input type="number" name="retornoDerecho" ng-model="balance.retornoDerecho" min="0" class="form-control" required="">
-            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.retornoDerecho.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.retornoDerecho.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.left_return%></label>
             <input type="number" name="retornoIzquierdo" ng-model="balance.retornoIzquierdo" min="0" class="form-control" required="">
-            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.retornoIzquierdo.$error.required">Campo requerido</small>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.retornoIzquierdo.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
 
 

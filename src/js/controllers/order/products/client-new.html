@@ -8,19 +8,19 @@
             <div class="form-group">
                 <label><%= htmlWebpackPlugin.options.general.name%></label>
                 <input type="text" name="name" ng-model="client.name" class="form-control" required="">
-                <small class="error-message" ng-if="clientForm.$validated && clientForm.name.$error.required">Campo requerido</small>
+                <small class="error-message" ng-if="clientForm.$validated && clientForm.name.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
             </div>
 
             <div class="form-group">
                 <label><%= htmlWebpackPlugin.options.general.last_name%></label>
                 <input type="text" name="lastName" ng-model="client.lastName" class="form-control" required="">
-                <small class="error-message" ng-if="clientForm.$validated && clientForm.lastName.$error.required">Campo requerido</small>
+                <small class="error-message" ng-if="clientForm.$validated && clientForm.lastName.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
             </div>
 
             <div class="form-group">
                 <label><%= htmlWebpackPlugin.options.general.address%></label>
                 <input type="text" name="address" ng-model="client.address" class="form-control" required="">
-                <small class="error-message" ng-if="clientForm.$validated && clientForm.address.$error.required">Campo requerido</small>
+                <small class="error-message" ng-if="clientForm.$validated && clientForm.address.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
             </div>
             <div class="form-group">
                 <% if( htmlWebpackPlugin.options.features.city){%>
@@ -32,26 +32,26 @@
                     <option value="Tecate">Tecate</option>
                     <option value="Tijuana">Tijuana</option>
                 </select>
-                <small class="error-message" ng-if="clientForm.$validated && clientForm.city.$error.required">Campo requerido</small>
+                <small class="error-message" ng-if="clientForm.$validated && clientForm.city.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
             <%}%>
             </div>
             <div class="form-group">
                 <label><%= htmlWebpackPlugin.options.general.postal_code%></label>
                 <input type="text" maxlength="5" pattern="[0-9]{5}" name="postalCode" ng-model="client.postalCode" class="form-control" required="">
-                <small class="error-message" ng-if="clientForm.$validated && clientForm.postalCode.$error.required">Campo requerido</small>
+                <small class="error-message" ng-if="clientForm.$validated && clientForm.postalCode.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
                 <small class="error-message" ng-if="clientForm.postalCode.$error.pattern"><%= htmlWebpackPlugin.options.client.error_postal_code%></small>
 
             </div>
             <div class="form-group">
                 <label><%= htmlWebpackPlugin.options.general.email%></label>
                 <input type="email" name="email" ng-model="client.email" class="form-control" required="">
-                <small class="error-message" ng-if="clientForm.$validated && clientForm.email.$error.required">Campo requerido</small>
+                <small class="error-message" ng-if="clientForm.$validated && clientForm.email.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
                 <small class="error-message" ng-if="clientForm.$validated && clientForm.email.$error.email"><%= htmlWebpackPlugin.options.client.error_email%></small>
             </div>
             <div class="form-group">
                 <label><%= htmlWebpackPlugin.options.general.phone%></label>
                 <input type="tel" maxlength="10" pattern="[0-9]{10}" name="phoneNumber" ng-model="client.phoneNumber" class="form-control" required="">
-                <small class="error-message" ng-if="clientForm.$validated && clientForm.phoneNumber.$error.required">Campo requerido</small>
+                <small class="error-message" ng-if="clientForm.$validated && clientForm.phoneNumber.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
                 <small class="error-message" ng-if="clientForm.phoneNumber.$error.pattern"><%= htmlWebpackPlugin.options.client.error_phone%></small>
 
             </div>
@@ -59,7 +59,7 @@
             <div class="form-group">
                 <label><%= htmlWebpackPlugin.options.general.type%></label>
                <%= htmlWebpackPlugin.options.client.client_options%>
-                <small class="error-message" ng-if="clientForm.$validated && clientForm.type.$error.required">Campo requerido</small>
+                <small class="error-message" ng-if="clientForm.$validated && clientForm.type.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
             </div>
 
             <div>

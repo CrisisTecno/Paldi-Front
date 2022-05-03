@@ -99,7 +99,7 @@ pdApp.controller(
 
     }
     function loginError(err) {
-      $scope.errorMessage = "Credenciales inválidas"
+      $scope.errorMessage = EXECUTION_ENV=="EXTERNAL"?"Wrong Credentials":"Credenciales inválidas"
     }
 
   },

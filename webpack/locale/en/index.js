@@ -658,7 +658,7 @@ ng-show="!quote.type || quote.type=='Cortina'"
     tax:"TAX",
     advance:"Advance",
     balance:"Balance",
-    annotations:"Annotations",
+    annotations:"Notes",
     notes:"Notes",
     
     quotes:"New Quote",

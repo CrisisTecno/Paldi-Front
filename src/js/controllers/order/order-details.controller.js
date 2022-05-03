@@ -467,6 +467,7 @@ pdApp.controller(
               if(isConfirm){
                 setTimeout(function(){
                   paldiService.orders.updateStatus($scope.order, "PENDING").then(loadOrder())
+                  loadOrder();
                 },500)
               }
             }
