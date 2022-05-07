@@ -1322,6 +1322,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.colorSelected = function (color, product, model) {
     // console.log("COLOR SELECTED EXECUTED", color, product, model)
     model.colorObj = color.value
+
+    if(EXECUTION_ENV=="EXTERNAL"){
+      $scope.valid = product == "Enrollable" && model.colorObj.railRoad.toLowerCase().includes("yes")
+    }
+
     model.color = color
     // if (["SHUTTER"].includes(product.toUpperCase()))
     //   model.color = color.label
@@ -1341,12 +1346,20 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.rotate = (product, model) => {
     $scope.rotated = !$scope.rotated
     let temp = model.height
+    if(EXECUTION_ENV=="EXTERNAL"){
+      model.height = model.width - 15
+      let tempwfrac = model.w_fraction
+      model.w_fraction = model.h_fraction
+      model.h_fraction = tempwfrac 
+    }
+    else{
     model.height = model.width - 0.3
+    }
     model.width = temp
     $scope.changeWidth(product, model)
     $scope.changeHeight(product, model)
 
-    $scope.$apply()
+    
   }
 
   $scope.changeRotation = function (product, model, element) {
@@ -1452,8 +1465,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
        
         const height = parseFloat(model.h_fraction ?? 0) + model.height
         if ($scope.rotated) {
-          if ($scope.color.maxHeight && height >$scope.color.maxWidth - 0.3) {
-            model.height = $scope.color.maxWidth - 0.3 - parseFloat(model.h_fraction ?? 0);
+          if ($scope.color.maxHeight && height >$scope.color.maxWidth - 15) {
+            model.height = $scope.color.maxWidth - 15 - parseFloat(model.h_fraction ?? 0);
             model.height = Math.floor(model.height ) 
           }
         } else if ($scope.color.maxHeight && height > $scope.color.maxHeight) {
@@ -1639,6 +1652,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       model.height = null
       model.textil = null
       model.colorName = null
+      $scope.valid = false
 
       $("#color").val("")
       $("#width").val("")
@@ -1674,7 +1688,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.rotated = false
     $scope.valid = product === "Filtrasol" && model.type === "Filtrasol Enrollables"
     $scope.valid |= product === "Enrollable" && model.type === "Enrollables"
-    
+   
   }
 
   $scope.updateTypeNoErasing = function (product, model) {

@@ -810,6 +810,7 @@ module.exports = {
     meter_price:"Precio Metro",
     unit_price:"Precio Unitario",
     rotate_fabric:"Girar Textil",
+    rotate_note:"",
     cancel_turn:"Cancelar giro de textil",
     qty:"Cant.",
     system:"Sistema"

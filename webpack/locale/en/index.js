@@ -452,7 +452,7 @@ module.exports = {
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"
-                ><small>Disc. Cornices:</small></li>
+                ><small>Disc. Top Treatments:</small></li>
                 
 
 
@@ -514,7 +514,7 @@ module.exports = {
                 class="btn btn-default"
                 ng-click="addProduct('Balance')"
                 ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter'|| quote.type=='Enrollable'||quote.type=='Balance' ||quote.type=='Mixta'"
-            >Cornices
+            >Top Treatments
             </button>
            
 
@@ -570,7 +570,7 @@ module.exports = {
     class="btn btn-default"
     ng-click="addProduct('Balance')"
     ng-show="!quote.type || quote.type=='Balance'"
->Cornices
+>Top Treatments
 </button>
 
 
@@ -682,7 +682,7 @@ ng-show="!quote.type || quote.type=='Cortina'"
     additional:"Additional:",
     quantity:"Quantity",
     name:"Name",
-    add_motor:"Add Motorization & Cornices",
+    add_motor:"Add Motorization & Top Treatments",
     motorization:"Motorization:",
     notes:"Notes",
     inch_price:"Inch Price",
@@ -809,11 +809,12 @@ ng-show="!quote.type || quote.type=='Cortina'"
     squared:false,
     add_additionals:"Add Additionals",
     additional:"Additionals:",
-    add_motor:"Add Motor & Cornices",
-    motor:"Motor & Cornices:",
+    add_motor:"Add Motor & Top Treatments",
+    motor:"Motor & Top Tratments:",
     meter_price:"Inch Price",
     unit_price:"Unit Price",
-    rotate_fabric:"Rotate Frabric",
+    rotate_fabric:"Rotate Fabric",
+    rotate_note:`title='note: if railroad max height in one piece without weld is= fabric width - 15" = max height for shade without weld'`,
     cancel_turn:"Cancel Turn",
     qty:"Qty.",
     system:"System"
@@ -853,6 +854,8 @@ ng-show="!quote.type || quote.type=='Cortina'"
     chain_height:"Chain Height",
     standard:"Standard",
     rotate_fabric:"Rotate Fabric",
+    
+    
     cancel_turn:"Cancel Turn",
     
 
@@ -887,7 +890,7 @@ ng-show="!quote.type || quote.type=='Cortina'"
     seller:"Seller",
     product_type:"Product Type",
     product_types:`
-    <option value="Balance">Cornices</option>
+    <option value="Balance">Top Treatments</option>
     <option value="Toldo">Exterior Shades and Awnings</option>
     <option value="Enrollable">Shades</option>
     `,
@@ -905,7 +908,7 @@ ng-show="!quote.type || quote.type=='Cortina'"
     new_client:"New Client",
   },
   balance:{
-    balances:"Cornices",
+    balances:"Top Treatments",
     types:`
     <option value="De madera">Wood</option>`,
     width:"Width/front (Inch)",

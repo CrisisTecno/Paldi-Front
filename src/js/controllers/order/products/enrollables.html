@@ -159,7 +159,7 @@
 
     <div ng-show="valid">
       <hr />
-      <button type="button" class="btn btn-default" ng-show="!rotated" ng-disabled="!color" style="align-content: center;"
+      <button <%= htmlWebpackPlugin.options.quote_commons.rotate_note %> type="button" class="btn btn-default" ng-show="!rotated" ng-disabled="!color" style="align-content: center;"
         ng-click="changeRotation('Enrollable', enrollable, this)">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise"  style="padding-top: 0.3em"
           viewBox="0 0 16 16">
@@ -167,7 +167,7 @@
           <path
             d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
         </svg><%= htmlWebpackPlugin.options.quote_commons.rotate_fabric %></button>
-      <button type="button" class="btn btn-primary" ng-show="rotated" ng-disabled="!color" style="align-content: center;"
+      <button <%= htmlWebpackPlugin.options.quote_commons.rotate_note %> type="button" class="btn btn-primary" ng-show="rotated" ng-disabled="!color" style="align-content: center;"
         ng-click="changeRotation('Enrollable', enrollable, this)">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" style="padding-top: 0.3em"
           viewBox="0 0 16 16">

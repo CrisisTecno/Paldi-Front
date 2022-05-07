@@ -38,7 +38,7 @@ pdApp.controller(
       console.log(name)
       switch(name){
         case"Descuento Balance":
-          formated="Cornices";
+          formated="Top Treatments";
           break;
         case"Descuento Persiana":
           formated ="Shades";

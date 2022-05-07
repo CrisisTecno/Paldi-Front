@@ -31,7 +31,7 @@ pdApp.controller(
         case "Producto para el Exterior":
           return "Exterior Products"
         case "Balance":
-          return "Cornices"
+          return "Top Treatments"
         case "Cortina":
           return "Curtains"
         default:
