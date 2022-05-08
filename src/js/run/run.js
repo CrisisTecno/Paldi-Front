@@ -1,5 +1,7 @@
 import {pdApp} from "../../pdApp"
 import {globals} from "../../index"
+import { swalErrorFactory } from "../utils/swals/generic"
+import { showSwal } from "../utils/swal/show"
 
 pdApp.run(function (
   $rootScope,
@@ -10,6 +12,7 @@ pdApp.run(function (
   prettyHelper,
   permissionsHelper,
   colorPriceService,
+  ngDialog
 ) {
   $rootScope.$state = $state
   $rootScope.$stateParams = $stateParams
@@ -37,9 +40,39 @@ pdApp.run(function (
     }
   }
 
+  $rootScope.sendfeedback =()=>{
+
+    $rootScope.dialog = ngDialog.open({
+      scope: $rootScope,
+      template:
+        "partials/modals/sendFeedback.html",
+      showClose: false,
+    });
+    
+  }
+
+  $rootScope.submitFeedback =(subject,message)=>{
+    $rootScope.dialog.close();
+    console.log(subject,message)
+    let mail ={
+      subject:subject,
+      message:message,
+      user: $rootScope.currentUser.id
+    }
+    paldiService.mail.sendFeedback(mail).then(res=>{
+
+      if(res.code='query.success'){
+        showSwal('messages.feedBack.success')
+      }
+      
+      showSwal(swalErrorFactory(""))
+    })
+  }
+
   $rootScope.updateBankRate= ()=>{
 
     colorPriceService.getBankExchangeRate().then((data)=>{
+
 
       $rootScope.bankRate = data[0]
       

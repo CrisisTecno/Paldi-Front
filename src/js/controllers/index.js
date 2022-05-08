@@ -35,5 +35,5 @@ import "./users/user-list.controller";
 import "./users/user-new.controller";
 import "./inventory/warehouse/warehouse-details.controller";
 import "./inventory/warehouse/warehouses.controller";
-
+import "./resources/resources";
 import "./reports/reports.controller"

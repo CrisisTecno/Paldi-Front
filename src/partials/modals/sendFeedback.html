@@ -1,0 +1,24 @@
+<div class="ibox-content">
+<form 
+name="feebackform" 
+role="form" 
+ng-submit="submitFeedback(subject,message)">
+
+    <div class="form-group">
+        <legend>Subject</legend>
+        <input ng-model='subject' type="text" name="subject" id="subject" class="form-control" required>
+    </div>
+    <div class="form-gruop">
+        <legend>Message</legend>
+        <textarea ng-model='message' id="message" name="message" class="form-control" required></textarea>
+    </div>
+    <br>
+    <div>
+        <button type="button" class="btn btn-default"
+          ng-click="closeThisDialog('')">Cancel</button>
+        <button type="submit" class="btn btn-primary">
+          Send
+        </button>
+      </div>
+</form>
+</div>

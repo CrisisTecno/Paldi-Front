@@ -37,9 +37,16 @@
 							<i class="fa fa-money fa-lg"></i> <span><%= htmlWebpackPlugin.options.console.currency_ex%>: {{currentExchangeRate | currency}}<span></a>
 						</li>
 
+						
+
 						<li ng-if="currentUser.role == 'SUPERADMIN'">
 							<a  ng-click="updateBankRate()">
 							<i class="fa fa-money fa-lg"></i> <span><%= htmlWebpackPlugin.options.console.bank_ex%>: {{ bankRate.dato | currency}}<span></a>
+						</li>
+
+						<li ng-if="currentUser.realRole">
+							<a ng-click="sendfeedback()">
+							<i class="fa fa-envelope fa-lg"></i> <span>Send Feedback<span></a>
 						</li>
 
 						<li class="divider"></li>

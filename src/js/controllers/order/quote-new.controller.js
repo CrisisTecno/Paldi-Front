@@ -12,6 +12,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     switch(name){
       case "De madera":
         return "Wood"
+      case "Solar Blackout":
+        return 'Sheer Elegance'
       default:
         return name
     }

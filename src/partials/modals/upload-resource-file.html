@@ -1,0 +1,14 @@
+<div>
+	<legend>Upload your PDF files</legend>
+	<input type="file" id="fileUpload" name="file" onchange="angular.element(this).scope().selectFile(this.files)" 
+		accept="application/pdf" />
+	<br>
+    <legend>Name</legend>
+    <input type="text" ng-model="name" required="">
+    <legend>Description</legend>
+    <input type="textarea" ng-model="description" required="">
+    <legend></legend>
+	<button type="button" class="btn btn-primary" ng-click="uploadResource(name,description)" ng-disabled="!fileValid && name!='' && description!='' " ng-hide="uploading"> Load Resource </button>
+	<img ng-show="uploading" class="spinner-img" src="img/spinner.gif">
+	<button type="button" class="btn btn-default" ng-hide="uploading" ng-click="closeThisDialog()"> Cancel </button>
+</div>

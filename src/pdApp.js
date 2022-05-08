@@ -160,6 +160,14 @@ const pdApp = angular
         env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
 
       })
+      .state("console.resource-list", {
+        url: "/resource",
+        templateUrl: "partials/views/console/resource-list.html",
+        controller: "ResourcesCtrl",
+        title: "Resources",
+        authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
+      })
       .state("console.user-details", {
         url: "/user/:userId",
         templateUrl: "js/controllers/users/user-details.html",

@@ -102,6 +102,11 @@
         </ul>
     </metis-item>
 
+    <metis-item ng-if ='currentUser.realRole' ui-sref-active="selected">
+        <a ui-sref="console.resource-list">
+            <i class="fa fa-file fa-lg"></i> <span class="nav-label">Resources</span></a>
+    </metis-item>
+
     <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'SALES_MANAGER'">
         <a ui-sref="console.client-list">
             <i class="fa fa-address-card fa-lg"></i> <span class="nav-label">

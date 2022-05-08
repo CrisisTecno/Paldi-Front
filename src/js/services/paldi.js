@@ -1568,6 +1568,78 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
   };
 
+  //------------------ Resources ------------------------
+  service.mail = {
+    sendFeedback:function(message){
+      return $http.post(
+        globals.apiURL + "/newapi/mail/feedback",message,{
+          authentication: "yokozuna"
+        }
+      ).then(response=>{
+        return response.data
+      })
+    }
+  }
+  service.resources ={
+
+    getResources:function(page,row,name){
+
+      let query ={}
+
+      if(page) query['page']=page
+      if(row) query['numberOfElements']=row
+      if(name) query['searchField']=name
+
+
+      return $http.get(
+        globals.apiURL + "/newapi/resources/resourceList",{
+          authentication: "yokozuna",
+          params: query,
+        }
+      ).then((response)=>{
+        return response.data.data
+      })
+    },
+
+    postResource: function(formData){
+      return $http
+      .post(globals.apiURL + "/newapi/resources/newResource", formData, {
+        authentication: "yokozuna",
+        headers: { "Content-Type": undefined },
+        transformRequest: angular.identity,
+      })
+      .then((response) => {
+        return response.data;
+      });
+    },
+
+    downloadFile:function (id){
+      return $http.get(
+        globals.apiURL+'/newapi/resources/resource/'+id,{
+          authentication: "yokozuna",
+        }
+      ).then(response=>{
+        console.log(response)
+        if(response.data.includes('PDF'))
+          return globals.apiURL+'/newapi/resources/resource/'+id
+        else{
+          return response.data
+        }
+      })
+    },
+
+    deleteFile:function (id){
+      return $http.delete(
+        globals.apiURL+'/newapi/resources/resource/'+id,{
+          authentication: "yokozuna",
+        }
+      ).then(response=>{
+        return response.data
+      })
+    }
+
+  }
+
   //----------------------------- CATALOG ----------------
   service.catalog = {
     getAll: function (start, rows, sort) {
