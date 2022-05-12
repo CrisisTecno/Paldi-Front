@@ -889,8 +889,9 @@ else{
         // console.log(balance)
         const obj = {
           ...balance, 
-          width: inches_to_meters(balance.width + parseFloat(balance.w_fraction ?? 0)),
-          height: inches_to_meters(balance.height + parseFloat(balance.h_fraction ?? 0))
+          width: inches_to_meters(balance.width + parseFloat(balance.w_fraction ?? 0)).toFixed(4),
+          height: inches_to_meters(balance.height + parseFloat(balance.h_fraction ?? 0)).toFixed(4),
+		  textil: balance.textil
         }
 				$http
 					.post(globals.apiURL + "/pricing/prices/balance", obj, {
@@ -898,11 +899,9 @@ else{
 					})
 					.then(function (response) {
             // console.log('API CALL: /pricing/prices/balance', response)
-						var price = sq_inches_to_meters(response.data.price);
+						var price = response.data.price;
 						balance.unit = price;
-						balance.price = balance.width 
-							? balance.unit * (balance.width + parseFloat(balance.w_fraction ?? 0))
-							: null;
+						balance.price = price;
 
 						balance.total =
 							balance.width && balance.quantity && balance.price
@@ -938,6 +937,7 @@ else{
 						response.data.forEach(function (element, index) {
 							balance.colors.push({
 								label: element.code,
+								textil:element.textil,
 								value: element,
 							});
 						});

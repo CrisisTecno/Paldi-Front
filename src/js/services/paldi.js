@@ -433,20 +433,33 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           let order = response.data
           order.hasTaxes = !(order.iva < 0.001)
           order.hasShipping = !(order.shiping < 0.001)
-          for (const product of PRODUCTS) {
-            order[product]?.forEach((product) => {
+          for (const type of PRODUCTS) {
+            order[type]?.forEach((product) => {
               
               product.width = meters_to_inches(product.width)
               product.height = meters_to_inches(product.height)
 
+              if(type!='balances'){
+                console.log('xd');
+                let h = parseInt(product.height)
+                let hf = product.height - h
+                product.h_fraction = toFraction(hf)
+                product.height=h
+              }
+
               let w = parseInt(product.width)
-              let h = parseInt(product.height)
               let wf = product.width - w
-              let hf = product.height - h
               product.w_fraction = toFraction(wf)
               product.h_fraction = toFraction(hf)
               product.width=w
-              product.height=h
+
+              if(type=='balances'){
+                product.ri_fraction = toFraction(product.retornoIzquierdo - parseInt(product.retornoIzquierdo))
+                product.rd_fraction = toFraction(product.retornoDerecho - parseInt(product.retornoDerecho))
+                product.retornoIzquierdo = parseInt(product.retornoIzquierdo)
+                product.retornoDerecho = parseInt(product.retornoDerecho)
+              }
+
 
   
               product.m2 = sq_meters_to_inches(parseFloat(product.m2))
@@ -457,14 +470,26 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
             product.width = meters_to_inches(product.width)
             product.height = meters_to_inches(product.height)
 
-            let w = parseInt(product.width)
+            if(product.productType!='Balance'){
+              console.log('xd');
               let h = parseInt(product.height)
-              let wf = product.width - w
               let hf = product.height - h
-              product.w_fraction = toFraction(wf)
               product.h_fraction = toFraction(hf)
-              product.width=w
               product.height=h
+            }
+
+            let w = parseInt(product.width)
+              let wf = product.width - w
+              product.w_fraction = toFraction(wf)
+              product.width=w
+
+              if(product.productType=='Balance'){
+
+                product.ri_fraction = toFraction(product.retornoIzquierdo - parseInt(product.retornoIzquierdo))
+                product.rd_fraction = toFraction(product.retornoDerecho - parseInt(product.retornoDerecho))
+                product.retornoIzquierdo = parseInt(product.retornoIzquierdo)
+                product.retornoDerecho = parseInt(product.retornoDerecho)
+              }
 
             product.m2 = sq_meters_to_inches(parseFloat(product.m2))
           })
@@ -607,15 +632,23 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         width: inches_to_meters(v.width + parseFloat(v.w_fraction || 0)),
         height: inches_to_meters(v.height + parseFloat(v.h_fraction || 0)),
         m2: sq_inches_to_meters(v.m2),
-        ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {})
+        ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {}),
+        ...(v.productType=='Balance' ? {
+          retornoIzquierdo :parseFloat(v.retornoIzquierdo) + parseFloat(v.ri_fraction??0),
+          retornoDerecho   :parseFloat(v.retornoDerecho  ) + parseFloat(v.rd_fraction??0) 
+        }:{})
       })))]
       //console.log("ORDER ", order)
       const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
-      for (const product of PRODUCTS) {
+      for (const type of PRODUCTS) {
         order[product]?.forEach((product) => {
           product.width = inches_to_meters(product.width + parseFloat(product.w_fraction || 0))
           product.height = inches_to_meters(product.height + parseFloat(product.h_fraction || 0))
           product.m2 = sq_inches_to_meters(parseFloat(product.m2))
+          if(type=='balances'){
+            product.retornoIzquierdo = product.retornoIzquierdo + parseFloat(product.ri_fraction??0)
+            product.retornoDerecho = product.retornoDerecho + parseFloat(product.rd_fraction??0)
+          }
         })
       }
       }
@@ -637,15 +670,23 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         width: inches_to_meters(v.width + parseFloat(v.w_fraction || 0)),
         height: inches_to_meters(v.height + parseFloat(v.h_fraction || 0)),
         m2: sq_inches_to_meters(v.m2),
-        ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {})
+        ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {}),
+        ...(v.productType=='Balance' ? {
+          retornoIzquierdo :parseFloat(v.retornoIzquierdo) + parseFloat(v.ri_fraction??0),
+          retornoDerecho   :parseFloat(v.retornoDerecho  ) + parseFloat(v.rd_fraction??0) 
+        }:{})
       })))]
 
       const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
-      for (const product of PRODUCTS) {
-        order[product]?.forEach((product) => {
+      for (const type of PRODUCTS) {
+        order[type]?.forEach((product) => {
           product.width = inches_to_meters(product.width + parseFloat(product.w_fraction || 0))
           product.height = inches_to_meters(product.height + parseFloat(product.h_fraction || 0))
           product.m2 = sq_inches_to_meters(parseFloat(product.m2))
+          if(type=='balances'){
+            product.retornoIzquierdo = product.retornoIzquierdo + parseFloat(product.ri_fraction??0)
+            product.retornoDerecho = product.retornoDerecho + parseFloat(product.rd_fraction??0)
+          }
         })
       }
 
@@ -671,15 +712,23 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         width: inches_to_meters(v.width + parseFloat(v.w_fraction || 0)),
         height: inches_to_meters(v.height + parseFloat(v.h_fraction || 0)),
         m2: sq_inches_to_meters(v.m2),
-        ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {})
+        ...(v.controlHeight ? { controlHeight: v.controlHeight + parseFloat(v.control_h_fraction || 0) } : {}),
+        ...(v.productType=='Balance' ? {
+          retornoIzquierdo :parseFloat(v.retornoIzquierdo) + parseFloat(v.ri_fraction??0),
+          retornoDerecho   :parseFloat(v.retornoDerecho  ) + parseFloat(v.rd_fraction??0) 
+        }:{})
       })))]
 
       const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
-      for (const product of PRODUCTS) {
-        order[product]?.forEach((product) => {
+      for (const type of PRODUCTS) {
+        order[type]?.forEach((product) => {
           product.width = inches_to_meters(product.width + parseFloat(product.w_fraction || 0))
           product.height = inches_to_meters(product.height + parseFloat(product.h_fraction || 0))
           product.m2 = sq_inches_to_meters(parseFloat(product.m2))
+          if(type=='balances'){
+            product.retornoIzquierdo = product.retornoIzquierdo + parseFloat(product.ri_fraction??0)
+            product.retornoDerecho = product.retornoDerecho + parseFloat(product.rd_fraction??0)
+          }
         })
       }
       }

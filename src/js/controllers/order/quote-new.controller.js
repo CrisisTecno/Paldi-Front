@@ -161,6 +161,21 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
   $scope.setupTemplate()
 
+
+  
+  $scope.balancesData ={
+    'config':{
+      'Heights':{
+        'Wrapped Cornice': [6,8,10],
+        'Aluminum Gallery': [5,8],
+      },
+      'Mount':{
+        'Wrapped Cornice': ["OM","IM"],
+        'Aluminum Gallery': ["OM","IM"],
+      }
+    }
+  }
+
   //---------------------------------------------------------------------------------------------//
   // ------------------------------------------ Clients / Sellers
   // ------------------------------------------//
@@ -636,7 +651,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       case "Balance":
         $scope.balance = angular.copy(product)
         $scope.updateTypeNoErasing("Balance", $scope.balance)
-        $scope.colorSelected({
+        $scope.colorSelected(EXECUTION_ENV=="EXTERNAL"?{
+          label: product.type != "Wrapped Cornice" ? product.color.code : product.textil,
+          textil: product.textil,
+          value: { code: product.color, textil:product.textil},
+        }:{
           label: product.color.code, value: {code: product.color},
         }, "Balance", $scope.balance,)
         break
@@ -1327,6 +1346,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
     if(EXECUTION_ENV=="EXTERNAL"){
       $scope.valid = product == "Enrollable" && model.colorObj.railRoad.toLowerCase().includes("yes")
+
+      if(product=='Balance'){
+        model.textil = color.textil
+      }
     }
 
     model.color = color
@@ -1639,6 +1662,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.hasSystems = false
       }
 
+      if(product=='Balance'){
+        $scope.color=null;
+      }
+      
       if (product == "Toldo") {
         model.operationMode = null
         model.controlSide = null
