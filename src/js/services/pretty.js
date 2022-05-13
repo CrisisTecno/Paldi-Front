@@ -314,7 +314,7 @@ pdApp.factory("prettyHelper", function () {
 			return type;
 		},
 		getProductTypeEN: function (type) {
-			console.log("AAAAAA")
+			console.log("|"+type+"|")
 			switch (type) {
 				case "Enrollable":
 					return "Shades";
@@ -323,7 +323,7 @@ pdApp.factory("prettyHelper", function () {
 				case "Shutter":
 					return "Shutter";
 				case "Balance":
-					return "Balance";
+					return "Top Treatments";
 				case "Piso":
 					return "Floors";
 				case "Filtrasol":

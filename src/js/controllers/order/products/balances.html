@@ -21,17 +21,45 @@
             <small class="error-message" ng-if="balanceForm.$validated && balanceForm.type.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
 
-        <div class="form-group">
+        <div ng-if="balance.type =='Wrapped Cornice' || balance.type == 'Aluminum Gallery' " class="form-group">
+            <label>Mount </label>
+            <select name="type" ng-model="balance.config" class="form-control"  required=""
+            ng-options="obj for obj in balancesData.config.Mount[balance.type]"
+            >
+
+            </select>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.type.$error.required">Required</small>
+        </div>
+
+        <div class="form-group" ng-if="balance.type!='Wrapped Cornice'">
             <label ng-hide="showSpinner"><%= htmlWebpackPlugin.options.quote_commons.color%></label>
             <input ng-hide="showSpinner" type="text" name="color" ng-model="color" id="color" ng-disabled="!balance.type" class="form-control" value="{{modaa}}" required="" uib-typeahead="color.label for color in balance.colors | filter: $viewValue | limitTo:12" typeahead-editable="false" typeahead-on-select="colorSelected($item, 'Balance', balance)">
             <small ng-hide="showSpinner" class="error-message" ng-if="balanceForm.$validated && balanceForm.color.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
             <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-if="balance.type=='Wrapped Cornice'">
+            <label ng-hide="showSpinner">Fabric</label>
+            <input ng-hide="showSpinner" type="text" name="textil" ng-model="color" id="textil" ng-disabled="!balance.type" class="form-control"  required="" uib-typeahead=" color.textil for color in balance.colors | filter: $viewValue | limitTo:12" typeahead-editable="false" typeahead-on-select="colorSelected($item, 'Balance', balance)">
+            <small ng-hide="showSpinner" class="error-message" ng-if="balanceForm.$validated && balanceForm.color.$error.required">Required</small>
+            <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
+        </div>
+
+
+        <div  ng-if="balance.type =='Wrapped Cornice' || balance.type == 'Aluminum Gallery' " class="form-group">
+            <label>Height/Front (Inch)</label>
+
+            <select name="height" id="height" ng-model="balance.height"  class="form-control" ng-change="changeSimpleHeight('Balance',balance)" required="">
+            <option ng-repeat ='obj in balancesData.config.Heights[balance.type]' ng-value={{obj}}>{{obj + '\"'}}</option>
+        </select>
+
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.height.$error.required">Required</small>
+        </div>
+
+        <div  ng-if="balance.type =='Wrapped Cornice' || balance.type == 'Aluminum Gallery' " class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.width%></label>
             <div style="display:flex">
-            <input type="number" name="width" id="width" ng-model="balance.width" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" ng-change="changeSimpleWidth('Balance', balance)" required="" step="<%= htmlWebpackPlugin.options.features.step%>">
+            <input <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" name="width" id="width" ng-model="balance.width" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" ng-change="changeSimpleWidth('Balance', balance)" required="" step="<%= htmlWebpackPlugin.options.features.step%>">
             <% if(htmlWebpackPlugin.options.features.fractions){%>
                 <select style="width: min-content;" name="extra" ng-model="balance.w_fraction" class="form-control" ng-change="changeSimpleWidth('Balance', balance)">
                     <option value={{0}}>0</option>
@@ -47,10 +75,32 @@
             </div>
             <small class="error-message" ng-if="balanceForm.$validated && balanceForm.width.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
-        <div class="form-group">
+
+
+        <div  ng-if="balance.type !='Wrapped Cornice' && balance.type != 'Aluminum Gallery'" class="form-group">
+            <label><%= htmlWebpackPlugin.options.balance.width%></label>
+            <div style="display:flex">
+            <input <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" name="width" id="width" ng-model="balance.width" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" ng-change="changeSimpleWidth('Balance', balance)" required="" step="<%= htmlWebpackPlugin.options.features.step%>">
+            <% if(htmlWebpackPlugin.options.features.fractions){%>
+                <select style="width: min-content;" name="extra" ng-model="balance.w_fraction" class="form-control" ng-change="changeSimpleWidth('Balance', balance)">
+                    <option value={{0}}>0</option>
+                    <option value={{0.125}}>⅛</option>
+                    <option value={{0.25}}>¼</option>
+                    <option value={{0.375}}>⅜</option>
+                    <option value={{0.5}}>½</option>
+                    <option value={{0.625}}>⅝</option>
+                    <option value={{0.75}}>¾</option>
+                    <option value={{0.875}}>⅞</option>
+                  </select>
+            <%}%>
+            </div>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.width.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+        </div>
+
+        <div  ng-if="balance.type !='Wrapped Cornice' && balance.type != 'Aluminum Gallery'" class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.height%></label>
             <div style="display:flex">
-            <input type="number" name="height" id="height" ng-model="balance.height" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" required="" step="<%= htmlWebpackPlugin.options.features.step%>" ng-change="changeSimpleHeight('Balance', balance)">
+            <input <%= htmlWebpackPlugin.options.features.fractions_style%>  type="number" name="height" id="height" ng-model="balance.height" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" required="" step="<%= htmlWebpackPlugin.options.features.step%>" ng-change="changeSimpleHeight('Balance', balance)">
             <% if(htmlWebpackPlugin.options.features.fractions){%>
                 <select style="width: min-content;" name="extra" ng-model="balance.h_fraction" class="form-control" ng-change="changeSimpleHeight('Balance', balance)">
                     <option value={{0}}>0</option>
@@ -67,20 +117,49 @@
             <small class="error-message" ng-if="balanceForm.$validated && balanceForm.height.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
 
-
+        <% if(htmlWebpackPlugin.options.balance.balance_field){%>
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.way%></label>
             <input type="number" name="tapa" ng-model="balance.tapa" min="0" class="form-control" required="">
             <small class="error-message" ng-if="balanceForm.$validated && balanceForm.tapa.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
+        <%}%>
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.right_return%></label>
-            <input type="number" name="retornoDerecho" ng-model="balance.retornoDerecho" min="0" class="form-control" required="">
+            <div style="display:flex">
+            <input <%= htmlWebpackPlugin.options.features.fractions_style%>  type="number" name="retornoDerecho" ng-model="balance.retornoDerecho" min="1" class="form-control" required="">
+            <% if(htmlWebpackPlugin.options.features.fractions){%>
+                <select style="width: min-content;" name="extra" ng-model="balance.rd_fraction" class="form-control" >
+                    <option value={{0}}>0</option>
+                    <option value={{0.125}}>⅛</option>
+                    <option value={{0.25}}>¼</option>
+                    <option value={{0.375}}>⅜</option>
+                    <option value={{0.5}}>½</option>
+                    <option value={{0.625}}>⅝</option>
+                    <option value={{0.75}}>¾</option>
+                    <option value={{0.875}}>⅞</option>
+                  </select>
+            <%}%>
+        </div>
             <small class="error-message" ng-if="balanceForm.$validated && balanceForm.retornoDerecho.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.left_return%></label>
-            <input type="number" name="retornoIzquierdo" ng-model="balance.retornoIzquierdo" min="0" class="form-control" required="">
+            <div style="display:flex">
+            <input <%= htmlWebpackPlugin.options.features.fractions_style%>  type="number" name="retornoIzquierdo" ng-model="balance.retornoIzquierdo" min="1" class="form-control" required="">
+            <% if(htmlWebpackPlugin.options.features.fractions){%>
+                <select style="width: min-content;" name="extra" ng-model="balance.ri_fraction" class="form-control">
+                    <option value={{0}}>0</option>
+                    <option value={{0.125}}>⅛</option>
+                    <option value={{0.25}}>¼</option>
+                    <option value={{0.375}}>⅜</option>
+                    <option value={{0.5}}>½</option>
+                    <option value={{0.625}}>⅝</option>
+                    <option value={{0.75}}>¾</option>
+                    <option value={{0.875}}>⅞</option>
+                  </select>
+            <%}%>
+        </div>
             <small class="error-message" ng-if="balanceForm.$validated && balanceForm.retornoIzquierdo.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
 
@@ -91,10 +170,12 @@
         </div>
 
         <div class="total-configuration">
+            <% if(htmlWebpackPlugin.options.balance.balance_field){%>
             <div class="form-group" ng-show="balance.unit">
                 <label><%= htmlWebpackPlugin.options.quote_commons.meter_price%></label>
                 <input ng-currency type="text" name="unit" ng-model="balance.unit" class="form-control" disabled="disabled" placeholder="{{balance.unit}}">
             </div>
+            <%}%>
             <div class="form-group" ng-show="balance.price">
                 <label><%= htmlWebpackPlugin.options.quote_commons.unit_price%></label>
                 <input ng-currency type="text" name="price" ng-model="balance.price" class="form-control" disabled="disabled" placeholder="${{balance.price}}">

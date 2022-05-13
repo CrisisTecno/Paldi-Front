@@ -233,7 +233,7 @@
       <div id="printThisElement" ng-show="products.length>0" ng-repeat="productTypeList in productsSorted">
         <div ng-if="productTypeList.products.length > 0">
           <legend class="details-title" ng-if="productTypeList.type == 'Enrollable'"><%= htmlWebpackPlugin.options.enrollable.shades%></legend>
-          <legend class="details-title" ng-if="productTypeList.type != 'Enrollable'">{{ productTypeList.type}} </legend>
+          <legend class="details-title" ng-if="productTypeList.type != 'Enrollable'">{{ pretty('productType',productTypeList.type)}} </legend>
           <!--<label ng-if="productTypeList.type != 'Enrollable'">{{ productTypeList.type}}</label>-->
           <div ng-if="productTypeList.type =='Balance'">
             <div ng-include="'js/controllers/order/products/balances-details.html'">

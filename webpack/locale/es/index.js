@@ -911,6 +911,7 @@ module.exports = {
     new_client:"Nuevo Cliente",
   },
   balance:{
+    balance_field:true,
     balances:"Balance",
     types:`
     <option value="De madera">De madera</option>`,

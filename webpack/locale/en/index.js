@@ -908,9 +908,12 @@ ng-show="!quote.type || quote.type=='Cortina'"
     new_client:"New Client",
   },
   balance:{
+    balance_field:false,
+    
     balances:"Top Treatments",
     types:`
-    <option value="De madera">Wood</option>`,
+    <option value="Wrapped Cornice">Wrapped Cornice</option>
+    <option value="Aluminum Gallery">Aluminum Gallery</option>`,
     width:"Width/front (Inch)",
     height:"Height/front (Inch)",
     way:"Way",

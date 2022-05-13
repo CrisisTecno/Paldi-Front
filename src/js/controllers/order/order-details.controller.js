@@ -256,8 +256,10 @@ pdApp.controller(
     $scope.units ={
      to_fraction:function(int,float){
       
-      
-       return int + " " +toFraction(parseFloat(float))
+        if(float=="undefined" || float==undefined) {
+          return int
+        }
+       return int + " " +toFraction(parseFloat(float)??undefined)??""
 
      }
      }
