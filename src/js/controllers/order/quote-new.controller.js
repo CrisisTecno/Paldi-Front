@@ -14,6 +14,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         return "Wood"
       case "Solar Blackout":
         return 'Sheer Elegance'
+      case "Solar Screen":
+        return "Roller Shade"
       default:
         return name
     }
@@ -1345,7 +1347,13 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     model.colorObj = color.value
 
     if(EXECUTION_ENV=="EXTERNAL"){
-      $scope.valid = product == "Enrollable" && model.colorObj.railRoad.toLowerCase().includes("yes")
+      if(product =="Enrollable"){
+        $timeout( function(){
+          model.colorObj=$scope.enrollable.colors.find(element =>element.code = model.colorObj.code)
+          model.colorObj = model.colorObj.value
+          $scope.valid |= model.colorObj.railRoad.toLowerCase().includes('yes');
+        },500)
+      }
 
       if(product=='Balance'){
         model.textil = color.textil

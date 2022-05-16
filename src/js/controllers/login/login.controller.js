@@ -29,7 +29,7 @@ pdApp.controller(
       paldiService.password.forgotPassword(email).then(
         function () {
           swal({
-            title: "Petición procesada",
+            title: EXECUTION_ENV=="EXTERNAL"?"Petition Processed":"Petición procesada",
             type: "success",
             confirmButtonText: "Aceptar",
           })
@@ -38,7 +38,7 @@ pdApp.controller(
         function (error) {
           // console.log(error);
           swal({
-            title: "Petición procesada",
+            title: EXECUTION_ENV=="EXTERNAL"?"Petition Processed":"Petición procesada",
             type: "success",
             confirmButtonText: "Aceptar",
           })

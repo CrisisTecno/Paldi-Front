@@ -10,15 +10,12 @@ const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters',
 
 function toFraction(amt) {
       
-  if(amt == undefined) return "0"
-  if (amt > 0 && amt <= .125+(.125/7)) return '0.125';
-  if (amt <= .25+(.125/7)) return '0.25';
-  if (amt <= .375+(.125/7)) return '0.375';
-  if (amt <= .5+(.125/7)) return '0.5';
-  if (amt <= .625+(.125/7)) return '0.625';
-  if (amt <= .75+(.125/7)) return '0.75';
-  if (amt <= 1) return '0.875';
-  return 0;
+  const tags = ["0", "0.125", "0.25", "0.375", "0.5", "0.625", "0.75", "0.875"]
+  const thresholds = [1/16, 3/16, 5/16, 7/16, 9/16, 11/16, 13/16, 15/16]
+  for (let i = 0; i < 9; i++) {
+    if (parseFloat(amt) < thresholds[i] )
+      return tags[i] 
+  }
   // etc
 }
 

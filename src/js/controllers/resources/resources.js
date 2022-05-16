@@ -104,7 +104,7 @@ pdApp.controller(
                 //let buffer = new Uint8Array(file)
                // const url = window.URL.createObjectURL(file);
 				const link = document.createElement("a");
-				file= file.replace(':7777',':9999')
+				file= file.replace('api2','api')
 				link.href = file;
 				link.setAttribute("download", name);
 				document.body.appendChild(link);
