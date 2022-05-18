@@ -1341,38 +1341,55 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   // ---------------------------------------- Form Data
   // ------------------------------------------//
   // ---------------------------------------------------------------------------------------------//
+  
 
-  $scope.colorSelected = function (color, product, model) {
+  function  updateModelColor(product,model){
+    if (model.width) {
+      $scope.changeWidth(product, model);
+    }
+    if (model.height) {
+      $scope.changeHeight(product, model);
+    }
+    if (!model.height && !model.width) {
+      $scope.updatePrices(product, model);
+    }
+  }
+
+  $scope.colorSelected = async function (color, product, model) {
     // console.log("COLOR SELECTED EXECUTED", color, product, model)
     model.colorObj = color.value
 
     if(EXECUTION_ENV=="EXTERNAL"){
-      if(product =="Enrollable"){
-        $timeout( function(){
-          model.colorObj=$scope.enrollable.colors.find(element =>element.code = model.colorObj.code)
-          model.colorObj = model.colorObj.value
-          $scope.valid |= model.colorObj.railRoad.toLowerCase().includes('yes');
-        },500)
+      var res;
+      if(product=="Enrollable"){
+       res = $timeout( function(){
+        console.log(product)
+        console.log($scope.enrollable)
+        model.colorObj=$scope.enrollable.colors.find(element =>element.value.code == model.colorObj.code)
+        model.colorObj = model.colorObj.value
+        $scope.color = angular.copy(model.colorObj);
+        $scope.valid |= model.colorObj.railRoad.toLowerCase().includes('yes');
+        updateModelColor(product,model)
+        
+        
+      },500)
+      if(res!=undefined){
+        await res
       }
+      return
+
+      
+    }
 
       if(product=='Balance'){
         model.textil = color.textil
       }
     }
 
+    if(EXECUTION_ENV!="EXTERNAL"){
     model.color = color
-    // if (["SHUTTER"].includes(product.toUpperCase()))
-    //   model.color = color.label
-    $scope.color = angular.copy(model.colorObj)
-    if (model.width) {
-      $scope.changeWidth(product, model)
     }
-    if (model.height) {
-      $scope.changeHeight(product, model)
-    }
-    if (!model.height && !model.width) {
-      $scope.updatePrices(product, model)
-    }
+    updateModelColor(product,model)
     
   }
 
@@ -1457,6 +1474,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.updatePrices(product, model);
         return;
       }
+      console.log(angular.copy($scope.color))
       const width = parseFloat(model.w_fraction ?? 0) + model.width
       if ($scope.color.maxWidth && width >$scope.color.maxWidth) {
         
@@ -2029,28 +2047,28 @@ function addNewProduct($scope, product) {
   $scope.installationPlusList = []
   switch (product) {
     case "Enrollable":
-      $scope.enrollable = ""
+      $scope.enrollable = {}
       break
     case "Filtrasol":
-      $scope.filtrasol = ""
+      $scope.filtrasol = {}
       break
     case "Shutter":
-      $scope.shutter = ""
+      $scope.shutter = {}
       break
     case "Toldo":
-      $scope.toldo = ""
+      $scope.toldo = {}
       break
     case "Balance":
-      $scope.balance = ""
+      $scope.balance = {}
       break
     case "Piso":
-      $scope.piso = ""
+      $scope.piso = {}
       break
     case "Cortina": // @note scope cortina im not sure why this does this :(
-      $scope.cortina = "";
+      $scope.cortina = {};
       break;
     case "Custom":
-      $scope.custom = "";
+      $scope.custom = {};
       $scope.sellerStep = "empty";
       break;
   }
