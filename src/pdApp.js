@@ -164,7 +164,7 @@ const pdApp = angular
         url: "/resource",
         templateUrl: "partials/views/console/resource-list.html",
         controller: "ResourcesCtrl",
-        title: "Resources",
+        title: EXECUTION_ENV=="EXTERNAL"?"Resources":"Recursos",
         authRequired: true,
         env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })

@@ -104,7 +104,9 @@ pdApp.controller(
                 //let buffer = new Uint8Array(file)
                // const url = window.URL.createObjectURL(file);
 				const link = document.createElement("a");
+				if(EXECUTION_ENV=="EXTERNAL"){
 				file= file.replace('api2','api')
+				}
 				link.href = file;
 				link.setAttribute("download", name);
 				document.body.appendChild(link);
@@ -168,20 +170,20 @@ pdApp.controller(
 		$scope.tableColumns = [
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "name")
-				.withTitle("Name")
+				.withTitle(EXECUTION_ENV!="EXTERNAL"?"Nombre":"Name")
 				.notSortable()
 				.renderWith((data) => {
 					return data.originalName;
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "date")
-				.withTitle("Date")
+				.withTitle(EXECUTION_ENV!="EXTERNAL"?"Fecha":"Date")
 				.renderWith((data) => {
 					return $filter("date")(dateFromObjectId(data._id));
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "userName")
-				.withTitle("User")
+				.withTitle(EXECUTION_ENV!="EXTERNAL"?"Usuario":"User")
 				.notSortable()
 				.renderWith((data) => {
 					return data.uploaderName;
@@ -189,7 +191,7 @@ pdApp.controller(
 
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "catalogStatus")
-				.withTitle("Description")
+				.withTitle(EXECUTION_ENV!="EXTERNAL"?"Descripción":"Description")
 				.notSortable()
 				.renderWith((data) => {
 					return data.description;
@@ -197,7 +199,7 @@ pdApp.controller(
 
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "action")
-				.withTitle("Action")
+				.withTitle(EXECUTION_ENV!="EXTERNAL"?"Accion":"Action")
 				.notSortable()
 				.renderWith((data) => {
 					return (
@@ -206,6 +208,18 @@ pdApp.controller(
 						+ "')\">Download<a>    " 
 					);
 				}),
+			$scope.currentUser.role=="ADMIN" || $scope.currentUser.role=="SUPERADMIN"?
+			DTColumnBuilder.newColumn(null)
+				.withOption("name", "action")
+				.notSortable()
+				.renderWith((data) => {
+					return (
+						
+                        "<a ng-click=\"deleteFile('"  +
+                        data._id
+						+ "')\">Delete<a>"
+					);
+				}):null
 
 		];
 

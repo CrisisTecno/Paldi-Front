@@ -558,6 +558,30 @@ pdApp.controller(
       }
     };
 
+    $scope.shipmentDialog = function(){
+      $scope.dialog = ngDialog.open({
+        scope: $scope,
+        template: "partials/views/console/shipment-sheet.html",
+        showClose: false,
+      });
+    }
+
+    $scope.downloadShipmentSheet = async function(boxesNum){
+      console.log(boxesNum)
+       let user = $scope.currentUser.name + " " + $scope.currentUser.lastName
+       let folio = $scope.order.orderTransitInvoice
+       $scope.dialog.close()
+       let res = await paldiService.shipment.sheet($stateParams.orderId,boxesNum,user,folio)
+
+       console.log(res)
+			  const link = document.createElement("a");
+			  
+				link.href = res;
+				link.setAttribute("download", "etiqueta");
+				document.body.appendChild(link);
+				link.click()
+    }
+
     $scope.changeQuoteStatusDialog = function (quoteStatus) {
       swal(
         {

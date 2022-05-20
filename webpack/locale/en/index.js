@@ -1080,6 +1080,14 @@ ng-show="!quote.type || quote.type=='Cortina'"
     move_down:"Move Down",
     remove_btn:"Remove",
     
+  },
+  resources:{
+    resources:"Resources",
+    upload:"Upload your PDF File",
+    name:"Name",
+    description:"Description",
+    load:"Load Resource",
+    
   }
   
   

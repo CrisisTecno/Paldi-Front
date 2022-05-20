@@ -102,9 +102,9 @@
         </ul>
     </metis-item>
 
-    <metis-item ng-if ='currentUser.realRole' ui-sref-active="selected">
+    <metis-item  ui-sref-active="selected">
         <a ui-sref="console.resource-list">
-            <i class="fa fa-file fa-lg"></i> <span class="nav-label">Resources</span></a>
+            <i class="fa fa-file fa-lg"></i> <span class="nav-label"><%=htmlWebpackPlugin.options.resources.resources%></span></a>
     </metis-item>
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'SALES_MANAGER'">

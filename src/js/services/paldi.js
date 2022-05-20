@@ -19,9 +19,39 @@ function toFraction(amt) {
   // etc
 }
 
+function addParams(params){
+  var finalstr =""
+
+  
+  for(const [key,value] of Object.entries(params)){
+    finalstr+="&"+key+"="+value
+  }
+  return "?" + finalstr.substring(1)
+}
+
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   let service = {};
 
+  service.shipment = {
+
+    sheet: async function(order_id,boxesNum,user, folio){
+      let params = {
+        user:user,
+        folio:folio,
+        boxes:boxesNum,
+
+      }
+      return $http.get(
+        globals.apiURL + "/newapi/pdf/shipment/" + order_id,
+        {authentication: "yokozuna",
+        params :params}).then(response=>{
+          let urlString = globals.apiURL + "/newapi/pdf/shipment/" + order_id + addParams(params)
+          console.log(urlString)
+          return  urlString
+        })
+      
+    }
+  }
   service.reports = buildReportsService($http)
 
   service.products = {

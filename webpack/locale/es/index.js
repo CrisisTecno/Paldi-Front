@@ -1,3 +1,5 @@
+const { resources } = require("../en");
+
 module.exports = {
   client: {
     details: "Detalles de Cliente",
@@ -1080,7 +1082,15 @@ module.exports = {
     move_up:"Mover Arriba",
     move_down:"Mover Abajo",
     
+  },
+  resources:{
+    resources:"Recursos",
+    upload:"Selecciona el PDF",
+    name:"Nombre",
+    description:"Descripción",
+    load:"Subir Archivo"
   }
+  
   
 }
 

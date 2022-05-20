@@ -1,0 +1,24 @@
+<div>
+    <h3 class="form-title">
+        
+    </h3>
+    <form name="statusForm" role="form"  ng-submit="downloadShipmentSheet(boxesNum)" autocomplete="off">
+
+        <div class="form-group">
+            <label>
+                Introduce el numero de cajas
+            </label>
+            <input type="text" class="form-control" pattern="\d*" ng-model="boxesNum" >
+        </div>
+            
+        <div>
+            <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">
+                <%= htmlWebpackPlugin.options.general.cancel %>
+            </button>
+            <button type="submit" class="btn btn-primary">
+                Generar Etiquetas
+            </button>
+        </div>
+
+        </form>
+    </div>

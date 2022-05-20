@@ -1,14 +1,15 @@
 <div>
-	<legend>Upload your PDF files</legend>
+	<legend><%=htmlWebpackPlugin.options.resources.upload%></legend>
 	<input type="file" id="fileUpload" name="file" onchange="angular.element(this).scope().selectFile(this.files)" 
 		accept="application/pdf" />
 	<br>
-    <legend>Name</legend>
-    <input type="text" ng-model="name" required="">
-    <legend>Description</legend>
-    <input type="textarea" ng-model="description" required="">
+    <legend><%=htmlWebpackPlugin.options.resources.name%></legend>
+    <input type="text" class='form-control' ng-model="name" required="">
+	<br>
+    <legend><%=htmlWebpackPlugin.options.resources.description%></legend>
+    <textarea  class='form-control' ng-model="description" required=""></textarea>
     <legend></legend>
-	<button type="button" class="btn btn-primary" ng-click="uploadResource(name,description)" ng-disabled="!fileValid && name!='' && description!='' " ng-hide="uploading"> Load Resource </button>
+	<button type="button" class="btn btn-primary" ng-click="uploadResource(name,description)" ng-disabled="!fileValid && name!='' && description!='' " ng-hide="uploading"> <%=htmlWebpackPlugin.options.resources.load%> </button>
 	<img ng-show="uploading" class="spinner-img" src="img/spinner.gif">
-	<button type="button" class="btn btn-default" ng-hide="uploading" ng-click="closeThisDialog()"> Cancel </button>
+	<button type="button" class="btn btn-default" ng-hide="uploading" ng-click="closeThisDialog()"> <%=htmlWebpackPlugin.options.general.cancel%> </button>
 </div>

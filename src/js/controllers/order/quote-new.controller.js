@@ -1388,6 +1388,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
     if(EXECUTION_ENV!="EXTERNAL"){
     model.color = color
+    $scope.color = color
     }
     updateModelColor(product,model)
     

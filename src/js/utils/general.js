@@ -3,18 +3,18 @@ export default {
       upload: {
         success: () => {
           swal({
-            title: "Resource Uploaded",
-            text: "The resource was loaded correctly",
+            title: EXECUTION_ENV!="EXTERNAL"?"Recurso Cargado":"Resource Uploaded",
+            text: EXECUTION_ENV!="EXTERNAL"?"El archivo fue cargado correctamente": "The resource was loaded correctly",
             type: "success",
-            confirmButtonText: "Accept",
+            confirmButtonText: EXECUTION_ENV!="EXTERNAL"?"Aceptar":"Accept",
           });
         },
         error: () => {
           swal({
             title: "Error",
-            text: "Something went wrong",
+            text: EXECUTION_ENV!="EXTERNAL"?"Algo salió mal":"Something went wrong",
             type: "error",
-            confirmButtonText: "Accept",
+            confirmButtonText: EXECUTION_ENV!="EXTERNAL"?"Aceptar":"Accept",
           });
         }
       },
@@ -22,19 +22,19 @@ export default {
         fail:() => {
           swal({
             title: "Error",
-            text: "File Corrupted",
+            text: EXECUTION_ENV!="EXTERNAL"?"Archivo Corrupto":"File Corrupted",
             type: "error",
-            confirmButtonText: "Accept",
+            confirmButtonText: EXECUTION_ENV!="EXTERNAL"?"Aceptar":"Accept",
           });
         }
       },
       erase:{
         success:() => {
           swal({
-            title: "Resource deleted",
-            text: " Resource removed successfully",
+            title: EXECUTION_ENV!="EXTERNAL"?"Recurso Eliminado":"Resource deleted",
+            text:EXECUTION_ENV!="EXTERNAL"?"El Recurso fue eliminado correctamente": " Resource removed successfully",
             type: "success",
-            confirmButtonText: "Accept",
+            confirmButtonText: EXECUTION_ENV!="EXTERNAL"?"Aceptar":"Accept",
           });
         }
       }
