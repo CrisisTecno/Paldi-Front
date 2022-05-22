@@ -22,13 +22,13 @@
         </div>
 
         <div ng-if="balance.type =='Wrapped Cornice' || balance.type == 'Aluminum Gallery' " class="form-group">
-            <label>Mount </label>
+            <label><%= htmlWebpackPlugin.options.balance.mount%> </label>
             <select name="type" ng-model="balance.config" class="form-control"  required=""
             ng-options="obj for obj in balancesData.config.Mount[balance.type]"
             >
 
             </select>
-            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.type.$error.required">Required</small>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.type.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>
 
         <div class="form-group" ng-if="balance.type!='Wrapped Cornice'">
@@ -39,21 +39,22 @@
         </div>
 
         <div class="form-group" ng-if="balance.type=='Wrapped Cornice'">
-            <label ng-hide="showSpinner">Fabric</label>
+            <label ng-hide="showSpinner"><%= htmlWebpackPlugin.options.balance.textil%></label>
             <input ng-hide="showSpinner" type="text" name="textil" ng-model="color" id="textil" ng-disabled="!balance.type" class="form-control"  required="" uib-typeahead=" color.textil for color in balance.colors | filter: $viewValue | limitTo:12" typeahead-editable="false" typeahead-on-select="colorSelected($item, 'Balance', balance)">
-            <small ng-hide="showSpinner" class="error-message" ng-if="balanceForm.$validated && balanceForm.color.$error.required">Required</small>
+            <small ng-hide="showSpinner" class="error-message" ng-if="balanceForm.$validated && balanceForm.color.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
             <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
         </div>
 
 
         <div  ng-if="balance.type =='Wrapped Cornice' || balance.type == 'Aluminum Gallery' " class="form-group">
-            <label>Height/Front (Inch)</label>
+            <label><%= htmlWebpackPlugin.options.balance.heights%> {{balance.height }}</label>
 
             <select name="height" id="height" ng-model="balance.height"  class="form-control" ng-change="changeSimpleHeight('Balance',balance)" required="">
-            <option ng-repeat ='obj in balancesData.config.Heights[balance.type]' ng-value={{obj}}>{{obj + '\"'}}</option>
+            <option ng-repeat =' (disp,val) in balancesData.config.Heights[balance.type]' ng-value={{val[1]}}>{{val[0] + " " +balancesData.config.units }}</option>
+            
         </select>
 
-            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.height.$error.required">Required</small>
+            <small class="error-message" ng-if="balanceForm.$validated && balanceForm.height.$error.required"><%= htmlWebpackPlugin.options.general.required_field %>.</small>
         </div>
 
         <div  ng-if="balance.type =='Wrapped Cornice' || balance.type == 'Aluminum Gallery' " class="form-group">
@@ -118,7 +119,7 @@
         </div>
 
         <% if(htmlWebpackPlugin.options.balance.balance_field){%>
-        <div class="form-group">
+        <div  ng-if="balance.type !='Wrapped Cornice' && balance.type != 'Aluminum Gallery'" class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.way%></label>
             <input type="number" name="tapa" ng-model="balance.tapa" min="0" class="form-control" required="">
             <small class="error-message" ng-if="balanceForm.$validated && balanceForm.tapa.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>

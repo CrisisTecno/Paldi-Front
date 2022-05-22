@@ -909,13 +909,15 @@ ng-show="!quote.type || quote.type=='Cortina'"
   },
   balance:{
     balance_field:false,
-    
+    textil:"Fabric",
+    mount:"Mount",
     balances:"Top Treatments",
     types:`
     <option value="Wrapped Cornice">Wrapped Cornice</option>
     <option value="Aluminum Gallery">Aluminum Gallery</option>`,
     width:"Width/front (Inch)",
     height:"Height/front (Inch)",
+    heights:"Height/front (Inch)",
     way:"Way",
     right_return:"Right Return",
     left_return:"Left Return",

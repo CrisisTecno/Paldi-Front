@@ -915,10 +915,16 @@ module.exports = {
   balance:{
     balance_field:true,
     balances:"Balance",
+    textil:"Textil",
+    mount:"Configuracion",
     types:`
-    <option value="De madera">De madera</option>`,
+    <option value="De madera">De madera</option>
+    <option value="Wrapped Cornice">Wrapped Cornice</option>
+    <option value="Aluminum Gallery">Aluminum Gallery</option>`,
     width:"Ancho/frente (metros)",
+    
     height:"Alto/frente (metros)",
+    heights:"Alto/frente (cm)",
     way:"Tapa",
     right_return:"Retorno derecho",
     left_return:"Retorno Izquiero",

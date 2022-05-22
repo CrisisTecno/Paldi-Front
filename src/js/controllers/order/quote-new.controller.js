@@ -3,6 +3,7 @@ import {pdApp} from "../index"
 import {normalizeText} from "../../utils/normalization"
 import { meters_to_inches } from "../../utils/units"
 
+
 pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $stateParams, paldiService, colorPriceService, $timeout, jsonService, DTOptionsBuilder, DTColumnDefBuilder, permissionsHelper,) {
   const MIXED_ORDER = "Mixta"
   $scope.updateTotals = colorPriceService.updateTotals
@@ -167,9 +168,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   
   $scope.balancesData ={
     'config':{
+      'units':EXECUTION_ENV=="EXTERNAL"?"\"":"CM",
       'Heights':{
-        'Wrapped Cornice': [6,8,10],
-        'Aluminum Gallery': [5,8],
+        'Wrapped Cornice': EXECUTION_ENV=="EXTERNAL"?[[6,6],[8,8],[10,10]]:[[15.2,0.1524 ],[20.3,0.2032],[25.4,0.254]],
+        'Aluminum Gallery': EXECUTION_ENV=="EXTERNAL"?[[5,5],[8,8]]:[[12.7,0.127],[20.3,0.2032]],
       },
       'Mount':{
         'Wrapped Cornice': ["OM","IM"],
@@ -177,6 +179,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       }
     }
   }
+
+  
 
   //---------------------------------------------------------------------------------------------//
   // ------------------------------------------ Clients / Sellers
@@ -210,6 +214,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.pisoModel = ""
       }
       $scope.pisoModel.clientType = $scope.quote.client.type
+      
       $scope.updatePrices("Piso", $scope.pisoModel)
     }
     updateDiscount()
@@ -594,6 +599,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.editProduct = function (product, indexList, indexProduct) {
     $scope.editFlag = true
     $scope.producInEdit = angular.copy(product)
+    console.log("EDITED PRODUCT",angular.copy(product))
     if(EXECUTION_ENV=="EXTERNAL"){
       
     
@@ -614,7 +620,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.valid |= product.productType === "Enrollable" && product.type === "Enrollables"
 
     $scope.rotated = product.rotated
-
+    
     switch (product.productType) {
       case "Enrollable":
         $scope.enrollable = angular.copy(product)
@@ -628,7 +634,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         break
       case "Filtrasol":
         $scope.filtrasol = angular.copy(product)
+        
         $scope.updateTypeNoErasing("Filtrasol", $scope.filtrasol)
+       
         $scope.colorSelected({
           label: $scope.pretty("color", product.color), value: product.color,
         }, "Filtrasol", $scope.filtrasol,)
@@ -652,13 +660,13 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         break
       case "Balance":
         $scope.balance = angular.copy(product)
+        //console.log("---------UPDATING PRICE",angular.copy($scope.balance))
         $scope.updateTypeNoErasing("Balance", $scope.balance)
-        $scope.colorSelected(EXECUTION_ENV=="EXTERNAL"?{
+        
+        $scope.colorSelected({
           label: product.type != "Wrapped Cornice" ? product.color.code : product.textil,
           textil: product.textil,
           value: { code: product.color, textil:product.textil},
-        }:{
-          label: product.color.code, value: {code: product.color},
         }, "Balance", $scope.balance,)
         break
       case "Piso":
@@ -681,7 +689,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         }
         $scope.updateTypeNoErasing("Cortina", $scope.cortina);
     }
-
+    
     $scope.plusList = product.plusList;
     $scope.motorList = product.motorList;
     $scope.installationPlusList = product.installationPlusList;
@@ -706,7 +714,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       }
       $scope.showSpinner = false
     }, 1000)
-
+    
     colorPriceService.updateTotals($scope.quote.type, $scope.quote)
   }
 
@@ -1269,7 +1277,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     if(val[1]!= undefined) {val[1] = parseFloat("."+val[1])}
     else{val[1]=0}
     let fracs = toFraction(val[1])
-      console.log("FRACS RESULT",fracs)
+      //console.log("FRACS RESULT",fracs)
     return [Math.round(parseFloat(val[0])+parseFloat(fracs[1])),fracs[0]]
   }
 
@@ -1348,6 +1356,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       $scope.changeWidth(product, model);
     }
     if (model.height) {
+      //console.log(model.height)
       $scope.changeHeight(product, model);
     }
     if (!model.height && !model.width) {
@@ -1356,8 +1365,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.colorSelected = async function (color, product, model) {
-    // console.log("COLOR SELECTED EXECUTED", color, product, model)
+     //console.log("COLOR SELECTED EXECUTED", color, product, model)
+
     model.colorObj = color.value
+
+    
 
     if(EXECUTION_ENV=="EXTERNAL"){
       var res;
@@ -1381,11 +1393,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       
     }
 
-      if(product=='Balance'){
-        model.textil = color.textil
-      }
+      
     }
 
+    if(product=='Balance'){
+      model.textil = color.textil
+    }
     if(EXECUTION_ENV!="EXTERNAL"){
     model.color = color
     $scope.color = color
@@ -1404,6 +1417,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       model.h_fraction = tempwfrac 
     }
     else{
+      console.log("rotated")
     model.height = model.width - 0.3
     }
     model.width = temp
@@ -1552,9 +1566,15 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
     if (model.width) {
       let width = parseFloat(model.width.toString().match(/.*\..{0,3}|.*/)[0],)
+      
+      if(product=="Cortina"){
       if (model.width < color.minWidth) model.width = parseFloat(color.minWidth)
       else if (model.width > color.maxWidth) model.width = parseFloat(color.maxWidth)
       else model.width = width
+      }
+      else{
+        model.width =width
+      }
     }
   }
   else{
@@ -1609,10 +1629,21 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     }
 
     if (model.height) {
-      let height = parseFloat(model.height.toString().match(/.*\..{0,3}|.*/)[0],)
+      let height = parseFloat(model.height.toString().match(/.*\..{0,4}|.*/)[0],)
+      //console.log(model)
+      if(model.type=="Wrapped Cornice" || model.type=="Aluminum Gallery")
+      { height=parseFloat(model.height)
+      //console.log("DONE")
+      }
+      //console.log(angular.copy(height),parseFloat(model.height))
+      if(product=="Cortina"){
       if (model.height < color.minHeight) model.height = parseFloat(color.minHeight)
       else if (model.height > color.maxHeight) model.height = parseFloat(color.maxHeight)
       else model.height = height
+      }
+      else{
+        model.height=height
+      }
     }
   }
   else{
@@ -1739,6 +1770,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       colorPriceService.getInstallationPlusList(product, model)
       colorPriceService.getPlusColorsList(product, model)
     }
+    
     $scope.updatePrices(product, model)
      // console.log("Update Type", product, model)
     $scope.rotated = false
@@ -1771,11 +1803,17 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       if (product == "Toldo") {
         //console.log(product,model)
       }
+      //console.log(angular.copy(model),1)
       $scope.updatePrices(product, model)
+      //console.log(angular.copy(model),2)
       colorPriceService.getColors(product, model)
+      //console.log(angular.copy(model),3)
       colorPriceService.getPlusList(product, model)
+      //console.log(angular.copy(model),4)
       colorPriceService.getMotorList(product, model)
+      //console.log(angular.copy(model),5)
       colorPriceService.getInstallationPlusList(product, model)
+      //console.log(angular.copy(model),6)
     }
   }
 

@@ -11,7 +11,18 @@ export function generateBalanceHandlers($http) {
     if (!balance.type) {
       isValid = false;
     }
-    console.log("BALANCE",balance)
+   // console.log("BALANCE AF",angular.copy(balance))
+    if(balance.type=="De madera"){
+      console.log("aaaaaa")
+      delete balance.textil
+    }
+
+    if(balance.type=="Wrapped Cornice" || balance.type=="Aluminum Gallery"){
+      
+      if(balance.height == 0.152) balance.height=0.1524
+      if(balance.height == 0.203) balance.height=0.2032
+    }
+   // console.log("BALANCE BF",angular.copy(balance))
     if (isValid) {
       $http
         .post(globals.apiURL + "/pricing/prices/balance", balance, {
@@ -51,6 +62,7 @@ export function generateBalanceHandlers($http) {
           response.data.forEach(function (element, index) {
             balance.colors.push({
               label: element.code,
+              textil:element.textil??null,
               value: element,
             });
           });

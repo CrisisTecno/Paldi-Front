@@ -208,7 +208,7 @@ pdApp.controller(
 						+ "')\">Download<a>    " 
 					);
 				}),
-			$scope.currentUser.role=="ADMIN" || $scope.currentUser.role=="SUPERADMIN"?
+			$scope.currentUser.role=="ADMIN" || $scope.currentUser.role=="SUPERADMIN"|| currentUser.role=="INSTALLATION_MANAGER"?
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "action")
 				.notSortable()
