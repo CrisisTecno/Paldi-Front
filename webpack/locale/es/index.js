@@ -146,7 +146,7 @@ module.exports = {
     faction_style:``,
     shipping: false,
     step:0.1,
-    min:0.1
+    min:0
   },
   console:{
 

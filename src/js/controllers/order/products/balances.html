@@ -47,7 +47,7 @@
 
 
         <div  ng-if="balance.type =='Wrapped Cornice' || balance.type == 'Aluminum Gallery' " class="form-group">
-            <label><%= htmlWebpackPlugin.options.balance.heights%> {{balance.height }}</label>
+            <label><%= htmlWebpackPlugin.options.balance.heights%> </label>
 
             <select name="height" id="height" ng-model="balance.height"  class="form-control" ng-change="changeSimpleHeight('Balance',balance)" required="">
             <option ng-repeat =' (disp,val) in balancesData.config.Heights[balance.type]' ng-value={{val[1]}}>{{val[0] + " " +balancesData.config.units }}</option>
@@ -128,7 +128,7 @@
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.right_return%></label>
             <div style="display:flex">
-            <input <%= htmlWebpackPlugin.options.features.fractions_style%>  type="number" name="retornoDerecho" ng-model="balance.retornoDerecho" min="1" class="form-control" required="">
+            <input <%= htmlWebpackPlugin.options.features.fractions_style%>  type="number" name="retornoDerecho" ng-model="balance.retornoDerecho" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" required="">
             <% if(htmlWebpackPlugin.options.features.fractions){%>
                 <select style="width: min-content;" name="extra" ng-model="balance.rd_fraction" class="form-control" >
                     <option value={{0}}>0</option>
@@ -147,7 +147,7 @@
         <div class="form-group">
             <label><%= htmlWebpackPlugin.options.balance.left_return%></label>
             <div style="display:flex">
-            <input <%= htmlWebpackPlugin.options.features.fractions_style%>  type="number" name="retornoIzquierdo" ng-model="balance.retornoIzquierdo" min="1" class="form-control" required="">
+            <input <%= htmlWebpackPlugin.options.features.fractions_style%>  type="number" name="retornoIzquierdo" ng-model="balance.retornoIzquierdo" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" required="">
             <% if(htmlWebpackPlugin.options.features.fractions){%>
                 <select style="width: min-content;" name="extra" ng-model="balance.ri_fraction" class="form-control">
                     <option value={{0}}>0</option>

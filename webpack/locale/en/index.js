@@ -135,7 +135,7 @@ module.exports = {
     fraction_style:` style="width: 80%"`,
     shipping: true,
     step:1,
-    min:0,
+    min:1,
 
   },
   console:{
