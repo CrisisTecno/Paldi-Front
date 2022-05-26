@@ -25,6 +25,24 @@ pdApp.controller(
   ) {
     
     $scope.external = EXECUTION_ENV=="EXTERNAL"
+
+
+    $scope.typeTranslate = function(name){
+      if($scope.external){
+        return name
+      }
+      else{
+        switch(name){
+          case "Wrapped Cornice":
+            return "Corniza Forrada"
+          case "Aluminum Gallery":
+            return "Galeria de Aluminio"
+          default:
+            return name
+        }
+      }
+    }
+
     $scope.getMatchDiscount = function(){
       if(EXECUTION_ENV=="INTERNAL" ) return "Descuento"
       if($scope.order.type=="Mixta") return "Discount"

@@ -9,14 +9,23 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.updateTotals = colorPriceService.updateTotals
 
   $scope.translateType = function(name){
-    if (EXECUTION_ENV!="EXTERNAL") return name
+    if (EXECUTION_ENV!="EXTERNAL") {
+      switch(name){
+        case "Wrapped Cornice":
+          return "Corniza Forrada"
+        case "Aluminum Gallery":
+          return "Galeria de Aluminio"
+        default:
+          return name
+      }
+    }
     switch(name){
       case "De madera":
         return "Wood"
       case "Solar Blackout":
         return 'Sheer Elegance'
       case "Solar Screen":
-        return "Roller Shade"
+        return "Rollershade"
       default:
         return name
     }
@@ -174,8 +183,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         'Aluminum Gallery': EXECUTION_ENV=="EXTERNAL"?[[5,5],[8,8]]:[[12.7,0.127],[20.3,0.2032]],
       },
       'Mount':{
-        'Wrapped Cornice': ["OM","IM"],
-        'Aluminum Gallery': ["OM","IM"],
+        'Wrapped Cornice': EXECUTION_ENV=="EXTERNAL"?["OM","IM"]:["XFM","XDM"],
+        'Aluminum Gallery': EXECUTION_ENV=="EXTERNAL"?["OM","IM"]:["XFM","XDM"],
       }
     }
   }

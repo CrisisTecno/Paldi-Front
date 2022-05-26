@@ -464,7 +464,7 @@ module.exports = {
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"
-                ><small>Desc. Balance:</small></li>
+                ><small>Desc. Balance & Cornizas:</small></li>
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple  && productsSorted[1].products.length > 0"
@@ -526,7 +526,7 @@ module.exports = {
                 class="btn btn-default"
                 ng-click="addProduct('Balance')"
                 ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter'|| quote.type=='Enrollable'||quote.type=='Balance' ||quote.type=='Mixta'"
-            >Balance
+            >Balance & Cornizas
             </button>
             <button
                 class="btn btn-default"
@@ -573,7 +573,7 @@ module.exports = {
     class="btn btn-default"
     ng-click="addProduct('Balance')"
     ng-show="!quote.type || quote.type=='Balance'"
->Balance
+>Balance & Cornizas 
 </button>
 <button
     class="btn btn-default"
@@ -893,7 +893,7 @@ module.exports = {
     seller:"Vendedor",
     product_type:"Tipo de Producto",
     product_types:`
-    option value="Balance">Balances</option>
+    <option value="Balance">Balances & Cornizas</option>
     <option value="Shutter">Shutters</option>
     <option value="Toldo">Productos para el exterior</option>
     <option value="Enrollable">Persianas</option>
@@ -914,13 +914,13 @@ module.exports = {
   },
   balance:{
     balance_field:true,
-    balances:"Balance",
+    balances:"Balances & Cornizas",
     textil:"Textil",
     mount:"Configuracion",
     types:`
     <option value="De madera">De madera</option>
-    <option value="Wrapped Cornice">Wrapped Cornice</option>
-    <option value="Aluminum Gallery">Aluminum Gallery</option>`,
+    <option value="Wrapped Cornice">Corniza Forrada</option>
+    <option value="Aluminum Gallery">Galeria de Aluminio</option>`,
     width:"Ancho/frente (metros)",
     
     height:"Alto/frente (metros)",
