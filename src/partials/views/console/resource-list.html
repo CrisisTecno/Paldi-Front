@@ -7,7 +7,7 @@
 		<div class="ibox-content">
 
 			
-			<button ng-if='currentUser.role=="SUPERADMIN" || currentUser.role=="ADMIN" || currentUser.role=="INSTALLATION_MANAGER"' type="button" class="btn btn-primary-left" ng-click="loadResource()" ><%=htmlWebpackPlugin.options.resources.load%></button>
+			<button ng-if='currentUser.role=="SUPERADMIN" || currentUser.role=="ADMIN" || currentUser.role=="SALES_MANAGER"' type="button" class="btn btn-primary-left" ng-click="loadResource()" ><%=htmlWebpackPlugin.options.resources.load%></button>
 
 			<table ng-if="ready" id="resources-table" class="table table-striped table-hover" 
 				datatable="" dt-options="tableOptions" dt-columns="tableColumns" dt-instance="dtInstanceCallback"></table>

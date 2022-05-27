@@ -27,6 +27,8 @@ pdApp.controller(
 			});
 		};
 
+		console.log($rootScope)
+
 		$scope.selectFile = function (files) {
 			$scope.fd = new FormData();
 			$scope.fd.append("document", files[0]);
@@ -208,7 +210,7 @@ pdApp.controller(
 						+ "')\">Download<a>    " 
 					);
 				}),
-			$scope.currentUser.role=="ADMIN" || $scope.currentUser.role=="SUPERADMIN"|| currentUser.role=="INSTALLATION_MANAGER"?
+			$scope.currentUser.role=="ADMIN" || $scope.currentUser.role=="SUPERADMIN"|| $scope.currentUser.role=="SALES_MANAGER"?
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "action")
 				.notSortable()
@@ -219,7 +221,11 @@ pdApp.controller(
                         data._id
 						+ "')\">Delete<a>"
 					);
-				}):null
+				}):DTColumnBuilder.newColumn(null)
+				.withOption("name", "action")
+				.notSortable()
+				.renderWith((data) => {
+					return ("")})
 
 		];
 
