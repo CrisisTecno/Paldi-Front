@@ -34,6 +34,9 @@ export function generateBalanceHandlers($http) {
           balance.price = balance.width
             ? balance.unit * balance.width
             : null;
+          if(balance.type=="Wrapped Cornice" || balance.type=="Aluminum Gallery"){
+            balance.price=price
+          }
           balance.total =
             balance.width && balance.quantity && balance.price
               ? balance.price * balance.quantity

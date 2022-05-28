@@ -172,7 +172,7 @@
 
         <div class="total-configuration">
             <% if(htmlWebpackPlugin.options.balance.balance_field){%>
-            <div class="form-group" ng-show="balance.unit">
+            <div ng-if="balance.type !='Wrapped Cornice' && balance.type != 'Aluminum Gallery'" class="form-group" ng-show="balance.unit">
                 <label><%= htmlWebpackPlugin.options.quote_commons.meter_price%></label>
                 <input ng-currency type="text" name="unit" ng-model="balance.unit" class="form-control" disabled="disabled" placeholder="{{balance.unit}}">
             </div>

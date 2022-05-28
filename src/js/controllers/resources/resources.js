@@ -44,8 +44,17 @@ pdApp.controller(
             $scope.fd.append('uploader',$scope.currentUser.id)
             $scope.fd.append('uploaderName',$scope.currentUser.name +' '+ $scope.currentUser.lastName)
             $scope.dialog.close();
+			swal({
+                title: 'Uploading File',
+                showCancelButton: false, // There won't be any cancel button
+				showConfirmButton: false,
+                allowOutsideClick: false,
+               	imageUrl:"img/spinner.gif"
+            });
             paldiService.resources.postResource($scope.fd).then(response=>{
-
+				swal.close()
+				$timeout(function()
+				{
                 if(response.code && response.code=="query.success"){
                     showSwal('messages.resources.upload.success')
 					$timeout(function () {
@@ -61,6 +70,7 @@ pdApp.controller(
                 }
 
                 init();
+			},500)
             })
 
             $scope.fd = null
