@@ -5,6 +5,24 @@ import { showSwal } from "../../../../utils/swal/show";
 import { formatTelephone, deformatTelephone } from "./formatTelephone";
 import { getExtraNames, getInstallationSheetSaveHandler, getObjName, isExtraPresent } from "./helpers"
 
+
+let  verify = async(addr) => {
+  var geocoder = new google.maps.Geocoder();
+  var res =null;
+  await geocoder.geocode({
+    address: addr
+  }, function(responses) {
+    
+    if (responses && responses.length > 0) {
+      console.log("XD")
+      res =true
+    } else {
+      res =null
+      console.log("EFE")
+    }
+  });
+  return res;
+};
 const getInstallationSheetState = async ($scope, order) => {
   const previousInstallationSheet = await $scope.paldiService.installationSheet.fetchState($scope.order.id)
   const data = previousInstallationSheet.data ?? {}
@@ -69,7 +87,13 @@ export const showCreateInstallationSheetDialog = async (
       // } else { 
       //   $scope.installationSheet.extraError = false;
       // }
-
+      let vald = await verify(data.address)
+      if(vald==null){
+        $scope.error.address.invalid=true
+        return
+      }else{
+        $scope.error.address.invalid=false
+      }
       const finalExtras = data.otherExtra.filter(
         (extraItem) => data.extras[extraItem]
       );
@@ -173,7 +197,8 @@ export const showCreateInstallationSheetDialog = async (
         name: 'Estación Tijuana'
       } 
       $scope.address = {}
-  
+      
+      
       $scope.map = '';
   
       $scope.geocodePosition = function(pos) {
@@ -184,7 +209,7 @@ export const showCreateInstallationSheetDialog = async (
           if (responses && responses.length > 0) {
             $scope.updateMarkerAddress(responses[0]);
           } else {
-            $scope.error = 'I feel free..!!!';
+            $scope.error.address.invalid=true;
           }
         });
       };
@@ -197,12 +222,20 @@ export const showCreateInstallationSheetDialog = async (
          
           if (responses && responses.length > 0) {
             res = responses[0]
+            $scope.error.address.invalid=false;
           } else {
-            $scope.error = 'I feel free..!!!';
+            $scope.error.address.invalid=true;
+
           }
         });
         return res;
       };
+
+      $scope.error={
+        'address':{
+          'invalid':$scope.addressToGeocode($scope.installationSheet.address)!=null?false:true
+        }
+      }
      
       $scope.timer = '';
       $scope.updateMapMarker= function(str){

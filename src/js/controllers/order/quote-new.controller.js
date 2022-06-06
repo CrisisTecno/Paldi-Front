@@ -2056,8 +2056,10 @@ function updateMeta($scope,product){
       $scope.balance = angular.copy(product)
       $scope.updateTypeNoErasing("Balance", $scope.balance)
       $scope.colorSelected({
-        label: product.color.code, value: {code: product.color},
-      }, "Balance",product,)
+        label: product.type != "Wrapped Cornice" ? product.color.code : product.color,
+        textil: product.textil,
+        value: { code: product.color, textil:product.textil},
+      }, "Balance", product,)
       break
     case "Piso":
       $scope.piso = angular.copy(product)

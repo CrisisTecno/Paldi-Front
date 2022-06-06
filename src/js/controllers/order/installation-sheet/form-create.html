@@ -25,7 +25,8 @@
 
       <div id="mapcanvas" style=" height: 300px; width:100%;margin: 0px;padding: 0px"></div>
         
-      <small class="error-message" ng-if="installationForm.$validated && installationForm.address.$error.required">Campo requerido</small>
+      <small class="error-message" ng-if="installationForm.$validated &&  installationForm.address.$error.required">Campo requerido</small>
+      <small class="error-message" ng-if="error.address.invalid">Dirección Inválida</small>
     </div>
     <div class="form-group">
       <label>Código Postal</label>
