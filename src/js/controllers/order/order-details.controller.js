@@ -53,7 +53,7 @@ pdApp.controller(
     $scope.getMatchDiscounts = function(name){
       if(EXECUTION_ENV=="INTERNAL") return name
       let formated
-      console.log(name)
+      
       switch(name){
         case"Descuento Balance":
           formated="Top Treatments";
@@ -90,7 +90,7 @@ pdApp.controller(
 
       
       paldiService.orders.get(id).then(async function (order) {
-        console.log(order)
+        
         $scope.order = order;
         
       

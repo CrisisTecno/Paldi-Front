@@ -927,7 +927,7 @@ module.exports = {
     heights:"Alto/frente (cm)",
     way:"Tapa",
     right_return:"Retorno derecho",
-    left_return:"Retorno Izquiero",
+    left_return:"Retorno Izquierdo",
   },
   login:{
     mail_required:"El correo es requerido",

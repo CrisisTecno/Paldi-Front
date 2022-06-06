@@ -179,7 +179,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     'config':{
       'units':EXECUTION_ENV=="EXTERNAL"?"\"":"CM",
       'Heights':{
-        'Wrapped Cornice': EXECUTION_ENV=="EXTERNAL"?[[6,6],[8,8],[10,10]]:[[15.2,0.1524 ],[20.3,0.2032],[25.4,0.254]],
+        'Wrapped Cornice': EXECUTION_ENV=="EXTERNAL"?[[6,6],[8,8],[10,10]]:[[15.2,0.152],[20.3,0.2],[25.4,0.254]],
         'Aluminum Gallery': EXECUTION_ENV=="EXTERNAL"?[[5,5],[8,8]]:[[12.7,0.127],[20.3,0.2032]],
       },
       'Mount':{
@@ -673,7 +673,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.updateTypeNoErasing("Balance", $scope.balance)
         
         $scope.colorSelected({
-          label: product.type != "Wrapped Cornice" ? product.color.code : product.textil,
+          label: product.type != "Wrapped Cornice" ? product.color.code : product.color,
           textil: product.textil,
           value: { code: product.color, textil:product.textil},
         }, "Balance", $scope.balance,)
@@ -1638,11 +1638,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     }
 
     if (model.height) {
-      let height = parseFloat(model.height.toString().match(/.*\..{0,4}|.*/)[0],)
+      let height = parseFloat(model.height.toString().match(/.*\..{0,3}|.*/)[0],)
       //console.log(model)
       if(model.type=="Wrapped Cornice" || model.type=="Aluminum Gallery")
       { height=parseFloat(model.height)
-      //console.log("DONE")
+      console.log("DONE",height)
       }
       //console.log(angular.copy(height),parseFloat(model.height))
       if(product=="Cortina"){
@@ -1652,6 +1652,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       }
       else{
         model.height=height
+        console.log(model.height)
       }
     }
   }

@@ -19,7 +19,7 @@ export function generateBalanceHandlers($http) {
 
     if(balance.type=="Wrapped Cornice" || balance.type=="Aluminum Gallery"){
       
-      if(balance.height == 0.152) balance.height=0.1524
+      if(balance.height == 0.152) balance.height=0.152
       if(balance.height == 0.203) balance.height=0.2032
     }
    // console.log("BALANCE BF",angular.copy(balance))

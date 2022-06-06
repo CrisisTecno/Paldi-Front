@@ -40,7 +40,7 @@
 
         <div class="form-group" ng-if="balance.type=='Wrapped Cornice'">
             <label ng-hide="showSpinner"><%= htmlWebpackPlugin.options.balance.textil%></label>
-            <input ng-hide="showSpinner" type="text" name="textil" ng-model="color" id="textil" ng-disabled="!balance.type" class="form-control"  required="" uib-typeahead=" color.textil for color in balance.colors | filter: $viewValue | limitTo:12" typeahead-editable="false" typeahead-on-select="colorSelected($item, 'Balance', balance)">
+            <input ng-hide="showSpinner" type="text" name="textil" ng-model="color" id="textil" ng-disabled="!balance.type" class="form-control"  required="" uib-typeahead="color.textil +'-'+ color.label for color in balance.colors | filter: $viewValue | limitTo:12" typeahead-editable="false" typeahead-on-select="colorSelected($item, 'Balance', balance)">
             <small ng-hide="showSpinner" class="error-message" ng-if="balanceForm.$validated && balanceForm.color.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
             <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
         </div>

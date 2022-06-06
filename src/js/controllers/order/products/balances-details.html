@@ -8,7 +8,7 @@
 
             <th><%= htmlWebpackPlugin.options.details_headers.width%></th>
             <th><%= htmlWebpackPlugin.options.details_headers.height%></th>
-            <th><%= htmlWebpackPlugin.options.details_headers.color%>/Fabric</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.color%>/<%= htmlWebpackPlugin.options.details_headers.textil%></th>
 
             <th><%= htmlWebpackPlugin.options.details_headers.unit_price%></th>
             <th><%= htmlWebpackPlugin.options.details_headers.total%></th>
@@ -26,8 +26,7 @@
 
             <td><%= htmlWebpackPlugin.options.details_headers.units_width%></td>
             <td><%= htmlWebpackPlugin.options.details_headers.units_height%></td>
-            <td>{{p.type=="Wrapped Cornice" ? p.textil : p.color}}</td>
-
+            <td>{{p.type=="Wrapped Cornice" ? p.textil +'-'+p.color : p.color}}</td>
             <td>{{p.price | currency}}</td>
             <td>{{p.total | currency}}</td>
 
