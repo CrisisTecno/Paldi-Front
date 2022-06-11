@@ -649,11 +649,11 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
 
-    save: function (order) {
-
+    save: function (orders) {
+      let order = { ...angular.copy(orders) }
       if(EXECUTION_ENV=="EXTERNAL"){
         //console.log("SAVING ORDER: ", order)
-      order = { ...order }
+      
       order.products = [...(order.products.map(v => ({
         ...v,
         width: inches_to_meters(v.width + parseFloat(v.w_fraction || 0)),

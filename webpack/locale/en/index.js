@@ -569,7 +569,7 @@ module.exports = {
     <button
     class="btn btn-default"
     ng-click="addProduct('Balance')"
-    ng-show="!quote.type || quote.type=='Balance'"
+    ng-show="!quote.type || quote.type=='Balance' || quote.type=='Mixta' || quote.type=='Enrollable' "
 >Top Treatments
 </button>
 
@@ -587,7 +587,7 @@ module.exports = {
 <button
     class="btn btn-default"
     ng-click="addProduct('Enrollable')"
-    ng-show="!quote.type || quote.type=='Enrollable'"
+    ng-show="!quote.type || quote.type=='Enrollable' || quote.type=='Mixta' || quote.type=='Balance' "
 >Shades
 </button>
 

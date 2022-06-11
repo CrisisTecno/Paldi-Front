@@ -7,6 +7,8 @@ import { meters_to_inches } from "../../utils/units"
 pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $stateParams, paldiService, colorPriceService, $timeout, jsonService, DTOptionsBuilder, DTColumnDefBuilder, permissionsHelper,) {
   const MIXED_ORDER = "Mixta"
   $scope.updateTotals = colorPriceService.updateTotals
+  
+  $scope.originalMix = false;
 
   $scope.translateType = function(name){
     if (EXECUTION_ENV!="EXTERNAL") {
@@ -1205,13 +1207,45 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         },)
       } else {
         if ($scope.quote.type === "Mixta") {
+
+          if(EXECUTION_ENV=="EXTERNAL"){
+            $scope.productsFiltered.forEach(function (productFiltered) {
+              colorPriceService.prepare(
+                productFiltered.type,
+                $scope.quote
+              );});
+   
+            $scope.subquote = angular.copy($scope.quote);
+            $scope.subQuote = angular.copy($scope.quote);
+            $scope.updatingOrderType =false;
+          } 
+
           $scope.quote.userId = $rootScope.currentUser.id
           $scope.saveDisabled = true
           paldiService.orders.update($scope.quote).then(function (quote) {
+
+            if(EXECUTION_ENV=="EXTERNAL"){
+              $scope.saveDisabled = false;
+              $scope.quote.orderParentId = quote.id;
+
+              $scope.filterMixedProducts();
+              if(!$scope.originalMix){
+
+                $scope.updatingOrderType =true;
+
+
+                createSuborders(0);
+              }
+              else{
+              updateSuborders(quote.id, 0);
+              }
+            }else{
+          
             $scope.saveDisabled = false
             $scope.quote.orderParentId = quote.id
             $scope.filterMixedProducts()
             updateSuborders(quote.id, 0)
+            }
             $scope.saveDisabled = false
             swal({
               title: (EXECUTION_ENV=="EXTERNAL"?"Quote edited succesfully" :"Cotización editada exitosamente"), type: "success", confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept" :"Aceptar"),
@@ -1311,6 +1345,25 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   function createSuborders(count) {
     if (count < $scope.productsMixed.length) {
       var i = count
+
+      if(EXECUTION_ENV=="EXTERNAL"){
+
+        if($scope.updatingOrderType){
+          $scope.subquote = angular.copy($scope.subQuote)
+          $scope.productsFiltered.forEach(function (productFiltered) {
+            colorPriceService.prepare(
+              productFiltered.type,
+              $scope.subquote
+            );});
+            $scope.subquote.orderParentId = $scope.subQuote.id;
+                  $scope.subquote.clientId = $scope.quote.client.id
+                  $scope.subquote.userId = $scope.quote.user.id
+         // console.log("ENABLING UPDATE",angular.copy($scope.productsFiltered))
+        }
+
+      }
+
+
       $scope.subquote.products = $scope.productsMixed[i].products
       $scope.subquote.type = $scope.productsMixed[i].type
 
@@ -1320,7 +1373,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       paldiService.orders
         .saveSubOrder($scope.subquote, $scope.productsMixed[i].type)
         .then(function (suborder) {
-          $state.go("console.quote-list")
+          if(EXECUTION_ENV=="INTERNAL" || !$scope.updatingOrderType){
+                $state.go("console.quote-list");
+              }
           i++
           createSuborders(i)
         }, function (error) {
