@@ -1088,10 +1088,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     // this should not be done in here, but best place to put it
     // quick and dirty, todo: clean later
     if (product === "Cortina") {
-      //  // // console.log("HELLO?, UPDATING PRICE OF CORTINA")
-      //  // // console.log(model, $scope.productData.cortina)
-     
-      model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color === model.colorName)[0]
+      console.log("HELLO?, UPDATING PRICE OF CORTINA")
+      console.log(model, $scope.productData.cortina)
+      console.log(model.textil)
+      model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color.toLowerCase() === model.colorName.toLowerCase())[0]
       model.color.name = model.color.color
       model.color.type = "Cortina"
 
@@ -1297,6 +1297,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         return path + "custom.html";
       case "Cortina":
         return path + "cortinas.html"
+        case "Cortinas":
+          return path + "cortinas.html"
     }
   }
 
@@ -2146,7 +2148,8 @@ function addNewProduct($scope, product) {
   // @note scope cortina init
   angular.copy({}, $scope.cortina);
   //  // console.log(product)
-
+  console.log("AAAAA")
+  console.log(product)
   $scope.product = product
   $scope.plusList = []
   $scope.motorList = []

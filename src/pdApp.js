@@ -168,6 +168,14 @@ const pdApp = angular
         authRequired: true,
         env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
+      .state("console.calendar-install", {
+        url: "/installCalendar",
+        templateUrl: "js/controllers/order/installation-calendar.html",
+        controller: "InstallCalendarCtrl",
+        title: EXECUTION_ENV=="EXTERNAL"?"Installs":"Instalaciones",
+        authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
+      })
       .state("console.user-details", {
         url: "/user/:userId",
         templateUrl: "js/controllers/users/user-details.html",
