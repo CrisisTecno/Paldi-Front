@@ -79,7 +79,9 @@
         <a href="#/console/order/{{order.orderParent.id}}" ng-show="order.status != 'QUOTE'" class="status-tag ORDER">Orden #{{order.orderNo}}</a>
       </div>
       <div class="pull-right">
+        <% if (htmlWebpackPlugin.options.features.city) {%>
         <span ng-show="order.source" class="status-tag source">{{order.source}}</span>
+        <%}%>
         <span ng-show="order.status != 'QUOTE'" class="status-tag {{order.status}}"><%=htmlWebpackPlugin.options.order_details.order_stats%></span>
         <span ng-show="order.status == 'QUOTE'" class="status-tag {{order.quoteStatus}}"><%=htmlWebpackPlugin.options.order_details.order_status_p%></span>
         <span ng-show="['LINE', 'BACKORDER', 'PRODUCTION', 'TRANSIT', 'FINISHED'].indexOf(order.status) !== -1 && order.installationDate" class="status-tag PROGRAMMED">P</span>

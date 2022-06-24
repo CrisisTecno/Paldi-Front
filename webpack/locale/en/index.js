@@ -1063,7 +1063,7 @@ ng-show="!quote.type || quote.type=='Cortina'"
   },
   change_pass:{
     change_pass:"Change Password",
-    alert_pass:"Por cuestiones de seguridad debe crear una nueva contraseña",
+    alert_pass:"For your security, you need to provide a new password",
     actual_pass:"Actual Password",
     incorrect_pass:"Wrong Password",
     different_pass:"Password must be diffent from the previous one",
