@@ -50,6 +50,62 @@ pdApp.controller(
       return $scope.pretty("productType",$scope.order.type) + " & Add Ins Discount"
     }
 
+    $scope.sendWhatsapp = function(){
+      const res = paldiService.schedule.sendMessage($stateParams.orderId)
+
+     
+    }
+
+    $scope.scheduleRedirect = async function(){
+      $scope.dialog.close();
+      const res = await paldiService.schedule.sendMessage($stateParams.orderId)
+      if(res.data=='Error'){
+        swal({
+          title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Error"),
+          type: "error",
+          text:"Hoja de Instalación no definida",
+          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar") ,
+        });
+      }
+      else{
+      console.log(res)
+      window.open(res.data.link, '_blank');
+      }
+    }
+
+    $scope.messageDialog = async function(){
+      $scope.dialog.close()
+      const res = await paldiService.schedule.sendMessage($stateParams.orderId)
+      if(res.data=='Error'){
+        swal({
+          title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Error"),
+          type: "error",
+          text:"Hoja de Instalación no definida",
+          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar") ,
+        });
+      }else{
+      $scope.messageSMS = res.data.message
+      $scope.dialog = ngDialog.open({
+        template:"js/controllers/order/scheduleforms/message-dialog.html",
+        scope:$scope,
+        showClose: false
+      })
+    }
+      
+    }
+
+    $scope.copyToClipboard = function(){
+      navigator.clipboard.writeText($scope.messageSMS);
+      $scope.dialog.close()
+    }
+    $scope.showOptionsDialog = function(){
+      $scope.dialog = ngDialog.open({
+        template:"js/controllers/order/scheduleforms/options-dialog.html",
+        scope:$scope,
+        showClose: false
+      })
+    }
+
     $scope.getMatchDiscounts = function(name){
       if(EXECUTION_ENV=="INTERNAL") return name
       let formated

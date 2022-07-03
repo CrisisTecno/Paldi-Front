@@ -32,6 +32,18 @@ function addParams(params){
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   let service = {};
 
+  service.schedule = {
+    sendMessage: async function (order) {
+      return $http
+        .post(globals.apiURL + "/newapi/schedule/sendSMS", {
+          order_id: order,
+        })
+        .then(function (response) {
+          return response.data;
+        });
+  }
+}
+
   service.shipment = {
 
     sheet: async function(order_id,boxesNum,user, folio){

@@ -6,9 +6,30 @@
 		</div>
 		<div class="ibox-content">
 
+		<div>
+			<label>Calendario de Instalacion para : </label>
+			<select name="Calendars" id="calendars" ng-model="selected" ng-change="updateCalendar(selected)">
+				<option ng-repeat="(key, value) in calendars" value="{{value}}">{{key}}</option>
+			  </select>
+		</div>
+
 			
-			<iframe src="https://calendar.google.com/calendar/embed?src=instaladorpaldi1%40gmail.com&ctz=America%2FTijuana" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-            <iframe src="https://calendar.google.com/calendar/embed?src=instaladorpaldi2%40gmail.com&ctz=America%2FTijuana" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+
+
+
+
+
+    <!-- <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.js'></script>
+  
+
+
+    <div id='calendar'></div> -->
+
+
+			<iframe id='calendarframe' src="https://calendar.google.com/calendar/embed?src=instaladorpaldi1%40gmail.com&ctz=America%2FTijuana" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+            <!-- <iframe src="https://calendar.google.com/calendar/embed?src=instaladorpaldi2%40gmail.com&ctz=America%2FTijuana" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe> -->
 
 		</div>
 	</div>

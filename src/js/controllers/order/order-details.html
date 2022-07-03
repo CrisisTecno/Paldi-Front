@@ -473,6 +473,8 @@
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canFinish  && !isMaster" ng-click="changeStatusDialog('FINISHED')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.finish%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canSetInstallDate  && !isMaster" ng-click="dateDialog('install')"><span class="btn-icon glyphicon glyphicon-calendar "></span><%= htmlWebpackPlugin.options.order_details.inst_date%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canFinish  && !isMaster && !external" ng-click="shipmentDialog()"><span class="btn-icon glyphicon glyphicon-tags"></span> Generar Etiquetas</button>
+          
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canFinish  && !isMaster && !external" ng-click="showOptionsDialog()"><span class="btn-icon glyphicon glyphicon-tags"></span> Agendar Instalacion </button>
           <!-- TODO: retire the inline-style -->
           <div class="dropdown show" style="width: min-content;" ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'ADMIN' || currentUser.role == 'INSTALLATION_MANAGER'">
             <button ng-show="!currentUser.realRole"class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
