@@ -20,6 +20,11 @@
                 </h3>
                 <ul>
                     <li> <span>Rol:</span> {{ pretty("userRole", user.role) }}</li>
+
+                    <div ng-if="user.role=='PROVIDER'"class="form-group">
+                        <button type="button" class="btn-default" ng-click="assignProductsDialog()">Editar Productos</button>
+                    </div>
+                    
                 </ul>
                 <h3><i class="fa fa-envelope" aria-hidden="true"></i>
                     <%= htmlWebpackPlugin.options.users.contact_info %>        

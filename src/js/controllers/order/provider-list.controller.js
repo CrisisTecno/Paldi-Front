@@ -2,7 +2,7 @@ import { pdApp } from "../index";
 import moment from "moment";
 
 pdApp.controller(
-	"OrderListCtrl",
+	"ProviderListCtrl",
 	function (
 		$rootScope,
 		$scope,
@@ -17,6 +17,8 @@ pdApp.controller(
 		DTColumnBuilder
 	) {
 		$timeout(function(){},2000)
+
+		
 
 		$scope.external = EXECUTION_ENV=="EXTERNAL"
 		$scope.statusList = [];
@@ -45,7 +47,7 @@ pdApp.controller(
 			? ($scope.isConsultant = true)
 			: ($scope.isConsultant = false);
 
-		var serverData = function (sSource, aoData, fnCallback, oSettings) {
+		var serverData = async function (sSource, aoData, fnCallback, oSettings) {
       // console.log(sSource, aoData, fnCallback, oSettings)
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
@@ -69,8 +71,6 @@ pdApp.controller(
 			}
 			pastSort = newSort;
 
-			let provStatus = (($scope.currentUser.role=="PROVIDER" || $scope.currentUser.role=="BUYER" || $scope.currentUser.role=="SUPERADMIN" ||$scope.currentUser.role=="MANAGER") && EXECUTION_ENV=="INTERNAL")
-			
 			if (cleanStatusList.length == 0) {
 				var result = {
 					draw: draw,
@@ -82,16 +82,19 @@ pdApp.controller(
 				fnCallback(result);
 			} else {
 				if ($scope.selectedType !== "consultant") {
-					paldiService.orders
-						.searchByStatusList(
+                    
+                    ///let ids = paldiService.orders.bulkProvidersIds()
+					
+                    paldiService.orders
+						.searchByStatusListAndIds(
 							cleanStatusList,
 							sear,
+                            $scope.currentUser.id,
 							page * size,
 							size,
 							sort,
 							$scope.startDate,
-							$scope.endDate,
-							provStatus
+							$scope.endDate
 						)
 						.then(function (data) {
 							var result = {
@@ -112,7 +115,7 @@ pdApp.controller(
 							
 						   
 					}
-				
+                    
 					paldiService.orders
 						.searchByUser(
 							cleanStatusList,
@@ -164,13 +167,10 @@ pdApp.controller(
 		var typeChange = function () {
 			cleanStatusList = [];
 			
-			
 			angular.forEach($scope.statusList, function (status) {
 				
 				cleanStatusList.push(status.id);
 			});
-
-			
 			$rootScope.orderStatusList = $scope.statusList;
 
 			$scope.drawTable();
@@ -199,6 +199,11 @@ pdApp.controller(
 		  }
 
 		$scope.toggleDetails = function (orderId) {
+			let hx = document.getElementById('pageActualWidth').clientHeight
+			let ht = document.getElementById('slidepage').clientHeight
+
+			$scope.clientHeight=ht-hx - 15;
+			
 			if (orderId) {
 				paldiService.orders.get(orderId).then(function (order) {
 					$scope.selectedOrder = order;
@@ -284,60 +289,9 @@ pdApp.controller(
 						"</a>"
 					);
 				}),
-			DTColumnBuilder.newColumn(null)
-				.withOption("name", "assesor_txt")
-				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Vendedor":"Sales Rep")
-				.renderWith(function (data) {
-					var id = "&#39;" + data.id + "&#39;";
-					return (
-						'<a ng-click="toggleDetails(' +
-						id +
-						')">' +
-						data.assesor_txt +
-						"</a>"
-					);
-				}),
-			DTColumnBuilder.newColumn(null)
-				.withOption("name", "total_d")
-				.withTitle("Total")
-				.renderWith(function (data) {
-					var id = "&#39;" + data.id + "&#39;";
-					return (
-						'<a ng-click="toggleDetails(' +
-						id +
-						')">' +
-						$filter("currency")(data.total_d) +
-						"</a>"
-					);
-				}),
-			DTColumnBuilder.newColumn(null)
-				.withOption("name", "balance_d")
-				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Saldo":"Balance")
-				.renderWith(function (data) {
-					var id = "&#39;" + data.id + "&#39;";
-
-					if (!data.isSuborder_b) {
-						var balance =
-							data.balance_d == null
-								? data.total_d
-								: data.balance_d;
-						return (
-							'<a ng-click="toggleDetails(' +
-							id +
-							')">' +
-							$filter("currency")(balance) +
-							"</a>"
-						);
-					} else {
-						return (
-							'<a ng-click="toggleDetails(' +
-							id +
-							')">' +
-							"-" +
-							"</a>"
-						);
-					}
-				}),
+		
+			
+			
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "status_s")
 				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Estado":"Order Status")
@@ -347,9 +301,13 @@ pdApp.controller(
 						"reverseOrderStatus",
 						data.status_s
 					);
+
+					
+
 					if(status=="LINE" && data.providerStatus_s){
 						status = data.providerStatus_s
 					  }
+					  
 					var text =
 						'<a ng-click="toggleDetails(' +
 						id +
@@ -378,71 +336,6 @@ pdApp.controller(
 						text = text + programmed;
 					}
 					return text;
-				}),
-			DTColumnBuilder.newColumn(null)
-				.withOption("name", "dpfc")
-				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"D.P.F.C":"Days To Due Date")
-				.renderWith(function (data) {
-					var id = "&#39;" + data.id + "&#39;";
-					var startDate = data.cycleStartDate_dt
-						? moment(data.cycleStartDate_dt)
-						: null;
-					var commitmentDate = data.commitmentDate_dt
-						? moment(data.commitmentDate_dt)
-						: null;
-					var endDate = data.cycleFinishDate_dt
-						? moment(data.cycleFinishDate_dt)
-						: null;
-					var days = getRemainingDays(
-						startDate,
-						commitmentDate,
-						endDate
-					);
-					var commitmentStatus = getCountdownStatus(
-						startDate,
-						days,
-						commitmentDate,
-						endDate
-					);
-					var dpfcDays = getDPFCDays(
-						days,
-						data.status_s,
-						startDate,
-						commitmentDate
-					);
-					return (
-						'<a ng-click="toggleDetails(' +
-						id +
-						')" class="order-cycle ' +
-						commitmentStatus +
-						'">' +
-						dpfcDays +
-						"</a>"
-					);
-				}),
-
-			DTColumnBuilder.newColumn(null)
-				.withOption("name", "cycle")
-				.withTitle(EXECUTION_ENV!="EXTERNAL" ?"Tiempo de Ciclo":"Cycle Time")
-				.renderWith(function (data) {
-					var id = "&#39;" + data.id + "&#39;";
-					var startDate = data.cycleStartDate_dt
-						? moment(data.cycleStartDate_dt)
-						: null;
-					var endDate = data.cycleFinishDate_dt
-						? moment(data.cycleFinishDate_dt)
-						: null;
-					var status = getCycleStatus(startDate, endDate);
-					var days = getCycleDays(startDate, endDate);
-					return (
-						'<a ng-click="toggleDetails(' +
-						id +
-						')" class="order-cycle ' +
-						status +
-						'">' +
-						days +
-						"</a>"
-					);
 				}),
 		];
 
@@ -851,9 +744,6 @@ pdApp.controller(
 						"reverseOrderStatus",
 						data.status_s
 					);
-					if(status=="LINE" && data.providerStatus_s){
-						status = data.providerStatus_s
-					  }
 					return (
 						'<a ng-click="toggleDetails(' +
 						id +
@@ -1427,11 +1317,15 @@ pdApp.controller(
 						$scope.tableColumns = consultantExternalColumns;
 					}
 					break;
+				case "PROVIDER":
+					$scope.tableColumns=adminColumns;
+					break;
 			}
 			fillStatusList(
 				permissionsHelper.getStatusList($rootScope.currentUser.role)
 			);
 			$scope.statusList = $rootScope.orderStatusList;
+
 			if($scope.currentUser.role=="PROVIDER" || $scope.currentUser.role=="BUYER" || $scope.currentUser.role=="SUPERADMIN" ||$scope.currentUser.role=="MANAGER" && EXECUTION_ENV=="INTERNAL"){
 				let specialList =["AUTHORIZED","PENDING_INFO","QUOTE"]
 				angular.forEach(specialList,function(status){
@@ -1440,10 +1334,11 @@ pdApp.controller(
 					});
 				})
 			}
-			if (EXECUTION_ENV=="EXTERNAL"){
-				let notAllowedList = ["LINE","TRANSIT","FINISHED"]
-				$scope.statusList = $scope.statusList.filter(status => !notAllowedList.includes(status.id))
-			}
+
+			let notAllowedList = ["BACKORDER","FINISHED","INSTALLED","INSTALLED_NONCONFORM","INSTALLED_INCOMPLETE","PROGRAMMED","PENDING","REJECTED"]
+				
+			$scope.statusList = $scope.statusList.filter(status => !notAllowedList.includes(status.id))
+			
 			
 			typeChange();
 			typeChange();
@@ -1454,10 +1349,11 @@ pdApp.controller(
 		};
 
 		var fillStatusList = function (list) {
-			let notAllowedList = ["LINE","TRANSIT","FINISHED"]
+			let notAllowedList = ["BACKORDER","FINISHED","INSTALLED","INSTALLED_NONCONFORM","INSTALLED_INCOMPLETE","PROGRAMMED","QUOTE","PENDING","REJECTED"]
+			
 			angular.forEach(list, function (status) {
 				
-				if(EXECUTION_ENV=="EXTERNAL"){
+				
 					if(notAllowedList.includes(status)){
 						
 					}
@@ -1468,14 +1364,11 @@ pdApp.controller(
 							value: status,
 						});
 					}
-				}
-				else{
-				$scope.availableStatusList.push({
-					
-					label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),
-					value: status,
-				});
-			}
+
+
+				
+				
+			
 			});
 			if($scope.currentUser.role=="PROVIDER" || $scope.currentUser.role=="BUYER" || $scope.currentUser.role=="SUPERADMIN" ||$scope.currentUser.role=="MANAGER" && EXECUTION_ENV=="INTERNAL"){
 				let specialList =["AUTHORIZED","PENDING_INFO","QUOTE"]
@@ -1486,11 +1379,13 @@ pdApp.controller(
 					});
 				})
 			}
+			
 			if (!$rootScope.orderStatusList) {
 				$rootScope.orderStatusList = [];
 				$scope.availableStatusList.forEach(function (status) {
 					$rootScope.orderStatusList.push({ id: status.value });
 				});
+				
 			}
 		};
 		//========================== DATEPICKER ====================

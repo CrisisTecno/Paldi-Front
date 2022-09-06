@@ -13,7 +13,7 @@ export function generateBalanceHandlers($http) {
     }
    // console.log("BALANCE AF",angular.copy(balance))
     if(balance.type=="De madera"){
-      console.log("aaaaaa")
+      
       delete balance.textil
     }
 
@@ -41,7 +41,7 @@ export function generateBalanceHandlers($http) {
             balance.width && balance.quantity && balance.price
               ? balance.price * balance.quantity
               : null;
-          console.log("PRICE OF BALANCE",balance.total)
+          
         });
     } else {
       balance.unit = null;

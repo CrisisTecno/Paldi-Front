@@ -51,6 +51,7 @@ pdApp.controller(
     function goIn() {
       $scope.$emit("user:mightBeAvailable")
       let name = (EXECUTION_ENV=="EXTERNAL"?"console.quote-list":"console.order-list")
+      if($scope.currentUser.role=="PROVIDER") name='console.provider-list'
       if ($rootScope.currentUser) {
         yokozuna.goLastVisitedOrElse(name)
       } else {

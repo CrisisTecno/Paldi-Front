@@ -14,11 +14,11 @@ let  verify = async(addr) => {
   }, function(responses) {
     
     if (responses && responses.length > 0) {
-      console.log("XD")
+     
       res =true
     } else {
       res =null
-      console.log("EFE")
+     
     }
   });
   return res;
@@ -247,7 +247,7 @@ export const showCreateInstallationSheetDialog = async (
    
       
       $scope.updateMarker = async(str)=>{
-        console.log("AAAAAAAA")
+       
         var res = await $scope.addressToGeocode(str)
         
         res.address_components.forEach(elem=>{

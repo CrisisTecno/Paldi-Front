@@ -1,4 +1,5 @@
 import { pdApp } from "../index";
+import {swalErrorFactory} from "../../utils/swals/generic"
 
 pdApp.controller(
 	"UserDetailsCtrl",
@@ -6,6 +7,7 @@ pdApp.controller(
 		$scope,
 		$rootScope,
 		$state,
+		ngDialog,
 		$timeout,
 		$stateParams,
 		paldiService
@@ -26,8 +28,13 @@ pdApp.controller(
 					if(user.realRole){
 						user.role =user.realRole
 					}
-		
-					console.log("USR",user)
+					paldiService.users.getProviderProducts(id).then(res=>{
+						console.log(res)
+						if(Object.keys(res).includes('user'))delete res['user']
+						if(Object.keys(res).includes('_id'))delete res['_id']
+						$scope.assignedProducts = res
+					  })
+					
 
 					$scope.user = user;
 					$scope.user.warehouseId = user.warehouse
@@ -105,6 +112,90 @@ pdApp.controller(
 				}
 			);
 		};
+
+		$scope.providerProducts = {
+			"Enrollable":[
+			  "Cascade","Triple Shade","Horizontales de Madera","Enrollables","Romanas","Eclisse","Verticales de PVC","Horizontales de Aluminio","Celular","Enrollables Wolken"
+			],
+			"Cortina":[
+			  "Plitz Frances", "Ondulada"
+			],
+			"Balance":
+			[
+			  "Wrapped Cornice","Aluminum Gallery"
+			],
+			"Toldo":[
+			  "Capri","Select","Pergola","Pergolato","Arion"
+			],
+			"Filtrasol":['Filtrasol Eclisse',"Filtrasol Enrollables","Filtrasol Panel Deslizante", "Filtrasol Triple Shade"]
+		  }
+		
+		  $scope.providerSelectionList ={}
+		  for (const [key,value] of Object.entries($scope.providerProducts)){
+			
+			$scope.providerSelectionList[key]= Object.assign({},...value.map(x=>({[x]:false})))
+		  }
+		
+		  console.log($scope.providerSelectionList)
+		  
+		  $scope.assignedProducts = {
+			"Enrollable":[],
+			"Cortina":[],
+			"Balance":[],
+			"Toldo":[],
+			"Filtrasol":[]
+		  }
+		  
+		 
+		
+		  $scope.toggleProduct = function(type,product){
+			$scope.providerSelectionList[type][product]=!$scope.providerSelectionList[type][product]
+		  }
+		
+		  $scope.assignProductsDialog = function(){
+			console.log("AAAAAA")
+			$scope.resetProducts()
+			$scope.dialog = ngDialog.open({
+			  template:"js/controllers/users/provider-products.html",
+			  scope:$scope,
+			  showClose: false
+			})
+		  }
+		
+		  $scope.selectProducts = async function(){
+			
+
+			for(const [key,value] of Object.entries($scope.providerSelectionList)){
+		
+			  for (const [prod,accepted] of Object.entries(value)){
+				if(accepted===true && !$scope.assignedProducts[key].includes(prod)) $scope.assignedProducts[key].push(prod)
+			  }
+			}
+
+			if($scope.user.role=="PROVIDER" && !checkProductsAssigned()){
+
+				swal(swalErrorFactory('Debe asignar almenos 1 producto.'))
+				return
+			  }
+			$scope.dialog.close()
+
+			await paldiService.users.updateProviderProducts($scope.assignedProducts,$scope.user.id).then($scope.loadUser())
+			
+
+		  }
+		
+		  $scope.resetProducts = function(){
+			for(const [key,value] of Object.entries($scope.providerSelectionList)){
+		
+			  for (const prod of Object.keys(value)){
+				$scope.providerSelectionList[key][prod]=$scope.assignedProducts[key].includes(prod)
+			  }
+			}
+		  }
+		  function checkProductsAssigned(){
+		   console.log(Object.values($scope.assignedProducts).map(x=>x.length).reduce((partialSum, a) => partialSum + a, 0))
+			return Object.values($scope.assignedProducts).map(x=>x.length).reduce((partialSum, a) => partialSum + a, 0) >0
+		  }
 
 		$scope.activate = function () {
 			swal(

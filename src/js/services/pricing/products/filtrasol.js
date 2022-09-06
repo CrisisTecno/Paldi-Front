@@ -16,21 +16,21 @@ export function generateFiltrasolHandlers($http, $rootScope) {
     
     if (!filtrasol.type) {
       isValid = false;
-      console.log("FALSE ON TYPE")
+     
     } else if (meta.priceType == "METER") {
       isUnitPrice = true;
-      console.log("FALSE ON PRICE")
+    
     }
     if (!filtrasol.colorObj) {
-      console.log("FALSE ON COLOR")
+     
       isValid = false;
     }
     if (!isUnitPrice && !filtrasol.width) {
-      console.log("FALSE ON WIDTH")
+      
       isValid = false;
     }
     if (!isUnitPrice && !filtrasol.height) {
-      console.log("FALSE ON HIEGHT")
+     
       isValid = false;
     }
 

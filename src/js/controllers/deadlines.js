@@ -22,7 +22,8 @@ pdApp.controller(
 				$scope.currentUser.role != "SUPERADMIN" &&
 				$scope.currentUser.role != "MANAGER" &&
 				$scope.currentUser.role != "SALES_MANAGER" &&
-				$scope.currentUser.role != "BUYER"
+				$scope.currentUser.role != "BUYER" &&
+				$scope.currentUser.role != "PROVIDER"
 			) {
 				$state.go("console.quote-list");
 			}
@@ -41,6 +42,10 @@ pdApp.controller(
 		};
 
 		var loadDays = function () {
+			var prov = ""
+			if($scope.currentUser.role=="PROVIDER")
+				prov=$scope.currentUser.id
+			console.log(prov)
 			$scope.days = [];
 			var ignoredDay = null;
 			var i = 0;
@@ -51,7 +56,7 @@ pdApp.controller(
 					$scope.days.push({ date: day.toDate(), value: i });
 				} else {
 					$scope.downloadLink =
-						paldiService.deadlines.getDeadlinesDownloadLink(i);
+						paldiService.deadlines.getDeadlinesDownloadLink(i,prov);
 				}
 				i++;
 			}
@@ -76,10 +81,12 @@ pdApp.controller(
 					  aoData[2].value[0].dir;
 			var size = aoData[4].value;
 			var page = aoData[3].value / size;
-
+			var prov = ""
+			if($scope.currentUser.role=="PROVIDER")
+				prov=$scope.currentUser.id
 			if ($scope.type == "PAST") {
 				paldiService.deadlines
-					.getPastDeadlines("TRANSIT", page, size, sort)
+					.getPastDeadlines("TRANSIT", page, size, sort,prov)
 					.then(function (data) {
 						var result = {
 							draw: draw,
@@ -96,7 +103,8 @@ pdApp.controller(
 						"TRANSIT",
 						page * size,
 						size,
-						sort
+						sort,
+						prov
 					)
 					.then(function (data) {
 						var result = {
@@ -123,10 +131,13 @@ pdApp.controller(
 					  aoData[2].value[0].dir;
 			var size = aoData[4].value;
 			var page = aoData[3].value / size;
+			var prov=''
+			if($scope.currentUser.role=="PROVIDER")
+				prov=$scope.currentUser.id
 
 			if ($scope.type == "PAST") {
 				paldiService.deadlines
-					.getPastDeadlines("PRODUCTION", page, size, sort)
+					.getPastDeadlines("PRODUCTION", page, size, sort,prov)
 					.then(function (data) {
 						var result = {
 							draw: draw,
@@ -143,7 +154,8 @@ pdApp.controller(
 						"PRODUCTION",
 						page * size,
 						size,
-						sort
+						sort,
+						prov
 					)
 					.then(function (data) {
 						var result = {
@@ -173,7 +185,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					if (!data.isSuborder_b) {
 						return (
-							'<a href="#/console/order/' +
+							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 							data.id +
 							'">' +
 							data.no_l +
@@ -181,7 +193,7 @@ pdApp.controller(
 						);
 					} else {
 						return (
-							'<a href="#/console/order/' +
+							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 							data.id +
 							'">' +
 							data.suborderNo +
@@ -207,7 +219,7 @@ pdApp.controller(
 						? data.providerId_s
 						: " - ";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.id +
 						'">' +
 						provider +
@@ -245,7 +257,7 @@ pdApp.controller(
 					var date =
 						data.transitDate_dt != null ? data.transitDate_dt : "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.id +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +
@@ -259,7 +271,7 @@ pdApp.controller(
 					var date =
 						data.arrivalDate_dt != null ? data.arrivalDate_dt : "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.id +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +
@@ -291,18 +303,21 @@ pdApp.controller(
 				.withOption("name", "orderNo")
 				.withTitle("No. orden")
 				.renderWith(function (data) {
+					let iddata=data.id
+					if($scope.currentUser.role=="PROVIDER") iddata=data.orderId
+					console.log(data)
 					if (!data.isSuborder_b) {
 						return (
-							'<a href="#/console/order/' +
-							data.id +
+							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
+							data.orderId+
 							'">' +
 							data.orderNo +
 							"<a>"
 						);
 					} else {
 						return (
-							'<a href="#/console/order/' +
-							data.id +
+							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
+							data.orderId +
 							'">' +
 							data.suborderNo +
 							"<a>"
@@ -325,7 +340,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					var provider = data.providerId ? data.providerId : " - ";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
 						'">' +
 						provider +
@@ -362,7 +377,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					var date = data.startDate != null ? data.startDate : "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +
@@ -378,7 +393,7 @@ pdApp.controller(
 							? data.originalEndDate
 							: "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +
@@ -391,7 +406,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					var date = data.endDate != null ? data.endDate : "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +
@@ -404,7 +419,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					var date = data.realDate != null ? data.realDate : "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +
@@ -435,7 +450,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					if (!data.isSuborder_b) {
 						return (
-							'<a href="#/console/order/' +
+							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 							data.id +
 							'">' +
 							data.no_l +
@@ -443,7 +458,7 @@ pdApp.controller(
 						);
 					} else {
 						return (
-							'<a href="#/console/order/' +
+							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 							data.id +
 							'">' +
 							data.suborderNo +
@@ -469,7 +484,7 @@ pdApp.controller(
 						? data.providerId_s
 						: " - ";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.id +
 						'">' +
 						provider +
@@ -509,7 +524,7 @@ pdApp.controller(
 							? data.productionDate_dt
 							: "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.id +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +
@@ -525,7 +540,7 @@ pdApp.controller(
 							? data.endProductionDate_dt
 							: "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.id +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +
@@ -557,13 +572,23 @@ pdApp.controller(
 				.withOption("name", "orderNo")
 				.withTitle("No. orden")
 				.renderWith(function (data) {
-					return (
-						'<a href="#/console/order/' +
-						data.orderId +
-						'">' +
-						data.orderNo +
-						"<a>"
-					);
+					if (!data.isSuborder_b) {
+						return (
+							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
+							data.id +
+							'">' +
+							data.no_l +
+							"<a>"
+						);
+					} else {
+						return (
+							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
+							data.id +
+							'">' +
+							data.suborderNo +
+							"<a>"
+						);
+					}
 				}),
 
 				DTColumnBuilder.newColumn(null)
@@ -584,7 +609,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					var provider = data.providerId ? data.providerId : " - ";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
 						'">' +
 						provider +
@@ -621,7 +646,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					var date = data.startDate != null ? data.startDate : "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +
@@ -637,7 +662,7 @@ pdApp.controller(
 							? data.originalEndDate
 							: "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +
@@ -650,7 +675,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					var date = data.endDate != null ? data.endDate : "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +
@@ -663,7 +688,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					var date = data.realDate != null ? data.realDate : "-";
 					return (
-						'<a href="#/console/order/' +
+						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
 						'">' +
 						$filter("date")(date, "dd/MM/yyyy") +

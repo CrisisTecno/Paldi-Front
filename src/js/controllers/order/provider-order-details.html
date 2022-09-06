@@ -1,0 +1,242 @@
+<div class="order-details-view">
+    <div class="ibox">
+      <div class="ibox-title">
+        <h3 ng-if="order.status == 'QUOTE' && step=='loaded'"><%= htmlWebpackPlugin.options.order_details.quote%> #{{order.orderNo}}</h3>
+        <h3 ng-if="(order.status != 'QUOTE' && order.status=='PENDING') && step=='loaded' && !isSuborder"> <%= htmlWebpackPlugin.options.order_details.quote%> #{{order.orderNo}}</h3>
+        <h3 ng-if="(order.status != 'QUOTE' && order.status!='PENDING') && step=='loaded' && !isSuborder"> <%= htmlWebpackPlugin.options.order_details.order%> #{{order.orderNo}}</h3>
+        <h3 ng-if="order.status != 'QUOTE' && step=='loaded' && isSuborder"> <%= htmlWebpackPlugin.options.order_details.order%> #{{order.orderNo}}-{{order.suborderNo}} </h3>
+      </div>
+      <div class="ibox-content">
+        <!--/////////////////////// Cliente ///////////////////////-->
+        <div ng-show="step=='loaded'">
+          <div class="client-data">
+            <h1 ng-if="order.type === 'Mixta' "> {{mixedLabel}} </h1>
+            <h1 ng-if="order.type === 'Custom' "> {{pretty('productType', products[0].type)}}</h1>
+            <h1 ng-if="order.type !== 'Custom' && order.type !== 'Mixta'">{{pretty('productType', order.type)}}</h1>
+            <table>
+              <tbody>
+                <tr class="not-hover">
+                  <td>{{client.name}} {{client.lastName}}</td>
+                  <td>{{order.date | date : external?'MMM dd, yyyy':'dd MMM, yyyy' }}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td><%= htmlWebpackPlugin.options.general.name%></td>
+                  <td><%= htmlWebpackPlugin.options.general.date%></td>
+                </tr>
+              </tfoot>
+            </table>
+            
+          </div>
+        </div>
+        <!--/////////////////////// Productos ///////////////////////-->
+        <br>
+        <legend class="details-title" ng-if="order.status == 'QUOTE' && step=='loaded'"><%= htmlWebpackPlugin.options.order_details.details_quote%> </legend>
+        <legend class="details-title" ng-if="order.status != 'QUOTE' && step=='loaded'"><%= htmlWebpackPlugin.options.order_details.details_order%> </legend>
+        <hr>
+        <!-- <div class="pull-left" ng-if="isMaster && order.status != 'PENDING' &&  order.status != 'REJECTED'" ng-repeat="suborder in suborders">
+          <a href="#/console/order/provider/{{suborder.id}}" ng-show="order.status != 'QUOTE'" class="status-tag ORDER">#{{suborder.orderNo}}-{{suborder.suborderNo}}: {{suborder.type}}</a>
+        </div>
+        <div class="pull-left" ng-if="isSuborder">
+          <a href="#/console/order/provider/{{order.orderParent.id}}" ng-show="order.status != 'QUOTE'" class="status-tag ORDER">Orden #{{order.orderNo}}</a>
+        </div> -->
+        <div class="pull-right">
+          
+          <span ng-show="order.status != 'QUOTE'" class="status-tag {{order.status}}"><%=htmlWebpackPlugin.options.order_details.order_stats%></span>
+          <span ng-show="order.status == 'QUOTE'" class="status-tag {{order.quoteStatus}}"><%=htmlWebpackPlugin.options.order_details.order_status_p%></span>
+          <span ng-show="['LINE', 'BACKORDER', 'PRODUCTION', 'TRANSIT', 'FINISHED'].indexOf(order.status) !== -1 && order.installationDate" class="status-tag PROGRAMMED">P</span>
+        </div>
+        <br>
+        <br>
+        
+        <br>
+        <div ng-if="order.statusNotes" class="order-notes">
+          <h3><%= htmlWebpackPlugin.options.order_details.state_comments%></h3>
+          <p>{{order.statusNotes}}</p>
+        </div>
+        <br>
+        <ul>
+          <li ng-show="order.status ==  'QUOTE' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
+            <label><%= htmlWebpackPlugin.options.order_details.quote_status%>:</label>
+            <select name="quoteStatus" ng-model="quoteStatus" class="status-select">
+              <%= htmlWebpackPlugin.options.order_details.quote_options%>
+            </select>
+          </li>
+          <li ng-show="order.status ==  'QUOTE' && quoteStatus == 'Venta Perdida' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
+            <label><%= htmlWebpackPlugin.options.order_details.reason%>:</label>
+            <select name="quoteSubStatus" ng-model="quoteSubStatus" class="status-reason">
+              <%= htmlWebpackPlugin.options.order_details.reason_options%>
+            </select>
+          </li>
+          <li>
+            <button class="btn btn-primary-left" ng-hide="order.quoteStatus == quoteStatus ||(quoteStatus == 'Venta Perdida' && !quoteSubStatus)" ng-click="changeQuoteStatusDialog(quoteStatus)">
+              <%= htmlWebpackPlugin.options.order_details.change_status%> </button>
+          </li>
+          <li ng-show="order.status ==  'QUOTE' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
+          </li>
+          <% if (htmlWebpackPlugin.options.features.city) { %>
+            <li ng-show="order.providerId">
+            <small><%= htmlWebpackPlugin.options.order_list.supplier%> : </small>
+            <span>{{order.providerId}}</span>
+          </li>
+          <li ng-show="order.orderTransitInvoice">
+            <small><%= htmlWebpackPlugin.options.order_list.transitInvoice%> : </small>
+            <span>{{order.orderTransitInvoice}}</span>
+          </li>
+          <li ng-show="order.guides">
+            <div ng-repeat="track in order.guides track by $index">
+            <small><%= htmlWebpackPlugin.options.order_list.trackingId%> {{$index +1}} : </small>
+            <span ><a href="https://paquetexpress.com.mx/rastreo/{{track.trim()}}">{{track}}</a></span>
+          </div>
+          </li>
+  
+            <%}%>
+          
+          <li ng-show="order.commitmentDate">
+            <small><%= htmlWebpackPlugin.options.order_list.commitment%>:</small>
+            <span>{{order.commitmentDate | date : 'dd MMM, yyyy' }}</span>
+          </li>
+          <% if (htmlWebpackPlugin.options.features.city) { %>
+            
+          <li ng-show="order.productionDate">
+            <small><%= htmlWebpackPlugin.options.order_list.production_in%>:</small>
+            <span>{{order.productionDate | date : 'dd MMM, yyyy'}}</span>
+          </li>
+          <li ng-show="order.endProductionDate">
+            <small><%= htmlWebpackPlugin.options.order_list.production_out%>:</small>
+            <span>{{order.endProductionDate | date : 'dd MMM, yyyy'}}</span>
+          </li>
+          <li ng-show="order.transitDate">
+            <small><%= htmlWebpackPlugin.options.order_list.transit_date%>:</small>
+            <span>{{order.transitDate | date : 'dd MMM, yyyy'}}</span>
+          </li>
+          <li ng-show="order.arrivalDate">
+            <small><%= htmlWebpackPlugin.options.order_list.arrival_date%>:</small>
+            <span>{{order.arrivalDate | date : 'dd MMM, yyyy'}}</span>
+          </li>
+          <li ng-show="order.programmedDate">
+            <small><%= htmlWebpackPlugin.options.order_list.programmedDate%>:</small>
+            <span>{{order.programmedDate | date : 'dd MMM, yyyy'}}</span>
+          </li>
+          <li ng-show="order.installationDate">
+            <small><%= htmlWebpackPlugin.options.order_list.installation_date%>:</small>
+            <span>{{order.installationDate | date : 'dd MMM, yyyy'}}</span>
+          </li>
+          <!-- <li ng-show="cycleDays && order.status != 'QUOTE'">
+            <small><%= htmlWebpackPlugin.options.order_details.cycle_time%>:</small>
+            <span>{{cycleDays}}</span>
+          </li>
+          <li ng-show="dpfcDays && order.status != 'QUOTE'">
+            <small><%= htmlWebpackPlugin.options.order_details.dpfc%>:</small>
+            <span class="order-cycle-details {{dpfcStatus}}">{{dpfcDays}}</span><span class="order-total {{dpfcTotalStatus}}">/{{dpfcTotalDays}}</span>
+          </li> -->
+          <li ng-show="productionDays && order.status != 'QUOTE' && (currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN')">
+            <small><%= htmlWebpackPlugin.options.order_details.production_days%></small>
+            <span class="order-cycle-details {{productionStatus}}">{{productionDays}}</span><span class="order-total {{productionTotalStatus}}">/{{productionTotalDays}}</span>
+          </li>
+          <li ng-show="transitDays && order.status != 'QUOTE' && (currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'INSTALLATION_MANAGER' || currentUser.role == 'SUPERADMIN')">
+            <small><%= htmlWebpackPlugin.options.order_details.transit_days%>:</small>
+            <span>{{transitDays}}</span>
+          </li>
+          <%}%>
+        </ul>
+        <br>
+        <% if (htmlWebpackPlugin.options.features.city) { %>
+          <button ng-if="!showLog && order.events.length > 0" class="btn btn-secondary-left pull-right" ng-click="toggleLog()"> <%= htmlWebpackPlugin.options.order_details.show_history%></button>
+          <%}%>
+        
+        <div ng-if="showLog">
+          <legend class="details-title"><%= htmlWebpackPlugin.options.order_details.history%></legend>
+          <br />
+          <div class="ibox-contef">
+            <table class="table table-striped  table-hover">
+              <thead>
+                <tr>
+                  <%= htmlWebpackPlugin.options.order_details.history_options%>
+                </tr>
+              </thead>
+              <tbody ng-repeat="event in order.events">
+                <tr>
+                  <td>{{event.date | date : 'dd/MM/yyyy HH:mm'}}</td>
+                  <td> <%= htmlWebpackPlugin.options.order_details.event%></td>
+                  <td>{{event.user.name}} {{event.user.lastName}}</td>
+                  <td>{{event.notes}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="btn btn-secondary-left pull-right" ng-click="toggleLog()">
+            <%= htmlWebpackPlugin.options.order_details.hide_history%>
+          </button>
+        </div>
+        <br><br>
+          <!--/////////////////////// Pagos ///////////////////////-->
+         
+          <br><br>
+          <!--/////////////////////// Botones ///////////////////////-->
+          <h3 class="details-title" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida'  || order.status == 'ORDER_CANCELED' <%= htmlWebpackPlugin.options.order_details.condition_action%>"> <%= htmlWebpackPlugin.options.details_headers.actions%></h3>
+          <div class="pull-right" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida' || order.status == 'ORDER_CANCELED'">
+            
+
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="currentUser.role == 'BUYER' && currentUser.role == 'SALES_MANAGER' && currentUser.role == 'SUPERADMIN'" ng-click="sendToSpecialEmail(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span>
+              <%= htmlWebpackPlugin.options.order_details.send_work_order%>  </button>
+            
+           
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="!order.needsBill && currentUser.role == 'SUPERADMIN'" ng-click="needsBill()">
+              
+          </div>
+          <div class="status-buttons" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida' || order.status == 'ORDER_CANCELED' ">
+            
+            
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canProduction  && !isMaster" ng-click="changeStatusDialog('PRODUCTION')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_prod%>  </button>
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canTransit  && !isMaster" ng-click="changeStatusDialog('TRANSIT')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_transit%>  </button>
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="currentUser.role=='PROVIDER' && order.status=='LINE'" ng-click="changeProviderStatusDialog()"><span class="btn-icon glyphicon glyphicon-th-large"></span>Cambiar Estado</button>
+            
+            <!-- TODO: retire the inline-style -->
+            <div class="dropdown show" style="width: min-content;" ng-show="currentUser.role == 'PROVIDER' || currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'ADMIN' || currentUser.role == 'INSTALLATION_MANAGER'">
+              <button ng-show="!currentUser.realRole"class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="btn-icon glyphicon glyphicon-menu-down"></span><%= htmlWebpackPlugin.options.order_details.work_order%>  </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                
+                <div class="dropdown-divider"></div>
+                <a ng-href="{{order.pdfOrderLink}}" id="download_installation_sheet" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;" ng-show="currentUser.role == 'PROVIDER' || currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' ||currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'INSTALLATION_MANAGER' || currentUser.role == 'ADMIN'" download>
+                  <span class="btn-icon glyphicon glyphicon glyphicon-save"></span><%= htmlWebpackPlugin.options.general.download%>  </a>
+              </div>
+            </div>
+            <!-- INSTALLATION SHEET BUTTON CREISI -->
+            <!-- <div ng-show="perms.order.installation_sheet.view_button" class="dropdown show" style="width: min-content;">
+              <button class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="btn-icon glyphicon glyphicon-menu-down"></span><%= htmlWebpackPlugin.options.order_details.installation_order%>  </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a ng-show="perms.order.installation_sheet.create" ng-click="createInstallationSheet()" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
+                  <span class="btn-icon glyphicon glyphicon glyphicon-plus"></span><%= htmlWebpackPlugin.options.general.create%>  </a>
+                <a ng-show="perms.order.installation_sheet.edit" ng-click="editInstallationSheet()" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
+                  <span class="btn-icon glyphicon glyphicon glyphicon-edit"></span><%= htmlWebpackPlugin.options.general.edit%>  </a>
+                <div class="dropdown-divider"></div>
+                <a ng-show="perms.order.installation_sheet.download" ng-href="{{order.installationSheetPdfLink}}" download="{{order.installationSheetPdfLink}}" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
+                  <span class="btn-icon glyphicon glyphicon glyphicon-save"></span><%= htmlWebpackPlugin.options.general.download%>  </a>
+              </div>
+            </div> -->
+            
+            <!-- <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED')"><span class="btn-icon glyphicon glyphicon-th"></span><%= htmlWebpackPlugin.options.order_details.installed%>  </button>
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canPartialInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED_INCOMPLETE')">
+              <span class="btn-icon glyphicon glyphicon-th"></span><%= htmlWebpackPlugin.options.order_details.partial_install%> </button>
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canPartialInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED_NONCONFORM')">
+              <span class="btn-icon glyphicon glyphicon-th"></span><%= htmlWebpackPlugin.options.order_details.inconform_install%> </button>
+            <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" ng-show="permissions.canUpdateProvider " ng-click="updateProviderDialog()"><span class="btn-icon glyphicon glyphicon-edit   "></span><%= htmlWebpackPlugin.options.order_details.change_provider%>  </button>
+            <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" ng-show="permissions.canUpdateProvider && order.orderTransitInvoice" ng-click="updateGuidesDialog()"><span class="btn-icon glyphicon glyphicon-edit   "></span><%= htmlWebpackPlugin.options.order_details.change_guides%>  </button>
+            <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" ng-show="permissions.canChangeStatus   " ng-click="changeStatusDialog()"><span class="btn-icon glyphicon glyphicon-refresh   "></span><%= htmlWebpackPlugin.options.order_details.change_state%>  </button>
+            <button type="button" ng-show="order.status ==  'QUOTE' && permissions.canCancel" class="btn btn-tertiary-actions btn-sm btn-square" ng-click="changeStatusDialog('CANCELED')"><span class="btn-icon glyphicon glyphicon-remove   "></span><%= htmlWebpackPlugin.options.general.cancel%>  </button>
+            <button type="button" ng-show="order.status !=  'QUOTE' && order.orderParent == null && order.status !=  'ORDER_CANCELED' && permissions.canCancel && order.balance >= 0.1" class="btn btn-tertiary-actions btn-sm btn-square" ng-click="changeStatusDialog('ORDER_CANCELED')">
+              <span class="btn-icon glyphicon glyphicon-remove"></span><%= htmlWebpackPlugin.options.general.cancel%>  </button>
+            <button type="button" ng-show="order.status !=  'QUOTE' && order.status !=  'ORDER_CANCELED' && permissions.canCancel && order.balance < 0.1" class="btn btn-tertiary-actions btn-sm btn-square" ng-click="" disabled><span class="btn-icon glyphicon glyphicon-remove"></span>
+              <%= htmlWebpackPlugin.options.general.cancel%>  </button> -->
+              <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" ng-show="permissions.canUpdateProvider && order.orderTransitInvoice" ng-click="updateGuidesDialog()"><span class="btn-icon glyphicon glyphicon-edit   "></span><%= htmlWebpackPlugin.options.order_details.change_guides%>  </button>
+          </div>
+        </div>
+      </div>
+      <p ng-show="step=='empty'"><%= htmlWebpackPlugin.options.order_details.order_not_found%> </p>
+      <p ng-show="step=='loading'"><%= htmlWebpackPlugin.options.general.loading%> ...</p>
+    </div>
+  </div>

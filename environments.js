@@ -51,7 +51,12 @@ const default_config = {
       name: "EXTERNAL_CONSULTANT",
       text: "Asesor Externo",
       creation_permission: currentUser => currentUser.canAdmin,
-    },
+    } ,
+    {
+      name:"PROVIDER",
+      text:"Proveedor",
+      creation_permission: (currentUser)=> currentUser.canAdmin,
+    }
   ],
 }
 

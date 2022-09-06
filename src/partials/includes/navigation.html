@@ -5,9 +5,9 @@
         <dir><span class="profile-element version-number">ver. {{currentVersion}}</span></dir>
     </metis-item>
 
-    <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'CONSULTANT'">
+    <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'CONSULTANT' && currentUser.role != 'PROVIDER' ">
         <a href="#"><i class="fa fa-file-text fa-lg"></i> <span class="nav-label">
-            <%= htmlWebpackPlugin.options.navigation.manage_quotes %>
+            <%= htmlWebpackPlugin.options.navigation.manage_quotes %> 
         </span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
             <li ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'"><a ui-sref="console.quote-list">
@@ -27,15 +27,16 @@
             <%= htmlWebpackPlugin.options.navigation.orders %>
         </span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li><a ui-sref="console.order-list">
+            <li ng-if="currentUser.role != 'PROVIDER'"><a ui-sref="console.order-list">
                 <%= htmlWebpackPlugin.options.navigation.orders %>
             </a></li>
-            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER'"><a ui-sref="console.deadlines">
+            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER' || currentUser.role=='PROVIDER'"><a ui-sref="console.deadlines">
                 <%= htmlWebpackPlugin.options.navigation.order_tracking %>
             </a></li>
             <li ng-if="currentUser.canAdmin"><a ui-sref="console.quote-new-manual">
                 <%= htmlWebpackPlugin.options.navigation.manual_register %>
             </a></li>
+            <%= htmlWebpackPlugin.options.navigation.providers %>
         </ul>
     </metis-item>
 
@@ -103,16 +104,16 @@
     </metis-item>
 
     <metis-item ui-sref-active="selected">
-        <a ui-sref="console.resource-list">
+        <a ui-sref="console.resource-list" ng-if="currentUser.role != 'PROVIDER'">
             <i class="fa fa-file fa-lg"></i> <span class="nav-label"><%=htmlWebpackPlugin.options.resources.resources%></span></a>
     </metis-item>
 
-    <metis-item ng-if="currentUser.realRole!='EXTERNAL_CONSULTANT'" ui-sref-active="selected">
+    <metis-item ng-if="currentUser.realRole!='EXTERNAL_CONSULTANT' && currentUser.role != 'PROVIDER'" ui-sref-active="selected">
         <a ui-sref="console.calendar-install">
             <i class="fa fa-file fa-lg"></i> <span class="nav-label">Calendario</span></a>
     </metis-item>
 
-    <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'SALES_MANAGER'">
+    <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'SALES_MANAGER' && currentUser.role != 'PROVIDER'">
         <a ui-sref="console.client-list">
             <i class="fa fa-address-card fa-lg"></i> <span class="nav-label">
                 <%= htmlWebpackPlugin.options.navigation.clients %>

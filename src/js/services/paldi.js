@@ -58,7 +58,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         {authentication: "yokozuna",
         params :params}).then(response=>{
           let urlString = globals.apiURL + "/newapi/pdf/shipment/" + order_id + addParams(params)
-          console.log(urlString)
+        
           return  urlString
         })
       
@@ -163,6 +163,48 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
   //--------------- USERS ---------------
   service.users = {
+
+    searchProvider: function(providerType,match,products){
+      let params = {subtype:providerType,match:match,products:products}
+      return $http
+        .post(globals.apiURL + "/newapi/providers/find", params, {
+          authentication: "yokozuna",
+        })
+        .then(function (response) {
+          return response.data.data;
+        });
+    },
+    setProviderProducts: function(products,id){
+      let params = {products:products,user:id}
+      return $http
+        .post(globals.apiURL + "/newapi/providers/products", params, {
+          authentication: "yokozuna",
+        })
+        .then(function (response) {
+          return response.data.data;
+        });
+    },
+    updateProviderProducts: function(products,id){
+      let params = {products:products,user:id}
+      return $http
+        .post(globals.apiURL + "/newapi/providers/products/update", params, {
+          authentication: "yokozuna",
+        })
+        .then(function (response) {
+          return response.data.data;
+        });
+    },
+    getProviderProducts: function(id){
+      
+      return $http
+        .get(globals.apiURL + "/newapi/providers/products/"+id, {
+          authentication: "yokozuna",
+        })
+        .then(function (response) {
+          return response.data.data;
+        });
+    },
+
     whoAmI: function () {
       return $http
         .get(globals.apiURL + globals.api.auth.whoami, {
@@ -479,7 +521,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
               product.height = meters_to_inches(product.height)
 
               if(type!='balances'){
-                console.log('xd');
+               
                 let h = parseInt(product.height)
                 let hf = product.height - h
                 product.h_fraction = toFraction(hf)
@@ -510,7 +552,6 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
             product.height = meters_to_inches(product.height)
 
             if(product.productType!='Balance'){
-              console.log('xd');
               let h = parseInt(product.height)
               let hf = product.height - h
               product.h_fraction = toFraction(hf)
@@ -780,6 +821,20 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           return response.data;
         });
     },
+    updateSuborderProvider: async function(dict){
+      return $http
+      .put(
+        globals.apiURL + "/quotes/orders/suborder/" + dict.id+'/provider',
+        dict,
+        {
+          authentication: "yokozuna",
+          params: {orderType: dict.type},
+        }
+      )
+      .then(function (response) {
+        return response.data;
+      });
+    },
 
     updateSuborder: function (orderMasterId, order) {
 
@@ -872,6 +927,25 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           "/" +
           status,
           order,
+          {
+            authentication: "yokozuna",
+            params: {user: $rootScope.currentUser.id},
+          }
+        )
+        .then(function (response) {
+          return response.data;
+        });
+    },
+
+    updateProviderStatus: function (order, status) {
+      return $http
+        .post(
+          globals.apiURL +
+          "/quotes/orders/" +
+          order.id +
+          "/" +
+          status +"/provider",{},
+        
           {
             authentication: "yokozuna",
             params: {user: $rootScope.currentUser.id},
@@ -995,7 +1069,8 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
       rows, // done
       sort, // ignore
       startDate, // done
-      endDate // done
+      endDate, // done
+      provStatus=false
     ) {
 
       let params = {}
@@ -1034,6 +1109,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           orderStatusList: JSON.stringify(statusList),
           startDate: startDate,
           endDate: endDate,
+          provider:provStatus,
         }
       }
 
@@ -1043,6 +1119,82 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           params: params,
         })
         .then(function (response) {
+          return response.data.response;
+        });
+    },
+    bulkProvidersIds:async function(){
+      return $http
+        .post(
+          globals.apiURL + "/newapi/providers/bulk",
+          {},
+          {authentication: "yokozuna"}
+        )
+        .then(function (response) {
+          return response.data.data;
+        });
+    },
+
+    searchByStatusListAndIds: async function (
+      statusList, // done
+      search, // TODO: Full text search mongodb
+      id,
+      start, // done
+      rows, // done
+      sort, // ignore
+      startDate, // done
+      endDate // done
+    ) {
+
+      let params = {}
+      id
+
+      if (EXECUTION_ENV === "EXTERNAL") {
+        if (getQuoteStatusFromList(statusList).length > 0) {
+          statusList = [...statusList, "QUOTE"]
+        }
+        const query = {
+          status: {
+            $in: statusList
+          },
+          date: {
+            $gte: startDate,
+            $lte: endDate,
+          }
+        }
+        params = {
+          start: start,
+          rows: rows,
+          query: JSON.stringify(query),
+          sort: JSON.stringify({orderNo: -1})
+        }
+       
+
+      } else {
+        sort = !sort ? "" : sort;
+        startDate = !startDate ? "*" : startDate;
+        endDate = !endDate ? "*" : endDate;
+
+        params = {
+          start: start,
+          rows: rows,
+          provider:id,
+          search: search,
+          sort: sort,
+          orderStatusList: statusList,
+          startDate: startDate,
+          endDate: endDate,
+        }
+        
+      }
+
+      return $http
+        .post(globals.apiURL + "/quotes/orders" + globals.api.orders.byStatus +'/ids', {
+          authentication: "yokozuna",
+          ...params,
+          
+        },{authentication: "yokozuna"})
+        .then(function (response) {
+          
           return response.data.response;
         });
     },
@@ -1447,7 +1599,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
   //------------------------- DEADLINES -----------------
   service.deadlines = {
-    getDeadlines: function (deadlineType, status, start, rows, sort) {
+    getDeadlines: function (deadlineType, status, start, rows, sort,providerId) {
       
       return $http
         .get(
@@ -1458,7 +1610,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           status,
           {
             authentication: "yokozuna",
-            params: {start: start, rows: rows, sort: sort},
+            params: {start: start, rows: rows, sort: sort,providerId:providerId},
           }
         )
         .then(async function (response) {
@@ -1474,7 +1626,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
 
-    getPastDeadlines: function (status, page, size, sort) {
+    getPastDeadlines: function (status, page, size, sort,providerId) {
       return $http
         .get(
           globals.apiURL +
@@ -1485,7 +1637,9 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           "&size=" +
           size +
           "&sort=" +
-          sort,
+          sort
+          +"&providerId="+
+          providerId,
           {authentication: "yokozuna"}
         )
         .then(async function (response) {
@@ -1499,13 +1653,17 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           return response.data;
         });
     },
-    getDeadlinesDownloadLink: function (type) {
+    getDeadlinesDownloadLink: function (type,providerId) {
+      
       return (
         globals.apiURL +
         "/quotes/deadlines/spreadsheet/" +
         type +
-        "/Operaciones.xlsx"
+        "/Operaciones.xlsx/?providerId="+
+        providerId
       );
+        
+      
     },
   };
   //------------------------- STATISTICS ----------------
@@ -1744,7 +1902,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           authentication: "yokozuna",
         }
       ).then(response=>{
-        console.log(response)
+        
         if(response.data.includes('PDF'))
           return globals.apiURL+'/newapi/resources/resource/'+id
         else{

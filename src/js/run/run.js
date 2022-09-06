@@ -53,7 +53,7 @@ pdApp.run(function (
 
   $rootScope.submitFeedback =(subject,message)=>{
     $rootScope.dialog.close();
-    console.log(subject,message)
+    
     let mail ={
       subject:subject,
       message:message,
@@ -108,7 +108,7 @@ pdApp.run(function (
         permissionsHelper
           .getStatusList("QUOTE")
           .forEach(function (status) {
-            console.log(status)
+            
             $rootScope.quoteStatusList.push({id: status})
           })
 

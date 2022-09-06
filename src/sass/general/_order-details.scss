@@ -30,6 +30,14 @@
         border: 1px solid #d4ac0d;
         color: #d4ac0d;
     }
+    &.AUTHORIZED {
+        border: 1px solid #07b157cd;
+        color: #07b157cd;
+    }
+    &.PENDING_INFO {
+        border: 1px solid #37c1ebcd;
+        color: #37c1ebcd;
+    }
 
     &.REJECTED {
         border: 1px solid #cb4335;

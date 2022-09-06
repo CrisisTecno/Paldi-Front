@@ -27,7 +27,7 @@ pdApp.controller(
 			});
 		};
 
-		console.log($rootScope)
+		
 
 		$scope.selectFile = function (files) {
 			$scope.fd = new FormData();
@@ -87,7 +87,7 @@ pdApp.controller(
 
 		$scope.deleteFile = function(id){
 			paldiService.resources.deleteFile(id).then((file) => {
-                console.log(file)
+                
                 if(file.code=='query.success'){
                     showSwal('messages.resources.erase.success')
                     $timeout(function () {
@@ -108,7 +108,7 @@ pdApp.controller(
 		$scope.downloadFile = (id, name) => {
             //console.log("STST",id,name)
 			paldiService.resources.downloadFile(id).then((file) => {
-                console.log(file)
+               
                 if(file.code){
                     showSwal('messages.resources.retrieve.fail')
                     return
@@ -151,7 +151,7 @@ pdApp.controller(
 				aoData[2].value[0].dir;
 			var size = aoData[4].value;
 			var page = aoData[3].value / size;
-            console.log(size)
+            
 			var processResult = function (data, fnCallback) {
 				var result = {
 					draw: draw,
@@ -159,12 +159,12 @@ pdApp.controller(
 					recordsFiltered: data.totalPages * size,
 					data: data.records,
 				};
-                console.log(data)
+               
 				fnCallback(result);
 			};
-            console.log()
+            
 			paldiService.resources.getResources(page, size, sear).then((data) => {
-                console.log(data)
+                
 				processResult(data, fnCallback);
 			});
 		};

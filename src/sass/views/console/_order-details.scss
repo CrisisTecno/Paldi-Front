@@ -24,6 +24,14 @@
     &.PENDING {
         background-color: #d4ac0d;
     }
+    &.AUTHORIZED {
+        
+        background-color: #07b157cd;
+    }
+    &.PENDING_INFO {
+        
+        background-color: #37c1ebcd;
+    }
     &.REJECTED {
         background-color: #cb4335;
     }

@@ -1,0 +1,17 @@
+<form novalidate ng-submit="changeProviderStatus(providerStatusSelected)">
+
+    <h3>Selecciona el nuevo estado</h3>
+    <div class="form-group">
+
+        <select ng-options="item as item.label for item in optionsList" ng-model="providerStatusSelected"></select>
+
+    </div>
+    <div>
+        <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">
+            <%= htmlWebpackPlugin.options.general.cancel %>
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <%= htmlWebpackPlugin.options.general.accept %>
+        </button>
+    </div>
+</form>

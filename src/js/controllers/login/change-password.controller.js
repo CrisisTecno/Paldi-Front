@@ -30,7 +30,8 @@ pdApp.controller(
 									confirmButtonText: EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar",
 								});
 								$rootScope.$emit("user:mightBeAvailable");
-								$state.go("console.order-list");
+								let next =$scope.currentUser.role=="PROVIDER"?"console.provider-list":"console.order-list"
+								$state.go(next);
 							},
 							function (error) {
 								form.$validated = true;

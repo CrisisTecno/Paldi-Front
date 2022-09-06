@@ -70,6 +70,10 @@ pdApp.factory("prettyHelper", function () {
 					return "Instalado Parcial";
 				case "INSTALLED_NONCONFORM":
 					return "Instalado Inconforme";
+				case "PENDING_INFO":
+					return "Información Pendiente";
+				case "AUTHORIZED":
+					return "Autorizado";
 			}
 			return status;
 		},
@@ -269,6 +273,8 @@ pdApp.factory("prettyHelper", function () {
 					return "Comprador";
 				case "EXTERNAL_CONSULTANT":
 					return "Asesor Externo";
+				case "PROVIDER":
+					return "Poveedor"
 			}
 			return "";
 		},
@@ -314,7 +320,7 @@ pdApp.factory("prettyHelper", function () {
 			return type;
 		},
 		getProductTypeEN: function (type) {
-			console.log("|"+type+"|")
+			
 			switch (type) {
 				case "Enrollable":
 					return "Shades";

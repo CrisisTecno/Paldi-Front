@@ -263,7 +263,7 @@ pdApp.controller(
 			return paldiService.bills.uploadBill(selectedOrderId, file).then(
 				function (data) {
 					
-					console.log("AAAAA")
+					
 					swal({
 						title: "Factura subida",
 						text: "Se cargó la factura correctamente",

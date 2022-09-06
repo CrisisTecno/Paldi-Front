@@ -6,7 +6,7 @@ import { merge, mergeDeep, moveToScope } from "../../utils/merge";
 import { showCreateInstallationSheetDialog } from "./order-details/installation-sheet/create";
 
 pdApp.controller(
-  "OrderDetailsCtrl",
+  "ProviderOrderDetailsCtrl",
   function (
     $rootScope,
     $scope,
@@ -25,54 +25,39 @@ pdApp.controller(
   ) {
     
     $scope.external = EXECUTION_ENV=="EXTERNAL"
+    $scope.optionsList = []
 
-    var providerProducts = {
-      "Enrollable":[
-        "Cascade","Triple Shade","Horizontales de Madera","Enrollables","Romanas","Eclisse","Verticales de PVC","Horizontales de Aluminio","Celular","Enrollables Wolken"
-      ],
-      "Cortina":[
-        "Plitz Frances", "Ondulada"
-      ],
-      "Balance":
-      [
-        "Wrapped Cornice","Aluminum Gallery"
-      ],
-      "Toldo":[
-        "Capri","Select","Pergola","Pergolato","Arion"
-      ],
-      "Filtrasol":['Filtrasol Eclisse',"Filtrasol Enrollables","Filtrasol Panel Deslizante", "Filtrasol Triple Shade"]
-    }
-    
-    
-     function performAnalisis(){
-      
-     
-      let results = {}
-      for (let element of $scope.productsSorted){
-        for (let elem of element['products']){
-          
-          
-          if(Object.keys(providerProducts).includes(elem.productType) && providerProducts[elem.productType].includes(elem.type)){
-            if(!results[elem.productType])
-              results[elem.productType]=[]
-      
-             results[elem.productType].push(elem.type) 
-          }
-
-          if(Object.keys(providerProducts).includes(elem.productType) && providerProducts[elem.productType].includes(elem.finish)){
-            if(!results[elem.productType])
-              results[elem.productType]=[]
-      
-             results[elem.productType].push(elem.finish) 
-          }
-        }
+    $scope.decideStatus = function(val){
+      if($scope.order && $scope.order.status=="LINE" && $scope.order.providerStatus){
+        return $scope.pretty("orderStatus",$scope.order.providerStatus)
       }
-      
-      return results
+      return val
     }
+    
+    let specialList =["QUOTE","AUTHORIZED","PENDING_INFO"];
+				angular.forEach(specialList,function(status){
+					$scope.optionsList.push({
+						label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),
+						value: status,
+					});
+				})
+    $scope.providerStatusSelected = $scope.optionsList[0];
 
-   
-
+    $scope.changeProviderStatusDialog = function(){
+    $scope.dialog =ngDialog.open({
+      template:"partials/views/console/change-provider-status.html",
+      scope:$scope,
+      showClose: false
+    })
+    }
+    $scope.changeProviderStatus = function(status){
+      console.log(status)
+      paldiService.orders.updateProviderStatus($scope.order,status.value).then(()=>{
+        $scope.dialog.close()
+        $scope.loadOrder()
+      }
+      )
+    }
     $scope.typeTranslate = function(name){
       if($scope.external){
         return name
@@ -114,7 +99,7 @@ pdApp.controller(
         });
       }
       else{
-     
+      
       window.open(res.data.link, '_blank');
       }
     }
@@ -169,15 +154,7 @@ pdApp.controller(
       return formated + " & Add Ins Discount"
     }
 
-    
-     $scope.selectProvidersTrigger = function (){
-      $scope.providersNeeded = performAnalisis()
-                
-      if(Object.keys($scope.providersNeeded).length>0){
-        $scope.selectProvidersDialog()
-        return;
-      }
-     }
+
     var loadOrder = function () {
       var id = $stateParams.orderId;
       $scope.step = "loading";
@@ -202,30 +179,25 @@ pdApp.controller(
       paldiService.orders.get(id).then(async function (order) {
         
         $scope.order = order;
-
-        console.log("ORDER",$scope.order)
         
-      
+        if(order.providerStatus && EXECUTION_ENV=="EXTERNAL"){
+          $scope.providerStatusSelected={
+            value:order.providerStatus,
+            label:$scope.pretty("orderStatus")
+          }
+        }
       
         $scope.quoteStatus = order.quoteStatus;
         $scope.quoteSubStatus = order.quoteSubStatus;
         $scope.products = order.products;
         $scope.isSuborder = false;
         $scope.isMaster = false;
-        $scope.providersSummary ={}
-
-        if(order.type!="Mixta"){
-          if(order.provider)
-         $scope.providersSummary[order.type]=$scope.provider
-        }
+        
         if (order.type === 'Mixta') {
           $scope.isMaster = true;
           (order.mixedLabel !== null) ? $scope.mixedLabel = order.mixedLabel : $scope.mixedLabel = "Mixta";
           paldiService.orders.getByOrderParent($scope.order.id).then(function (suborders) {
             suborders.forEach(function (suborder) {
-              if(suborder.provider){
-                $scope.providersSummary[suborder.type]=suborder.provider
-              }
               $scope.suborders.push(suborder);
               if (suborder.products) {
                 suborder.products.forEach(function (product) {
@@ -237,7 +209,6 @@ pdApp.controller(
             })
 
           })
-          
         } else {
           if ($scope.products) {
             $scope.products.forEach(function (product) {
@@ -318,13 +289,10 @@ pdApp.controller(
           // console.log('FINISHED LOADING SOMETHING')
           // console.log($scope)
         });
-        
+
       }, function (error) {
         $scope.step = "empty";
         // console.log(error);
-      }).then(()=>{
-        $scope.needsProviderAssigned = Object.keys(performAnalisis()).length >0
-        console.log($scope.needsProviderAssigned)
       });
     }
 
@@ -522,93 +490,6 @@ pdApp.controller(
     $scope.createSuborders = createSuborders;
 
     //========================= PAYMENTS ===========================
-
-    $scope.findProviders = function (name,subtype) {
-    
-      return paldiService.users.searchProvider(subtype,name,$scope.providersNeeded[subtype])
-    }
-
-    $scope.conmuteProperty=function(value){
-      if(!value){
-        value =true
-      }
-      else{
-        value = !value
-      }
-    }
-
-    $scope.selectProvider = function(field,item){
-      field.user = item
-    }
-
-    $scope.deleteProperty = function(model,property){
-      delete model[property]
-    }
-
-    function checkIsProviderValid(providers){
-
-      
-      if(!providers || Object.keys(providers).length==0) return false
-      
-      for (const props of Object.values(providers)){
-        
-        if(props.skip) continue
-        if(!props.skip & !Object.keys(props).includes('user')) return false
-      }
-      return true
-    }
-
-    $scope.assignProviders = async function(providers){
-      
-      
-      if(checkIsProviderValid(providers)){
-        
-        swal({
-          title:"Desea asignar los anteriores proveedores?",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-          cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
-          closeOnConfirm: true,
-          closeOnCancel: true,
-          },async()=>{
-
-            var filtered = Object.fromEntries(Object.entries(providers).filter(([k,v]) => !v.skip));
-        
-            if($scope.order.type.toLowerCase()!="mixta" && Object.keys(filtered).length!=0){
-              let promise = paldiService.orders.updateSuborderProvider({id:$scope.order.id,type:$scope.order.type,providerId:filtered[$scope.order.type].user._id})
-
-              await promise;
-              $scope.dialog.close()
-              
-              
-
-            }
-            else{
-            paldiService.orders.getByOrderParent($scope.order.id).then(async function (suborders){
-              
-              let filterSubOrders = suborders.filter(v=>Object.keys(filtered).includes(v.type))
-              
-              let relevantInfo = filterSubOrders.map(elem=> {return{id:$scope.order.id,type:elem.type}})
-              
-              
-              relevantInfo = relevantInfo.map(x => {return{...x,providerId:filtered[x.type].user._id}})
-              
-              let promises = relevantInfo.map(x=> paldiService.orders.updateSuborderProvider(x))
-              await Promise.all(promises)
-              $scope.dialog.close()
-              
-              
-            })
-          }
-
-          })
-        
-        
-        
-      }
-    }
 
     $scope.paymentDialog = function (paymentType) {
       $scope.paymentType = paymentType;
@@ -989,27 +870,6 @@ pdApp.controller(
         showClose: false,
       });
     };
-
-    function initProvidersSettings(elem){
-      for (const key of Object.keys($scope.providersNeeded)){
-        elem[key] = {'skip':false}
-      }
-      if(Object.keys($scope.providersSummary).length>0){
-        for (const [key,value] of Object.entries($scope.providersSummary)){
-          elem[key] = {'skip':false,user:value}
-        } 
-      }
-    }
-    $scope.selectProvidersDialog = function(){
-      $scope.providersSelected = {}
-      initProvidersSettings($scope.providersSelected)
-      $scope.dialog = ngDialog.open({
-        template: "partials/views/console/select-providers.html",
-        scope: $scope,
-        showClose: false,
-      })
-
-    }
 
     $scope.changeStatus = function (form, model) {
       if (form && form.$valid) {
@@ -1561,7 +1421,6 @@ pdApp.controller(
 
       product.item = ++item;
       $scope.productsSorted[pos].products.push(product);
-      
 
     }
 

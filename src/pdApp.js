@@ -69,7 +69,14 @@ const pdApp = angular
         authRequired: false,
         env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
-
+      .state("console.provider-list", {
+        url: "/providers",
+        templateUrl: "js/controllers/order/provider-list.html",
+        controller: "ProviderListCtrl",
+        title: EXECUTION_ENV=="EXTERNAL"?"Orders":"Ordenes",
+        authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
+      })
       .state("console", {
         abstract: true,
         url: "/console",
@@ -146,6 +153,14 @@ const pdApp = angular
         url: "/order/:orderId",
         templateUrl: "js/controllers/order/order-details.html",
         controller: "OrderDetailsCtrl",
+        title: EXECUTION_ENV=="EXTERNAL"?"Order Details":"Detalles de orden",
+        authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
+      })
+      .state("console.provider-order-details", {
+        url: "/order/provider/:orderId",
+        templateUrl: "js/controllers/order/provider-order-details.html",
+        controller: "ProviderOrderDetailsCtrl",
         title: EXECUTION_ENV=="EXTERNAL"?"Order Details":"Detalles de orden",
         authRequired: true,
         env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"

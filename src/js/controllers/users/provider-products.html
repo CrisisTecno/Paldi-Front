@@ -1,0 +1,22 @@
+<div class="ibox-content">
+    <form name="providersForm" role="form" novalidate ng-submit="selectProducts()" autocomplete="off">
+    <h2>Seleccion de Productos</h2>
+    <div class="form-group">
+        <div  ng-repeat="(type,list) in providerProducts">
+            <h3>{{type}}</h4>
+            <div class="form-group" ng-repeat="product in list">
+                <label>{{product}}</label>
+            <input class="form-check-input" type="checkbox" ng-model="providerSelectionList[type][product]" >
+            </div>
+        </div>
+    </div>
+    <div>
+        <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">
+            <%= htmlWebpackPlugin.options.general.cancel %>
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <%= htmlWebpackPlugin.options.general.accept %>
+        </button>
+    </div>
+    </form>
+</div>

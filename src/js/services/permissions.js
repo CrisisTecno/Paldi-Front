@@ -89,6 +89,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					(order.status == "LINE" || order.status == "BACKORDER") &&
 					(user.role == "MANAGER" ||
 						user.role == "SUPERADMIN" ||
+						user.role == "PROVIDER" ||
 						user.role == "BUYER")
 				) {
 					canProduction = true;
@@ -98,7 +99,8 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					order.status == "PRODUCTION" &&
 					(user.role == "MANAGER" ||
 						user.role == "SUPERADMIN" ||
-						user.role == "BUYER")
+						user.role == "BUYER" ||
+						user.role == "PROVIDER")
 				) {
 					canTransit = true;
 				}
@@ -157,6 +159,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				if (
 					(user.role == "SUPERADMIN" ||
 						user.role == "MANAGER" ||
+						user.role == "PROVIDER"||
 						user.role == "INSTALLATION_MANAGER" ||
 						user.role == "BUYER") &&
 					order.status != "QUOTE" &&

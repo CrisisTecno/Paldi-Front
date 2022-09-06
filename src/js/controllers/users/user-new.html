@@ -48,14 +48,29 @@
                     <small class="error-message" ng-if="userForm.$validated && userForm.role.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
                 </div>
 
-                <%= htmlWebpackPlugin.options.users.warehouse %>
-
+                <%= htmlWebpackPlugin.options.users.warehouse %> 
+                
                 <div class="form-group" ng-show="user.role == 'CONSULTANT'">
                     <label>
                         <%= htmlWebpackPlugin.options.users.min_sale %>
                     </label>
                     <input type="number" name="minimumSale" ng-model="user.minimumSale" class="form-control" ng-required="user.role == 'CONSULTANT'">
                     <small class="error-message" ng-if="userForm.$validated && userForm.minimumSale.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+                </div>
+
+                <!-- <div class="form-group" ng-show="user.role == 'PROVIDER'">
+                    <label>
+                        Proveedor
+                    </label>
+                    
+                    <select type="number" name="subtype" ng-model="user.subtype" class="form-control" ng-required="user.role == 'PROVIDER'">        
+                        <option value="PROVIDER_1">Proveedor 1</option>
+                        <option value="PROVIDER_2">Proveedor 2</option>
+                    </select>
+                    <small class="error-message" ng-if="userForm.$validated && userForm.subtype.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+                </div> -->
+                <div ng-if="user.role=='PROVIDER'"class="form-group">
+                    <button type="button" class="btn-default" ng-click="assignProductsDialog()">Asignar Productos</button>
                 </div>
 
                 <div>

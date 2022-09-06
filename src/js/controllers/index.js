@@ -38,3 +38,5 @@ import "./inventory/warehouse/warehouses.controller";
 import "./resources/resources";
 import "./reports/reports.controller"
 import "./order/installation-calendar"
+import "./order/provider-list.controller"
+import "./order/provider-order-details.controller"

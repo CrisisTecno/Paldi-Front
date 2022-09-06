@@ -1,0 +1,49 @@
+<div>
+    <form name="providersForm" role="form" novalidate ng-submit="assignProviders(providersSelected)" autocomplete="off">
+
+        <div class="form-group notes">
+            
+            <div ng-repeat="(key,value) in providersNeeded">
+                
+                <label>Proovedor para {{key}}</label>
+
+                <div ng-if='providersSelected[key].user && !providersSelected[key].skip' style="display:flex">
+					<input style="max-width:90%; margin:auto;" disabled value='{{providersSelected[key].user.name + " " +providersSelected[key].user.lastName}}' type="text"  class="form-control">
+					<button type="button" class="btn btn-primary" ng-click="deleteProperty(providersSelected[key],'user')">x</button>
+				</div>
+                <input 
+                class="form-control"
+                id="client"
+                name="client"
+                ng-model="providersSelected[key].user"
+                ng-hide="providersSelected[key].user ||  providersSelected[key].skip "
+                required
+                type="text"
+                typeahead-editable="false"
+                typeahead-input-formatter="$model.name + ' ' + $model.lastName"
+                typeahead-loading="clientsLoading"
+                typeahead-no-results="clientsNotFound"
+                typeahead-on-select="selectProvider(providersSelected[key],$item)"
+                typeahead-template-url="js/controllers/clients/client-typeahead.html"
+                uib-typeahead="client.name + ' ' + client.lastName for client in findProviders($viewValue,key)  "
+                >
+                <small class="error-message" ng-if="clientsNotFound && clientsNotFound!==undefined && !providersSelected[key].skip">No se encontraron proveedores</small>
+                <br>
+                <input type="checkbox" ng-model="providersSelected[key].skip" ng-change="conmuteProperty(providersSelected[key].skip)"> No asignar proveedor
+                
+
+            </div>
+        
+        </div>
+
+        <div>
+            <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">
+                <%= htmlWebpackPlugin.options.general.cancel %>
+            </button>
+            <button type="submit" class="btn btn-primary">
+                <%= htmlWebpackPlugin.options.general.accept %>
+            </button>
+        </div>
+
+    </form>
+</div>

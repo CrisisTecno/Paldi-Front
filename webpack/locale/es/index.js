@@ -372,7 +372,7 @@ module.exports = {
     reports:`<li><a ui-sref="console.reports" ng-if="currentUser.role == 'SUPERADMIN' && currentUser.canAdmin || currentUser.role == 'ADMIN'">Reportes</a></li>`,
 
     inventory_menu:`
-    <metis-item ui-sref-active="selected" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER' || true">
+    <metis-item ui-sref-active="selected" ng-if="(currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER') && currentUser.role != 'PROVIDER'">
         <a href="#"><i class="fa fa-check-square-o fa-lg"></i> <span class="nav-label">Inventario</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
             <li><a ui-sref="console.inventory-movements" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER'">Reporte Mov.</a></li>
@@ -386,6 +386,11 @@ module.exports = {
     </metis-item>
     `,
 
+    providers:`
+    <li ng-if="currentUser.role=='PROVIDER'"><a ui-sref="console.provider-list">
+            Proveedores          
+            </a></li>
+    `,
     costs:"Costeo",
     recipts:"Facturas",
     order_movement:"Movimientos de OV",
@@ -401,7 +406,7 @@ module.exports = {
     pwd:"Contraseña",
     permissions:"Permisos",
     warehouse:`
-    <div class="form-group">
+    <div class="form-group" ng-show="user.role!='PROVIDER'">
       <label>Almacén</label>
       <select name="warehouses" ng-model="user.warehouseId" class="form-control" ng-options="warehouse.id as warehouse.name for warehouse in warehouses"></select>
     </div>
@@ -1056,7 +1061,7 @@ module.exports = {
     change_state:"Cambiar Estado",
     order_not_found:"No se encontró la orden",
     show_history:"Mostrar Historial",
-    order_stats:"{{pretty('orderStatus', order.status)}}",
+    order_stats:"{{decideStatus(pretty('orderStatus', order.status))}}",
 
     folio:"No. Folio",
     date:"Fecha",

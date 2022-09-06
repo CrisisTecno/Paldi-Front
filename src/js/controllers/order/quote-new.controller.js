@@ -1088,9 +1088,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     // this should not be done in here, but best place to put it
     // quick and dirty, todo: clean later
     if (product === "Cortina") {
-      console.log("HELLO?, UPDATING PRICE OF CORTINA")
-      console.log(model, $scope.productData.cortina)
-      console.log(model.textil)
+     
+  
       model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color.toLowerCase() === model.colorName.toLowerCase())[0]
       model.color.name = model.color.color
       model.color.type = "Cortina"
@@ -1441,8 +1440,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       var res;
       if(product=="Enrollable"){
        res = $timeout( function(){
-        console.log(product)
-        console.log($scope.enrollable)
+        
         model.colorObj=$scope.enrollable.colors.find(element =>element.value.code == model.colorObj.code)
         model.colorObj = model.colorObj.value
         $scope.color = angular.copy(model.colorObj);
@@ -1483,7 +1481,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       model.h_fraction = tempwfrac 
     }
     else{
-      console.log("rotated")
+      
     model.height = model.width - 0.3
     }
     model.width = temp
@@ -1555,7 +1553,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.updatePrices(product, model);
         return;
       }
-      console.log(angular.copy($scope.color))
+      
       const width = parseFloat(model.w_fraction ?? 0) + model.width
       if ($scope.color.maxWidth && width >$scope.color.maxWidth) {
         
@@ -1699,7 +1697,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       //console.log(model)
       if(model.type=="Wrapped Cornice" || model.type=="Aluminum Gallery")
       { height=parseFloat(model.height)
-      console.log("DONE",height)
+      
       }
       //console.log(angular.copy(height),parseFloat(model.height))
       if(product=="Cortina"){
@@ -1709,7 +1707,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       }
       else{
         model.height=height
-        console.log(model.height)
+        
       }
     }
   }
@@ -2148,8 +2146,8 @@ function addNewProduct($scope, product) {
   // @note scope cortina init
   angular.copy({}, $scope.cortina);
   //  // console.log(product)
-  console.log("AAAAA")
-  console.log(product)
+  
+  
   $scope.product = product
   $scope.plusList = []
   $scope.motorList = []
