@@ -254,7 +254,7 @@ pdApp.controller(
 
         if(order.type!="Mixta"){
           if(order.provider)
-         $scope.providersSummary[order.type]=$scope.provider
+         $scope.providersSummary[order.type]=order.provider
         }
         if (order.type === 'Mixta') {
           $scope.isMaster = true;

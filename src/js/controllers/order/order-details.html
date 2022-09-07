@@ -138,10 +138,10 @@
         </li>
         <% if (htmlWebpackPlugin.options.features.city) { %>
 
-          <li ng-if='currentUser.role=="SUPERADMIN" || currentUser.role=="BUYER" || currentUser.role=="MANAGER"'ng-repeat="(type,provider) in providersSummary">
+          <li ng-if='currentUser.role=="SUPERADMIN" || currentUser.role=="BUYER" || currentUser.role=="MANAGER"' ng-repeat="(type,provider) in providersSummary">
             <small>Proveedor para {{type}} : </small>
-            <span>{{provider.name}} {{provider.lastName}}</span>
-          </li>
+            <span>{{provider.name}} {{provider.lastName}}</span> 
+          </li> 
 
           <li ng-show="order.providerId">
           <small><%= htmlWebpackPlugin.options.order_list.supplier%> : </small>
