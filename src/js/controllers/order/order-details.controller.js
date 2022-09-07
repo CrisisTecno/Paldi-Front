@@ -26,6 +26,41 @@ pdApp.controller(
     
     $scope.external = EXECUTION_ENV=="EXTERNAL"
 
+
+    $scope.optionsList = []
+
+    $scope.decideStatus = function(val){
+      if($scope.order && $scope.order.status=="LINE" && $scope.order.providerStatus && ($scope.currentUser.role=="SUPERADMIN" ||$scope.currentUser.role=="PROVIDER"||$scope.currentUser.role=="BUYER"||$scope.currentUser.role=="MANAGER")){
+        return $scope.pretty("orderStatus",$scope.order.providerStatus)
+      }
+      return val
+    }
+    
+    let specialList =["QUOTE","AUTHORIZED","PENDING_INFO"];
+				angular.forEach(specialList,function(status){
+					$scope.optionsList.push({
+						label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),
+						value: status,
+					});
+				})
+    $scope.providerStatusSelected = $scope.optionsList[0];
+
+    $scope.changeProviderStatusDialog = function(){
+    $scope.dialog =ngDialog.open({
+      template:"partials/views/console/change-provider-status.html",
+      scope:$scope,
+      showClose: false
+    })
+    }
+    $scope.changeProviderStatus = function(status){
+      console.log(status)
+      paldiService.orders.updateProviderStatus($scope.order,status.value).then(()=>{
+        $scope.dialog.close()
+        $scope.loadOrder()
+      }
+      )
+    }
+
     var providerProducts = {
       "Enrollable":[
         "Cascade","Triple Shade","Horizontales de Madera","Enrollables","Romanas","Eclisse","Verticales de PVC","Horizontales de Aluminio","Celular","Enrollables Wolken"
@@ -55,20 +90,21 @@ pdApp.controller(
           if(Object.keys(providerProducts).includes(elem.productType) && providerProducts[elem.productType].includes(elem.type)){
             if(!results[elem.productType])
               results[elem.productType]=[]
-      
+
+              if(!results[elem.productType].includes(elem.type))
              results[elem.productType].push(elem.type) 
           }
 
           if(Object.keys(providerProducts).includes(elem.productType) && providerProducts[elem.productType].includes(elem.finish)){
             if(!results[elem.productType])
               results[elem.productType]=[]
-      
+            if(!results[elem.productType].includes(elem.finish))
              results[elem.productType].push(elem.finish) 
           }
         }
       }
       
-      return results
+      return  results
     }
 
    
@@ -178,6 +214,7 @@ pdApp.controller(
         return;
       }
      }
+    let localPromise =null
     var loadOrder = function () {
       var id = $stateParams.orderId;
       $scope.step = "loading";
@@ -213,6 +250,7 @@ pdApp.controller(
         $scope.isSuborder = false;
         $scope.isMaster = false;
         $scope.providersSummary ={}
+        
 
         if(order.type!="Mixta"){
           if(order.provider)
@@ -222,7 +260,7 @@ pdApp.controller(
           $scope.isMaster = true;
           (order.mixedLabel !== null) ? $scope.mixedLabel = order.mixedLabel : $scope.mixedLabel = "Mixta";
           paldiService.orders.getByOrderParent($scope.order.id).then(function (suborders) {
-            suborders.forEach(function (suborder) {
+            localPromise =suborders.forEach(function (suborder) {
               if(suborder.provider){
                 $scope.providersSummary[suborder.type]=suborder.provider
               }
@@ -240,7 +278,7 @@ pdApp.controller(
           
         } else {
           if ($scope.products) {
-            $scope.products.forEach(function (product) {
+            localPromise = $scope.products.forEach(function (product) {
               orderProductsByType(product);
             })
           }
@@ -322,8 +360,10 @@ pdApp.controller(
       }, function (error) {
         $scope.step = "empty";
         // console.log(error);
-      }).then(()=>{
+      }).then(async ()=>{
+        await localPromise
         $scope.needsProviderAssigned = Object.keys(performAnalisis()).length >0
+        console.log(performAnalisis())
         console.log($scope.needsProviderAssigned)
       });
     }

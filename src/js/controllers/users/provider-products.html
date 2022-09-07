@@ -3,12 +3,32 @@
     <h2>Seleccion de Productos</h2>
     <div class="form-group">
         <div  ng-repeat="(type,list) in providerProducts">
-            <h3>{{type}}</h4>
+            
+
+            <h2>{{type}}</h2>
             <div class="form-group" ng-repeat="product in list">
-                <label>{{product}}</label>
-            <input class="form-check-input" type="checkbox" ng-model="providerSelectionList[type][product]" >
+
+                <!-- <label  class="btn btn-warning">{{product}} <input type="checkbox" id="default" class="badgebox" ng-model="providerSelectionList[type][product]"><span class="badge">&check;</span></label> -->
+                
+                <div class="[ form-group ]">
+                    <input type="checkbox" name={{product}} id={{product}} ng-model="providerSelectionList[type][product]"  autocomplete="off" />
+                    <div class="[ btn-group ]">
+                        <label for={{product}} class="[ btn btn-warning ]">
+                            <span class="[ glyphicon glyphicon-ok ]"></span>
+                            <span> </span>
+                        </label>
+                        <label for={{product}} class="[ btn btn-default active ]">
+                            {{product}}
+                        </label>
+                    </div>
+                </div>
+
+
             </div>
         </div>
+
+
+        
     </div>
     <div>
         <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">

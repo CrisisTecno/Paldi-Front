@@ -18,6 +18,7 @@ const calculateAdditionalSubTotal = (product, additional) => {
     case "METER":
       return additional.price * additional.quantity * product.m2
   }
+  
   return additional.price * additional.quantity
 }
 const getAdditionalSubTotal = (product) => {
@@ -31,8 +32,29 @@ export const getAdditionalsSubTotal = (order) => {
   const subtotal = order.products.map(product => getAdditionalSubTotal(product))
   return subtotal
 }
+
+const getAdditionalTotalWD = (product,order) => {
+  const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
+  const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
+  const subtotal = getAdditionalSubTotal(product)
+  return subtotal.reduce((p, c) => p + c, 0) * (1 - getOrderDiscount(product.productType))
+}
+
+const getAdditionalDiscount = (product,order) => {
+  const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
+  
+  const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
+  const subtotal = getAdditionalSubTotal(product)
+  return subtotal.reduce((p, c) => p + c, 0) * (getOrderDiscount(product.productType))
+}
+
 const getAdditionalsTotal = (order) => {
-  const subtotal = order.products.map(product => getAdditionalTotal(product))
+
+  let subtotal
+  if(order.type==="Mixta"){
+    subtotal = order.products.map(product => getAdditionalTotalWD(product,order))
+  }
+  else subtotal = order.products.map(product => getAdditionalTotal(product))
 
   const plusTotal = subtotal.reduce((p, c) => p + c, 0)
 
@@ -58,14 +80,42 @@ const getMotorTotal = (product) => {
   const subtotal = product.motorList.map(motor => motor.price * motor.quantity)
   return subtotal.reduce((p, c) => p + c, 0)
 }
+
+
 export const getMotorsSubtotal = (order) => {
+  if(order.type=="Mixta"){
+    const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
+    const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
+    return order.products.map(product => getMotorSubtotal(product)* (1 - getOrderDiscount(product.productType)))
+  }
+  else
   return order.products.map(product => getMotorSubtotal(product))
 }
 const getMotorsTotal = (order) => {
-  const subtotal = order.products.map(product => getMotorTotal(product))
+  const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
+  const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
+  let subtotal
+  if(order.type=="Mixta"){
+    subtotal = order.products.map(product => getMotorTotal(product) * (1 - getOrderDiscount(product.productType)))
+  }
+  else
+  subtotal = order.products.map(product => getMotorTotal(product))
   return {
     motorTotal: subtotal.reduce((p, c) => p + c, 0)
   }
+}
+
+const getMotorsTotalDiscount = (order) => {
+  const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
+  const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
+  let subtotal
+  if(order.type=="Mixta"){
+    subtotal = order.products.map(product => getMotorTotal(product) * ( getOrderDiscount(product.productType)))
+  }
+  else
+  subtotal = order.products.map(product => getMotorTotal(product))
+  return subtotal.reduce((p, c) => p + c, 0)
+  
 }
 
 
@@ -83,7 +133,25 @@ const getInstallationPlusTotal = (product) => {
   return subtotal.reduce((p, c) => p + c, 0)
 }
 const getInstallationsPlusTotal = (order) => {
-  const subtotal = order.products.map(product => getInstallationPlusTotal(product))
+  const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
+  const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
+  let subtotal
+  if(order.type=="Mixta"){
+    subtotal = order.products.map(product => getInstallationPlusTotal(product) * (1 - getOrderDiscount(order.productType)))
+  }
+  else subtotal = order.products.map(product => getInstallationPlusTotal(product))
+  return subtotal.reduce((p, c) => p + c, 0)
+}
+
+
+const getInstallationsPlusTotalDiscount = (order) => {
+  const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
+  const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
+  let subtotal
+  if(order.type=="Mixta"){
+    subtotal = order.products.map(product => getInstallationPlusTotal(product) * ( getOrderDiscount(order.productType)))
+  }
+  else subtotal = order.products.map(product => getInstallationPlusTotal(product))
   return subtotal.reduce((p, c) => p + c, 0)
 }
 const getInstallationTotal = (order) => {
@@ -131,10 +199,14 @@ const getDiscounts = (order, totals) => {
   const shutterDiscount = getDiscount('Shutter')
   const enrollableDiscount = getDiscount('Enrollable')
   const filtrasolDiscount = getDiscount('Filtrasol')
+  const additionalsDiscount = order.products.map(product => getAdditionalDiscount(product,order)).reduce((p, c) => p + c, 0)
+  const motorsDiscount = getMotorsTotalDiscount(order)
+  const installationPlusDiscount = getInstallationsPlusTotalDiscount(order);
+
   const mixedDiscount = toValue(balanceDiscount)
     + toValue(shutterDiscount)
     + toValue(enrollableDiscount)
-    + toValue(filtrasolDiscount)
+    + toValue(filtrasolDiscount)  + toValue(additionalsDiscount) + toValue(motorsDiscount) + toValue(installationPlusDiscount)
 
 
   const fullDiscount = (order.discountPercent || order.discountPercent==0) ? (totals.productsTotal

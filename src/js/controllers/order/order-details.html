@@ -82,7 +82,7 @@
         <% if (htmlWebpackPlugin.options.features.city) {%>
         <span ng-show="order.source" class="status-tag source">{{order.source}}</span>
         <%}%>
-        <span ng-show="order.status != 'QUOTE'" class="status-tag {{order.status}}"><%=htmlWebpackPlugin.options.order_details.order_stats%></span>
+        <span ng-show="order.status != 'QUOTE'" class="status-tag {{order.providerStatus && (currentUser.role=='PROVIDER' || currentUser.role=='MANAGER' || currentUser.role=='BUYER' || currentUser.role=='SUPERADMIN')?order.providerStatus :order.status}}"><%=htmlWebpackPlugin.options.order_details.order_stats%></span>
         <span ng-show="order.status == 'QUOTE'" class="status-tag {{order.quoteStatus}}"><%=htmlWebpackPlugin.options.order_details.order_status_p%></span>
         <span ng-show="['LINE', 'BACKORDER', 'PRODUCTION', 'TRANSIT', 'FINISHED'].indexOf(order.status) !== -1 && order.installationDate" class="status-tag PROGRAMMED">P</span>
       </div>
@@ -116,6 +116,8 @@
       </div>
       <br>
       <ul>
+        
+
         <li ng-show="order.status ==  'QUOTE' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
           <label><%= htmlWebpackPlugin.options.order_details.quote_status%>:</label>
           <select name="quoteStatus" ng-model="quoteStatus" class="status-select">
@@ -135,6 +137,12 @@
         <li ng-show="order.status ==  'QUOTE' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
         </li>
         <% if (htmlWebpackPlugin.options.features.city) { %>
+
+          <li ng-if='currentUser.role=="SUPERADMIN" || currentUser.role=="BUYER" || currentUser.role=="MANAGER"'ng-repeat="(type,provider) in providersSummary">
+            <small>Proveedor para {{type}} : </small>
+            <span>{{provider.name}} {{provider.lastName}}</span>
+          </li>
+
           <li ng-show="order.providerId">
           <small><%= htmlWebpackPlugin.options.order_list.supplier%> : </small>
           <span>{{order.providerId}}</span>
@@ -470,6 +478,7 @@
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canProduction  && !isMaster" ng-click="changeStatusDialog('PRODUCTION')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_prod%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canBackorder  && !isMaster" ng-click="changeStatusDialog('BACKORDER')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_back%> </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canTransit  && !isMaster" ng-click="changeStatusDialog('TRANSIT')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_transit%>  </button>
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="(currentUser.role=='PROVIDER' || currentUser.role=='SUPERADMIN') && order.status=='LINE'" ng-click="changeProviderStatusDialog()"><span class="btn-icon glyphicon glyphicon-th-large"></span>Cambiar Estado</button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canFinish  && !isMaster" ng-click="changeStatusDialog('FINISHED')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.finish%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canSetInstallDate  && !isMaster" ng-click="dateDialog('install')"><span class="btn-icon glyphicon glyphicon-calendar "></span><%= htmlWebpackPlugin.options.order_details.inst_date%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canFinish  && !isMaster && !external" ng-click="shipmentDialog()"><span class="btn-icon glyphicon glyphicon-tags"></span> Generar Etiquetas</button>

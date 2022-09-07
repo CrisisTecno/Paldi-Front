@@ -21,9 +21,7 @@
                 <ul>
                     <li> <span>Rol:</span> {{ pretty("userRole", user.role) }}</li>
 
-                    <div ng-if="user.role=='PROVIDER'"class="form-group">
-                        <button type="button" class="btn-default" ng-click="assignProductsDialog()">Editar Productos</button>
-                    </div>
+                    
                     
                 </ul>
                 <h3><i class="fa fa-envelope" aria-hidden="true"></i>
@@ -89,6 +87,9 @@
                 <button class="btn btn-primary" ng-disabled="sameUser" ng-click="deactivate()" ng-show="user.active && currentUser.canAdmin"><%= htmlWebpackPlugin.options.general.deactivate %></button>
                 <button class="btn btn-primary" ng-click="activate()" ng-show="!user.active && currentUser.canAdmin"><%= htmlWebpackPlugin.options.general.activate %></button>
                 <button class="btn btn-default" ng-click="loadUser()" ng-show="step=='edit' && currentUser.canAdmin"><%= htmlWebpackPlugin.options.general.cancel %></button>
+                
+                <button ng-if="currentUser.role=='BUYER' ||currentUser.role=='MANAGER' || currentUser.role=='SUPERADMIN' && user.role=='PROVIDER'"type="button" class="btn btn-default" ng-click="assignProductsDialog()">Asignar Productos a Proveedor</button>
+                
                 <button class="btn btn-primary" ng-click="edit(userForm, user)" ng-show="step=='edit'"><%= htmlWebpackPlugin.options.general.save %></button>
             </div>
         </div>

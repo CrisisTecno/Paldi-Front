@@ -43,7 +43,7 @@
         </div> -->
         <div class="pull-right">
           
-          <span ng-show="order.status != 'QUOTE'" class="status-tag {{order.status}}"><%=htmlWebpackPlugin.options.order_details.order_stats%></span>
+          <span ng-show="order.status != 'QUOTE'" class="status-tag {{order.providerStatus && (currentUser.role=='PROVIDER' || currentUser.role=='MANAGER' || currentUser.role=='BUYER' || currentUser.role=='SUPERADMIN')?order.providerStatus :order.status}}"><%=htmlWebpackPlugin.options.order_details.order_stats%></span>
           <span ng-show="order.status == 'QUOTE'" class="status-tag {{order.quoteStatus}}"><%=htmlWebpackPlugin.options.order_details.order_status_p%></span>
           <span ng-show="['LINE', 'BACKORDER', 'PRODUCTION', 'TRANSIT', 'FINISHED'].indexOf(order.status) !== -1 && order.installationDate" class="status-tag PROGRAMMED">P</span>
         </div>
