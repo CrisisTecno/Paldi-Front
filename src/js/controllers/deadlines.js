@@ -243,10 +243,10 @@ pdApp.controller(
 				.withTitle("Guía de Rastreo")
 				.renderWith(function (data) {
 					
-					
+					console.log(data.dataB.guides)
 					return (
-						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides? data.dataB.guides[0].trim() :"") + '">' 
-						+ (data.dataB.guides? data.dataB.guides[0] :"") +
+						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides &&data.dataB.guides.length>0 ? data.dataB.guides[0].trim() :"") + '">' 
+						+ (data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0] :"") +
 						"</a>"
 					);
 				}),
@@ -366,8 +366,8 @@ pdApp.controller(
 					
 					
 					return (
-						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides? data.dataB.guides[0].trim() :"") + '">' 
-						+ (data.dataB.guides? data.dataB.guides[0] :"") +
+						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0].trim() :"") + '">' 
+						+ (data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0] :"") +
 						"</a>"
 					);
 				}),
@@ -510,8 +510,8 @@ pdApp.controller(
 					
 					
 					return (
-						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides? data.dataB.guides[0].trim() :"") + '">' 
-						+ (data.dataB.guides? data.dataB.guides[0] :"") +
+						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0].trim() :"") + '">' 
+						+ (data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0] :"") +
 						"</a>"
 					);
 				}),
@@ -572,15 +572,18 @@ pdApp.controller(
 				.withOption("name", "orderNo")
 				.withTitle("No. orden")
 				.renderWith(function (data) {
+					
 					if (!data.isSuborder_b) {
+						console.log(data)
 						return (
 							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
-							data.id +
+							data.orderId+
 							'">' +
-							data.no_l +
+							data.orderNo +
 							"<a>"
 						);
 					} else {
+						console.log(data)
 						return (
 							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 							data.id +
@@ -635,8 +638,8 @@ pdApp.controller(
 					
 					
 					return (
-						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides? data.dataB.guides[0].trim() :"") + '">' 
-						+ (data.dataB.guides? data.dataB.guides[0] :"") +
+						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0].trim() :"") + '">' 
+						+ (data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0] :"") +
 						"</a>"
 					);
 				}),

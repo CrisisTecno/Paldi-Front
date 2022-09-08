@@ -361,10 +361,12 @@ pdApp.controller(
         $scope.step = "empty";
         // console.log(error);
       }).then(async ()=>{
-        await localPromise
+        $timeout(function () {
         $scope.needsProviderAssigned = Object.keys(performAnalisis()).length >0
         console.log(performAnalisis())
         console.log($scope.needsProviderAssigned)
+        }, 500)
+        
       });
     }
 

@@ -347,6 +347,7 @@ pdApp.controller(
 						"reverseOrderStatus",
 						data.status_s
 					);
+					
 					if(status=="LINE" && data.providerStatus_s){
 						status = data.providerStatus_s
 					  }
@@ -375,7 +376,20 @@ pdApp.controller(
 							'<a ng-click="toggleDetails(' +
 							id +
 							')" class="status-block status-circle PROGRAMMED">P</a>';
+						
+						
+						
 						text = text + programmed;
+
+						
+					}
+					if(data.providerId_txt && data.providerId_txt[0]!==" - "){
+						
+						var asigned = '<a ng-click="toggleDetails(' +
+						id +
+						')" class="status-block status-circle PENDING_INFO">A</a>';
+						text = text + asigned
+						
 					}
 					return text;
 				}),
@@ -568,6 +582,8 @@ pdApp.controller(
 						(EXECUTION_ENV!="EXTERNAL"?$scope.pretty("orderStatus", status):$scope.pretty("orderStatusEn", status)) +
 						"</a>"
 					);
+
+				
 				}),
 
 			DTColumnBuilder.newColumn(null)
@@ -854,7 +870,7 @@ pdApp.controller(
 					if(status=="LINE" && data.providerStatus_s){
 						status = data.providerStatus_s
 					  }
-					return (
+					var text = (
 						'<a ng-click="toggleDetails(' +
 						id +
 						')" class="status-block ' +
@@ -863,6 +879,15 @@ pdApp.controller(
 						(EXECUTION_ENV!="EXTERNAL"?$scope.pretty("orderStatus", status):$scope.pretty("orderStatusEn", status)) +
 						"</a>"
 					);
+					if(data.providerStatus_s && data.providerId_txt[0]!==" - "){
+						
+						var asigned = '<a ng-click="toggleDetails(' +
+						id +
+						')" class="status-block status-circle PENDING_INFO">A</a>';
+						text = text + asigned
+						
+					}
+					return text;
 				}),
 
 			DTColumnBuilder.newColumn(null)
