@@ -74,6 +74,8 @@ pdApp.factory("prettyHelper", function () {
 					return "Información Pendiente";
 				case "AUTHORIZED":
 					return "Autorizado";
+				case "QUOTED":
+					return "Cotizado";
 			}
 			return status;
 		},

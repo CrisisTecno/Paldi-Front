@@ -1458,7 +1458,7 @@ pdApp.controller(
 			);
 			$scope.statusList = $rootScope.orderStatusList;
 			if($scope.currentUser.role=="PROVIDER" || $scope.currentUser.role=="BUYER" || $scope.currentUser.role=="SUPERADMIN" ||$scope.currentUser.role=="MANAGER" && EXECUTION_ENV=="INTERNAL"){
-				let specialList =["AUTHORIZED","PENDING_INFO","QUOTE"]
+				let specialList =["AUTHORIZED","PENDING_INFO","QUOTE","QUOTED"]
 				angular.forEach(specialList,function(status){
 					$scope.statusList.push({
 						id:status
@@ -1503,7 +1503,7 @@ pdApp.controller(
 			}
 			});
 			if($scope.currentUser.role=="PROVIDER" || $scope.currentUser.role=="BUYER" || $scope.currentUser.role=="SUPERADMIN" ||$scope.currentUser.role=="MANAGER" && EXECUTION_ENV=="INTERNAL"){
-				let specialList =["AUTHORIZED","PENDING_INFO","QUOTE"]
+				let specialList =["AUTHORIZED","PENDING_INFO","QUOTE","QUOTED"]
 				angular.forEach(specialList,function(status){
 					$scope.availableStatusList.push({
 						label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),

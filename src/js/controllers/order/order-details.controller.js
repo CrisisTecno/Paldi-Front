@@ -53,12 +53,27 @@ pdApp.controller(
     })
     }
     $scope.changeProviderStatus = function(status){
-      console.log(status)
-      paldiService.orders.updateProviderStatus($scope.order,status.value).then(()=>{
-        $scope.dialog.close()
+      swal(
+        {
+          title:
+          (EXECUTION_ENV=="EXTERNAL"?"Do you want to change the order status to ":"¿Cambiar estado de la orden a ") +
+          (EXECUTION_ENV=="EXTERNAL"?$scope.pretty("orderStatusEn", status):$scope.pretty("orderStatus", status)) +
+            "?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
+          cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
+          closeOnConfirm: true,
+        },
+        ()=>{
+      paldiService.orders.updateProviderStatus($scope.order,status).then(()=>{
+        
         $scope.loadOrder()
       }
       )
+    }
+      );
     }
 
     var providerProducts = {
@@ -975,9 +990,21 @@ pdApp.controller(
       }
     };
 
-    $scope.changeOrderStatus = function (form, status) {
+    $scope.changeOrderStatus = async function (form, status) {
+      var exceptionStatus=["QUOTED","QUOTE","AUTHORIZED","PENDING_INFO"]
+
       if (form.$valid) {
+        
         $scope.dialog.close();
+        if(exceptionStatus.includes(status)){
+          var actualStatus =status
+          await paldiService.orders.updateProviderStatus($scope.order,actualStatus)
+          status="LINE";
+          if($scope.order.status=="LINE") {
+            $scope.loadOrder()
+            return
+          }
+        }
         paldiService.orders
           .updateRetroStatus($scope.order, status)
           .then(function (order) {

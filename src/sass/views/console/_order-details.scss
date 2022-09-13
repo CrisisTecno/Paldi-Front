@@ -39,9 +39,12 @@
     text-decoration: none;
     padding: 3px 6px 3px 6px;
     border-radius: 3px;
-
+   
     &.QUOTE {
         background-color: #839192;
+    }
+    &.QUOTED {
+        background-color:  #372828;
     }
     &.PENDING {
         background-color: #d4ac0d;
@@ -137,7 +140,8 @@
 }
 
 .btn-square {
-    width: 14rem;
+    min-width: 14rem;
+    width: fit-content;
     height: 3.2rem;
     margin-bottom: 0.5rem;
     line-height: 40px;

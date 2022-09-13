@@ -151,7 +151,8 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					order.status != "QUOTE" &&
 					order.status != "REJECTED" &&
 					order.status != "PENDING" &&
-					order.status != "LINE"
+					order.providerStatus 
+		
 				) {
 					canChangeStatus = true;
 				}
@@ -326,9 +327,23 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 			var canProgrammed = false;
 			var canIncomplete = false;
 			var canNonConform = false;
+			var canQuote = false;
+			var canInfo = false;
+			var canAuth = false;
+			var canQuoted= false;
 
+			if(order.providerStatus!="PENDING_INFO"){
+				canQuote=true
+			}
+			if(order.providerStatus!="PENDING_INFO" && order.providerStatus!="PENDING_INFO"){
+				canInfo=true
+			}
+			if(order.providerStatus!="PENDING_INFO" && order.providerStatus!="PENDING_INFO" && order.providerStatus!="QUOTED"){
+				canQuoted=true
+			}
 			if (order.status != "LINE") {
 				canLine = true;
+				canAuth = true
 			}
 
 			if (order.status != "BACKORDER" && order.status != "LINE") {
@@ -377,6 +392,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				canNonConform = true;
 			}
 
+
 			return {
 				canLine: canLine,
 				canBackorder: canBackorder,
@@ -386,6 +402,10 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				canProgrammed: canProgrammed,
 				canIncomplete: canIncomplete,
 				canNonConform: canNonConform,
+				canQuote:canQuote,
+				canInfo:canInfo,
+				canAuth:canAuth,
+				canQuoted:canQuoted
 			};
 		},
 	};

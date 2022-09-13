@@ -1089,8 +1089,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     // quick and dirty, todo: clean later
     if (product === "Cortina") {
      
-  
-      model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color.toLowerCase() === model.colorName.toLowerCase())[0]
+      console.log("COLOR",$scope.productData.cortina.colores[model.textil])
+
+      model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color.toLowerCase() == model.colorName.toLowerCase())[0]
+      
+      
       model.color.name = model.color.color
       model.color.type = "Cortina"
 
@@ -1623,7 +1626,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     textil = $scope.productData.cortina.colores[model.textil]
     
     textil.forEach(element => {
-      if(element.color==model.colorName)
+      
+      if(element.color.toLowerCase()==model.colorName.toLowerCase())
         color=element
     });
   }
@@ -1687,7 +1691,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     textil= $scope.productData.cortina.colores[model.textil]
     
     textil.forEach(element => {
-      if(element.color==model.colorName)
+      if(element.color.toLowerCase()==model.colorName.toLowerCase())
         color=element
     });
     }

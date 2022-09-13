@@ -51,12 +51,27 @@ pdApp.controller(
     })
     }
     $scope.changeProviderStatus = function(status){
-      console.log(status)
-      paldiService.orders.updateProviderStatus($scope.order,status.value).then(()=>{
-        $scope.dialog.close()
+      swal(
+        {
+          title:
+          (EXECUTION_ENV=="EXTERNAL"?"Do you want to change the order status to ":"¿Cambiar estado de la orden a ") +
+          (EXECUTION_ENV=="EXTERNAL"?$scope.pretty("orderStatusEn", status):$scope.pretty("orderStatus", status)) +
+            "?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
+          cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
+          closeOnConfirm: true,
+        },
+        ()=>{
+      paldiService.orders.updateProviderStatus($scope.order,status).then(()=>{
+        
         $scope.loadOrder()
       }
       )
+    }
+      );
     }
     $scope.typeTranslate = function(name){
       if($scope.external){

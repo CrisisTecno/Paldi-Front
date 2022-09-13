@@ -189,9 +189,22 @@
           <div class="status-buttons" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida' || order.status == 'ORDER_CANCELED' ">
             
             
-            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canProduction  && !isMaster" ng-click="changeStatusDialog('PRODUCTION')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_prod%>  </button>
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canProduction  && !isMaster && order.providerStatus=='AUTHORIZED'" ng-click="changeStatusDialog('PRODUCTION')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_prod%>  </button>
             <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canTransit  && !isMaster" ng-click="changeStatusDialog('TRANSIT')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_transit%>  </button>
-            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="currentUser.role=='PROVIDER' && order.status=='LINE'" ng-click="changeProviderStatusDialog()"><span class="btn-icon glyphicon glyphicon-th-large"></span>Cambiar Estado</button>
+            
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+            ng-show="currentUser.role=='PROVIDER' && order.status=='LINE' && !order.providerStatus" ng-click="changeProviderStatus('QUOTE')">
+            <span class="btn-icon glyphicon glyphicon-th-large"></span>Marcar como Cotización</button>
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+            ng-show="currentUser.role=='PROVIDER' && order.status=='LINE' && order.providerStatus=='QUOTE'" ng-click="changeProviderStatus('PENDING_INFO')">
+            <span class="btn-icon glyphicon glyphicon-th-large"></span>Mover  a Información Pendiente</button>
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+            ng-show="currentUser.role=='PROVIDER' && order.status=='LINE' && (order.providerStatus=='QUOTE' || order.providerStatus=='PENDING_INFO')" ng-click="changeProviderStatus('QUOTED')">
+            <span class="btn-icon glyphicon glyphicon-th-large"></span>Marcar como Cotizado</button>
+            <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+            ng-show="currentUser.role=='PROVIDER' && order.status=='LINE' && order.providerStatus=='QUOTED'" ng-click="changeProviderStatus('AUTHORIZED')">
+            <span class="btn-icon glyphicon glyphicon-th-large"></span>Marcar como Autorizado</button>
+
             
             <!-- TODO: retire the inline-style -->
             <div class="dropdown show" style="width: min-content;" ng-show="currentUser.role == 'PROVIDER' || currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'ADMIN' || currentUser.role == 'INSTALLATION_MANAGER'">

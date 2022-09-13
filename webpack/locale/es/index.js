@@ -335,6 +335,11 @@ module.exports = {
     new_status:"Nuevo Estado",
     status_options:`
     <option ng-if="changePermissions.canLine" value="LINE">Línea</option>
+    <option ng-if="changePermissions.canQuote" value="QUOTE">Cotizacion</option>
+    <option ng-if="changePermissions.canInfo" value="PENDING_INFO">Informacion Pendiente</option>
+    <option ng-if="changePermissions.canQuoted" value="QUOTED">Cotizado</option>
+    <option ng-if="changePermissions.canAuth" value="AUTHORIZED">Autorizado</option>
+
     <option ng-if="changePermissions.canBackorder" value="BACKORDER">Backorder</option>
     <option ng-if="changePermissions.canProduction" value="PRODUCTION">Producción</option>
     <option ng-if="changePermissions.canTransit" value="TRANSIT">Tránsito</option>
