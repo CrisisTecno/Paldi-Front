@@ -554,7 +554,7 @@ module.exports = {
                 class="btn btn-default"
                 ng-click="addProduct('Enrollable')"
                 ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta'"
-            >Persianas
+            >Persianas Wolken y Platinum
             </button>
             <button
                 class="btn btn-default"
@@ -601,7 +601,7 @@ module.exports = {
     class="btn btn-default"
     ng-click="addProduct('Enrollable')"
     ng-show="!quote.type || quote.type=='Enrollable'"
->Persianas
+>Persianas Wolken y Platinum
 </button>
 <button
     class="btn btn-default"
@@ -906,7 +906,7 @@ module.exports = {
     <option value="Balance">Balances & Cornizas</option>
     <option value="Shutter">Shutters</option>
     <option value="Toldo">Productos para el exterior</option>
-    <option value="Enrollable">Persianas</option>
+    <option value="Enrollable">Persianas Wolken y Platinum</option>
     <option value="Piso">Pisos</option>
     `,
     change_seller:"Cambiar vendedor",
@@ -914,6 +914,7 @@ module.exports = {
   },
   cortina:{
     cortina:"Cortina",
+    cortinaFiltrasol:"Cortina Filtrasol",
     textil:"Textil",
     opening:"Apertura",
     installation:"Instalación",

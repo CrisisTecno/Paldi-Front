@@ -428,6 +428,7 @@ pdApp.controller(
     $scope.productsSorted.push({type: "Filtrasol", products: []})
     $scope.productsSorted.push({type: "Piso", products: []})
     $scope.productsSorted.push({type: "Cortina", products: []})
+    $scope.productsSorted.push({type: "Cortina Filtrasol", products: []})
     $scope.productsSorted.push({type: "Custom", products: []})
     $scope.productsFiltered = []
     $scope.productsMixed = []

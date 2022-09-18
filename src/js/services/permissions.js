@@ -165,7 +165,8 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 						user.role == "BUYER") &&
 					order.status != "QUOTE" &&
 					order.status != "REJECTED" &&
-					order.status != "PENDING"
+					order.status != "PENDING" &&
+					order.providerId
 				) {
 					canUpdateProvider = true;
 				}
@@ -332,7 +333,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 			var canAuth = false;
 			var canQuoted= false;
 
-			if(order.providerStatus!="PENDING_INFO"){
+			if(order.providerStatus!="QUOTE"){
 				canQuote=true
 			}
 			if(order.providerStatus!="PENDING_INFO" && order.providerStatus!="PENDING_INFO"){
@@ -341,8 +342,13 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 			if(order.providerStatus!="PENDING_INFO" && order.providerStatus!="PENDING_INFO" && order.providerStatus!="QUOTED"){
 				canQuoted=true
 			}
-			if (order.status != "LINE") {
+			
+			if(order.status != "LINE" || order.providerStatus){
 				canLine = true;
+			}
+			if (order.status != "LINE") {
+				
+			
 				canAuth = true
 			}
 

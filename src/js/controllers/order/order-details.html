@@ -480,16 +480,16 @@
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canTransit  && !isMaster" ng-click="changeStatusDialog('TRANSIT')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_transit%>  </button>
 
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
-          ng-show="currentUser.role=='SUPERADMIN' && order.status=='LINE' && !order.providerStatus && !isMaster && order.provider" ng-click="changeProviderStatus('QUOTE')">
+          ng-show="(currentUser.role=='SUPERADMIN' || currentUser.role=='BUYER' || currentUser.role=='SALES_MANAGER')&& order.status=='LINE' && !order.providerStatus && !isMaster && order.provider" ng-click="changeProviderStatus('QUOTE')">
           <span class="btn-icon glyphicon glyphicon-th-large"></span>Marcar como Cotización</button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
-          ng-show="currentUser.role=='SUPERADMIN' && order.status=='LINE' && order.providerStatus=='QUOTE'  && !isMaster && order.provider" ng-click="changeProviderStatus('PENDING_INFO')">
+          ng-show="(currentUser.role=='SUPERADMIN' || currentUser.role=='BUYER' || currentUser.role=='SALES_MANAGER') && order.status=='LINE' && order.providerStatus=='QUOTE'  && !isMaster && order.provider" ng-click="changeProviderStatus('PENDING_INFO')">
           <span class="btn-icon glyphicon glyphicon-th-large"></span>Mover  a Información Pendiente</button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
-          ng-show="currentUser.role=='SUPERADMIN' && order.status=='LINE' && (order.providerStatus=='QUOTE' || order.providerStatus=='PENDING_INFO')  && order.provider && !isMaster" ng-click="changeProviderStatus('QUOTED')">
+          ng-show="(currentUser.role=='SUPERADMIN' || currentUser.role=='BUYER' || currentUser.role=='SALES_MANAGER')&& order.status=='LINE' && (order.providerStatus=='QUOTE' || order.providerStatus=='PENDING_INFO')  && order.provider && !isMaster" ng-click="changeProviderStatus('QUOTED')">
           <span class="btn-icon glyphicon glyphicon-th-large"></span>Marcar como Cotizado</button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
-          ng-show="currentUser.role=='SUPERADMIN' && order.status=='LINE' && order.providerStatus=='QUOTED'  && !isMaster && order.provider" ng-click="changeProviderStatus('AUTHORIZED')">
+          ng-show="(currentUser.role=='SUPERADMIN' || currentUser.role=='BUYER' || currentUser.role=='SALES_MANAGER') && order.status=='LINE' && order.providerStatus=='QUOTED'  && !isMaster && order.provider" ng-click="changeProviderStatus('AUTHORIZED')">
           <span class="btn-icon glyphicon glyphicon-th-large"></span>Marcar como Autorizado</button>
 
           

@@ -1,6 +1,9 @@
 <div>
-    <h3 class="form-title">
+    <h3 ng-if="order.providerId" class="form-title">
         <%= htmlWebpackPlugin.options.console.update_provider %>
+    </h3> 
+    <h3 ng-if="!order.providerId" class="form-title">
+        Asignar ID de Proveedor
     </h3>
     <form name="providerForm" role="form" novalidate ng-submit="updateProvider(providerForm, providerId)" 
     autocomplete="off">
@@ -18,7 +21,7 @@
                 <%= htmlWebpackPlugin.options.general.cancel %>
             </button>
             <button type="submit" class="btn btn-primary">
-                <%= htmlWebpackPlugin.options.general.update %>
+                <%= htmlWebpackPlugin.options.general.save %>
             </button>
         </div>
 

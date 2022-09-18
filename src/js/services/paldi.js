@@ -94,6 +94,9 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     fetchCortinaAcabados: async () => {
       return (await $http.post(globals.apiURL + '/newapi/products/oki', {})).data.data
     },
+    fetchCortinaFiltrasolAcabados: async () => {
+      return (await $http.post(globals.apiURL + '/newapi/products/oki', {type:"Cortina Filtrasol"})).data.data
+    },
   }
 
   //--------------- PASSWORD ---------------

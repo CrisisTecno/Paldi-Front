@@ -64,7 +64,18 @@ pdApp.controller(
           cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
           closeOnConfirm: true,
         },
-        ()=>{
+        async()=>{
+          if(status=="QUOTED"){
+            $scope.updateProviderDialog()
+            await $scope.providerUpdatedPromise
+            await $timeout(()=>{
+            if(!$scope.successProv){
+              return
+            }
+          },
+            300)
+          }
+        ;
       paldiService.orders.updateProviderStatus($scope.order,status).then(()=>{
         
         $scope.loadOrder()
@@ -185,6 +196,7 @@ pdApp.controller(
       $scope.productsSorted.push({ type: "Persiana o Filtrasol", products: [] });
       $scope.productsSorted.push({ type: "Piso", products: [] });
       $scope.productsSorted.push({ type: "Cortina", products: [] });
+      $scope.productsSorted.push({ type: "Cortina Filtrasol", products: [] });
       $scope.productsSorted.push({ type: "Custom", products: [] });
       $scope.suborders = [];
       $scope.limitDays = 20;
@@ -668,9 +680,10 @@ pdApp.controller(
     $scope.updateProvider = function (form, providerId) {
       if (form.$valid) {
         $scope.dialog.close();
-        paldiService.orders
+        $scope.providerUpdatedPromise = paldiService.orders
           .updateProvider($scope.order, providerId)
           .then(function (order) {
+            $scope.successProv = true
             swal({
               title:  (EXECUTION_ENV=="EXTERNAL"?"Supplier Updated":"Proveedor Actualizado"),
               type: "success",
@@ -1128,6 +1141,11 @@ pdApp.controller(
       if(dateType=='arrival'){
         $scope.dateModel['guides']=$scope.order.guides??[]
         $scope.dateModel['orderTransitInvoice']=$scope.order.orderTransitInvoice??""
+      }
+      if(dateType=='endProduction'){
+        if($scope.order.providerId){
+          $scope.dateModel['providerId']=$scope.order.providerId
+        }
       }
       $scope.dialog = ngDialog.open({
         template: "partials/views/console/datepicker.html",

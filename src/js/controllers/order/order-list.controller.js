@@ -387,7 +387,7 @@ pdApp.controller(
 						
 						var asigned = '<a ng-click="toggleDetails(' +
 						id +
-						')" class="status-block status-circle PENDING_INFO">A</a>';
+						')" class="status-block status-circle NAP">A</a>';
 						text = text + asigned
 						
 					}
@@ -883,7 +883,7 @@ pdApp.controller(
 						
 						var asigned = '<a ng-click="toggleDetails(' +
 						id +
-						')" class="status-block status-circle PENDING_INFO">A</a>';
+						')" class="status-block status-circle NAP">A</a>';
 						text = text + asigned
 						
 					}

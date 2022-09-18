@@ -376,6 +376,14 @@ pdApp.factory("prettyHelper", function () {
 					return "Estado de Cotización cambió a Venta Perdida (Tiempo de entrega menor)";
 				case "STATUS_LINE":
 					return "Estado cambió a Línea";
+				case "STATUS_QUOTE":
+						return "Estado cambió a Cotización";
+				case "STATUS_QUOTED":
+						return "Estado cambió a Cotizado";
+				case "STATUS_PENDING_INFO":
+					return "Estado cambió a Información Pendiente";
+				case "STATUS_AUTHORIZED":
+					return "Estado cambió a Autorizado";
 				case "STATUS_REJECTED":
 					return "Estado cambió a Rechazada";
 				case "STATUS_CANCELED":

@@ -77,6 +77,8 @@ pdApp.factory(
           case "Cortina":
             getCortinaPrice(model);
             break;
+		  case "Cortina Filtrasol":
+			getCortinaFiltrasolPrice(model)
           case "Custom":
             getCustomPrice(model);
             break;
@@ -172,6 +174,12 @@ pdApp.factory(
               product
             )
             break;
+		case "Cortina Filtrasol":
+				model.cortinaFiltrasol = filterProducts(
+				  model.products,
+				  product
+				)
+				break;
           case "Piso":
             model.pisos = filterProducts(model.products, product);
             break;
@@ -378,6 +386,28 @@ pdApp.factory(
 
       return model
     }
+
+	async function getCortinaFiltrasolPrice(model) {
+		if (!model)
+		  return
+  
+		// console.log("Calculating cortina price for ", model)
+		const payload = {
+		  product: "Cortina Filtrasol",
+		  finish: model.finish,
+		  textil: model.textil,
+		  width: model.width,
+		  height: model.height,
+		}
+  
+		const result = await paldiService.products.fetchPrice(payload)
+		// console.log("Calculated cortina price", result)
+		model.m2 = Math.round(model.width * model.height * 100) / 100
+		model.price = result.price
+		model.total = result.price * model.quantity
+  
+		return model
+	  }
 
     //------------------------------ Custom -----------------------------
     var getCustomPrice = function (custom) {
