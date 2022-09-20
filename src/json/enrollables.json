@@ -41,6 +41,12 @@
 		"systems": ["Avant / Premium Plus", "Cassette curvo", "Cassette flat", "Linea E"],
 		"configs" : ["XFM", "XDM", "XFMM", "XDMM", "XFM90", "XDM90"]
 	},
+	"Enrollables Wolken": {
+		"colorLabel" : "Textil",
+		"priceType" : "METER",
+		"systems": ["Avant / Premium Plus", "Cassette flat"],
+		"configs" : ["XFM", "XDM", "XFMM", "XDMM", "XFM90", "XDM90"]
+	},
 	"Romanas": {
 		"colorLabel" : "Textil",
 		"priceType" : "METER",

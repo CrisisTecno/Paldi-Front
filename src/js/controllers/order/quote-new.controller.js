@@ -1845,7 +1845,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     if (model.type || model.sistema.type) {
       if (product == "Enrollable") {
         $scope.productMeta = $scope.enrollablesMeta[model.type]
-
+        console.log($scope.enrollablesMeta)
         if ($scope.productMeta.systems != undefined) {
           $scope.hasSystems = $scope.productMeta.systems.length > 0
         } else {

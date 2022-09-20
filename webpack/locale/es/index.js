@@ -560,7 +560,7 @@ module.exports = {
                 class="btn btn-default"
                 ng-click="addProduct('Filtrasol')"
                 ng-show="!quote.type || quote.type=='Filtrasol'|| quote.type=='Shutter' || quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta'"
-            >Filtrasol
+            > Persianas Filtrasol
             </button>
             <button
                 class="btn btn-default"
@@ -573,7 +573,7 @@ module.exports = {
                   class="btn btn-default"
                   ng-click="addProduct('Cortina')"
                   ng-show="!quote.type || quote.type=='Cortina'"
-              >Cortinas
+              >Cortinas Wolken y Platinum
               </button>
               <button
                   class="btn btn-default"
@@ -613,7 +613,7 @@ module.exports = {
     class="btn btn-default"
     ng-click="addProduct('Filtrasol')"
     ng-show="!quote.type || quote.type=='Filtrasol'"
->Filtrasol
+>Persianas Filtrasol
 </button>
 <button
     class="btn btn-default"
@@ -626,7 +626,7 @@ module.exports = {
       class="btn btn-default"
       ng-click="addProduct('Cortinas')"
       ng-show="!quote.type || quote.type=='Cortina'"
-  >Cortinas
+  >Cortinas Wolken y Platinum
   </button>
     `,
     shades:"Persianas",
@@ -845,7 +845,7 @@ module.exports = {
 
   },
   filtrasol:{
-    filtrasol:"Filtrasol",
+    filtrasol:"Persianas Filtrasol",
     type_options:`
     <option value="Filtrasol Eclisse">Eclisse</option>
     <option value="Filtrasol Enrollables">Enrollables</option>
