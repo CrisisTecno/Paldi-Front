@@ -2,21 +2,21 @@
     <!-- updateType to updateType -->
     <h3 class="form-title"><%= htmlWebpackPlugin.options.cortina.cortina %></h3>
     <small class="error-message" ng-if="cortinaFiltrasol.doable==false"><%= htmlWebpackPlugin.options.quote_commons.no_doable%></small>
-    <form name="cortinaFiltrasolForm" role="form" novalidate ng-submit="addProduct('cortinaFiltrasol', cortinaFiltrasolForm, cortinaFiltrasol)" autocomplete="off">
+    <form name="cortinaFiltrasolForm" role="form" novalidate ng-submit="addProduct('Cortina Filtrasol', cortinaFiltrasolForm, cortinaFiltrasol)" autocomplete="off">
       <div class="form-group">
         <label><%= htmlWebpackPlugin.options.quote_commons.quantity%></label>
-        <input type="number" min="1" value="1" name="quantity" ng-model="cortinaFiltrasol.quantity" class="form-control" ng-change="updatePrices('cortinaFiltrasol', cortinaFiltrasol)" step="1" required="" pattern="[0-9]*">
+        <input type="number" min="1" value="1" name="quantity" ng-model="cortinaFiltrasol.quantity" class="form-control" ng-change="updatePrices('Cortina Filtrasol', cortinaFiltrasol)" step="1" required="" pattern="[0-9]*">
         <small class="error-message" ng-if="cortinaFiltrasolForm.$validated && cortinaFiltrasolForm.quantity.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
       </div>
       <div class="form-group">
         <label><%= htmlWebpackPlugin.options.quote_commons.room%></label>
-        <input type="text" name="quantity" ng-model="cortinaFiltrasol.location" class="form-control" ng-change="updatePrices('cortinaFiltrasol', cortinaFiltrasol)" step="1" required="">
+        <input type="text" name="quantity" ng-model="cortinaFiltrasol.location" class="form-control" ng-change="updatePrices('Cortina Filtrasol', cortinaFiltrasol)" step="1" required="">
         <small class="error-message" ng-if="cortinaFiltrasolForm.$validated && cortinaFiltrasolForm.quantity.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
       </div>
       <!-- Sistema -> Product price is calculated using 'finish' and 'texti' -->
       <div class="form-group">
         <label><%= htmlWebpackPlugin.options.quote_commons.system %></label>
-        <select id="acabadoType" name="finish" ng-model="cortinaFiltrasol.finish" class="form-control" ng-change="updateType('cortinaFiltrasol', cortinaFiltrasol)" required="">
+        <select id="acabadoType" name="finish" ng-model="cortinaFiltrasol.finish" class="form-control" ng-change="updateType('Cortina Filtrasol', cortinaFiltrasol)" required="">
           <option value={{key}} ng-repeat="(key,value) in productData.cortinaFiltrasol.acabados">{{key}}</option>
         </select>
       </div>
@@ -26,22 +26,22 @@
         <input ng-hide="showSpinner" type="text" name="textil" id="textil" ng-model="cortinaFiltrasol.textil" ng-disabled="!cortinaFiltrasol.finish"
           class="form-control" required=""
           uib-typeahead="color for color in productData.cortinaFiltrasol.acabados[cortinaFiltrasol.finish] | filter: $viewValue | limitTo:12"
-          ng-change="updatePrices('cortinaFiltrasol', cortinaFiltrasol)" typeahead-editable="false">
+          ng-change="updatePrices('Cortina Filtrasol', cortinaFiltrasol)" typeahead-editable="false">
         <!-- <select id="acabadoType" name="textil" ng-model="cortina.textil" class="form-control" ng-disabled="!cortina.finish" ng-change="updatePrices('Cortina', cortina)" required="">
           <option value={{name}} ng-repeat="name in productData.cortina.acabados[cortina.finish]">{{name}}</option>
         </select> -->
       </div>
       <div class="form-group">
         <label><%= htmlWebpackPlugin.options.quote_commons.color%></label>
-        <input type="text" ng-disabled='!cortinaFiltrasol.textil' id="cortinaFiltrasolcolor" ng-model="cortinaFiltrasol.colorName" class="form-control" ng-change="updatePrices('cortinaFiltrasol', cortinaFiltrasol)" required="" uib-typeahead="colors.color for colors in productData.cortinaFiltrasol.colores[cortinaFiltrasol.textil] | filter: filterColors  |limitTo:12">
+        <input type="text" ng-disabled='!cortinaFiltrasol.textil' id="cortinacolor" ng-model="cortinaFiltrasol.colorName" class="form-control" ng-change="updatePrices('Cortina Filtrasol', cortinaFiltrasol)" required="" uib-typeahead="colors.color for colors in productData.cortinaFiltrasol.colores[cortinaFiltrasol.textil] | filter: filterColors  |limitTo:12">
         <small class="error-message" ng-if="cortinaFiltrasolForm.$validated && cortinaFiltrasolForm.quantity.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
       </div>
       <div class="form-group">
         <label><%= htmlWebpackPlugin.options.quote_commons.width%></label>
         <div style="display:flex">
-        <input  <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" ng-disabled=!cortinaFiltrasol.colorName name="width" id="width" ng-model="cortinaFiltrasol.width" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" ng-change="changeSimpleWidth('cortinaFiltrasol', cortinaFiltrasol)" required="" step="<%= htmlWebpackPlugin.options.features.step%>">
+        <input  <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" ng-disabled=!cortinaFiltrasol.colorName name="width" id="width" ng-model="cortinaFiltrasol.width" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" ng-change="changeSimpleWidth('Cortina Filtrasol', cortinaFiltrasol)" required="" step="<%= htmlWebpackPlugin.options.features.step%>">
         <% if(htmlWebpackPlugin.options.features.fractions){%>
-          <select style="width: min-content;" name="extra" ng-model="cortinaFiltrasol.w_fraction" class="form-control" ng-change="changeSimpleWidth('cortinaFiltrasol', cortinaFiltrasol)">
+          <select style="width: min-content;" name="extra" ng-model="cortinaFiltrasol.w_fraction" class="form-control" ng-change="changeSimpleWidth('Cortina Filtrasol', cortinaFiltrasol)">
               <option value={{0}}>0</option>
               <option value={{0.125}}>⅛</option>
               <option value={{0.25}}>¼</option>
@@ -59,9 +59,9 @@
       <div class="form-group">
         <label><%= htmlWebpackPlugin.options.quote_commons.height%></label>
         <div style="display:flex">
-        <input <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" ng-disabled=!cortinaFiltrasol.colorName name="height" id="height" ng-model="cortinaFiltrasol.height" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" required="" step="<%= htmlWebpackPlugin.options.features.step%>" ng-change="changeSimpleHeight('cortinaFiltrasol', cortinaFiltrasol)">
+        <input <%= htmlWebpackPlugin.options.features.fractions_style%> type="number" ng-disabled=!cortinaFiltrasol.colorName name="height" id="height" ng-model="cortinaFiltrasol.height" min="<%= htmlWebpackPlugin.options.features.min%>" class="form-control" required="" step="<%= htmlWebpackPlugin.options.features.step%>" ng-change="changeSimpleHeight('Cortina Filtrasol', cortinaFiltrasol)">
         <% if(htmlWebpackPlugin.options.features.fractions){%>
-          <select style="width: min-content;" name="extra" ng-model="cortinaFiltrasol.h_fraction" class="form-control" ng-change="changeSimpleHeight('cortinaFiltrasol', cortinaFiltrasol)">
+          <select style="width: min-content;" name="extra" ng-model="cortinaFiltrasol.h_fraction" class="form-control" ng-change="changeSimpleHeight('Cortina Filtrasol', cortinaFiltrasol)">
               <option value={{0}}>0</option>
               <option value={{0.125}}>⅛</option>
               <option value={{0.25}}>¼</option>
@@ -76,19 +76,19 @@
         <small class="error-message" ng-if="cortinaFiltrasolForm.$validated && cortinaFiltrasolForm.height.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
       </div>
       <!-- Tipo is only shown when there is more than one type on the cortinaFiltrasols excel -->
-      <span ng-init="cortinaFiltrasol.sistema.type='cortinaFiltrasol'">
+      <span ng-init="cortinaFiltrasol.sistema.type='Cortina Filtrasol'">
         <div class="form-group" ng-if="productData.cortinaFiltrasol.sistemas.length > 1">
           <label for="sistemaType"><%= htmlWebpackPlugin.options.quote_commons.type%></label>
-          <select id="sistemaType" ng-model="cortinaFiltrasol.sistema.type" ng-init="cortinaFiltrasol.sistema.type='cortinaFiltrasol'" class="form-control" ng-change="updatePrices('cortinaFiltrasol', cortinaFiltrasol)" required="">
+          <select id="sistemaType" ng-model="cortinaFiltrasol.sistema.type" ng-init="cortinaFiltrasol.sistema.type='Cortina Filtrasol'" class="form-control" ng-change="updatePrices('Cortina Filtrasol', cortinaFiltrasol)" required="">
             <option value={{sistema.type}} ng-repeat="sistema in productData.cortinaFiltrasol.sistemas"> {{sistema.type}} </option>
           </select>
         </div>
       </span>
-  
+     
       <!-- Apertura -->
       <div class="form-group">
         <label><%= htmlWebpackPlugin.options.cortina.opening%></label>
-        <select ng-model="cortinaFiltrasol.opening" class="form-control" ng-change="updatePrices('cortinaFiltrasol', cortinaFiltrasol)" ng-required="sistema.opening.length>0" ng-repeat="sistema in productData.cortinaFiltrasol.sistemas" ng-if="sistema.type == cortinaFiltrasol.sistema.type">
+        <select ng-model="cortinaFiltrasol.opening" class="form-control" ng-change="updatePrices('Cortina Filtrasol', cortinaFiltrasol)" ng-required="sistema.opening.length>0" ng-repeat="sistema in productData.cortinaFiltrasol.sistemas" ng-if="sistema.type == cortinaFiltrasol.sistema.type">
           <option ng-repeat="opening in sistema.opening">{{opening}}</option>
         </select>
         <select class="form-control" ng-if="!cortinaFiltrasol.sistema.type" disabled></select>
@@ -96,15 +96,17 @@
       <!-- Instalación -->
       <div class="form-group">
         <label><%= htmlWebpackPlugin.options.cortina.installation%></label>
-        <select ng-model="cortinaFiltrasol.installation" class="form-control" ng-change="updatePrices('cortinaFiltrasol', cortinaFiltrasol)" ng-required="{{sistema.installation.length>0}}" ng-repeat="sistema in productData.cortinaFiltrasol.sistemas" ng-if="sistema.type == cortinaFiltrasol.sistema.type">
+        <select ng-model="cortinaFiltrasol.installation" class="form-control" ng-change="updatePrices('Cortina Filtrasol', cortinaFiltrasol)" ng-required="{{sistema.installation.length>0}}" ng-repeat="sistema in productData.cortinaFiltrasol.sistemas" ng-if="sistema.type == cortinaFiltrasol.sistema.type">
           <option ng-repeat="installation in sistema.installation">{{installation}}</option>
         </select>
         <select class="form-control" ng-if="!cortinaFiltrasol.sistema.type" disabled></select>
       </div>
+
+
       <hr />
       <span ng-show="addingPlus == false" ng-repeat="(name, additionals) in productData.cortinaFiltrasol.allAdditionals">
         <button type="button" class="btn btn-default" ng-click="newPlus(name, additionals)"><%= htmlWebpackPlugin.options.general.add%> {{translateAddis(name)}}</button>
-      </span>
+      </span> 
       <hr />
       <div class="form-adding" ng-show="addingPlus == true">
         <label class="title">{{plusName}}:</label>
@@ -167,7 +169,8 @@
           <input ng-currency type="text" name="price" ng-model="cortinaFiltrasol.price" class="form-control" disabled="disabled" placeholder="${{cortinaFiltrasol.price}}">
         </div>
         <div class="form-group" ng-show="cortinaFiltrasol.total">
-          <label><%= htmlWebpackPlugin.options.quote_commons.total%></label>
+          <label><%= htmlWebpackPlugin.options.quote_commons.total%> </label>
+          
           <input ng-currency type="text" name="total" ng-model="cortinaFiltrasol.total" class="form-control" disabled="disabled" placeholder="{{cortinaFiltrasol.total}}">
         </div>
       </div>

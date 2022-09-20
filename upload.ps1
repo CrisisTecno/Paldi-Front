@@ -1,5 +1,5 @@
 $ENV = Read-Host -Prompt 'Select PROD or STG'
-
+ssh-agent
 if ($ENV -eq 'PROD'){
     scp -r ./dist root@cotizadorpaldi.com.mx:/var/www
     ssh -t root@cotizadorpaldi.com.mx "cd /var/www && mv html html-$(Get-Date -UFormat "%m-%d-%Y-%T") && mv dist html"

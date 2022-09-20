@@ -36,12 +36,20 @@
 							<a ui-sref="console.exchange-rate">
 							<i class="fa fa-money fa-lg"></i> <span><%= htmlWebpackPlugin.options.console.currency_ex%>: {{currentExchangeRate | currency}}<span></a>
 						</li>
-
-						
+<!-- 
+						<li ng-if="currentUser.role == 'SUPERADMIN'">
+							<a  ng-click="updateBankRate()">
+							<i class="fa fa-money fa-lg"></i> <span><%= htmlWebpackPlugin.options.console.bank_ex%>: {{ bankRate.BMX.dato | currency}}<span></a>
+						</li> -->
 
 						<li ng-if="currentUser.role == 'SUPERADMIN'">
 							<a  ng-click="updateBankRate()">
-							<i class="fa fa-money fa-lg"></i> <span><%= htmlWebpackPlugin.options.console.bank_ex%>: {{ bankRate.dato | currency}}<span></a>
+							<i class="fa fa-money fa-lg"></i> <span><%= htmlWebpackPlugin.options.console.currency_ex%> Compra: {{ bankRate.BBVA.compra | currency}}<span></a>
+						</li>
+
+						<li ng-if="currentUser.role == 'SUPERADMIN'">
+							<a  ng-click="updateBankRate()">
+							<i class="fa fa-money fa-lg"></i> <span><%= htmlWebpackPlugin.options.console.currency_ex%> Venta: {{ bankRate.BBVA.venta| currency}}<span></a>
 						</li>
 
 						<li ng-if="currentUser.realRole">

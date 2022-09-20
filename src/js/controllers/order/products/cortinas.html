@@ -89,7 +89,7 @@
     <div class="form-group">
       <label><%= htmlWebpackPlugin.options.cortina.opening%></label>
       <select ng-model="cortina.opening" class="form-control" ng-change="updatePrices('Cortina', cortina)" ng-required="sistema.opening.length>0" ng-repeat="sistema in productData.cortina.sistemas" ng-if="sistema.type == cortina.sistema.type">
-        <option ng-repeat="opening in sistema.opening">{{opening}}</option>
+        <option ng-repeat="opening in sistema.opening">{{opening}} </option>
       </select>
       <select class="form-control" ng-if="!cortina.sistema.type" disabled></select>
     </div>

@@ -229,6 +229,21 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				];
 			}
 
+			// if (list == "PROVIDER") {
+			// 	statusList = [
+			// 		"LINE",
+			// 		"BACKORDER",
+			// 		"PRODUCTION",
+			// 		"TRANSIT",
+			// 		"FINISHED",
+			// 		"PROGRAMMED",
+			// 		"INSTALLED",
+			// 		"INSTALLED_NONCONFORM",
+			// 		"INSTALLED_INCOMPLETE",
+			// 		"ORDER_CANCELED",
+			// 	];
+			// }
+
 			if (list == "SALES_MANAGER") {
 				statusList = [
 					"LINE",

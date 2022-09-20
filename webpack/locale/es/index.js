@@ -575,6 +575,12 @@ module.exports = {
                   ng-show="!quote.type || quote.type=='Cortina'"
               >Cortinas
               </button>
+              <button
+                  class="btn btn-default"
+                  ng-click="addProduct('Cortina Filtrasol')"
+                  ng-show="!quote.type || quote.type=='Cortina Filtrasol'"
+              >Cortinas Filtrasol
+              </button>
             
           
     `,

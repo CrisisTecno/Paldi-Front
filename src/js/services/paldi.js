@@ -73,7 +73,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         width: inches_to_meters(data.width + parseFloat(data.w_fraction??0)),
         height: inches_to_meters(data.height + parseFloat(data.h_fraction??0))
         }
-      //console.log(obj)
+      console.log(obj)
         return (await $http.post(globals.apiURL + "/newapi/products/price", obj)).data.data
       }
 

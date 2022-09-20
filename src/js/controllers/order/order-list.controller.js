@@ -69,7 +69,7 @@ pdApp.controller(
 			}
 			pastSort = newSort;
 
-			let provStatus = (($scope.currentUser.role=="PROVIDER" || $scope.currentUser.role=="BUYER" || $scope.currentUser.role=="SUPERADMIN" ||$scope.currentUser.role=="MANAGER") && EXECUTION_ENV=="INTERNAL")
+			let provStatus = ( EXECUTION_ENV=="INTERNAL")
 			
 			if (cleanStatusList.length == 0) {
 				var result = {
@@ -711,6 +711,9 @@ pdApp.controller(
 						"reverseOrderStatus",
 						data.status_s
 					);
+					if(status=="LINE" && data.providerStatus_s){
+						status = data.providerStatus_s
+					  }
 					return (
 						'<a ng-click="toggleDetails(' +
 						id +
@@ -1138,6 +1141,9 @@ pdApp.controller(
 						"reverseOrderStatus",
 						data.status_s
 					);
+					if(status=="LINE" && data.providerStatus_s){
+						status = data.providerStatus_s
+					  }
 					return (
 						'<a ng-click="toggleDetails(' +
 						id +
@@ -1349,6 +1355,9 @@ pdApp.controller(
 						"reverseOrderStatus",
 						data.status_s
 					);
+					if(status=="LINE" && data.providerStatus_s){
+						status = data.providerStatus_s
+					  }
 					return (
 						'<a ng-click="toggleDetails(' +
 						id +
@@ -1456,8 +1465,9 @@ pdApp.controller(
 			fillStatusList(
 				permissionsHelper.getStatusList($rootScope.currentUser.role)
 			);
+			//refactor
 			$scope.statusList = $rootScope.orderStatusList;
-			if($scope.currentUser.role=="PROVIDER" || $scope.currentUser.role=="BUYER" || $scope.currentUser.role=="SUPERADMIN" ||$scope.currentUser.role=="MANAGER" && EXECUTION_ENV=="INTERNAL"){
+			if(EXECUTION_ENV=="INTERNAL"){
 				let specialList =["AUTHORIZED","PENDING_INFO","QUOTE","QUOTED"]
 				angular.forEach(specialList,function(status){
 					$scope.statusList.push({
@@ -1502,7 +1512,7 @@ pdApp.controller(
 				});
 			}
 			});
-			if($scope.currentUser.role=="PROVIDER" || $scope.currentUser.role=="BUYER" || $scope.currentUser.role=="SUPERADMIN" ||$scope.currentUser.role=="MANAGER" && EXECUTION_ENV=="INTERNAL"){
+			if(EXECUTION_ENV=="INTERNAL"){
 				let specialList =["AUTHORIZED","PENDING_INFO","QUOTE","QUOTED"]
 				angular.forEach(specialList,function(status){
 					$scope.availableStatusList.push({

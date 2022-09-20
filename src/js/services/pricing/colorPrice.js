@@ -52,7 +52,7 @@ pdApp.factory(
 	  },
       // Update Scope
       updatePrice: function (product, model, meta) {
-        // console.log("Updating price of:", product)
+         console.log("Updating price of:", product)
        
        
         switch (product) {
@@ -79,6 +79,7 @@ pdApp.factory(
             break;
 		  case "Cortina Filtrasol":
 			getCortinaFiltrasolPrice(model)
+			break;
           case "Custom":
             getCustomPrice(model);
             break;
@@ -391,7 +392,7 @@ pdApp.factory(
 		if (!model)
 		  return
   
-		// console.log("Calculating cortina price for ", model)
+		 console.log("Calculating cortina price for ", model)
 		const payload = {
 		  product: "Cortina Filtrasol",
 		  finish: model.finish,
@@ -401,11 +402,11 @@ pdApp.factory(
 		}
   
 		const result = await paldiService.products.fetchPrice(payload)
-		// console.log("Calculated cortina price", result)
+		 console.log("Calculated cortina price", result)
 		model.m2 = Math.round(model.width * model.height * 100) / 100
 		model.price = result.price
 		model.total = result.price * model.quantity
-  
+
 		return model
 	  }
 

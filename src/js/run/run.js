@@ -74,7 +74,7 @@ pdApp.run(function (
     colorPriceService.getBankExchangeRate().then((data)=>{
 
 
-      $rootScope.bankRate = data[0]
+      $rootScope.bankRate = data
       
     })
   }

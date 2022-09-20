@@ -182,9 +182,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       product: "Cortina Filtrasol",
     }),])
     $scope.productData = $scope.productData ?? {}
-    $scope.productData.cortina = {
-      motors2, sistemas2, colores2, acabados2, allAdditionals2
+    $scope.productData.cortinaFiltrasol = {
+      motors:motors2, sistemas:sistemas2, colores:colores2, acabados:acabados2, allAdditionals:allAdditionals2
     }
+    console.log($scope.productData.cortinaFiltrasol)
    
   }
   $scope.setupTemplate()
@@ -363,7 +364,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     //  // // console.log(product,form,model)
     // addProduct(productName, undefined, undefined) is called when adding a
     // new product from the quote-new view buttons
+    console.log("AAAAA")
     if (!form) {
+      console.log('Slipping here')
       $scope.cortina = {
         ...$scope.cortina, sistema: {
           ...$scope.cortina?.sistema, type: "Cortina",
@@ -374,6 +377,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
           ...$scope.cortinaFiltrasol?.sistema, type: "Cortina Filtrasol",
         }
       }
+      console.log($scope.cortina?.sistema)
       addNewProduct($scope, product)
     }
 
@@ -388,11 +392,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       $scope.systemsValid = validateSystems($scope, model)
 
       
-      //  // // console.log("Valid Systems",$scope.systemsValid)
-      //  // // console.log("Valid Form",form.$valid)
-      // console.log("model Total",model.total)
-      //  // // console.log("Model Price",model.price)
-      //  // // console.log("Valid Seller",sellerValid)
+      console.log("Valid Systems",$scope.systemsValid)
+      console.log("Valid Form",form.$valid)
+      console.log("model Total",model.total)
+      console.log("Model Price",model.price)
+      console.log("Valid Seller",sellerValid)
     
        
 
@@ -1152,6 +1156,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       $scope.pisoModel = model
     }
     colorPriceService.updatePrice(product, model, $scope.productMeta)
+    $timeout(
+      colorPriceService.updatePrice(product, model, $scope.productMeta)
+      
+      ,200)
   }
 
   $scope.updateProductPrice = function (product, model) {
@@ -1344,7 +1352,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         case "Cortinas":
           return path + "cortinas.html"
       case "Cortina Filtrasol":
-        return path + "cortinas-filtrasol"
+        return path + "cortinas-filtrasol.html"
     }
   }
 
