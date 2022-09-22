@@ -940,14 +940,14 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
 
-    updateProviderStatus: function (order, status) {
+    updateProviderStatus: function (order, status,notes="") {
       return $http
         .post(
           globals.apiURL +
           "/quotes/orders/" +
           order.id +
           "/" +
-          status +"/provider",{},
+          status +"/provider",notes,
         
           {
             authentication: "yokozuna",

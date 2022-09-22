@@ -5,11 +5,11 @@
             <label>
                 <%= htmlWebpackPlugin.options.console.observations %>
             </label>
-            <textarea required="" name="notes" ng-model="notes" class="form-control" ng-required="newStatus == 'PENDING' || newStatus == 'PRODUCTION' || newStatus == 'INSTALLED_INCOMPLETE' || newStatus == 'INSTALLED_NONCONFORM'"></textarea>
+            <textarea required="" name="notes" ng-model="notes" class="form-control" ng-required="newStatus == 'PENDING' || newStatus == 'PRODUCTION' || newStatus == 'INSTALLED_INCOMPLETE' || newStatus == 'INSTALLED_NONCONFORM' || newStatus=='PENDING_INFO'"></textarea>
         </div>
 
         <div>
-            <button type="button" class="btn btn-default" ng-click="closeThisDialog('')">
+            <button type="button" class="btn btn-default" ng-click="closeDialogFn()">
                 <%= htmlWebpackPlugin.options.general.cancel %>
             </button>
             <button type="submit" class="btn btn-primary">

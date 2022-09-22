@@ -24,6 +24,14 @@ pdApp.controller(
     orderService,
     permissionService
   ) {
+
+    $scope.closeDialogFn =function(){
+      $scope.dialog.close()
+      if($scope.newStatus=="PENDING_INFO"){
+        $scope.promiseReject()
+        $scope.providerReject=true
+      }
+    }
     
     $scope.external = EXECUTION_ENV=="EXTERNAL"
 
@@ -78,10 +86,31 @@ pdApp.controller(
           },
             300)
           }
-        ;
-      paldiService.orders.updateProviderStatus($scope.order,status).then(()=>{
         
-        $scope.loadOrder()
+      $scope.statusNotesText=" "
+      if(status=="PENDING_INFO"){
+        $scope.newStatus="PENDING_INFO"
+      
+        $scope.statusNotesDialog()
+        var promise = new Promise(function(resolve, reject){
+          $scope.promiseResolve = resolve;
+          $scope.promiseReject = reject;
+        });
+        
+        console.log($scope.m)
+        await promise
+        
+          
+
+      }
+      if($scope.providerReject){
+        $scope.providerReject=false
+        return;
+      }
+      paldiService.orders.updateProviderStatus($scope.order,status,$scope.statusNotesText).then(()=>{
+        $scope.newStatus==null;
+        $scope.statusNotesText="";
+        $scope.loadOrder();
       }
       )
     }
@@ -1013,7 +1042,7 @@ pdApp.controller(
         $scope.dialog.close();
         if(exceptionStatus.includes(status)){
           var actualStatus =status
-          await paldiService.orders.updateProviderStatus($scope.order,actualStatus)
+          await paldiService.orders.updateProviderStatus($scope.order,actualStatus,"Retroactivo")
           status="LINE";
           if($scope.order.status=="LINE") {
             $scope.loadOrder()
@@ -1098,6 +1127,11 @@ pdApp.controller(
     $scope.changeStatus = function (form, model) {
       if (form && form.$valid) {
         $scope.dialog.close();
+        if($scope.newStatus=="PENDING_INFO"){
+          $scope.statusNotesText = model
+          $scope.promiseResolve()
+          return
+        }
         var updatedOrder = $scope.order;
         updatedOrder.statusNotes = model;
 
