@@ -97,7 +97,7 @@ pdApp.controller(
           $scope.promiseReject = reject;
         });
         
-        console.log($scope.m)
+        
         await promise
         
           

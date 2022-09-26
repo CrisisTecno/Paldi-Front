@@ -940,7 +940,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
 
-    updateProviderStatus: function (order, status,notes="") {
+    updateProviderStatus: function (order, status,notes=" ") {
       return $http
         .post(
           globals.apiURL +
