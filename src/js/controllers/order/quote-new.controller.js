@@ -63,6 +63,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   paldiService.users.getExternalDiscount($rootScope.currentUser.id).then(
     res=>{
       $scope.externalDiscount = res.data
+      console.log($scope.externalDiscount.canQuoteDict)
       updateDiscountExternal()
     }
   )
@@ -704,7 +705,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.colorSelected({
           label: product.type != "Wrapped Cornice" ? product.color.code : product.color,
           textil: product.textil,
-          value: { code: product.color, textil:product.textil},
+          value: EXECUTION_ENV=="EXTERNAL"?{ code: product.color, textil:product.textil,shipping:product.shipping}:{ code: product.color, textil:product.textil},
         }, "Balance", $scope.balance,)
         break
       case "Piso":
@@ -1517,6 +1518,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
     if(product=='Balance'){
       model.textil = color.textil
+      if(EXECUTION_ENV=="EXTERNAL"){
+        model.shipping = model.colorObj.shipping
+      }
     }
     if(EXECUTION_ENV!="EXTERNAL"){
     model.color = color
@@ -2186,7 +2190,7 @@ function updateMeta($scope,product){
       $scope.colorSelected({
         label: product.type != "Wrapped Cornice" ? product.color.code : product.color,
         textil: product.textil,
-        value: { code: product.color, textil:product.textil},
+        value: EXECUTION_ENV=="EXTERNAL"?{ code: product.color, textil:product.textil,shipping:product.shipping}:{ code: product.color, textil:product.textil},
       }, "Balance", product,)
       break
     case "Piso":

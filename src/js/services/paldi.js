@@ -516,7 +516,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         .then(function (response) {
           let order = response.data
           order.hasTaxes = !(order.iva < 0.001)
-          order.hasShipping = !(order.shiping < 0.001)
+          order.hasShipping = !(order.shipping < 0.001)
           for (const type of PRODUCTS) {
             order[type]?.forEach((product) => {
               
@@ -533,6 +533,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
               let w = parseInt(product.width)
               let wf = product.width - w
+              console.log(w)
               product.w_fraction = toFraction(wf)
               
               product.width=w
@@ -1310,7 +1311,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           if(EXECUTION_ENV=="EXTERNAL"){
           response.data.forEach((order) => {
             order.hasTaxes = !(order.iva < 0.001)
-            order.hasShipping = !(order.shiping < 0.001)
+            order.hasShipping = !(order.shipping < 0.001)
             for (const type of PRODUCTS) {
               order[type]?.forEach((product) => {
                 product.width = meters_to_inches(product.width)

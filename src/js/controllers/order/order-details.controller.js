@@ -5,7 +5,7 @@ import { showSwal } from "../../utils/swal/show";
 import { merge, mergeDeep, moveToScope } from "../../utils/merge";
 import { showCreateInstallationSheetDialog } from "./order-details/installation-sheet/create";
 import { swalUserCreateSuccess } from "../../utils/swals/userCreate";
-
+import {to_fraction} from '../../utils/units'
 pdApp.controller(
   "OrderDetailsCtrl",
   function (
@@ -500,7 +500,7 @@ pdApp.controller(
         if(float=="undefined" || float==undefined) {
           return int
         }
-       return int + " " +toFraction(parseFloat(float)??undefined)??""
+       return int + " " +to_fraction(parseFloat(float)??undefined)??""
 
      }
      }

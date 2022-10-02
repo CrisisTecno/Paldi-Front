@@ -51,10 +51,8 @@ const getAdditionalDiscount = (product,order) => {
 const getAdditionalsTotal = (order) => {
 
   let subtotal
-  if(order.type==="Mixta"){
-    subtotal = order.products.map(product => getAdditionalTotalWD(product,order))
-  }
-  else subtotal = order.products.map(product => getAdditionalTotal(product))
+  
+ subtotal = order.products.map(product => getAdditionalTotal(product))
 
   const plusTotal = subtotal.reduce((p, c) => p + c, 0)
 
@@ -95,10 +93,7 @@ const getMotorsTotal = (order) => {
   const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
   const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
   let subtotal
-  if(order.type=="Mixta"){
-    subtotal = order.products.map(product => getMotorTotal(product) * (1 - getOrderDiscount(product.productType)))
-  }
-  else
+  
   subtotal = order.products.map(product => getMotorTotal(product))
   return {
     motorTotal: subtotal.reduce((p, c) => p + c, 0)
@@ -136,10 +131,7 @@ const getInstallationsPlusTotal = (order) => {
   const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
   const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
   let subtotal
-  if(order.type=="Mixta"){
-    subtotal = order.products.map(product => getInstallationPlusTotal(product) * (1 - getOrderDiscount(order.productType)))
-  }
-  else subtotal = order.products.map(product => getInstallationPlusTotal(product))
+  subtotal = order.products.map(product => getInstallationPlusTotal(product))
   return subtotal.reduce((p, c) => p + c, 0)
 }
 
@@ -206,12 +198,15 @@ const getDiscounts = (order, totals) => {
   const mixedDiscount = toValue(balanceDiscount)
     + toValue(shutterDiscount)
     + toValue(enrollableDiscount)
-    + toValue(filtrasolDiscount)  + toValue(additionalsDiscount) + toValue(motorsDiscount) + toValue(installationPlusDiscount)
+    + toValue(filtrasolDiscount)  
+    + toValue(additionalsDiscount) 
+    + toValue(motorsDiscount) 
+    + toValue(installationPlusDiscount)
 
 
   const fullDiscount = (order.discountPercent || order.discountPercent==0) ? (totals.productsTotal
     + totals.plusTotal
-    + totals.motorTotal * !IS_ZELBA
+    + totals.motorTotal 
   ) * toDecimalPercent(order.discountPercent) : order.discount
 
   

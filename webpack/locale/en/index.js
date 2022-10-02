@@ -513,7 +513,7 @@ module.exports = {
     <button
                 class="btn btn-default"
                 ng-click="addProduct('Balance')"
-                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter'|| quote.type=='Enrollable'||quote.type=='Balance' ||quote.type=='Mixta'"
+                ng-show="(!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter'|| quote.type=='Enrollable'||quote.type=='Balance' ||quote.type=='Mixta' )&& externalDiscount.canQuoteDict.Balance"
             >Top Treatments
             </button>
            
@@ -531,7 +531,7 @@ module.exports = {
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Enrollable')"
-                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta'"
+                ng-show="(!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||quote.type=='Mixta') && externalDiscount.canQuoteDict.Enrollable"
             >Shades
             </button>
 
@@ -540,7 +540,7 @@ module.exports = {
   <button
       class="btn btn-default"
       ng-click="addProduct('Cortina')"
-      ng-show="!quote.type || quote.type=='Cortina'"
+      ng-show="(!quote.type || quote.type=='Cortina') && externalDiscount.canQuoteDict.Cortina"
   >Curtain
   </button>
             
