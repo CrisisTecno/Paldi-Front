@@ -173,6 +173,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       motors, sistemas, colores, acabados, allAdditionals
     }
 
+    if(EXECUTION_ENV=="INTERNAL"){
     const [motors2, sistemas2, colores2, acabados2, allAdditionals2] = await Promise.all([paldiService.products.fetchAdditionals({
       product: "Cortina Filtrasol", group: "Motor",
     }), paldiService.products.fetchAdditional({
@@ -187,7 +188,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       motors:motors2, sistemas:sistemas2, colores:colores2, acabados:acabados2, allAdditionals:allAdditionals2
     }
     console.log($scope.productData.cortinaFiltrasol)
-   
+    }
   }
   $scope.setupTemplate()
 

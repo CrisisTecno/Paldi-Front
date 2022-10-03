@@ -9,6 +9,8 @@ if ($ENV -eq 'EXT-STG'){
     npm run build-stg-external-en
     ssh -t root@zelba.io "cd /home/externalStg/console && rm -r dist"
     scp -r ./dist root@zelba.io:/home/externalStg/console
+    npm run build-stg-external-en
+    ssh -t root@zelba.io "cd /home/externalStg && docker-compose stop console && docker-compose up console"
    
 }
 else{
