@@ -130,6 +130,18 @@
                     type="number"
                 >% <%= htmlWebpackPlugin.options.quotes.percentages %>
                 </li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[6].products.length > 0"
+                ><input
+                    max="{{currentUser.canAdmin ? quote.clientMaxDiscount  : 15}}"
+                    min="0"
+                    ng-change="validateDiscounts()"
+                    ng-disabled="fixedDiscounts"
+                    ng-model="quote.discountPercentCortina"
+                    type="number"
+                >% <%= htmlWebpackPlugin.options.quotes.percentages %>
+                </li>
               </ul>
             </div>
           </div>

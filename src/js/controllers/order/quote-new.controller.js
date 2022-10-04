@@ -261,6 +261,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.quote.discountPercentShutter = 0
     $scope.quote.discountPercentEnrollable = 0
     $scope.quote.discountPercentFiltrasol = 0
+    $scope.quote.discountPercentCortina = 0
     $scope.clientStep = "loaded"
     updateDiscount()
     if ($scope.product == "Piso" && $scope.pisoModel) {
@@ -280,6 +281,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.quote.discountPercentShutter = $scope.editing ? $scope.quote.discountPercentShutter : 0
     $scope.quote.discountPercentEnrollable = $scope.editing ? $scope.quote.discountPercentEnrollable : 0
     $scope.quote.discountPercentFiltrasol = $scope.editing ? $scope.quote.discountPercentFiltrasol : 0
+    $scope.quote.discountPercentCortina = $scope.editing ? $scope.quote.discountPercentCortina : 0
 
     if (EXECUTION_ENV=="EXTERNAL"){
       updateDiscountExternal()
@@ -1203,6 +1205,14 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       if ($scope.quote.discountPercentFiltrasol < 0 || !angular.isNumber($scope.quote.discountPercentFiltrasol)) {
         $scope.quote.discountPercentFiltrasol = 0
       }
+
+      if ($scope.quote.discountPercentCortina > $scope.quote.clientMaxDiscount) {
+        $scope.quote.discountPercentCortina = $scope.quote.clientMaxDiscount
+      }
+
+      if ($scope.quote.discountPercentCortina < 0 || !angular.isNumber($scope.quote.discountPercentCortina)) {
+        $scope.quote.discountPercentCortina = 0
+      }
     } else {
       if ($scope.quote.discountPercent > $scope.quote.clientMaxDiscount) {
         $scope.quote.discountPercent = $scope.quote.clientMaxDiscount
@@ -1397,6 +1407,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       case "Filtrasol":
         model.discountPercent = $scope.quote.discountPercentFiltrasol
         break
+      case "Cortina":
+        model.discountPercent = $scope.quote.discountPercentCortina
     }
   }
 
@@ -1882,6 +1894,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       model.height = null
       model.textil = null
       model.colorName = null
+      model.total=null
+      model.price=null
       $scope.valid = false
 
       $("#color").val("")
@@ -2040,10 +2054,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         if($scope.quote.type=="Mixta") $scope.originalMix = true;
 
         $scope.quote.products.forEach(prod =>{
+          
           if (prod.productType=="Cortina" || prod.productType=="Cortina Filtrasol"){
-            //console.log(prod)
+            if(prod.color){  
             prod.colorName=normalizeText(prod.color.name.trim())
             prod.textil=normalizeText(prod.color.textil.trim())
+            }
           }
         })
         $scope.editing = true
@@ -2059,8 +2075,19 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
               suborders.forEach(function (suborder) {
                 if (suborder.products) {
                   suborder.products.forEach(function (product,) {
+
+                    
+          
+                      if (product.productType=="Cortina" || product.productType=="Cortina Filtrasol"){
+                        if(product.color){  
+                        product.colorName=normalizeText(product.color.name.trim())
+                        product.textil=normalizeText(product.color.textil.trim())
+                        }
+                      }
+                    
                     $scope.quote.products.push(product,)
                     orderProductsByType(product)
+                    
                     colorPriceService.updateTotals($scope.quote.type, $scope.quote,)
                   })
                   if(EXECUTION_ENV=="EXTERNAL"){

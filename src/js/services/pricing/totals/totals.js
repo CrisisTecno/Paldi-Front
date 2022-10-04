@@ -175,6 +175,7 @@ const getProductsTotal = (order) => {
     shutterTotal: isMixed ? getSubProductTotal('Shutter') : undefined,
     enrollableTotal: isMixed ? getSubProductTotal('Enrollable') : undefined,
     filtrasolTotal: isMixed ? getSubProductTotal('Filtrasol') : undefined,
+    cortinaTotal: isMixed ? getSubProductTotal('Cortina') : undefined,
   }
 }
 
@@ -191,11 +192,13 @@ const getDiscounts = (order, totals) => {
   const shutterDiscount = getDiscount('Shutter')
   const enrollableDiscount = getDiscount('Enrollable')
   const filtrasolDiscount = getDiscount('Filtrasol')
+  const cortinaDiscount = getDiscount('Cortina')
   const additionalsDiscount = order.products.map(product => getAdditionalDiscount(product,order)).reduce((p, c) => p + c, 0)
   const motorsDiscount = getMotorsTotalDiscount(order)
   const installationPlusDiscount = getInstallationsPlusTotalDiscount(order);
 
   const mixedDiscount = toValue(balanceDiscount)
+    + toValue(cortinaDiscount)
     + toValue(shutterDiscount)
     + toValue(enrollableDiscount)
     + toValue(filtrasolDiscount)  
@@ -214,7 +217,7 @@ const getDiscounts = (order, totals) => {
   
 
   return {
-    ...({balanceDiscount, shutterDiscount, enrollableDiscount, filtrasolDiscount}),
+    ...({balanceDiscount, shutterDiscount, enrollableDiscount, filtrasolDiscount,cortinaDiscount}),
     discount: toValue(discount)
   }
 }

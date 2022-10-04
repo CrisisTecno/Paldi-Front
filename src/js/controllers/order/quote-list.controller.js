@@ -520,6 +520,9 @@ $scope.getSubQuoteDiscount = function (product, model) {
     case "Filtrasol":
       model.discountPercent = $scope.quote.discountPercentFiltrasol
       break
+    case "Cortina":
+        model.discountPercent = $scope.quote.discountPercentCortina
+        break
   }
 }
 

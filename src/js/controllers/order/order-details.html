@@ -107,6 +107,10 @@
             <small>Descuento Filtrasol ({{order.discountPercentFiltrasol}}%):</small>
             <span>{{order.filtrasolDiscount | currency}}</span>
           </li>
+          <li ng-if="order.cortinaDiscount > 0">
+            <small>Descuento Cortina ({{order.discountPercentCortina}}%):</small>
+            <span>{{order.cortinaDiscount | currency}}</span>
+          </li>
         </ul>
       </div>
       <br>
