@@ -1610,8 +1610,14 @@ pdApp.controller(
 
           if (product.motorList.length > 0) {
             product.motorList.forEach(function (motor) {
+              if(EXECUTION_ENV=="EXTERNAL"){
+
+              }
               motor.item = product.item;
-              $scope.plusList.push(motor);
+              if(EXECUTION_ENV=="EXTERNAL"){
+                $scope.motorList.push(motor);
+              }
+              else{$scope.plusList.push(motor)};
             });
           }
         });

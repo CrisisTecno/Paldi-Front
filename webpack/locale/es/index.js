@@ -701,6 +701,7 @@ module.exports = {
     quantity:"Cantidad",
     name:"Nombre",
     add_motor:"Agregar Motorización",
+    add_motor_c:"Agregar Motorización",
     motorization:"Motorización:",
     notes:"Observaciones",
     inch_price:"Precio Metro",

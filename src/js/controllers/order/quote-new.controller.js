@@ -158,9 +158,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.setupTemplate = async function () {
-    // Cortina setup
+    let motorGroup = EXECUTION_ENV=="EXTERNAL"?"Motorized tracks":"Motor"
     const [motors, sistemas, colores, acabados, allAdditionals] = await Promise.all([paldiService.products.fetchAdditionals({
-      product: "Cortina", group: "Motor",
+      product: "Cortina", group: motorGroup,
     }), paldiService.products.fetchAdditional({
       product: "Cortina", group: "Sistema",
     }), paldiService.products.fetchColors({
@@ -1598,6 +1598,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     }
   }
 
+  $scope.widthTimer = '';
   $scope.changeWidth = function (product, model) {
     if(EXECUTION_ENV!="EXTERNAL"){
     if (model.width) {
@@ -1614,8 +1615,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         model.width = $scope.color.minWidth
       }
     }
+    $scope.updatePrices(product, model)
   }
   else{
+    $timeout.cancel($scope.widthTimer)
+    $scope.widthTimer = $timeout(()=>{
     if (model.width) {
       
        // // console.log("Making Parse")
@@ -1638,11 +1642,13 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       }
       model.width = parseInt(model.width)
     }
-  }
     $scope.updatePrices(product, model)
+  },500)
+  }
+    
   }
 
-
+  $scope.heightTimer =''
   $scope.changeHeight = function (product, model) {
     if(EXECUTION_ENV!="EXTERNAL"){
     if (model.height) {
@@ -1660,9 +1666,13 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         model.height = $scope.color.minHeight
       }
     }
+    $scope.updatePrices(product, model)
     }
     else{
+      $timeout.cancel($scope.heightTimer)
+      $scope.heightTimer = $timeout(()=>{
       if (model.height) {
+        
         model.height = parseFloat(model.height.toString().match(/.*\..{0,3}|.*/)[0]);
        
         const height = parseFloat(model.h_fraction ?? 0) + model.height
@@ -1680,9 +1690,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
           model.height = Math.ceil(model.height)
         }
       }
-      
+      $scope.updatePrices(product, model)
+    },500)  
     }
-    $scope.updatePrices(product, model)
+    
   }
 
   $scope.simpleWidthTimer=''

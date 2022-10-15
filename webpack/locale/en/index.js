@@ -810,6 +810,7 @@ ng-show="!quote.type || quote.type=='Cortina'"
     add_additionals:"Add Additionals",
     additional:"Additionals:",
     add_motor:"Add Motor & Top Treatments",
+    add_motor_c:"Add Motorized tracks",
     motor:"Motor & Top Tratments:",
     meter_price:"Inch Price",
     unit_price:"Unit Price",

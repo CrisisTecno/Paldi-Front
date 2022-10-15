@@ -29,6 +29,8 @@ export const getShippingCost = (products) => {
    
      })
 
+     console.log(productsShipping)
+
      productsShipping = productsShipping.reduce((p,c)=>p+c,0)
 
   
