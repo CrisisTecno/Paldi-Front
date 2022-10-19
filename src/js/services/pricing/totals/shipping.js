@@ -30,7 +30,7 @@ export const getShippingCost = (products) => {
   // )
   // console.log(productsShipping)
     
-  productsShipping = productsShipping.reduce((p,c)=>p+c,0)
+  ///productsShipping = productsShipping.reduce((p,c)=>p+c,0)
   //console.log(productsShipping)
   const productQuantity = pipe(
     products,
