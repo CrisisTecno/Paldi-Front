@@ -60,6 +60,7 @@ pdApp.controller(
 		$scope.addProduct = function (model, form) {
 			if (form.$valid) {
 				model.type = $scope.type;
+				model.disponible = model.disponible ? true:false
 				$scope.products.push(model);
 				$scope.dialog.close();
 			}

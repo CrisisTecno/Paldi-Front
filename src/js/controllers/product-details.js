@@ -31,6 +31,7 @@ pdApp.controller(
 							$scope.product.installationPrice =
 								price.installationPrice;
 							$scope.product.m2Box = price.m2Box;
+							$scope.product.disponible  = $scope.product.disponible ? true:false
 						});
 					$scope.step = color ? "loaded" : "empty";
 				},

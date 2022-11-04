@@ -28,9 +28,11 @@
                 <li ng-show="product.price"><small>
                     <%= htmlWebpackPlugin.options.console.box_price %>
                 </small> <span>{{product.price | currency}}</span></li>
+               
                 <li ng-show="product.installationPrice"><small>
                     <%= htmlWebpackPlugin.options.console.installation_per_meter %>
                     <sup>2</sup>:</small> <span>{{product.installationPrice | currency}} dll{{ product.installationPrice != 1 ? 's' : '' }}</span></li>
+                <li > <small>Se puede ordenar sin inventario :</small> {{product.disponible ? "Si":"No"}}</li>
                 <li><small>MRP:</small> <span>{{product.mrp}}</span></li>
             </ul>
             <div>

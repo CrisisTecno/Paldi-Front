@@ -47,7 +47,7 @@
 
         <div ng-show="addingPlus == false && piso.plusList.length > 0">
         <hr/>
-            <button type="button" class="btn btn-default" ng-click="addPlus()"><%= htmlWebpackPlugin.options.floors. add_installation_additional %></button>
+            <button type="button" class="btn btn-default" ng-click="addPlus()"><%= htmlWebpackPlugin.options.floors.add_moldind %></button>
         <hr/>
         </div>
         <div class="form-adding" ng-show="addingPlus == true && piso.plusList.length > 0">
@@ -57,7 +57,7 @@
                 <input type="number" ng-model="piso.plusQuantity" name="plusQuantity" id="plusQuantity" class="form-control" pattern="[0-9]*">
             </div>
             <div class="form-group">
-                <label> Why Not Load</label>
+                <label> <%= htmlWebpackPlugin.options.quote_commons.name%></label>
                 <input type="text" ng-model="piso.plus" name="plus" id="plus" class="form-control" uib-typeahead="plus as plus.label for plus in piso.plusList | filter:$viewValue | limitTo:12" typeahead-editable="false">
             </div>
             <div>

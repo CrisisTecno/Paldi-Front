@@ -25,6 +25,8 @@ pdApp.controller(
     permissionService
   ) {
 
+    console.log("ROOR",$rootScope.currentExchangeRate,$rootScope)
+
     $scope.closeDialogFn =function(){
       $scope.dialog.close()
       if($scope.newStatus=="PENDING_INFO"){
@@ -743,7 +745,8 @@ pdApp.controller(
     };
 
     $scope.currencyChange = function (model) {
-      model.exchangeRate = 1;
+
+      model.exchangeRate = model.currency =="DOLLARS"? ($rootScope.currentExchangeRate ?? 19):1;
       model.advance = 0;
       $scope.exchangeRateChange(model);
     };
