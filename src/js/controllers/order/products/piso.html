@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group">
-            <label><%= htmlWebpackPlugin.options.quote_commons.squared_per_box %></label>
+            <label><%= htmlWebpackPlugin.options.quote_commons.squared_per_box %> </label>
             <input  type="number" min="0" step="0.01" name="m2Box" ng-model="pisoObj.m2Box" class="form-control" required>
             <small class="error-message" ng-if="pisoForm.$validated && pisoForm.m2Box.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
         </div>

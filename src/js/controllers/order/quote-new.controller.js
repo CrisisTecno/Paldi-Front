@@ -885,6 +885,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     } else {
       $scope.addingMotor = true
     }
+    console.log(motor)
   }
 
   $scope.cancelMotor = function () {
@@ -2065,7 +2066,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         if($scope.quote.type=="Mixta") $scope.originalMix = true;
 
         $scope.quote.products.forEach(prod =>{
-          
+          if(prod.productType == "Piso"){
+            prod.wood = prod.color.wood
+          }
           if (prod.productType=="Cortina" || prod.productType=="Cortina Filtrasol"){
             if(prod.color){  
             prod.colorName=normalizeText(prod.color.name.trim())

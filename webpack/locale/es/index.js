@@ -385,7 +385,7 @@ module.exports = {
             <li><a ui-sref="console.inventory-in" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Entradas</a></li>
             <li><a ui-sref="console.inventory-cross" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Traslados</a></li>
             <li><a ui-sref="console.inventory-adjustments" ng-if="currentUser.role == 'SUPERADMIN'">Ajustes</a></li>
-            <li><a ui-sref="console.products" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Productos</a></li>
+  
             <li><a ui-sref="console.warehouses" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Almacenes</a></li>
         </ul>
     </metis-item>
@@ -821,7 +821,7 @@ module.exports = {
     room:"Ubicación",
     type:"Tipo",
     price:"Precio",
-    squarex_per_box:"M² por Caja",
+    squared_per_box:"M² por Caja",
     price_type:"Tipo de Precio",
     per_box:"Por Caja",
     width:"Ancho (metros)",

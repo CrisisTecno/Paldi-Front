@@ -3,7 +3,7 @@
     <form name="moldingForm" role="form" novalidate ng-submit="addProduct(moldingObj, moldingForm)" autocomplete="off">
 
         <div class="form-group">
-            <label><%= htmlWebpackPlugin.options.quote_commons %></label>
+            <label><%= htmlWebpackPlugin.options.quote_commons.name %></label>
             <input  type="text" name="name" ng-model="moldingObj.name" class="form-control" required>
             <small class="error-message" ng-if="moldingForm.$validated && moldingForm.name.$error.required">
                 <%= htmlWebpackPlugin.options.general.required_field %>

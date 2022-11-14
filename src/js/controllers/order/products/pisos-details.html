@@ -5,6 +5,7 @@
             <th><%= htmlWebpackPlugin.options.details_headers.item %></th>
             <th><%= htmlWebpackPlugin.options.details_headers.location %></th>
             <th><%= htmlWebpackPlugin.options.details_headers.type %></th>
+            <th>Madera</th>
             <th><%= htmlWebpackPlugin.options.details_headers.color %></th>
             <% if( htmlWebpackPlugin.options.details_headers.squared){ %>
             <th><%= htmlWebpackPlugin.options.details_headers.squared_units %></th>
@@ -26,6 +27,7 @@
             <td>{{p.item}}</td>
             <td>{{p.location}}</td>
             <td>{{p.type}}</td>
+            <td>{{p.color.wood}}</td>
             <td>{{p.color.name}}</td>
             <% if (htmlWebpackPlugin.options.details_headers.squared){%>
             <td>{{p.m2}}</td>

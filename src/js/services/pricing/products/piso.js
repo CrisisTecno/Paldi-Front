@@ -65,7 +65,21 @@ export function generatePisoHandlers($http) {
         )
         .then(function (response) {
           piso.colors = [];
+          piso.woodTypes = {}
           response.data.forEach(function (element, index) {
+            if(!piso.woodTypes[element.wood]){
+              piso.woodTypes[element.wood] = [{
+                label: element.name,
+                value: element,
+              }]
+            }
+            else{
+              piso.woodTypes[element.wood].push({
+                label: element.name,
+                value: element,
+              })
+            }
+
             piso.colors.push({
               label: element.name,
               value: element,

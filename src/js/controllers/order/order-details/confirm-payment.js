@@ -43,6 +43,7 @@ const performPayment = async (context, $scope, updatedOrder) => {
 	const payment = updatedOrder.payment;
 	try {
 		const result = await context.paldiService.payments.pay($scope.order.id, payment);
+
 		showSwal("messages.payment.success");
     context.loadOrder();
 	} catch {
@@ -59,23 +60,44 @@ const performCustomAdvance = (context, $scope, updatedOrder) => {
 const updateOrder = async function (context, $scope,$timeout, updatedOrder, model) {
 
 	try {
+		
 		const callback = async function () {
+			console.log("VALLBACK")
 			const order = await context.paldiService.orders.updateStatus(
 				updatedOrder,
 				"LINE"
-			);
+			).catch(e=>{
+				const callbacks = () => {
+					$scope.isPaying = false;
+					context.loadOrder();
+				  }
+				  console.log("E",e)
+				if (
+					e.data?.exception ===
+					"io.lkmx.paldi.quote.components.error.InventoryNotEnoughException"
+				) {
+					showSwal("messages.orders.notEnoughInventory", callbacks);
+				} else {
+					showSwal("messages.error", callbacks);
+				}
+			})
+
+			if(order){
 			showSwal("messages.orders.fromQuote");
 			if (order.type === "Mixta") {
 				context.createSuborders(model, order);
 				context.$state.go("console.order-list");
 			}
+		
+			
       $scope.isPaying = false;
       context.loadOrder();
+		}
 		};
-		// console.log("showing create installation sheet dialog");
+		console.log("showing create installation sheet dialog");
 		await showCreateInstallationSheetDialog($scope,$timeout, callback);
 	} catch (error) {
-		// console.log('ERROR BEFORE INSTALLATION SHEET DIALOG', error);
+	 console.log('ERROR BEFORE INSTALLATION SHEET DIALOG', error);
     const callback = () => {
       $scope.isPaying = false;
       context.loadOrder();
@@ -97,6 +119,7 @@ const perfomAdvance = async (context, $scope,$timeout, updatedOrder, model) => {
 
 	const order = await context.paldiService.orders.get(updatedOrder.id);
 	if (order.quote) {
+		console.log("AAAAAAAAA")
 		await updateOrder(context, $scope,$timeout, updatedOrder, model);
 	} else {
 		context.loadOrder();

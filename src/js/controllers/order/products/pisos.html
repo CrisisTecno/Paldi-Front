@@ -17,8 +17,16 @@
         </div>
 
         <div class="form-group">
+            <label>Madera</label>
+            <select id="wood" name="wood" ng-model="piso.wood" class="form-control"  required="">
+                <option value={{key}} ng-repeat="(key,value) in piso.woodTypes">{{key}}</option>
+              </select>
+            <small class="error-message" ng-if="pisoForm.$validated && pisoForm.type.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+        </div>
+      
+        <div class="form-group">
             <label ng-hide="showSpinner"><%= htmlWebpackPlugin.options.quote_commons.color %></label>
-            <input ng-hide="showSpinner" type="text" name="color" ng-model="color" id="color" ng-disabled="!piso.type" class="form-control" value="{{color}}" required="" uib-typeahead="color.label for color in piso.colors | filter: $viewValue | limitTo:12" typeahead-editable="false" typeahead-on-select="colorSelected($item, 'Piso', piso)">
+            <input ng-hide="showSpinner" type="text" name="color" ng-model="color" id="color" ng-disabled="!piso.type" class="form-control" value="{{color}}" required="" uib-typeahead="color.label for color in piso.woodTypes[piso.wood] | filter: $viewValue | limitTo:12" typeahead-editable="false" typeahead-on-select="colorSelected($item, 'Piso', piso)">
             <small ng-hide="showSpinner" class="error-message" ng-if="pisoForm.$validated && pisoForm.color.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
             <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
         </div>

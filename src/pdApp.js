@@ -294,15 +294,7 @@ const pdApp = angular
         env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
-      .state("console.products", {
-        url: "/products",
-        templateUrl: "partials/views/console/products.html",
-        controller: "ProductsCtrl",
-        title: "Productos",
-        authRequired: true,
-        roles: ["SUPERADMIN", "ADMIN", "MANAGER"],
-        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi",
-      })
+
 
       .state("console.products-catalog", {
         url: "/products-catalog",
@@ -324,22 +316,8 @@ const pdApp = angular
         env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
 
-      .state("console.product-details", {
-        url: "/pisos/details/:productId",
-        templateUrl: "partials/views/console/product-details.html",
-        controller: "ProductDetailsCtrl",
-        title: "Detalles de producto",
-        authRequired: true,
-        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
-      })
-      .state("console.product-new", {
-        url: "/product/:productType/new",
-        templateUrl: "partials/views/console/product-new.html",
-        controller: "ProductNewCtrl",
-        title: "Agregar productos",
-        authRequired: true,
-        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
-      })
+
+
       .state("console.warehouses", {
         url: "/warehouses",
         templateUrl: "js/controllers/inventory/warehouse/warehouses.html",

@@ -148,7 +148,13 @@ export const showCreateInstallationSheetDialog = async (
           return showSwal("messages.error")
       }
       $scope.dialog.close()
+      console.log("B")
+      try{
       callback()
+      }
+      catch(e){
+        console.log("ERROR")
+      }
 
     },
     addOtherExtra: (otherName, arrayName) => {
