@@ -5,14 +5,14 @@ if ($ENV -eq 'PROD'){
     scp -r ./dist root@cotizadorpaldi.com.mx:/var/www
     ssh -t root@cotizadorpaldi.com.mx "cd /var/www && mv html html-$(Get-Date -UFormat "%m-%d-%Y-%T") && mv dist html"
 }
-if ($ENV -eq 'EXT-STG'){
+elseif ($ENV -eq 'EXT-STG'){
     npm run build-stg-external-en
     ssh -t root@zelba.io "cd /home/externalStg/console && rm -r dist"
     scp -r ./dist root@zelba.io:/home/externalStg/console
     ssh -t root@zelba.io "cd /home/externalStg && docker-compose stop console && docker-compose up console"
    
 }
-if ($ENV -eq 'EXT-PROD'){
+elseif ($ENV -eq 'EXT-PROD'){
     npm run build-prod-external-en
     ssh -t root@zelba.io "cd /home/external/console && rm -r dist"
     scp -r ./dist root@zelba.io:/home/external/console
