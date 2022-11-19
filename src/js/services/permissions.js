@@ -151,7 +151,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					order.status != "QUOTE" &&
 					order.status != "REJECTED" &&
 					order.status != "PENDING" &&
-					order.providerStatus 
+					(order.providerStatus || order.status=="BACKORDER" )
 		
 				) {
 					canChangeStatus = true;
@@ -198,6 +198,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 		},
 
 		getStatusList: function (list) {
+			// console.log(list)
 			var statusList = [
 				"QUOTE",
 				"PENDING",
@@ -226,6 +227,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"INSTALLED_NONCONFORM",
 					"INSTALLED_INCOMPLETE",
 					"ORDER_CANCELED",
+				
 				];
 			}
 
@@ -271,6 +273,10 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"INSTALLED_NONCONFORM",
 					"INSTALLED_INCOMPLETE",
 					"ORDER_CANCELED",
+					"AUTHORIZED",
+					"PENDING_INFO",
+					"QUOTE",
+					"QUOTED"
 				];
 			}
 
@@ -286,6 +292,10 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"INSTALLED_NONCONFORM",
 					"INSTALLED_INCOMPLETE",
 					"ORDER_CANCELED",
+					"AUTHORIZED",
+					"PENDING_INFO",
+					"QUOTE",
+					"QUOTED"
 				];
 			}
 

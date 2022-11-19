@@ -106,7 +106,7 @@ pdApp.controller(
 
 		// ============= Download File ============= //
 		$scope.downloadFile = (id, name) => {
-            //console.log("STST",id,name)
+            //// console.log("STST",id,name)
 			paldiService.resources.downloadFile(id).then((file) => {
                
                 if(file.code){

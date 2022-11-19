@@ -73,7 +73,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         width: inches_to_meters(data.width + parseFloat(data.w_fraction??0)),
         height: inches_to_meters(data.height + parseFloat(data.h_fraction??0))
         }
-      console.log(obj)
+      // console.log(obj)
         return (await $http.post(globals.apiURL + "/newapi/products/price", obj)).data.data
       }
 
@@ -151,7 +151,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
         return result.data;
       } catch (e) {
-        // console.log(e);
+        // // console.log(e);
         return e;
       }
     },
@@ -214,7 +214,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           authentication: "yokozuna",
         })
         .then(function (response) {
-          // console.log("WHOAMI RAN: ", response)
+          // // console.log("WHOAMI RAN: ", response)
           if (response.data.role === "EXTERNAL_CONSULTANT"){
             response.data.realRole = "EXTERNAL_CONSULTANT"
             response.data.role = "CONSULTANT"
@@ -239,7 +239,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           authentication: "yokozuna",
         })
         .then(function (response) {
-          // console.log("GET USER RAN: ", response)
+          // // console.log("GET USER RAN: ", response)
           if (response.data.role === "EXTERNAL_CONSULTANT"){
             response.data.realRole = "EXTERNAL_CONSULTANT"
             response.data.role = "CONSULTANT"
@@ -254,7 +254,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           authentication: "yokozuna",
         })
         .then(function (response) {
-          // console.log("GET USER BY ROLE RAN: ", response)
+          // // console.log("GET USER BY ROLE RAN: ", response)
           return response.data;
         });
     },
@@ -467,7 +467,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
 
     search: function (page, size, sort, search,user) {
-      //console.log(user)
+      //// console.log(user)
       return $http
         .get(
           globals.apiURL +
@@ -533,7 +533,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
               let w = parseInt(product.width)
               let wf = product.width - w
-              console.log(w)
+              // console.log(w)
               product.w_fraction = toFraction(wf)
               
               product.width=w
@@ -551,7 +551,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
             })
           }
           order.products?.forEach((product) => {
-            //console.log(product, product.width, product.height, product.m2)
+            //// console.log(product, product.width, product.height, product.m2)
             product.width = meters_to_inches(product.width)
             product.height = meters_to_inches(product.height)
 
@@ -578,10 +578,10 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
             product.m2 = sq_meters_to_inches(parseFloat(product.m2))
           })
 
-          //console.log('fetched order', order)
+          //// console.log('fetched order', order)
 
-          // console.log("API CALL: /quotes/orders/{id}")
-          // console.log(order)
+          // // console.log("API CALL: /quotes/orders/{id}")
+          // // console.log(order)
           return order;
         });
       }
@@ -604,7 +604,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
         return result.data;
       } catch (e) {
-        // console.log(e);
+        // // console.log(e);
         return e;
       }
     },
@@ -709,7 +709,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     save: function (orders) {
       let order = { ...angular.copy(orders) }
       if(EXECUTION_ENV=="EXTERNAL"){
-        //console.log("SAVING ORDER: ", order)
+        //// console.log("SAVING ORDER: ", order)
       
       order.products = [...(order.products.map(v => ({
         ...v,
@@ -722,7 +722,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           retornoDerecho   :parseFloat(v.retornoDerecho  ) + parseFloat(v.rd_fraction??0) 
         }:{})
       })))]
-      //console.log("ORDER ", order)
+      //// console.log("ORDER ", order)
       const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
       for (const type of PRODUCTS) {
         order[type]?.forEach((product) => {
@@ -774,7 +774,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         })
       }
 
-      //console.log("SUB ORDER ", order)
+      //// console.log("SUB ORDER ", order)
       }
 
       return $http
@@ -869,7 +869,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         })
       }
 
-      ///console.log("UPDATE SUB ", order)
+      ///// console.log("UPDATE SUB ", order)
       }
       return $http
         .put(

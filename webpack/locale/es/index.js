@@ -637,6 +637,7 @@ module.exports = {
     shades:"Persianas",
     products:"Productos",
     shades_headers:`
+    <th>Item</th>
     <th>Cant.</th>
     <th>Ubicación</th>
     <th>Tipo</th>
@@ -647,6 +648,7 @@ module.exports = {
     additionals_headers:`
     <th>Cant</th>
     <th>Nombre</th>
+    <th>Color</th>
     <th>Precio</th>
     <th>Total</th>
     `,
@@ -1046,7 +1048,7 @@ module.exports = {
     products:"Productos",
     product_notes:"Observaciones de Producto",
     hide:"Ocultar",
-    addi_motors:"Adicionales/Mototizacion",
+    addi_motors:"Adicionales/Motorizacion",
     addi_motor_options:`
     <th>Ítem</th>
               <th>Cant</th>

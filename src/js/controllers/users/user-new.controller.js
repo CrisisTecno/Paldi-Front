@@ -40,7 +40,7 @@ pdApp.controller("UserNewCtrl", function (
     $scope.providerSelectionList[key]= Object.assign({},...value.map(x=>({[x]:false})))
   }
 
-  console.log($scope.providerSelectionList)
+  // console.log($scope.providerSelectionList)
   
   $scope.assignedProducts = {
     "Enrollable":[],
@@ -56,7 +56,7 @@ pdApp.controller("UserNewCtrl", function (
   }
 
   $scope.assignProductsDialog = function(){
-    console.log("AAAAAA")
+    // console.log("AAAAAA")
     $scope.resetProducts()
     $scope.dialog = ngDialog.open({
       template:"js/controllers/users/provider-products.html",
@@ -145,7 +145,7 @@ $scope.changeStatus= function(value){
 
   function init() {
     $scope.roles = globals.roles
-    console.log($scope.roles)
+    // console.log($scope.roles)
     if(EXECUTION_ENV=="INTERNAL") delete $scope.roles["7"]
     inventoryDataService.getWarehouses().then(function (data) {
       $scope.warehouses = data

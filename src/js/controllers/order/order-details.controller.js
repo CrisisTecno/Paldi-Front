@@ -25,7 +25,7 @@ pdApp.controller(
     permissionService
   ) {
 
-    console.log("ROOR",$rootScope.currentExchangeRate,$rootScope)
+    // console.log("ROOR",$rootScope.currentExchangeRate,$rootScope)
 
     $scope.closeDialogFn =function(){
       $scope.dialog.close()
@@ -299,7 +299,7 @@ pdApp.controller(
         
         $scope.order = order;
 
-        console.log("ORDER",$scope.order)
+        // console.log("ORDER",$scope.order)
         
       
       
@@ -342,7 +342,7 @@ pdApp.controller(
             })
           }
         }
-        // console.log(order)
+        // // console.log(order)
 
         if (order.orderParent) {
           $scope.isSuborder = true;
@@ -395,7 +395,7 @@ pdApp.controller(
         // $("#download_installation_sheet").attr('href', $scope.installationSheet.pdfLink)
 
 
-        // console.log($scope.order.pdfInstallationSheetLink)
+        // // console.log($scope.order.pdfInstallationSheetLink)
         $scope.perms = permissionService.setDependencies([
           ["user", $rootScope.currentUser],
           ["order", $scope.order],
@@ -404,7 +404,7 @@ pdApp.controller(
           }],
         ]);
 
-        // console.log($scope.perms)
+        // // console.log($scope.perms)
         $timeout(async function () {
           $scope.permissions = permissionsHelper.get(order, $rootScope.currentUser);
           $scope.canManagePayments = $scope.currentUser.role != 'MANAGER' && $scope.currentUser.role != 'INSTALLATION_MANAGER';
@@ -412,18 +412,18 @@ pdApp.controller(
           //   "MANAGER",
           //   "INSTALLATION_MANAGER",
           // // ].includes($scope.currentUser.role);
-          // console.log('FINISHED LOADING SOMETHING')
-          // console.log($scope)
+          // // console.log('FINISHED LOADING SOMETHING')
+          // // console.log($scope)
         });
         
       }, function (error) {
         $scope.step = "empty";
-        // console.log(error);
+        // // console.log(error);
       }).then(async ()=>{
         $timeout(function () {
         $scope.needsProviderAssigned = Object.keys(performAnalisis()).length >0
-        console.log(performAnalisis())
-        console.log($scope.needsProviderAssigned)
+        // console.log(performAnalisis())
+        // console.log($scope.needsProviderAssigned)
         }, 500)
         
       });
@@ -515,7 +515,7 @@ pdApp.controller(
       } else {
         objName = EXECUTION_ENV=="EXTERNAL" ? "order" : "Orden";
       }
-      // console.log(order)
+      // // console.log(order)
 
       const getProviderEmail = (type) => {
         const emails = {
@@ -527,9 +527,9 @@ pdApp.controller(
           return "Correo"
         return emails[type]
       }
-      // console.log("------ PROVIDER EMAIL")
-      // console.log(order.type)
-      // console.log(getProviderEmail(order.products[0].productType))
+      // // console.log("------ PROVIDER EMAIL")
+      // // console.log(order.type)
+      // // console.log(getProviderEmail(order.products[0].productType))
       
       swal({
         title: (EXECUTION_ENV=="EXTERNAL"?("Do you want to send the" + objName + "to the mail"):("¿Seguro que desea enviar la " + objName + " al correo?")),
@@ -545,7 +545,7 @@ pdApp.controller(
         function (value) {
           if (!value)
             return
-          // console.log(value)
+          // // console.log(value)
           if (value.trim() === "") {
             swal.showInputError((EXECUTION_ENV=="EXTERNAL"?"A mail direction is required":"Es necesario escribir una dirección de correo"));
             return false
@@ -615,7 +615,7 @@ pdApp.controller(
               loadOrder();
             });
           }
-          // console.log(suborder)
+          // // console.log(suborder)
         })
 
       })
@@ -767,7 +767,7 @@ pdApp.controller(
     //========================= STATUS ===========================
 
     $scope.sendToOrderDialog = async function () {
-      //console.log($scope.order.user)
+      //// console.log($scope.order.user)
       if (!$scope.order.user.warehouse && $scope.order.user.role!="EXTERNAL_CONSULTANT") {
         swal({
           title:  (EXECUTION_ENV=="EXTERNAL"?"The seller is not afilliated to a warehouse":"El vendedor no está asignado a un almacén"),
@@ -970,7 +970,7 @@ pdApp.controller(
             
             if (isConfirm  ) {
               $scope.newStatus = status;
-              //	// console.log($scope.newStatus);
+              //	// // console.log($scope.newStatus);
               if (status === "PENDING") {
 
                 if(EXECUTION_ENV=="EXTERNAL"){
@@ -1173,7 +1173,7 @@ pdApp.controller(
               }
             },
             function (error) {
-              // console.log(error);
+              // // console.log(error);
 
               if (
                 error.data.exception ==
@@ -1506,7 +1506,7 @@ pdApp.controller(
                   loadOrder();
                 },
                 function (error) {
-                  // console.log(error);
+                  // // console.log(error);
                 }
               );
           } else {

@@ -216,6 +216,7 @@
                   </thead>
                   <tbody>
                   <tr ng-repeat="(indexProduct, p) in productTypeList.products">
+                    <td>{{ getProductIndex(indexProduct,indexList) }}</td>
                     <td>{{p.quantity}}</td>
                     <td>{{p.location}}</td>
                     <td>{{translateType(p.type)}}</td>

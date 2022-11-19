@@ -45,7 +45,7 @@ pdApp.controller(
 			var prov = ""
 			if($scope.currentUser.role=="PROVIDER")
 				prov=$scope.currentUser.id
-			console.log(prov)
+			// console.log(prov)
 			$scope.days = [];
 			var ignoredDay = null;
 			var i = 0;
@@ -243,7 +243,7 @@ pdApp.controller(
 				.withTitle("Guía de Rastreo")
 				.renderWith(function (data) {
 					
-					console.log(data.dataB.guides)
+					// console.log(data.dataB.guides)
 					return (
 						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides &&data.dataB.guides.length>0 ? data.dataB.guides[0].trim() :"") + '">' 
 						+ (data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0] :"") +
@@ -305,7 +305,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					let iddata=data.id
 					if($scope.currentUser.role=="PROVIDER") iddata=data.orderId
-					console.log(data)
+					// console.log(data)
 					if (!data.isSuborder_b) {
 						return (
 							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
@@ -574,7 +574,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 					
 					if (!data.isSuborder_b) {
-						console.log(data)
+						// console.log(data)
 						return (
 							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 							data.orderId+
@@ -583,7 +583,7 @@ pdApp.controller(
 							"<a>"
 						);
 					} else {
-						console.log(data)
+						// console.log(data)
 						return (
 							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 							data.id +

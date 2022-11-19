@@ -14,7 +14,7 @@ export const getShippingCost = (products) => {
     return 0
 
   // let productsShipping = products.map(product => {
-  //  //console.log(product);
+  //  //// console.log(product);
   //   if(product.productType=="Balance"){
   //     return (isNaN(product.shipping) ? SHIPPING_PRICES.defaultPrice  : product.shipping) * product.quantity
   //   }
@@ -28,17 +28,17 @@ export const getShippingCost = (products) => {
     
   // }
   // )
-  // console.log(productsShipping)
+  // // console.log(productsShipping)
     
   ///productsShipping = productsShipping.reduce((p,c)=>p+c,0)
-  //console.log(productsShipping)
+  //// console.log(productsShipping)
   const productQuantity = pipe(
     products,
     (products) => products.map(product => isNaN(product.quantity) ? 0 : product.quantity),
     (quantities) => quantities.reduce((prev, curr) => prev + curr, 0)
   )
   
-  //console.log("Calculated product qty: ", productQuantity)
+  //// console.log("Calculated product qty: ", productQuantity)
   const prices = products.map(product => {
     product.quantity = isNaN(product.quantity) ? 0 : product.quantity
     // The rules for calculating the shipping prices are defined below

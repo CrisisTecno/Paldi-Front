@@ -33,7 +33,7 @@ pdApp.controller(
 					recordsFiltered: data.totalElements,
 					data: data.content,
 				};
-				//console.log(typeof(data.content))
+				//// console.log(typeof(data.content))
 				fnCallback(result);
 			};
 

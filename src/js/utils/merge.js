@@ -29,7 +29,7 @@ export function moveToScope(scope, additionalObject) {
 	Object.keys(additionalObject).forEach((key) => {
 		if (scope[key] !== undefined) {
 
-				// console.log(
+				// // console.log(
 				// 	`cuidado, estas sobreescribiendo la llave ${key}`,
 				// 	scope[key],
 				// 	additionalObject[key]

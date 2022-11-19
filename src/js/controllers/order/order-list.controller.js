@@ -46,7 +46,7 @@ pdApp.controller(
 			: ($scope.isConsultant = false);
 
 		var serverData = function (sSource, aoData, fnCallback, oSettings) {
-      // console.log(sSource, aoData, fnCallback, oSettings)
+      // // console.log(sSource, aoData, fnCallback, oSettings)
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var sort = sear
@@ -1468,12 +1468,12 @@ pdApp.controller(
 			//refactor
 			$scope.statusList = $rootScope.orderStatusList;
 			if(EXECUTION_ENV=="INTERNAL"){
-				let specialList =["AUTHORIZED","PENDING_INFO","QUOTE","QUOTED"]
-				angular.forEach(specialList,function(status){
-					$scope.statusList.push({
-						id:status
-					});
-				})
+				// let specialList =["AUTHORIZED","PENDING_INFO","QUOTE","QUOTED"]
+				// angular.forEach(specialList,function(status){
+				// 	$scope.statusList.push({
+				// 		id:status
+				// 	});
+				// })
 			}
 			if (EXECUTION_ENV=="EXTERNAL"){
 				let notAllowedList = ["LINE","TRANSIT","FINISHED"]
@@ -1513,13 +1513,13 @@ pdApp.controller(
 			}
 			});
 			if(EXECUTION_ENV=="INTERNAL"){
-				let specialList =["AUTHORIZED","PENDING_INFO","QUOTE","QUOTED"]
-				angular.forEach(specialList,function(status){
-					$scope.availableStatusList.push({
-						label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),
-						value: status,
-					});
-				})
+				// let specialList =["AUTHORIZED","PENDING_INFO","QUOTE","QUOTED"]
+				// angular.forEach(specialList,function(status){
+				// 	$scope.availableStatusList.push({
+				// 		label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),
+				// 		value: status,
+				// 	});
+				// })
 			}
 			if (!$rootScope.orderStatusList) {
 				$rootScope.orderStatusList = [];
