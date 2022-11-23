@@ -28,8 +28,8 @@ pdApp.controller(
 		$scope.selectedType = "all";
 		
 		$scope.orderTypes =EXECUTION_ENV!="EXTERNAL" ? [
-			{value: "consultant", label: "Mis cotizaciones"},
-			{value: "all", label: "Cotizaciones generales"},
+			{value: "consultant", label: "Mis Ordenes"},
+			{value: "all", label: "Ordenes generales"},
 		  ] : [{value: "consultant", label: "My Quotes"},
 			];
 

@@ -85,8 +85,7 @@ pdApp.factory(
             break;
         }
 		// console.log(model.price)
-		if(model.price==undefined) model.doable = false
-		if(model.price) model.doable = true
+		
        
        
         

@@ -227,6 +227,10 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"INSTALLED_NONCONFORM",
 					"INSTALLED_INCOMPLETE",
 					"ORDER_CANCELED",
+					"AUTHORIZED",
+					"PENDING_INFO",
+					"QUOTE",
+					"QUOTED"
 				
 				];
 			}
@@ -258,6 +262,10 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"INSTALLED_NONCONFORM",
 					"INSTALLED_INCOMPLETE",
 					"ORDER_CANCELED",
+					"AUTHORIZED",
+					"PENDING_INFO",
+					"QUOTE",
+					"QUOTED"
 				];
 			}
 
@@ -311,6 +319,10 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"INSTALLED_NONCONFORM",
 					"INSTALLED_INCOMPLETE",
 					"ORDER_CANCELED",
+					"AUTHORIZED",
+					"PENDING_INFO",
+					"QUOTE",
+					"QUOTED"
 				];
 			}
 
@@ -326,6 +338,10 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"INSTALLED_NONCONFORM",
 					"INSTALLED_INCOMPLETE",
 					"ORDER_CANCELED",
+					"AUTHORIZED",
+					"PENDING_INFO",
+					"QUOTE",
+					"QUOTED"
 				];
 			}
 			
@@ -338,6 +354,10 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"FOLLOWING",
 					"REJECTED",
 					"PENDING",
+					"AUTHORIZED",
+					"PENDING_INFO",
+					"QUOTE",
+					"QUOTED"
 				];
 			}
 
