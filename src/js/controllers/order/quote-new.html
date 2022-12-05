@@ -54,6 +54,7 @@
           <div class="margin-bottom">
             <div class="pull-left" style="width:27%;">
               <ul class="client-data">
+               
                 <li><small><%= htmlWebpackPlugin.options.quotes.client_type %>:</small></li>
                 <li><small><%= htmlWebpackPlugin.options.quotes.name %></small></li>
                 <li><small><%= htmlWebpackPlugin.options.general.email %>:</small></li>
@@ -64,6 +65,7 @@
             </div>
             <div class="pull-left" style="width:60%;">
               <ul class="client-data">
+                
                 <li>{{pretty('clientType', quote.client.type)}}</li>
                 <li>{{quote.client.name + ' ' + quote.client.lastName}}</li>
                 <li>{{quote.client.email}}</li>

@@ -4,11 +4,12 @@ import {normalizeText} from "../../utils/normalization"
 import { meters_to_inches } from "../../utils/units"
 
 
-pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $stateParams, paldiService, colorPriceService, $timeout, jsonService, DTOptionsBuilder, DTColumnDefBuilder, permissionsHelper,) {
+pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $stateParams, ngDialog, paldiService, colorPriceService, $timeout, jsonService, DTOptionsBuilder, DTColumnDefBuilder, permissionsHelper,) {
   const MIXED_ORDER = "Mixta"
   $scope.updateTotals = colorPriceService.updateTotals
   
   $scope.originalMix = false;
+  $scope.ngDialog = ngDialog;
 
   $scope.translateType = function(name){
     if (EXECUTION_ENV!="EXTERNAL") {
@@ -238,8 +239,55 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     return paldiService.clients.find(name)
   }
 
+  $scope.openEditClient = function(){
+  $scope.dialog = $scope.ngDialog.open({
+    template: "js/controllers/order/products/client-pop-up.html",
+    // template: "partials/views/console/installation-sheet/form-create.html",
+    scope: $scope,
+    showClose: false,
+    closeOnClickOutside: false,
+    closeByDocument: false})
+  }
+
+  $scope.updateClient = function(form,client){
+    paldiService.clients.update(client).then(
+      function(elem){
+      if(elem && elem.deleted==false){
+        $scope.dialog.close()
+        $scope.selectClient(client)
+      }
+
+      swal({
+        title:  (EXECUTION_ENV=="EXTERNAL"?"Client Modified Successfully" :"Cliente modificado exitosamente"),
+        type: "success",
+        confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
+      });
+
+    },
+    function (error) {
+      // // console.log(error);
+      swal({
+        title: "Error",
+        text:
+        (EXECUTION_ENV=="EXTERNAL"?"There is already a client with the E-mail: ":"Ya existe un cliente con el E-mail: ") +
+          client.email,
+        type: "error",
+        confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
+      });
+    }
+  )
+  }
+
   $scope.selectClient = function (client) {
     $scope.quote.client = client
+    console.log("CLIENTED SELECTED", angular.copy($scope.quote.client))
+    if(client.postalCode=="11111" && client.address.trim()==""){
+      $scope.client = client
+      $scope.client.address = null
+      $scope.openEditClient()
+    }
+
+
     if ($scope.product == "Piso") {
       if (!$scope.pisoModel) {
         $scope.pisoModel = ""

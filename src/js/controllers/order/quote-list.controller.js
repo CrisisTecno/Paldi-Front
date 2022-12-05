@@ -415,6 +415,7 @@ pdApp.controller(
 //---------------------------------------------------
     var initLoad = function () {
       $scope.statusList = $rootScope.quoteStatusList
+      console.log($rootScope.quoteStatusList)
       
       typeChange()
       $scope.ready = true

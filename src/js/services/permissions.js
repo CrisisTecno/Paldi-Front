@@ -354,10 +354,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"FOLLOWING",
 					"REJECTED",
 					"PENDING",
-					"AUTHORIZED",
-					"PENDING_INFO",
-					"QUOTE",
-					"QUOTED"
+		
 				];
 			}
 
