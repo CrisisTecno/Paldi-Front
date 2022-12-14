@@ -212,7 +212,7 @@ const getDiscounts = (order, totals) => {
 
   const fullDiscount = (order.discountPercent || order.discountPercent==0) ? (totals.productsTotal
     + totals.plusTotal
-    + totals.motorTotal 
+    + totals.motorTotal *  !IS_ZELBA
   ) * toDecimalPercent(order.discountPercent) : order.discount
 
   
