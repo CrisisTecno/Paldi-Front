@@ -503,6 +503,7 @@ module.exports = {
                 name="type"
                 ng-model="quote.source"
                 required=""
+                ng-disabled="bitrixProjectExists"
             >
               <option value="Tienda">Tienda</option>
               <option value="Recomendación">Recomendación</option>

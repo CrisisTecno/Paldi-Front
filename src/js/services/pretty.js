@@ -348,7 +348,11 @@ pdApp.factory("prettyHelper", function () {
 		getColor: function (color) {
 			if (!color.name) {
 				return color.code + " - " + color.textil;
-			} else if (!color.textil) {
+			}
+			else if (color.wood){
+				return color.name
+			}
+			else if (!color.textil) {
 				return color.name + " - " + color.line;
 			} else {
 				return color.name + " - " + color.textil;

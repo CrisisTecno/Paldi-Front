@@ -32,6 +32,25 @@ function addParams(params){
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   let service = {};
 
+
+  service.bitrix = {
+
+    getBitrixProjects: async function(clientId){
+      let body = {clientId:clientId}
+      console.log(body)
+      return $http.post(globals.apiURL + "/newapi/webhooks/projects",
+        body
+      
+      ).then(function(response){
+        console.log(response)
+        return response.data.data
+      })
+    }
+
+
+
+  }
+
   service.schedule = {
     sendMessage: async function (order) {
       return $http

@@ -9,7 +9,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.updateTotals = colorPriceService.updateTotals
   
   $scope.originalMix = false;
+  $scope.needsLoadProjects = true;
   $scope.ngDialog = ngDialog;
+  $scope.isInternalEnv = EXECUTION_ENV=="INTERNAL"
+  
 
   $scope.translateType = function(name){
     if (EXECUTION_ENV!="EXTERNAL") {
@@ -281,11 +284,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.selectClient = function (client) {
     $scope.quote.client = client
     console.log("CLIENTED SELECTED", angular.copy($scope.quote.client))
-    if(client.postalCode=="11111" && client.address.trim()==""){
-      $scope.client = client
-      $scope.client.address = null
-      $scope.openEditClient()
-    }
+
 
 
     if ($scope.product == "Piso") {
@@ -297,8 +296,39 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       $scope.updatePrices("Piso", $scope.pisoModel)
     }
     updateDiscount()
+    
+    if(client.bitrixId!=null && $scope.needsLoadProjects) $scope.bitrixProjectExists = true 
+    else $scope.bitrixProjectExists = false
+    //$scope.bitrixProjectExists = true
+    $scope.loadProjects(client.bitrixId)
     $scope.clientStep = "selected"
   }
+
+  $scope.loadProjects = async(clientId)=>{
+
+    $scope.projects = await paldiService.bitrix.getBitrixProjects(clientId)
+    console.log("PROJECTS",$scope.projects)
+   
+    $scope.$apply()  
+
+  }
+
+  $scope.setBitrixId = function(project){
+    $scope.quote.project = project.Title
+    $scope.quote.bitrixDealId = project.ID
+    $scope.quote.source = project.Source
+    console.log("SET")
+  }
+
+  $scope.toggleProject = function(){
+    $scope.bitrixProjectExists = !$scope.bitrixProjectExists
+    if($scope.quote.project){
+      $scope.quote.project = undefined
+      $scope.quote.bitrixDealId = undefined
+    } 
+  }
+
+  
 
   $scope.changeClient = function () {
     $scope.quote.client = null
@@ -774,8 +804,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.piso = angular.copy(product)
         $scope.updateTypeNoErasing("Piso", $scope.piso)
         product.color.m2Box = product.m2Box
+        console.log(product.color)
+       
         $scope.colorSelected({
-          label: product.color.name + " - " + product.color.code, value: product.color,
+          label: product.color.name, value: product.color,
         }, "Piso", $scope.piso,)
         break
       case "Custom":
@@ -1559,7 +1591,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.colorSelected = async function (color, product, model) {
-     //// console.log("COLOR SELECTED EXECUTED", color, product, model)
+      console.log("COLOR SELECTED EXECUTED", color, product, model)
 
     model.colorObj = color.value
 
@@ -2119,7 +2151,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         }
         $scope.orderParentId = order.id
         $scope.quote = angular.copy(order)
-         // // console.log("Loading order",order)
+        console.log("Loading order",order)
         $scope.quote.products = angular.copy(order.products)
 
         if($scope.quote.type=="Mixta") $scope.originalMix = true;
@@ -2137,11 +2169,34 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         })
         $scope.editing = true
         $scope.hasAdditionals()
+        console.log(order.client)
+
+        console.log("ORDER HAS BITRIX DEAL",order.bitrixDealId)
+
+        if(order.bitrixDealId){
+          console.log("ORDER HAS BITRIX DEAL",order.bitrixDealId)
+          $scope.quote.option = {
+            "Source":order.source,
+            "Title":order.project,
+            "ID":order.bitrixDealId
+          }
+        }
+        else{
+          $scope.needsLoadProjects = false
+        }
+
+
         $scope.selectClient(order.client)
+        
+
+       
+          
+
         if (order.type === "Mixta") {
           $scope.editSimpleQuote = false
           $scope.isMultiple = true
           $scope.quote.products = []
+          
           paldiService.orders
             .getByOrderParent($stateParams.orderId)
             .then(function (suborders) {
@@ -2299,7 +2354,7 @@ function updateMeta($scope,product){
       $scope.updateTypeNoErasing("Piso", $scope.piso)
       product.color.m2Box = product.m2Box
       $scope.colorSelected({
-        label: product.color.name + " - " + product.color.code, value: product.color,
+        label: product.color.name, value: product.color,
       }, "Piso", product,)
       break
     case "Custom":
