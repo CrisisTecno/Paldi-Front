@@ -21,6 +21,11 @@ module.exports = (env) => ({
   },
   resolve: {
     modules: ["bower_components", "node_modules"],
+    fallback: {
+      path: require.resolve("path-browserify"),
+      crypto: require.resolve("crypto-browserify"),
+      stream: require.resolve("stream-browserify"),
+    },
     descriptionFiles: ["package.json", "bower.json"],
     alias: {
       bootstrap: path.resolve(

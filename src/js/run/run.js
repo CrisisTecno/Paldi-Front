@@ -202,7 +202,11 @@ pdApp.run(function (
         return prettyHelper.getClientTypeEN(ugly)
     } else if (type === "reverseOrderStatus") {
       return prettyHelper.getReverseOrderStatus(ugly)
-    } else if (type === "orderStatus") {
+
+    } 
+    else if(type==="quote"){
+      return prettyHelper.getQuoteStatus(ugly)
+    }else if (type === "orderStatus") {
       return prettyHelper.getOrderStatus(ugly)
     } else if (type==="orderStatusEn"){
       return prettyHelper.getOrderStatusEn(ugly)

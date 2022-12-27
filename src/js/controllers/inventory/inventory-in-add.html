@@ -18,10 +18,18 @@
         </div>
 
         <div class="form-group" ng-show="selectedType == 'piso'">
+            <label>Linea</label>
+            <select name="type" ng-model="movementObj.line" class="form-control"  required="">
+                <option value={{key}} ng-repeat="(key,value) in  movementObj.woodTypes">{{key}}</option>
+            </select>
+            <small class="error-message" ng-if="movementForm.$validated && movementForm.type.$error.required">Campo requerido</small>
+        </div>
+
+        <div class="form-group" ng-show="selectedType == 'piso'">
             <label ng-hide="showSpinner">Color</label>
             <input ng-hide="showSpinner" type="text" name="color" ng-model="movementObj.color" id="color" ng-disabled="!movementObj.type"
                    class="form-control" value="{{moda}}" required=""
-                   uib-typeahead="color.label for color in movementObj.colors | filter: $viewValue"
+                   uib-typeahead="color.label for color in movementObj.woodTypes[movementObj.line] | filter: $viewValue"
                    typeahead-editable="false" typeahead-on-select="movementObj.color = $item">
             <small ng-hide="showSpinner" class="error-message" ng-if="movementForm.$validated && movementForm.color.$error.required">Campo requerido</small>
             <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">

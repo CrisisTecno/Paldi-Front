@@ -20,6 +20,8 @@ pdApp.factory("prettyHelper", function () {
 			return "";
 		},
 
+		
+
 		getClientTypeEN: function (type) {
 			
 			switch (type) {
@@ -35,6 +37,20 @@ pdApp.factory("prettyHelper", function () {
 					return "Architects & Interior Desginers";
 			}
 			return "";
+		},
+
+		getQuoteStatus:function(status){
+			switch(status){
+				case "Seguimiento":
+					return "Negociación"
+					break
+				case "Nueva":
+					return "Cotización"
+					break
+				default:
+					return status;
+					break
+			}
 		},
 
 		getOrderStatus: function (status) {
@@ -76,6 +92,8 @@ pdApp.factory("prettyHelper", function () {
 					return "Autorizado";
 				case "QUOTED":
 					return "Cotizado";
+				case "Seguimiento":
+					return "Negociación"
 			}
 			return status;
 		},
@@ -365,9 +383,9 @@ pdApp.factory("prettyHelper", function () {
 				case "QUOTE_EDITED":
 					return "Cotización editada";
 				case "QUOTE_STATUS_NEW":
-					return "Estado de Cotización cambió a Nueva";
+					return "Estado de Cotización cambió a Cotización";
 				case "QUOTE_STATUS_FOLLOWUP":
-					return "Estado de Cotización cambió a Seguimiento";
+					return "Estado de Cotización cambió a Negociación";
 				case "QUOTE_STATUS_DUPLICATED":
 					return "Estado de Cotización cambió a Duplicada";
 				case "QUOTE_STATUS_LOST_BRAND":

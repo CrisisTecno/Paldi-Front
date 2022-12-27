@@ -2,6 +2,7 @@
 import {pdApp} from "../index"
 import {normalizeText} from "../../utils/normalization"
 import { meters_to_inches } from "../../utils/units"
+import { apply } from "file-loader"
 
 
 pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $stateParams, ngDialog, paldiService, colorPriceService, $timeout, jsonService, DTOptionsBuilder, DTColumnDefBuilder, permissionsHelper,) {
@@ -305,19 +306,52 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.loadProjects = async(clientId)=>{
-
+    $scope.loadEnded = false
+    $scope.projectsLoaded =  new Promise(function(resolve, reject){
+      $scope.promiseResolve = resolve;
+      $scope.promiseReject = reject;
+    });
     $scope.projects = await paldiService.bitrix.getBitrixProjects(clientId)
+    $scope.promiseResolve();
+    
     console.log("PROJECTS",$scope.projects)
-   
+    $scope.loadEnded = true
     $scope.$apply()  
-
   }
 
-  $scope.setBitrixId = function(project){
+  $scope.setBitrixId = function(project, apply=false){
+    let filteredOptions = $scope.projects.filter(x=>x.ID==project.ID)
+    console.log(filteredOptions,"NEW OPTIRNS")
+    if(filteredOptions.length==0){
+      $scope.quote.project = project.Title
+      $scope.quote.bitrixDealId = undefined
+      $scope.quote.source = project.Source
+      $scope.bitrixProjectExists = false
+      if(apply)
+    {
+      $scope.$apply()
+    }
+      
+      console.log($scope.quote)
+
+   
+    }
+    else{
+
     $scope.quote.project = project.Title
     $scope.quote.bitrixDealId = project.ID
     $scope.quote.source = project.Source
+    $scope.quote.option=project
+    if(apply)
+    {
+      $scope.$apply()
+    }
+    
+
+    }
+
     console.log("SET")
+    console.log($scope.quote.option)
   }
 
   $scope.toggleProject = function(){
@@ -328,7 +362,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     } 
   }
 
-  
+
 
   $scope.changeClient = function () {
     $scope.quote.client = null
@@ -2170,23 +2204,35 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.editing = true
         $scope.hasAdditionals()
         console.log(order.client)
+        
 
         console.log("ORDER HAS BITRIX DEAL",order.bitrixDealId)
-
-        if(order.bitrixDealId){
-          console.log("ORDER HAS BITRIX DEAL",order.bitrixDealId)
-          $scope.quote.option = {
-            "Source":order.source,
-            "Title":order.project,
-            "ID":order.bitrixDealId
-          }
-        }
-        else{
+        if(!order.bitrixDealId){
           $scope.needsLoadProjects = false
         }
-
-
         $scope.selectClient(order.client)
+        if(order.bitrixDealId){
+          console.log("ORDER HAS BITRIX DEAL",order.bitrixDealId)
+          console.log("QUOTE EXISTS",$scope.quote)
+         let opt = {
+            
+            "Title":order.project,
+            "ID":order.bitrixDealId,
+            "Source":order.source,
+          }
+          $timeout(async()=>{
+            console.log($scope.projectsLoaded)
+            await $scope.projectsLoaded
+            console.log($scope.projectsLoaded)
+            $scope.setBitrixId(opt,true)
+          },1)
+          
+        }
+   
+        //$scope.selectClient(order.client)
+
+
+       
         
 
        

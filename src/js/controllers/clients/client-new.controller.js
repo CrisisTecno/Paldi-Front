@@ -1,9 +1,13 @@
 import { pdApp } from "../index";
 
 pdApp.controller("ClientNewCtrl", function ($scope, $state, paldiService) {
-	
+	if(EXECUTION_ENV=="INTERNAL"){
+		$state.go("console.client-list");
+	}
 
 	$scope.save = function (form, client) {
+
+	
 		if (!FEATURES.CITY) {
 			$scope.client.city = "Tijuana"
 		}

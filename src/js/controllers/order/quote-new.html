@@ -27,7 +27,7 @@
           >
           <small ng-if="clientsLoading"><%= htmlWebpackPlugin.options.general.searching %>...</small>
           <small class="error-message" ng-if="clientsNotFound"><%= htmlWebpackPlugin.options.general.no_client %></small>
-          <button class="btn btn-link" ng-click="addNewClient()" type="button">+
+          <button ng-if="!isInternalEnv" class="btn btn-link" ng-click="addNewClient()" type="button" >+
             <%= htmlWebpackPlugin.options.quotes.add_new_client %>
           </button>
           <small
@@ -70,7 +70,7 @@
                 <li>{{quote.client.name + ' ' + quote.client.lastName}}</li>
                 <li>{{quote.client.email}}</li>
                 <li>{{quote.client.phoneNumber}}</li>
-                <li>{{quote.client.address}}</li>
+                <li>-{{quote.client.address}}</li>
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && !isMultiple"
@@ -175,7 +175,8 @@
                 name="project-dropdown"
                 ng-model="quote.option"
                 required=""
-                ng-options="project.Title for project in projects track by project.ID"
+                ng-disabled="!loadEnded"
+                ng-options="project as project.Title for project in projects track by project.ID"
                 ng-change="setBitrixId(quote.option)"
             >
               <!-- <option ng-repeat ="project in projects" value="{{project.Title}}" 

@@ -58,18 +58,18 @@ pdApp.controller(
       ? ($scope.isConsultant = true)
       : ($scope.isConsultant = false)
     $scope.availableStatusList = [
-      {label: EXECUTION_ENV!="EXTERNAL" ? "Nueva" :"New", value: "NEW"},
+      {label: EXECUTION_ENV!="EXTERNAL" ? "Cotización" :"New", value: "NEW"},
       {label: EXECUTION_ENV!="EXTERNAL" ? "Duplicada" :"Duplicated", value: "DUPLICATE"},
-      {label: EXECUTION_ENV!="EXTERNAL" ? "Seguimiento":"Open", value: "FOLLOWING"},
+      {label: EXECUTION_ENV!="EXTERNAL" ? "Negociación":"Open", value: "FOLLOWING"},
       {label: EXECUTION_ENV!="EXTERNAL" ? "Venta Perdida":"Lost Sale", value: "LOST_SALE"},
       {label: EXECUTION_ENV!="EXTERNAL" ? "Pendiente" :"Pending", value: "PENDING"},
       {label: EXECUTION_ENV!="EXTERNAL" ? "Rechazada" :"Rejected", value: "REJECTED"},
       {label: EXECUTION_ENV!="EXTERNAL" ? "Eliminada" : "Deleted", value: "DELETED_QUOTE"},
     ]
     var status_list =[
-    {label:  "Nueva" , value: "New"},
+    {label:  "Cotización" , value: "New"},
     {label:  "Duplicada" , value: "Duplicated"},
-    {label:  "Seguimiento", value: "Following"},
+    {label:  "Negociación", value: "Following"},
     {label:  "Venta Perdida", value: "Lost Sale"},
     {label:  "Pendiente", value: "Pending"},
     {label:  "Rechazada" , value: "Rejected"},
@@ -85,6 +85,8 @@ pdApp.controller(
       }
       return status
     }
+
+    
     $scope.quotesTypes = EXECUTION_ENV!="EXTERNAL" ? [
       {value: "consultant", label: "Mis cotizaciones"},
       {value: "all", label: "Cotizaciones generales"},
@@ -120,6 +122,7 @@ pdApp.controller(
       cleanStatusList = []
       angular.forEach($scope.statusList, function (status) {
         cleanStatusList.push(status.id)
+        console.log(status.id)
       })
       $rootScope.quoteStatusList = $scope.statusList
       
@@ -367,7 +370,7 @@ pdApp.controller(
                 data.status_s,
               ) +
               "\">" +
-              (EXECUTION_ENV!="EXTERNAL" ?  data.status_s:statusTranslate( data.status_s))+
+              (EXECUTION_ENV!="EXTERNAL" ?  $scope.pretty("quote",data.status_s):statusTranslate( data.status_s))+
               "<a>"
             )
           } else {
@@ -377,7 +380,7 @@ pdApp.controller(
               "\" class=\"status-block " +
               data.quoteStatus_txt +
               "\">" +
-              (EXECUTION_ENV!="EXTERNAL" ?  data.quoteStatus_txt:statusTranslate( data.quoteStatus_txt))+
+              (EXECUTION_ENV!="EXTERNAL" ?  $scope.pretty("quote",data.status_s):statusTranslate( data.quoteStatus_txt))+
               "<a>"
             )
           }

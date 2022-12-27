@@ -45,6 +45,7 @@ pdApp.controller(
 		$scope.updateType = function (product, model) {
 			if (model.type) {
 				colorPriceService.getColors(product, model);
+				console.log(model)
 			}
 		};
 

@@ -175,8 +175,8 @@ module.exports = {
     stats:"Estadística de Asesores",
     stats_heading:`
       <th rowspan="2">Asesor</th>
-			<th colspan="2">NUEVAS</th>
-			<th colspan="2">EN SEGUIMIENTO</th>
+			<th colspan="2">COTIZACIONES</th>
+			<th colspan="2">EN NEGOCIACIÓN</th>
 			<th colspan="2">CERRADAS</th>
 			<th colspan="2">PERDIDAS</th>
 			<th colspan="2">CANCELADAS</th>
@@ -1019,8 +1019,8 @@ module.exports = {
     state_coments:"Comentatios de Estado",
     quote_status:"Estado de Cotizacion",
     quote_options:`
-    <option ng-if="order.quoteStatus == 'Nueva'" value="Nueva">Nueva </option>
-    <option value="Seguimiento">Seguimiento</option>
+    <option ng-if="order.quoteStatus == 'Nueva'" value="Nueva">Cotización </option>
+    <option value="Seguimiento">Negociación</option>
     <option value="Duplicada">Duplicada</option>
     <option value="Venta Perdida">Venta Perdida</option>
     `,
