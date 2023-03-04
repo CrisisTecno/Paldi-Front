@@ -510,10 +510,11 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     find: function (search) {
       
       return $http
-        .get(globals.apiURL + "/quotes/clients/search/" + search, {
+        .get(globals.apiURL + "/newapi/clients/search/" + search, {
           authentication: "yokozuna",
         })
         .then(function (response) {
+          
           return response.data;
         });
       
