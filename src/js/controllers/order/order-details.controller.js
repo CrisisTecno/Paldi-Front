@@ -289,6 +289,7 @@ pdApp.controller(
       $scope.productsSorted.push({ type: "Piso", products: [] });
       $scope.productsSorted.push({ type: "Cortina", products: [] });
       $scope.productsSorted.push({ type: "Cortina Filtrasol", products: [] });
+      $scope.productsSorted.push({ type: "Moldura", products: [] });
       $scope.productsSorted.push({ type: "Custom", products: [] });
       $scope.suborders = [];
       $scope.limitDays = 20;
@@ -298,6 +299,7 @@ pdApp.controller(
       paldiService.orders.get(id).then(async function (order) {
         
         $scope.order = order;
+        console.log($scope)
 
         // console.log("ORDER",$scope.order)
         

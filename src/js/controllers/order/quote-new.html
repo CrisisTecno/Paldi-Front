@@ -144,6 +144,33 @@
                     type="number"
                 >% <%= htmlWebpackPlugin.options.quotes.percentages %>
                 </li>
+                
+                <li
+                class="discount"
+                ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[5].products.length > 0"
+            ><input
+                max="{{currentUser.canAdmin ? quote.clientMaxDiscount  : 15}}"
+                min="0"
+                ng-change="validateDiscounts()"
+                ng-disabled="fixedDiscounts"
+                ng-model="quote.discountPercentPiso"
+                type="number"
+            >% <%= htmlWebpackPlugin.options.quotes.percentages %>
+            </li>
+
+
+            <li
+            class="discount"
+            ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[8].products.length > 0"
+        ><input
+            max="{{currentUser.canAdmin ? quote.clientMaxDiscount  : 15}}"
+            min="0"
+            ng-change="validateDiscounts()"
+            ng-disabled="fixedDiscounts"
+            ng-model="quote.discountPercentMoldura"
+            type="number"
+        >% <%= htmlWebpackPlugin.options.quotes.percentages %>
+        </li>
               </ul>
             </div>
           </div>
@@ -394,7 +421,7 @@
         <li ng-show="quote.motorTotal">
           <small><%= htmlWebpackPlugin.options.quotes.motor %> </small><span>{{quote.motorTotal | currency}}</span>
         </li>
-        <li ng-show="quote.discountPercent || quote.discountPercentBalance || quote.discountPercentShutter || quote.discountPercentEnrollable || quote.discountPercentFiltrasol">
+        <li ng-show="quote.discountPercent || quote.discountPercentBalance || quote.discountPercentShutter || quote.discountPercentEnrollable || quote.discountPercentFiltrasol || quote.discountPercentCortina || quote.discountPercentPiso || quote.discountPercentMoldura">
           <small><%= htmlWebpackPlugin.options.quotes.discount %>: </small><span>{{quote.discount | currency}}</span>
         </li>
         <li ng-show="quote.installationTotal"><small><%= htmlWebpackPlugin.options.quotes.installation %>: </small>

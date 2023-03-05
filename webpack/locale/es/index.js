@@ -43,7 +43,7 @@ module.exports = {
     select_product: "Seleccione un producto de un almacen",
     empty_warehohuse: "No hay existencias el almacen seleccionado",
     product_types: `
-      <option value="Laminados">Laminado</option>
+     
       <option value="Vinil">Vinil</option>
       <option value="Ingenieria">Ingeniería</option>
     `,
@@ -491,6 +491,14 @@ module.exports = {
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[6].products.length > 0"
                 ><small>Desc. Cortina :</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[5].products.length > 0"
+                ><small>Desc. Piso :</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[8].products.length > 0"
+                ><small>Desc. Molduras :</small></li>
     `,
     percentages:"(Max {{quote.clientMaxDiscount}}%)",
     change_client:"Cambiar Cliente",
@@ -571,9 +579,18 @@ module.exports = {
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Piso')"
-                ng-show="!quote.type || quote.type=='Piso'"
+                ng-show="!quote.type || quote.type=='Moldura' || quote.type=='Piso' || (quote.type=='Mixta' && productsSorted[8].products.length>0)"
             >Pisos
             </button>
+
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Moldura')"
+                ng-show="!quote.type || quote.type=='Moldura' || quote.type=='Piso' || (quote.type=='Mixta' && productsSorted[5].products.length>0 )"
+            >Moldura
+            </button>
+
+            
             
               <button
                   class="btn btn-default"
@@ -615,6 +632,8 @@ module.exports = {
     ng-show="!quote.type || quote.type=='Enrollable'"
 >Persianas Wolken y Platinum
 </button>
+
+
 <button
     class="btn btn-default"
     ng-click="addProduct('Filtrasol')"
@@ -627,6 +646,13 @@ module.exports = {
     ng-show="!quote.type || quote.type=='Piso'"
 >Pisos
 </button>
+
+<button
+                class="btn btn-default"
+                ng-click="addProduct('Moldura')"
+                ng-show="!quote.type || quote.type=='Moldura' || quote.type=='Piso' || (quote.type=='Mixta' && productsSorted[5].products.length>0 )"
+            >Moldura
+            </button>
 
   <button
       class="btn btn-default"
@@ -793,7 +819,7 @@ module.exports = {
   floors:{
     floors:"Pisos",
     type_options:`
-    <option value="Laminados">Laminado</option>
+   
     <option value="Vinil">Vinil</option>
     <option value="Ingenieria">Ingeniería</option>
     `,
@@ -807,6 +833,15 @@ module.exports = {
     installation_additional:"Adicional de Instalación",
     code:" Codigo",
     line:"Línea",
+  },
+  molds:{
+    floors:"Molduras",
+    type_options:`
+   
+    <option value="Vinil">Vinil</option>
+    <option value="Ingenieria">Ingeniería</option>
+    <option value="Generales">Generales</option>
+    `,
   },
   quote_commons:{
     products:"Productos",

@@ -433,6 +433,7 @@ pdApp.controller(
     $scope.productsSorted.push({type: "Piso", products: []})
     $scope.productsSorted.push({type: "Cortina", products: []})
     $scope.productsSorted.push({type: "Cortina Filtrasol", products: []})
+    $scope.productsSorted.push({type: "Moldura", products: []})
     $scope.productsSorted.push({type: "Custom", products: []})
     $scope.productsFiltered = []
     $scope.productsMixed = []
@@ -525,8 +526,11 @@ $scope.getSubQuoteDiscount = function (product, model) {
       model.discountPercent = $scope.quote.discountPercentFiltrasol
       break
     case "Cortina":
-        model.discountPercent = $scope.quote.discountPercentCortina
-        break
+      model.discountPercent = $scope.quote.discountPercentCortina
+    case "Piso":
+      model.discountPercent = $scope.quote.discountPercentPiso
+    case "Moldura":
+      model.discountPercent = $scope.quote.discountPercentMoldura
   }
 }
 
@@ -556,7 +560,7 @@ function createSuborders(count) {
 
 $scope.filterMixedProducts = function () {
   $scope.productsMixed = $scope.productsSorted.filter(function (elem,) {
-    return (elem.type !== "Piso" && elem.type !== "Custom" && elem.type !== "Toldo")
+    return (elem.type !== "Custom" && elem.type !== "Toldo")
   })
 }
 //========================== DATEPICKER ====================

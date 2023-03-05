@@ -107,7 +107,7 @@ config = {
   },
   internal_staging: {
     ...default_config,
-    apiURL: "http://192.241.238.176:9999",
+    apiURL: "http://192.241.238.176/api",
     ...internal_api,
     env: "staging",
   },

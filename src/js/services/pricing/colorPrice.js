@@ -11,6 +11,7 @@ import { generateBalanceHandlers } from './products/balance'
 import { generateShutterHandlers } from "./products/shutter";
 
 import { getAdditionalsSubTotal, getMotorsSubtotal } from "./totals/totals";
+import { generateMoldurasHandlers } from "./products/molduras";
 
 if(EXECUTION_ENV=="INTERNAL"){
 
@@ -79,6 +80,9 @@ pdApp.factory(
             break;
 		  case "Cortina Filtrasol":
 			getCortinaFiltrasolPrice(model)
+			break;
+		  case "Moldura":
+			getMoldingPrice(model)
 			break;
           case "Custom":
             getCustomPrice(model);
@@ -188,6 +192,9 @@ pdApp.factory(
           case "Piso":
             model.pisos = filterProducts(model.products, product);
             break;
+		case "Moldura":
+				model.molduras = filterProducts(model.products, product);
+				break;
           case "Custom":
             model.customs = filterProducts(model.products, product);
             break;
@@ -323,6 +330,7 @@ pdApp.factory(
           });
       },
       getColors: function (product, model) {
+		console.log(product)
         switch (product) {
           case "Balance":
             return getBalanceColors(model);
@@ -336,6 +344,8 @@ pdApp.factory(
             return getFiltrasolColors(model);
           case "Piso":
             return getPisoColors(model);
+		  case "Moldura":
+			return getMoldingTypes(model);	
           case "Plus":
             return getPlusColors(model);
         }
@@ -433,6 +443,9 @@ pdApp.factory(
     const { getFiltrasolPrice, getFiltrasolColors } = generateFiltrasolHandlers($http, $rootScope);
     // Plus
     const { roundPrices, filterProducts, getPlusList, getMotorList, getInstallationPlusList } = generatePlusHandlers($http, $filter);
+	//molduras
+
+	const { getMoldingTypes, getMoldingPrice} = generateMoldurasHandlers($http,$filter)
 
     return service;
   }

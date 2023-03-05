@@ -179,6 +179,8 @@ const getProductsTotal = (order) => {
     enrollableTotal: isMixed ? getSubProductTotal('Enrollable') : undefined,
     filtrasolTotal: isMixed ? getSubProductTotal('Filtrasol') : undefined,
     cortinaTotal: isMixed ? getSubProductTotal('Cortina') : undefined,
+    molduraTotal: isMixed ? getSubProductTotal('Moldura') : undefined,
+    pisoTotal: isMixed ? getSubProductTotal("Piso") : undefined
   }
 }
 
@@ -190,16 +192,19 @@ const getDiscounts = (order, totals) => {
   const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
   const getDiscount = (name) => getOrderDiscount(name) ? toValue(getTotal(name) * getOrderDiscount(name)) : undefined
 
- // // console.log("BALANCE DICOUNT",getDiscount("Balance"),totals)
+//  console.log("Totals",totals)
   const balanceDiscount = getDiscount('Balance')
   const shutterDiscount = getDiscount('Shutter')
   const enrollableDiscount = getDiscount('Enrollable')
   const filtrasolDiscount = getDiscount('Filtrasol')
   const cortinaDiscount = getDiscount('Cortina')
+  const pisoDiscount = getDiscount("Piso")
+  const molduraDiscount = getDiscount("Moldura")
   const additionalsDiscount = order.products.map(product => getAdditionalDiscount(product,order)).reduce((p, c) => p + c, 0)
   const motorsDiscount = getMotorsTotalDiscount(order)
   const installationPlusDiscount = getInstallationsPlusTotalDiscount(order);
 
+  // console.log("DISCOUNT", pisoDiscount,molduraDiscount)
   const mixedDiscount = toValue(balanceDiscount)
     + toValue(cortinaDiscount)
     + toValue(shutterDiscount)
@@ -208,6 +213,8 @@ const getDiscounts = (order, totals) => {
     + toValue(additionalsDiscount) 
     + toValue(motorsDiscount) 
     + toValue(installationPlusDiscount)
+    + toValue(pisoDiscount)
+    + toValue(molduraDiscount)
 
 
   const fullDiscount = (order.discountPercent || order.discountPercent==0) ? (totals.productsTotal
@@ -220,7 +227,7 @@ const getDiscounts = (order, totals) => {
   
 
   return {
-    ...({balanceDiscount, shutterDiscount, enrollableDiscount, filtrasolDiscount,cortinaDiscount}),
+    ...({balanceDiscount, shutterDiscount, enrollableDiscount, filtrasolDiscount,cortinaDiscount,molduraDiscount,pisoDiscount}),
     discount: toValue(discount)
   }
 }
@@ -249,6 +256,8 @@ export const getTotals = (order) => {
      totals.shipping= getShippingCost(order.products) 
  }
   const discounts = getDiscounts(order, totals)
+
+  console.log("DISCOUNTS IN SUBTOTAL",discounts)
 
     let subTotal = totals.productsTotal
     + totals.plusTotal

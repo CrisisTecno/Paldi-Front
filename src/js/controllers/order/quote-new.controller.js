@@ -374,6 +374,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.quote.discountPercentEnrollable = 0
     $scope.quote.discountPercentFiltrasol = 0
     $scope.quote.discountPercentCortina = 0
+    $scope.quote.discountPercentPiso =0
+    $scope.quote.discountPercentMoldura =0
     $scope.clientStep = "loaded"
     updateDiscount()
     if ($scope.product == "Piso" && $scope.pisoModel) {
@@ -394,6 +396,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.quote.discountPercentEnrollable = $scope.editing ? $scope.quote.discountPercentEnrollable : 0
     $scope.quote.discountPercentFiltrasol = $scope.editing ? $scope.quote.discountPercentFiltrasol : 0
     $scope.quote.discountPercentCortina = $scope.editing ? $scope.quote.discountPercentCortina : 0
+    $scope.quote.discountPercenPiso = $scope.editing ? $scope.quote.discountPercentPiso : 0
+    $scope.quote.discountPercentMoldura = $scope.editing ? $scope.quote.discountPercentMoldura : 0
 
     if (EXECUTION_ENV=="EXTERNAL"){
       updateDiscountExternal()
@@ -468,6 +472,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.productsSorted.push({type: "Piso", products: []})
   $scope.productsSorted.push({type: "Cortina", products: []})
   $scope.productsSorted.push({type: "Cortina Filtrasol", products: []})
+  $scope.productsSorted.push({type: "Moldura", products: []})
   $scope.productsSorted.push({type: "Custom", products: []})
   $scope.productsFiltered = []
   $scope.productsMixed = []
@@ -844,6 +849,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
           label: product.color.name, value: product.color,
         }, "Piso", $scope.piso,)
         break
+      case "Moldura":
+        $scope.moldura = angular.copy(product)
+        $scope.updateTypeNoErasing("Moldura", $scope.moldura)
       case "Custom":
         $scope.custom = angular.copy(product);
         $scope.selectSeller(product.seller);
@@ -1240,7 +1248,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
   $scope.filterMixedProducts = function () {
     $scope.productsMixed = $scope.productsSorted.filter(function (elem,) {
-      return (elem.type !== "Piso" && elem.type !== "Custom" && elem.type !== "Toldo")
+      return ( elem.type !== "Custom" && elem.type !== "Toldo")
     })
   }
 
@@ -1338,6 +1346,22 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
       if ($scope.quote.discountPercentCortina < 0 || !angular.isNumber($scope.quote.discountPercentCortina)) {
         $scope.quote.discountPercentCortina = 0
+      }
+
+      if ($scope.quote.discountPercentPiso > $scope.quote.clientMaxDiscount) {
+        $scope.quote.discountPercentPiso = $scope.quote.clientMaxDiscount
+      }
+
+      if ($scope.quote.discountPercentPiso < 0 || !angular.isNumber($scope.quote.discountPercentPiso)) {
+        $scope.quote.discountPercentPiso = 0
+      }
+
+      if ($scope.quote.discountPercentMoldura > $scope.quote.clientMaxDiscount) {
+        $scope.quote.discountPercentMoldura = $scope.quote.clientMaxDiscount
+      }
+
+      if ($scope.quote.discountPercentMoldura < 0 || !angular.isNumber($scope.quote.discountPercentMoldura)) {
+        $scope.quote.discountPercentMoldura = 0
       }
     } else {
       if ($scope.quote.discountPercent > $scope.quote.clientMaxDiscount) {
@@ -1487,8 +1511,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         return path + "custom.html";
       case "Cortina":
         return path + "cortinas.html"
-        case "Cortinas":
+      case "Cortinas":
           return path + "cortinas.html"
+      case "Moldura":
+            return path + "moldura-quote.html"
       case "Cortina Filtrasol":
         return path + "cortinas-filtrasol.html"
     }
@@ -1535,6 +1561,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         break
       case "Cortina":
         model.discountPercent = $scope.quote.discountPercentCortina
+      case "Piso":
+        model.discountPercent = $scope.quote.discountPercentPiso
+      case "Moldura":
+        model.discountPercent = $scope.quote.discountPercentMoldura
     }
   }
 
@@ -1688,6 +1718,13 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
     
   }
+
+
+  document.addEventListener("wheel", function(event){
+    if(document.activeElement.type === "number"){
+        document.activeElement.blur();
+    }
+});
 
   $scope.changeRotation = function (product, model, element) {
     const rotate = (confirmation) => {
@@ -2073,6 +2110,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
    
   }
 
+  $scope.selectMoldingType = function(model, obj) {
+    model.name = obj.label
+    $scope.updatePrices('Moldura', model)
+  }
+
   $scope.updateTypeNoErasing = function (product, model) {
     // // console.log("UPDATING PRODUCT META")
     if (model.type) {
@@ -2097,8 +2139,14 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       if (product == "Toldo") {
         //// console.log(product,model)
       }
+      if(product=="Moldura"){
+        colorPriceService.getColors(product, model)
+        $timeout(()=>{
+          $scope.updatePrices(product, model)
+        },200)
+      }
       //// console.log(angular.copy(model),1)
-      $scope.updatePrices(product, model)
+      
       //// console.log(angular.copy(model),2)
       colorPriceService.getColors(product, model)
       //// console.log(angular.copy(model),3)
@@ -2108,6 +2156,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       //// console.log(angular.copy(model),5)
       colorPriceService.getInstallationPlusList(product, model)
       //// console.log(angular.copy(model),6)
+      $scope.updatePrices(product, model)
     }
   }
 
@@ -2191,7 +2240,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         if($scope.quote.type=="Mixta") $scope.originalMix = true;
 
         $scope.quote.products.forEach(prod =>{
-          if(prod.productType == "Piso"){
+          if(prod.productType == "Piso" && $scope.quote.type!="Mixta"){
             prod.wood = prod.color.wood
           }
           if (prod.productType=="Cortina" || prod.productType=="Cortina Filtrasol"){
@@ -2250,7 +2299,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
                 if (suborder.products) {
                   suborder.products.forEach(function (product,) {
 
-                    
+                    if(product.productType == "Piso" ){
+                      product.wood = product.color.wood
+                    }
           
                       if (product.productType=="Cortina" || product.productType=="Cortina Filtrasol"){
                         if(product.color){  
@@ -2323,7 +2374,11 @@ function setModelColor(product, model) {
       model.color = model.colorObj
     } else if (["Cortina", "Cortina Filtrasol"].includes(model.productType) ) {
       model.color = model.color
-    } else {
+    }
+    else if (model.productType=="Moldura"){
+
+    } 
+    else {
       model.color = model.colorObj.code
     }
   }

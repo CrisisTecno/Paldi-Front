@@ -1,0 +1,31 @@
+<table class="table table-striped  table-hover">
+    <thead>
+        <tr>
+            <th><%= htmlWebpackPlugin.options.details_headers.qty%></th>
+            <th>Tipo</th>
+            <th><%= htmlWebpackPlugin.options.details_headers.name%></th>
+           
+           
+            <th><%= htmlWebpackPlugin.options.details_headers.unit_price%></th>
+            <th><%= htmlWebpackPlugin.options.details_headers.total%></th>
+            
+            <th><%= htmlWebpackPlugin.options.details_headers.notes%></th>
+        </tr>
+    </thead>
+    <tbody ng-repeat="p in productTypeList.products">
+        <tr>
+            <td>{{p.quantity}}</td>
+            <td>{{p.type}}</td>
+            <td>{{p.name}}</td>
+           
+            <% if(htmlWebpackPlugin.options.features.fractions){%>
+                <td>{{p.color}}</td>
+            <%}%>
+        
+            <td>{{p.price | currency}}</td>
+            <td>{{p.total | currency}}</td>
+
+            <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)"><%= htmlWebpackPlugin.options.details_headers.view%></button></td>
+        </tr>
+    </tbody>
+</table>

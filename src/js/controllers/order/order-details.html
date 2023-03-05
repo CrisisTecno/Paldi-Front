@@ -111,6 +111,14 @@
             <small>Descuento Cortina ({{order.discountPercentCortina}}%):</small>
             <span>{{order.cortinaDiscount | currency}}</span>
           </li>
+          <li ng-if="order.pisoDiscount > 0">
+            <small>Descuento Piso ({{order.discountPercentPiso}}%):</small>
+            <span>{{order.pisoDiscount | currency}}</span>
+          </li>
+          <li ng-if="order.molduraDiscount > 0">
+            <small>Descuento Moldura ({{order.discountPercentMoldura}}%):</small>
+            <span>{{order.molduraDiscount | currency}}</span>
+          </li>
         </ul>
       </div>
       <br>
@@ -285,6 +293,10 @@
             <div ng-include="'js/controllers/order/products/cortinas-filtrasol-details.html'">
             </div>
           </div>
+          <div ng-if="productTypeList.type =='Moldura'">
+            <div ng-include="'js/controllers/order/products/moldura-details.html'">
+            </div>
+          </div>
           <div ng-if="productTypeList.type =='Custom'">
             <div ng-include="'js/controllers/order/products/custom-details.html'">
             </div>
@@ -388,11 +400,11 @@
               <small><%= htmlWebpackPlugin.options.payments.motor%>:</small>
               <span>{{order.motorTotal | currency}}</span>
             </li>
-            <li ng-show="order.discountPercent && !(order.discountPercentBalance > 0 || order.discountPercentShutter > 0 || order.discountPercentEnrollable > 0 || order.discountPercentFiltrasol > 0 )">
+            <li ng-show="order.discountPercent && !(order.discountPercentBalance > 0 || order.discountPercentShutter > 0 || order.discountPercentEnrollable > 0 || order.discountPercentFiltrasol > 0 || order.discountPercentCortina > 0 || order.discountPercentPiso > 0 || order.discountPercentMoldura > 0 )">
               <small>{{getMatchDiscount()}} ({{order.discountPercent}}%):</small>
               <span>{{order.discount | currency}}</span>
             </li>
-            <li ng-show="order.discountPercentBalance > 0 || order.discountPercentShutter > 0 || order.discountPercentEnrollable > 0 || order.discountPercentFiltrasol > 0 ">
+            <li ng-show="order.discountPercentBalance > 0 || order.discountPercentShutter > 0 || order.discountPercentEnrollable > 0 || order.discountPercentFiltrasol > 0  || order.discountPercentCortina > 0 || order.discountPercentPiso > 0 || order.discountPercentMoldura > 0">
               <small><%= htmlWebpackPlugin.options.payments.discount%>:</small>
               <span>{{order.discount | currency}}</span>
             </li>
