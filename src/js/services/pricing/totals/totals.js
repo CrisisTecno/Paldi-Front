@@ -211,7 +211,7 @@ const getDiscounts = (order, totals) => {
     + toValue(enrollableDiscount)
     + toValue(filtrasolDiscount)  
     + toValue(additionalsDiscount) 
-    + toValue(motorsDiscount) 
+    + (toValue(motorsDiscount)  * !IS_ZELBA)
     + toValue(installationPlusDiscount)
     + toValue(pisoDiscount)
     + toValue(molduraDiscount)

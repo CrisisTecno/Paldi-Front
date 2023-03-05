@@ -861,6 +861,15 @@ ng-show="!quote.type || quote.type=='Cortina'"
     
 
   },
+  molds:{
+    floors:"Molduras",
+    type_options:`
+   
+    <option value="Vinil">Vinil</option>
+    <option value="Ingenieria">Ingeniería</option>
+    <option value="Generales">Generales</option>
+    `,
+  },
   enrollable:{
     shades:"Shades",
     type_options:`
