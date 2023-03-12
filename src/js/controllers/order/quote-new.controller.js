@@ -1544,6 +1544,18 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     return [Math.round(parseFloat(val[0])+parseFloat(fracs[1])),fracs[0]]
   }
 
+  $scope.pisoMolduraQuote = function(){
+    let allowedTypes = ["Moldura", "Piso"]
+
+    for( const elem of $scope.productsSorted){
+
+      if(!allowedTypes.includes(elem['type']) && elem['products'].length > 0) return false
+    }
+    
+    return true
+    
+  }
+
   $scope.getSubQuoteDiscount = function (product, model) {
    
     switch (product) {
