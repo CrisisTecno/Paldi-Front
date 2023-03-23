@@ -548,13 +548,13 @@ module.exports = {
     <button
                 class="btn btn-default"
                 ng-click="addProduct('Balance')"
-                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter'|| quote.type=='Enrollable'||quote.type=='Balance' ||( quote.type=='Mixta'  && !productsSorted[6].products.length>0 && !productsSorted[8].products > 0 && !productsSorted[5].products > 0)"
+                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter'|| quote.type=='Enrollable'||quote.type=='Balance' ||( quote.type=='Mixta'  && !productsSorted[6].products.length>0 && !productsSorted[8].products.length > 0 && !productsSorted[5].products.length > 0)"
             >Balance & Cornizas
             </button>
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Shutter')"
-                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||(quote.type=='Mixta' && !productsSorted[6].products.length>0 && !productsSorted[8].products > 0 && !productsSorted[5].products > 0)"
+                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||(quote.type=='Mixta' && !productsSorted[6].products.length>0 && !productsSorted[8].products.length > 0 && !productsSorted[5].products.length > 0)"
             >Shutters
             </button>
          
@@ -567,13 +567,13 @@ module.exports = {
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Enrollable')"
-                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance'  || quote.type=='Cortina'|| (quote.type=='Mixta' && !productsSorted[8].products > 0 && !productsSorted[5].products > 0)"
+                ng-show="!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance'  || quote.type=='Cortina'|| (quote.type=='Mixta' && !productsSorted[8].products.length > 0 && !productsSorted[5].products.length > 0)"
             >Persianas Wolken y Platinum
             </button>
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Filtrasol')"
-                ng-show="!quote.type || quote.type=='Filtrasol'|| quote.type=='Shutter' || quote.type=='Enrollable'|| quote.type=='Balance' ||(quote.type=='Mixta'  && !productsSorted[6].products.length>0 && !productsSorted[8].products > 0  && !productsSorted[5].products > 0)"
+                ng-show="!quote.type || quote.type=='Filtrasol'|| quote.type=='Shutter' || quote.type=='Enrollable'|| quote.type=='Balance' ||(quote.type=='Mixta'  && !productsSorted[6].products.length>0 && !productsSorted[8].products.length > 0  && !productsSorted[5].products.length > 0)"
             > Persianas Filtrasol
             </button>
             <button
@@ -595,7 +595,7 @@ module.exports = {
               <button
                   class="btn btn-default"
                   ng-click="addProduct('Cortina')"
-                  ng-show="!quote.type || quote.type=='Cortina' || quote.type=='Enrollable' || (quote.type=='Mixta' && !productsSorted[0].products.length>0 && !productsSorted[1].products.length>0 && !productsSorted[4].products.length>0 && !productsSorted[8].products > 0  && !productsSorted[5].products > 0)"
+                  ng-show="!quote.type || quote.type=='Cortina' || quote.type=='Enrollable' || (quote.type=='Mixta' && !productsSorted[0].products.length>0 && !productsSorted[1].products.length>0 && !productsSorted[4].products.length>0 && !productsSorted[8].products.length > 0  && !productsSorted[5].products.length > 0)"
               >Cortinas Wolken y Platinum
               </button>
               <button

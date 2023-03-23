@@ -63,11 +63,14 @@ pdApp.controller(
 				aoData[2].value[0].dir;
 
 			if (sear && newSort == pastSort) {
-				sort = "score desc";
+				sort = "no_l desc, score desc";
 			} else {
-				sort = newSort;
+				sort = "no_l desc ,"+newSort;
 			}
 			pastSort = newSort;
+
+			
+
 
 			let provStatus = ( EXECUTION_ENV=="INTERNAL")
 			
