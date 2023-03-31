@@ -21,7 +21,7 @@ pdApp.controller(
 			"Instalador 2":'https://calendar.google.com/calendar/embed?src=instaladorpaldi2%40gmail.com&ctz=America%2FTijuana'}
 
 			$scope.updateCalendar = function(selection){
-				//// console.log(selection)
+				
 				document.getElementById('calendarframe').src = selection
 				
 			}

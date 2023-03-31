@@ -60,7 +60,7 @@ export function generateFiltrasolHandlers($http, $rootScope) {
           authentication: "yokozuna",
         })
         .then(function (response) {
-          // console.log("HTTP REPONSE",response)
+          
           if (!response.data) {
             filtrasol.doable = false;
             filtrasol.unit = null;

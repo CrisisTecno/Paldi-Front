@@ -10,7 +10,7 @@ export function generatePlusHandlers($http, $filter) {
       .then(function (response) {
         model.plusList = [];
         response.data.forEach(function (element, index) {
-          // console.log("PLUS RES", response)
+          
           model.plusList.push({
             label: element.name +
               " (" +

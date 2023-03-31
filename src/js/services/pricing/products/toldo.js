@@ -40,7 +40,7 @@ export function   generateToldoHandlers($http, $rootScope) {
         width: toldo.width,
         height: toldo.height,
       };
-      // console.log("OBJ-",obj)
+      
       $http
         .post(globals.apiURL + "/pricing/prices/toldo", obj, {
           authentication: "yokozuna",
@@ -51,7 +51,7 @@ export function   generateToldoHandlers($http, $rootScope) {
             toldo.price = null;
             toldo.total = null;
           } else {
-            // console.log("REPONSE PRICE",response.data)
+            
             var price = response.data.price;
             toldo.price = price;
             toldo.total = toldo.quantity

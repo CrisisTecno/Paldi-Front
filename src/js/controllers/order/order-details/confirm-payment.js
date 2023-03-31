@@ -62,7 +62,7 @@ const updateOrder = async function (context, $scope,$timeout, updatedOrder, mode
 	try {
 		
 		const callback = async function () {
-			// console.log("VALLBACK")
+			
 			const order = await context.paldiService.orders.updateStatus(
 				updatedOrder,
 				"LINE"
@@ -71,7 +71,7 @@ const updateOrder = async function (context, $scope,$timeout, updatedOrder, mode
 					$scope.isPaying = false;
 					context.loadOrder();
 				  }
-				  // console.log("E",e)
+				  
 				if (
 					e.data?.exception ===
 					"io.lkmx.paldi.quote.components.error.InventoryNotEnoughException"
@@ -94,10 +94,10 @@ const updateOrder = async function (context, $scope,$timeout, updatedOrder, mode
       context.loadOrder();
 		}
 		};
-		// console.log("showing create installation sheet dialog");
+		
 		await showCreateInstallationSheetDialog($scope,$timeout, callback);
 	} catch (error) {
-	 // console.log('ERROR BEFORE INSTALLATION SHEET DIALOG', error);
+	 
     const callback = () => {
       $scope.isPaying = false;
       context.loadOrder();
@@ -119,7 +119,7 @@ const perfomAdvance = async (context, $scope,$timeout, updatedOrder, model) => {
 
 	const order = await context.paldiService.orders.get(updatedOrder.id);
 	if (order.quote) {
-		// console.log("AAAAAAAAA")
+		
 		await updateOrder(context, $scope,$timeout, updatedOrder, model);
 	} else {
 		context.loadOrder();
@@ -130,7 +130,7 @@ const perfomAdvance = async (context, $scope,$timeout, updatedOrder, model) => {
 const processPayment = (context, $scope,$timeout, model) => {
 	$scope.isPaying = true;
 	let updatedOrder = $scope.order;
-	// // console.log(getPaymentInfo($scope, model));
+	
 	updatedOrder.payment = getPaymentInfo($scope, model);
 
 	if ($scope.paymentType === "payment")

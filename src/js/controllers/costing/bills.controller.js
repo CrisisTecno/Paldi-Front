@@ -284,12 +284,12 @@ pdApp.controller(
 						type: "error",
 						confirmButtonText: "Aceptar",
 					});
-					// // console.log(error);
+					
 				}
 			);
 			})
 			let res = await Promise.all(promises)
-			// console.log(res,promises)
+			
 			$scope.dialog.close()
 			$scope.fd=null
 			$scope.uploading=false
@@ -339,7 +339,7 @@ pdApp.controller(
 								}, 1500);
 							},
 							function (error) {
-								// // console.log(error);
+								
 							}
 						);
 					} else {

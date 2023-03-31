@@ -11,7 +11,7 @@ export function generateBalanceHandlers($http) {
     if (!balance.type) {
       isValid = false;
     }
-   // // console.log("BALANCE AF",angular.copy(balance))
+   
     if(balance.type=="De madera"){
       
       delete balance.textil
@@ -22,7 +22,7 @@ export function generateBalanceHandlers($http) {
       if(balance.height == 0.152) balance.height=0.152
       if(balance.height == 0.203) balance.height=0.2032
     }
-   // // console.log("BALANCE BF",angular.copy(balance))
+   
     if (isValid) {
       $http
         .post(globals.apiURL + "/pricing/prices/balance", balance, {

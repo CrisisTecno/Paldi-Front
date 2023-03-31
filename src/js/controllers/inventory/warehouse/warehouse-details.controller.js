@@ -25,7 +25,7 @@ pdApp.controller(
 				},
 				function (error) {
 					$scope.step = "empty";
-					// // console.log(error);
+					
 				}
 			);
 		};
@@ -57,7 +57,7 @@ pdApp.controller(
 									$state.go("console.warehouses");
 								},
 								function (error) {
-									// // console.log(error);
+									
 								}
 							);
 					} else {
@@ -97,7 +97,7 @@ pdApp.controller(
 									});
 								},
 								function (error) {
-									// // console.log(error);
+									
 								}
 							);
 					} else {
@@ -137,7 +137,7 @@ pdApp.controller(
 									});
 								},
 								function (error) {
-									// // console.log(error);
+									
 								}
 							);
 					} else {

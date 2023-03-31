@@ -29,7 +29,7 @@ pdApp.controller(
 						user.role =user.realRole
 					}
 					paldiService.users.getProviderProducts(id).then(res=>{
-						// console.log(res)
+						
 						if(Object.keys(res).includes('user'))delete res['user']
 						if(Object.keys(res).includes('_id'))delete res['_id']
 						$scope.assignedProducts = res
@@ -44,7 +44,7 @@ pdApp.controller(
 				},
 				function (error) {
 					$scope.step = "empty";
-					// // console.log(error);
+					
 				}
 			);
 		};
@@ -66,7 +66,7 @@ pdApp.controller(
 						$state.go("console.user-list");
 					},
 					function (error) {
-						// // console.log(error);
+						
 					}
 				);
 			} else {
@@ -99,7 +99,7 @@ pdApp.controller(
 							},
 							function (error) {
 								$scope.step = "empty";
-								// // console.log(error);
+								
 							}
 						);
 					} else {
@@ -136,7 +136,7 @@ pdApp.controller(
 			$scope.providerSelectionList[key]= Object.assign({},...value.map(x=>({[x]:false})))
 		  }
 		
-		  // console.log($scope.providerSelectionList)
+		  
 		  
 		  $scope.assignedProducts = {
 			"Enrollable":[],
@@ -153,7 +153,7 @@ pdApp.controller(
 		  }
 		
 		  $scope.assignProductsDialog = function(){
-			// console.log("AAAAAA")
+			
 			$scope.resetProducts()
 			$scope.dialog = ngDialog.open({
 			  template:"js/controllers/users/provider-products.html",
@@ -193,7 +193,7 @@ pdApp.controller(
 			}
 		  }
 		  function checkProductsAssigned(){
-		   // console.log(Object.values($scope.assignedProducts).map(x=>x.length).reduce((partialSum, a) => partialSum + a, 0))
+		   
 			return Object.values($scope.assignedProducts).map(x=>x.length).reduce((partialSum, a) => partialSum + a, 0) >0
 		  }
 
@@ -221,7 +221,7 @@ pdApp.controller(
 								});
 							},
 							function (error) {
-								// // console.log(error);
+								
 							}
 						);
 					} else {
@@ -259,7 +259,7 @@ pdApp.controller(
 								});
 							},
 							function (error) {
-								// // console.log(error);
+								
 							}
 						);
 					} else {

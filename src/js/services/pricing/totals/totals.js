@@ -5,7 +5,7 @@ const toValue = v => isNaN(v) ? 0 : Number(v)
 
 
 const calculateAdditionalSubTotal = (product, additional) => {
-  // console.log("ADDITIONAL",angular.copy(additional))
+  
   switch (additional.priceType) {
     case "PRODUCT":
       return additional.price * additional.quantity
@@ -23,6 +23,7 @@ const calculateAdditionalSubTotal = (product, additional) => {
   return additional.price * additional.quantity
 }
 const getAdditionalSubTotal = (product) => {
+  if(!product.plusList) product.plusList = []
   return product.plusList.map(additional => calculateAdditionalSubTotal(product, additional))
 }
 const getAdditionalTotal = (product) => {
@@ -58,7 +59,7 @@ const getAdditionalsTotal = (order) => {
   const plusTotal = subtotal.reduce((p, c) => p + c, 0)
 
 
-  // console.log(plusTotal,"A")
+  
   const isMixedOrder = (order.type === 'Mixta')
 
   const isEnrollable = (order.productType === 'Enrollable')
@@ -164,14 +165,14 @@ const getInstallationTotal = (order) => {
 
 const getProductsTotal = (order) => {
   const productTotal = order.products.reduce((prev, prod) => prod.total + prev, 0)
-  //// console.log("ORDER TOTALs",order)
+  
   const getSubProductTotal = (name) => order.products.reduce((prev, {
     productType,
     total
   }) => prev + ((total || 0) * (productType === name)), 0)
 
   const isMixed = order.type == "Mixta"
-  //// console.log("CALCULATED",getSubProductTotal('Balance'))
+  
   return {
     productsTotal: productTotal,
     balanceTotal: isMixed ? getSubProductTotal('Balance') : undefined,
@@ -192,7 +193,7 @@ const getDiscounts = (order, totals) => {
   const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
   const getDiscount = (name) => getOrderDiscount(name) ? toValue(getTotal(name) * getOrderDiscount(name)) : undefined
 
-//  console.log("Totals",totals)
+
   const balanceDiscount = getDiscount('Balance')
   const shutterDiscount = getDiscount('Shutter')
   const enrollableDiscount = getDiscount('Enrollable')
@@ -204,7 +205,7 @@ const getDiscounts = (order, totals) => {
   const motorsDiscount = getMotorsTotalDiscount(order)
   const installationPlusDiscount = getInstallationsPlusTotalDiscount(order);
 
-  // console.log("DISCOUNT", pisoDiscount,molduraDiscount)
+  
   const mixedDiscount = toValue(balanceDiscount)
     + toValue(cortinaDiscount)
     + toValue(shutterDiscount)
@@ -257,7 +258,7 @@ export const getTotals = (order) => {
  }
   const discounts = getDiscounts(order, totals)
 
-  console.log("DISCOUNTS IN SUBTOTAL",discounts)
+  
 
     let subTotal = totals.productsTotal
     + totals.plusTotal
@@ -279,7 +280,7 @@ export const getTotals = (order) => {
  }
   
   const total = subTotal + iva
-// console.log(totals)
+
   return {
     ...totals,
     ...discounts,

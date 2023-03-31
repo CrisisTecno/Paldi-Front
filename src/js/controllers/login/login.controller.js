@@ -36,7 +36,7 @@ pdApp.controller(
           $state.go("access.login")
         },
         function (error) {
-          // // console.log(error);
+          
           swal({
             title: EXECUTION_ENV=="EXTERNAL"?"Petition Processed":"Petición procesada",
             type: "success",

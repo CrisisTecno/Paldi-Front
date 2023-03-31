@@ -74,9 +74,9 @@ export const showCreateInstallationSheetDialog = async (
     ...(await getInstallationSheetState($scope, $scope.order)),
     save: async (installationForm) => {
 
-      // // console.log($scope)
+      
       const data = $scope.installationSheet;
-      // // console.log(data)
+      
 
       const extras = data.extras;
       const material = data.materials;
@@ -148,12 +148,12 @@ export const showCreateInstallationSheetDialog = async (
           return showSwal("messages.error")
       }
       $scope.dialog.close()
-      // console.log("B")
+      
       try{
       callback()
       }
       catch(e){
-        // console.log("ERROR")
+        
       }
 
     },
@@ -179,7 +179,7 @@ export const showCreateInstallationSheetDialog = async (
 
     },
   };
-  // // console.log($scope);
+  
  
   
 
@@ -272,7 +272,7 @@ export const showCreateInstallationSheetDialog = async (
       }
     
       $scope.updateMarkerAddress = function(str) {
-        //// console.log(str)
+        
         document.getElementById('address').value = str.formatted_address
         $scope.installationSheet.address = str.formatted_address
         str.address_components.forEach(elem=>{

@@ -19,7 +19,7 @@ export function sq_inches_to_meters(sq_inches) {
 
 export function to_fraction(inches) {
   const decimal = inches  // delta
-  // console.log(decimal)
+  
   // This solution rounds up
   const tags = ["", "1/8", "1/4", "3/8", "1/2", "5/8", "3/4", "7/8"]
   const thresholds = [1/16, 3/16, 5/16, 7/16, 9/16, 11/16, 13/16, 15/16]

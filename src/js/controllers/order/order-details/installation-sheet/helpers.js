@@ -2,7 +2,7 @@ export const getObjName = (arrayName) =>
   arrayName === "otherExtra" ? "extras" : "materials";
 
 export const getInstallationSheetSaveHandler = ($scope) => (form, data) => {
-  // // console.log({ form, data });
+  
 };
 
 export const getExtraNames = (obj) => {

@@ -122,7 +122,7 @@ pdApp.controller(
       cleanStatusList = []
       angular.forEach($scope.statusList, function (status) {
         cleanStatusList.push(status.id)
-        console.log(status.id)
+        
       })
       $rootScope.quoteStatusList = $scope.statusList
       
@@ -418,7 +418,7 @@ pdApp.controller(
 //---------------------------------------------------
     var initLoad = function () {
       $scope.statusList = $rootScope.quoteStatusList
-      console.log($rootScope.quoteStatusList)
+      
       
       typeChange()
       $scope.ready = true

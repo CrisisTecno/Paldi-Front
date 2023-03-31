@@ -68,7 +68,7 @@ pdApp.controller(
 											$state.go("console.products");
 										},
 										function (error) {
-											// // console.log(error);
+											
 										}
 									);
 							} else {

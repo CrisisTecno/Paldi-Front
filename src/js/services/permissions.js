@@ -198,7 +198,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 		},
 
 		getStatusList: function (list) {
-			// console.log(list)
+			
 			var statusList = [
 				"QUOTE",
 				"PENDING",

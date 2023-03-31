@@ -117,7 +117,7 @@ pdApp.controller(
 							movements = [];
 						},
 						function (error) {
-							// // console.log(error);
+							
 
 							if (
 								error.data.exception ==

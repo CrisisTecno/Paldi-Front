@@ -10,7 +10,7 @@ export function generateMoldurasHandlers($http, $filter) {
       .then(function (response) {
         model.molding_types = [];
         response.data.forEach(function (element, index) {
-          // console.log("PLUS RES", response)
+          
           model.molding_types.push({
             label: element.name,
             value: element,
@@ -21,7 +21,7 @@ export function generateMoldurasHandlers($http, $filter) {
 
 
   var getMoldingPrice = function (model) {
-    console.log(model)
+    if(!model.molding_types) return
     let type = model.molding_types.filter(x=> x.label == model.name)
     let price  = type.length > 0 ? type[0].value.price : null
 
