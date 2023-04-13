@@ -213,7 +213,7 @@
                 class="error-message"
                 ng-if="checkForm && (quote.project=='' || quote.project == null)"
             ><%= htmlWebpackPlugin.options.general.required_field %></small>
-            <input type="checkbox" ng-if="quote.client.bitrixId!=null" ng-model="bitrixProjectExists" ng-change="toggleProject()"> <span ng-if="quote.client.bitrixId!=null"> Proyecto Existente </span>
+            <!-- <input type="checkbox" ng-if="quote.client.bitrixId!=null" ng-model="bitrixProjectExists" ng-change="toggleProject()"> <span ng-if="quote.client.bitrixId!=null"> Proyecto Existente </span> -->
           </div>
           <div class="form-group proyect-name">
             <%= htmlWebpackPlugin.options.quotes.origin %>
