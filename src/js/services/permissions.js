@@ -29,9 +29,10 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					canMail = true;
 				}
 
+				const max_retries =  EXECUTION_ENV=="EXTERNAL" ? 4 : 2;
 				if (
 					(order.status == "QUOTE" ||
-						(order.status == "REJECTED" && order.rejected < 2)) &&
+						(order.status == "REJECTED" && order.rejected < max_retries)) &&
 					(user.role == "SUPERADMIN" ||
 						user.role == "SALES_MANAGER" ||
 						user.id == order.user.id)
@@ -49,7 +50,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				}
 
 				if (
-					order.rejected < 2 &&
+					order.rejected < max_retries &&
 					order.status == "REJECTED" &&
 					(user.role == "CONSULTANT" || user.role == "SUPERADMIN")
 				) {
