@@ -109,14 +109,14 @@ config = {
   internal_staging: {
     ...default_config,
     // apiURL: "http://192.241.238.176/api",
-    apiURL: "http://paldi-services.vercel.app/api",
+    apiURL: "https://paldi-services.vercel.app/api",
     ...internal_api,
     env: "staging",
   },
   internal_production: {
     ...default_config,
     // apiURL: "https://cotizadorpaldi.com.mx/api",
-    apiURL: "http://paldi-services.vercel.app/api",
+    apiURL: "https://paldi-services.vercel.app/api",
     ...internal_api,
     env: "production",
   },
