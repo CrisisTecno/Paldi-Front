@@ -1,3 +1,4 @@
+const API_URL = "http://paldi-services.vercel.app/api"
 const default_config = {
   apiURL: "http://localhost:8888",
   version: "3.3.7",
@@ -107,13 +108,15 @@ config = {
   },
   internal_staging: {
     ...default_config,
-    apiURL: "http://192.241.238.176/api",
+    // apiURL: "http://192.241.238.176/api",
+    apiURL: "http://paldi-services.vercel.app/api",
     ...internal_api,
     env: "staging",
   },
   internal_production: {
     ...default_config,
-    apiURL: "https://cotizadorpaldi.com.mx/api",
+    // apiURL: "https://cotizadorpaldi.com.mx/api",
+    apiURL: "http://paldi-services.vercel.app/api",
     ...internal_api,
     env: "production",
   },

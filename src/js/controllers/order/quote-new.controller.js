@@ -188,6 +188,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     }), paldiService.products.fetchCortinaFiltrasolAcabados(), paldiService.products.fetchAllAdditionals({
       product: "Cortina Filtrasol",
     }),])
+    console.log({
+      motors:motors2, sistemas:sistemas2, colores:colores2, acabados:acabados2, allAdditionals:allAdditionals2
+    });
     $scope.productData = $scope.productData ?? {}
     $scope.productData.cortinaFiltrasol = {
       motors:motors2, sistemas:sistemas2, colores:colores2, acabados:acabados2, allAdditionals:allAdditionals2
