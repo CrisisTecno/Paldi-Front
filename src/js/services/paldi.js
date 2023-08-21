@@ -236,9 +236,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         .get(globals.apiURL + globals.api.auth.whoami + "?token="+ document.cookie
         .split('; ')
         .find(row => row.startsWith('userToken='))
-        ?.split('=')[1], {
-          authentication: "yokozuna",
-        })
+        ?.split('=')[1])
         .then(function (response) {
           
           if (response.data.role === "EXTERNAL_CONSULTANT"){
