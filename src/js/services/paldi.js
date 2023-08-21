@@ -61,7 +61,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           return response.data;
         });
   }
-}
+  }
 
   service.shipment = {
 
@@ -232,7 +232,8 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         // .get(globals.apiURL + globals.api.auth.whoami, {
         //   authentication: "yokozuna",
         // })
-        .get(globals.apiURL + globals.api.auth.whoami, {
+        // 
+        .get(globals.apiURL + globals.api.auth.whoami + "?token="+ $rootScope.currentUser.token, {
           authentication: "yokozuna",
         })
         .then(function (response) {
