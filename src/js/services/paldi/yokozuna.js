@@ -108,6 +108,7 @@ var ngYokozuna = angular.module("ng-yokozuna", ["ui.router"])
           {username: username, password: password},
         ).then(
           function (res) {
+            console.log("[DEBUG]", res.data)
             yokozuna.setToken(res.data.token)
             return res.data
           },
