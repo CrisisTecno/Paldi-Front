@@ -75,7 +75,7 @@ const external_api = {
 const internal_api = {
   api: {
     auth: {
-      whoami: "/me/user",
+      whoami: "/auth/me/user",
     },
     orders: {
       byStatus: "/search/status/list"
