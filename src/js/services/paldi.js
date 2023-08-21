@@ -236,7 +236,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           // authentication: "yokozuna",
           // token from cookie at userToken
           headers: {
-            Authorization: `Bearer ${$rootScope.userToken}`,
+            Authorization: `Bearer ${$window.document.cookie.split("=")[1]}`,
           },
         })
         .then(function (response) {
