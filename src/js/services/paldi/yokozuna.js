@@ -110,6 +110,8 @@ var ngYokozuna = angular.module("ng-yokozuna", ["ui.router"])
           function (res) {
             console.log("[DEBUG]", res.data)
             yokozuna.setToken(res.data.token)
+            // set cookie
+            $window.document.cookie = "userToken=" + res.data.token
             return res.data
           },
           function (err) {
