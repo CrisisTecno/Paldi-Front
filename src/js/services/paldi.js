@@ -229,8 +229,15 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
     whoAmI: function () {
       return $http
+        // .get(globals.apiURL + globals.api.auth.whoami, {
+        //   authentication: "yokozuna",
+        // })
         .get(globals.apiURL + globals.api.auth.whoami, {
           authentication: "yokozuna",
+          // token from cookie at userToken
+          headers: {
+            Authorization: `Bearer ${$rootScope.userToken}`,
+          },
         })
         .then(function (response) {
           
