@@ -233,7 +233,10 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         //   authentication: "yokozuna",
         // })
         // 
-        .get(globals.apiURL + globals.api.auth.whoami + "?token="+ $rootScope.currentUser.token, {
+        .get(globals.apiURL + globals.api.auth.whoami + "?token="+ document.cookie
+        .split('; ')
+        .find(row => row.startsWith('userToken='))
+        ?.split('=')[1], {
           authentication: "yokozuna",
         })
         .then(function (response) {
