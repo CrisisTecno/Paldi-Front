@@ -13,7 +13,7 @@ var ngYokozuna = angular.module("ng-yokozuna", ["ui.router"])
     }
   })
   .config(function ($httpProvider) {
-    // $httpProvider.interceptors.push("yokozunaHttpInterceptor")
+    $httpProvider.interceptors.push("yokozunaHttpInterceptor")
   })
   .run(function (yokozuna, yokozunaConfig, $state, $rootScope) {
     $rootScope.yokozunaLogged = yokozuna.isLogged()
@@ -112,6 +112,8 @@ var ngYokozuna = angular.module("ng-yokozuna", ["ui.router"])
             yokozuna.setToken(res.data.token)
             // set cookie
             $window.document.cookie = "userToken=" + res.data.token
+            console.log("[DEBUG] cookie", $window.document.cookie)
+            console.log("[DEBUG] token", res.data)
             return res.data
           },
           function (err) {
