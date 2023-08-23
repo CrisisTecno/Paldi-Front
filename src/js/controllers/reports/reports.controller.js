@@ -94,7 +94,7 @@ pdApp.controller("ReportsController", function (
         link.click()
         document.body.removeChild(link)
       }
-      downloadURI(globals.newApiUrl + '/reports/download/' + data.id, filename)
+      downloadURI(globals.apiURL + "/newapi" + '/reports/download/' + data.id, filename)
 
     })
     // const blob = response.data

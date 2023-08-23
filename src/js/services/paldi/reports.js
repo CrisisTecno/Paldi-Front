@@ -1,6 +1,6 @@
 import { globals } from ".."
 
-const url = globals.newApiUrl + '/reports'
+const url = globals.apiURL + "/newapi" + '/reports'
 
 const getEndpoint = (endpoint) => url + (endpoint.startsWith('/') ? '' : '/') + endpoint
 export const buildReportsService = ($http) => ({

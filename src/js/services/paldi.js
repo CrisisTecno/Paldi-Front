@@ -38,7 +38,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     getBitrixProjects: async function(clientId){
       let body = {clientId:clientId}
       
-      return $http.post(globals.newApiUrl + "/webhooks/projects",
+      return $http.post(globals.apiURL + "/newapi" + "/webhooks/projects",
         body
       
       ).then(function(response){
@@ -54,7 +54,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   service.schedule = {
     sendMessage: async function (order) {
       return $http
-        .post(globals.newApiUrl + "/schedule/sendSMS", {
+        .post(globals.apiURL + "/newapi" + "/schedule/sendSMS", {
           order_id: order,
         })
         .then(function (response) {
@@ -73,10 +73,10 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
       }
       return $http.get(
-        globals.newApiUrl + "/pdf/shipment/" + order_id,
+        globals.apiURL + "/newapi" + "/pdf/shipment/" + order_id,
         {authentication: "yokozuna",
         params :params}).then(response=>{
-          let urlString = globals.newApiUrl + "/pdf/shipment/" + order_id + addParams(params)
+          let urlString = globals.apiURL + "/newapi" + "/pdf/shipment/" + order_id + addParams(params)
         
           return  urlString
         })
@@ -93,28 +93,28 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         height: inches_to_meters(data.height + parseFloat(data.h_fraction??0))
         }
       
-        return (await $http.post(globals.newApiUrl + "/products/price", obj)).data.data
+        return (await $http.post(globals.apiURL + "/newapi" + "/products/price", obj)).data.data
       }
 
-      return (await $http.post(globals.newApiUrl + "/products/price", data)).data.data
+      return (await $http.post(globals.apiURL + "/newapi" + "/products/price", data)).data.data
     },
     fetchAdditionals: async (data) => {
-      return (await $http.post(globals.newApiUrl + "/products/additionals", data)).data.data
+      return (await $http.post(globals.apiURL + "/newapi" + "/products/additionals", data)).data.data
     },
     fetchAdditional: async (data) => {
-      return (await $http.post(globals.newApiUrl + "/products/additional", data)).data.data
+      return (await $http.post(globals.apiURL + "/newapi" + "/products/additional", data)).data.data
     },
     fetchAllAdditionals: async (data) => {
-      return (await $http.post(globals.newApiUrl + "/products/all_additionals", data)).data.data
+      return (await $http.post(globals.apiURL + "/newapi" + "/products/all_additionals", data)).data.data
     },
     fetchColors: async (data) => {
-      return (await $http.post(globals.newApiUrl + '/products/colors', data)).data.data
+      return (await $http.post(globals.apiURL + "/newapi" + '/products/colors', data)).data.data
     },
     fetchCortinaAcabados: async () => {
-      return (await $http.post(globals.newApiUrl + '/products/oki', {})).data.data
+      return (await $http.post(globals.apiURL + "/newapi" + '/products/oki', {})).data.data
     },
     fetchCortinaFiltrasolAcabados: async () => {
-      return (await $http.post(globals.newApiUrl + '/products/oki', {type:"Cortina Filtrasol"})).data.data
+      return (await $http.post(globals.apiURL + "/newapi" + '/products/oki', {type:"Cortina Filtrasol"})).data.data
     },
   }
 
@@ -146,7 +146,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   service.installationSheet = {
     create: function (data) {
       return $http.post(
-        globals.newApiUrl + "/installation/sheet/create",
+        globals.apiURL + "/newapi" + "/installation/sheet/create",
         data,
         {
           authentication: "yokozuna",
@@ -155,7 +155,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
     edit: function (data) {
       return $http.post(
-        globals.newApiUrl + "/installation/sheet/edit",
+        globals.apiURL + "/newapi" + "/installation/sheet/edit",
         data,
         {authentication: "yokozuna"}
       );
@@ -163,7 +163,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     fetchState: async (id) => {
       try {
         const result = await $http.post(
-          globals.newApiUrl + "/installation/sheet/get",
+          globals.apiURL + "/newapi" + "/installation/sheet/get",
           {order_id: id},
           {authentication: "yokozuna"}
         );
@@ -176,7 +176,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
     exists: async function (id) {
       const response = await $http.post(
-        globals.newApiUrl + `/installation/sheet/exists/${id}`,
+        globals.apiURL + "/newapi" + `/installation/sheet/exists/${id}`,
         {authentication: "yokozuna"}
       );
       return response?.data?.code === 'api.errors.installation.sheet.found'
@@ -189,7 +189,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     searchProvider: function(providerType,match,products){
       let params = {subtype:providerType,match:match,products:products}
       return $http
-        .post(globals.newApiUrl + "/providers/find", params, {
+        .post(globals.apiURL + "/newapi" + "/providers/find", params, {
           authentication: "yokozuna",
         })
         .then(function (response) {
@@ -199,7 +199,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     setProviderProducts: function(products,id){
       let params = {products:products,user:id}
       return $http
-        .post(globals.newApiUrl + "/providers/products", params, {
+        .post(globals.apiURL + "/newapi" + "/providers/products", params, {
           authentication: "yokozuna",
         })
         .then(function (response) {
@@ -209,7 +209,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     updateProviderProducts: function(products,id){
       let params = {products:products,user:id}
       return $http
-        .post(globals.newApiUrl + "/providers/products/update", params, {
+        .post(globals.apiURL + "/newapi" + "/providers/products/update", params, {
           authentication: "yokozuna",
         })
         .then(function (response) {
@@ -219,7 +219,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     getProviderProducts: function(id){
       
       return $http
-        .get(globals.newApiUrl + "/providers/products/"+id, {
+        .get(globals.apiURL + "/newapi" + "/providers/products/"+id, {
           authentication: "yokozuna",
         })
         .then(function (response) {
@@ -251,7 +251,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
     getExternalDiscount:function(id){
       return $http
-      .get(globals.newApiUrl + "/orgs/organizations/" + id, {
+      .get(globals.apiURL + "/newapi" + "/orgs/organizations/" + id, {
         authentication: "yokozuna",
       })
       .then(function (response) {
@@ -517,7 +517,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     find: function (search) {
       
       return $http
-        .get(globals.newApiUrl + "/clients/search/" + search, {
+        .get(globals.apiURL + "/newapi" + "/clients/search/" + search, {
           authentication: "yokozuna",
         })
         .then(function (response) {
@@ -624,7 +624,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     getBatchOrders: async (id_list) => {
       try {
         const result = await $http.post(
-          globals.newApiUrl + "/order/fetch/bulk",
+          globals.apiURL + "/newapi" + "/order/fetch/bulk",
           {id_list: id_list},
           {authentication: "yokozuna"}
         );
@@ -680,7 +680,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
     getPdfInstallationSheetLink: async function (order) {
       if (await service.installationSheet.exists(order.id))
-        return `${globals.newApiUrl}/installation/sheet/download/${order.id}.pdf`;
+        return `${globals.apiURL + "/newapi"}/installation/sheet/download/${order.id}.pdf`;
     },
     getPdfOrderLink: function (order) {
       if (
@@ -1156,7 +1156,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     bulkProvidersIds:async function(){
       return $http
         .post(
-          globals.newApiUrl + "/providers/bulk",
+          globals.apiURL + "/newapi" + "/providers/bulk",
           {},
           {authentication: "yokozuna"}
         )
@@ -1886,7 +1886,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   service.mail = {
     sendFeedback:function(message){
       return $http.post(
-        globals.newApiUrl + "/mail/feedback",message,{
+        globals.apiURL + "/newapi" + "/mail/feedback",message,{
           authentication: "yokozuna"
         }
       ).then(response=>{
@@ -1906,7 +1906,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
 
       return $http.get(
-        globals.newApiUrl + "/resources/resourceList",{
+        globals.apiURL + "/newapi" + "/resources/resourceList",{
           authentication: "yokozuna",
           params: query,
         }
@@ -1917,7 +1917,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
     postResource: function(formData){
       return $http
-      .post(globals.newApiUrl + "/resources/newResource", formData, {
+      .post(globals.apiURL + "/newapi" + "/resources/newResource", formData, {
         authentication: "yokozuna",
         headers: { "Content-Type": undefined },
         transformRequest: angular.identity,
@@ -1929,13 +1929,13 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
     downloadFile:function (id){
       return $http.get(
-        globals.newApiUrl+'/resources/resource/'+id,{
+        globals.apiURL + "/newapi"+'/resources/resource/'+id,{
           authentication: "yokozuna",
         }
       ).then(response=>{
         
         if(response.data.includes('PDF'))
-          return globals.newApiUrl+'/resources/resource/'+id
+          return globals.apiURL + "/newapi"+'/resources/resource/'+id
         else{
           return response.data
         }
@@ -1944,7 +1944,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
     deleteFile:function (id){
       return $http.delete(
-        globals.newApiUrl+'/resources/resource/'+id,{
+        globals.apiURL + "/newapi"+'/resources/resource/'+id,{
           authentication: "yokozuna",
         }
       ).then(response=>{

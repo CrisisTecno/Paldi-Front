@@ -43,7 +43,7 @@ pdApp.factory(
 
 	  getBankExchangeRate: function(){
 		  return $http.get(
-			  globals.newApiUrl + "/currency/exchangerate",
+			  globals.apiURL + "/newapi" + "/currency/exchangerate",
 			  {
 				  authentication:"yokozuna"
 			  }
