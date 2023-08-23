@@ -82,7 +82,7 @@ export const buildHistoryObject = (
       .withOption("name", "download")
       .withTitle('Descargar')
       .renderWith((data) => {
-        return `<a class="btn btn-xs btn-info" href=${globals.apiURL + "/newapi/reports/download/" + data.rid} download="${`Cuentas por cobrar de ${moment(data.startDate).format('yyyy-MM-DD')} a ${moment(data.endDate).format('yyyy-MM-DD')}.xlsx`}">Descargar Reporte</a>`
+        return `<a class="btn btn-xs btn-info" href=${globals.newApiUrl + "/reports/download/" + data.rid} download="${`Cuentas por cobrar de ${moment(data.startDate).format('yyyy-MM-DD')} a ${moment(data.endDate).format('yyyy-MM-DD')}.xlsx`}">Descargar Reporte</a>`
       }),
     ]
 

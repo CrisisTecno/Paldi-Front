@@ -1,7 +1,9 @@
 const API_URL = "https://paldi-services.vercel.app/api"
+const NEW_API_URL = "http://143.110.235.225:8003"
 const default_config = {
   // apiURL: "http://localhost:8888",
   apiURL: API_URL,
+  newApiUrl: NEW_API_URL,
   version: "3.3.7",
   iva: 0.08,
   env: "local",

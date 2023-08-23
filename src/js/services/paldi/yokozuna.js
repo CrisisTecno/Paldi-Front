@@ -22,7 +22,9 @@ var ngYokozuna = angular.module("ng-yokozuna", ["ui.router"])
       "$stateChangeStart",
       function (event, toState, toParams, fromState, fromParams, options) {
         if (toState.authRequired) {
+          console.log("[DEBUG] authRequired")
           if (!yokozuna.isLogged()) {
+            console.log("[DEBUG] not logged")
             yokozuna.hasLastVisited = true
             yokozuna.lastState = toState
             yokozuna.lastStateParams = toParams
@@ -30,6 +32,7 @@ var ngYokozuna = angular.module("ng-yokozuna", ["ui.router"])
             event.preventDefault()
             $state.go(yokozunaConfig.loginState)
           } else {
+            console.log("[DEBUG] logged")
             yokozuna.hasLastVisited = false
           }
         }
