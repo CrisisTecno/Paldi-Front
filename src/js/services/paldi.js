@@ -1971,8 +1971,8 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
       return $http
         .post(globals.apiURL + "/pricing/catalog", formData, {
           authentication: "yokozuna",
-          // headers: {"Content-Type": undefined},
-          // transformRequest: angular.identity,
+          headers: {"Content-Type": undefined},
+          transformRequest: angular.identity,
         })
         .then((response) => {
           return response.data;
