@@ -31,6 +31,15 @@ pdApp.controller(
 		};
 
 		$scope.selectFile = function (files) {
+			$scope.fd2 = {
+				file: files[0],
+				name: files[0].name,
+				userId: $rootScope.currentUser.id,
+				userName:
+					$rootScope.currentUser.name +
+					" " +
+					$rootScope.currentUser.lastName,
+			};
 			$scope.fd = new FormData();
 			console.log("[DEBUG] FILE : ", files[0]);
 			$scope.fd.append("file", files[0]);
@@ -50,6 +59,7 @@ pdApp.controller(
 
 		$scope.uploadCatalog = function () {
 			console.log("[DEBUG] CATALOG : ", $scope.fd);
+			console.log("[DEBUG] CATALOG : ", $scope.fd2);
 			$scope.uploading = true;
 			paldiService.catalog.upload($scope.fd).then(
 				(data) => {
