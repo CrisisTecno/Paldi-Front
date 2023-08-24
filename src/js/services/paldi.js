@@ -1967,6 +1967,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
     upload: function (formData) {
+      console.log("[DEBUG] formData : ", formData);
       return $http
         .post(globals.apiURL + "/pricing/catalog", formData, {
           authentication: "yokozuna",
