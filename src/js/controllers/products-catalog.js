@@ -65,6 +65,7 @@ pdApp.controller(
 				(data) => {
 					$scope.uploading = false;
 					$scope.fd = null;
+					$scope.fd2 = null;
 					$scope.dialog.close();
 
 					swal({
