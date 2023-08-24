@@ -32,8 +32,11 @@ pdApp.controller(
 
 		$scope.selectFile = function (files) {
 			$scope.fd = new FormData();
+			console.log("[DEBUG] FILE : ", files[0]);
 			$scope.fd.append("file", files[0]);
+			$scope.fd.append("name", files[0].name);
 			$scope.fd.append("userId", $rootScope.currentUser.id);
+			console.log("[DEBUG] USER : ", $rootScope.currentUser);
 			$scope.fd.append(
 				"userName",
 				$rootScope.currentUser.name +
