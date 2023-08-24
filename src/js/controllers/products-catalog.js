@@ -61,7 +61,7 @@ pdApp.controller(
 			console.log("[DEBUG] CATALOG : ", $scope.fd);
 			console.log("[DEBUG] CATALOG : ", $scope.fd2);
 			$scope.uploading = true;
-			paldiService.catalog.upload($scope.fd).then(
+			paldiService.catalog.upload($scope.fd2).then(
 				(data) => {
 					$scope.uploading = false;
 					$scope.fd = null;
