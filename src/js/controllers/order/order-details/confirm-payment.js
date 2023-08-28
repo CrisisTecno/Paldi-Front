@@ -118,13 +118,14 @@ const perfomAdvance = async (context, $scope,$timeout, updatedOrder, model) => {
 		return performCustomAdvance(context, $scope, updatedOrder, model);
 
 	const order = await context.paldiService.orders.get(updatedOrder.id);
-	if (order.quote) {
+	
+	await updateOrder(context, $scope,$timeout, updatedOrder, model);
+	// if (order.quote) {
 		
-		await updateOrder(context, $scope,$timeout, updatedOrder, model);
-	} else {
-		context.loadOrder();
-		context.$timeout(() => showSwal("messages.error"), 400);
-	}
+	// } else {
+	// 	context.loadOrder();
+	// 	context.$timeout(() => showSwal("messages.error"), 400);
+	// }
 };
 
 const processPayment = (context, $scope,$timeout, model) => {
