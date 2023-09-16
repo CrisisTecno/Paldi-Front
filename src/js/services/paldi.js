@@ -1415,10 +1415,14 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   };
   //------------------------- PAYMENTS ------------------
   service.payments = {
-    getPayments: function (page, start, end, size, sort) {
+    getPayments: async function (page, start, end, size, sort) {
+      const response = await fetch(`${globals.apiURL}/quotes/payments/?startDate=${start}&endDate=${end}&page=${page}&size=${size}&sort=${sort}`);
+      const data = await response.json();
+
+      return data;
       return $http
         .get(globals.apiURL + "/quotes/payments/", {
-          //authentication: "yokozuna",
+          authentication: "yokozuna",
           params: {
             startDate: start,
             endDate: end,
