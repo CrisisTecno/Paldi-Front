@@ -1418,7 +1418,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     getPayments: function (page, start, end, size, sort) {
       return $http
         .get(globals.apiURL + "/quotes/payments/", {
-          authentication: "yokozuna",
+          //authentication: "yokozuna",
           params: {
             startDate: start,
             endDate: end,
