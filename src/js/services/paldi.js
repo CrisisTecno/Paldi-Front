@@ -1418,9 +1418,9 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     getPayments: async function (page, start, end, size, sort) {
       const response = await fetch(`${globals.apiURL}/quotes/payments/?startDate=${start}&endDate=${end}&page=${page}&size=${size}&sort=${sort}`);
       const data = await response.json();
-
+      console.log("response", response);
       return data;
-      return $http
+      /*return $http
         .get(globals.apiURL + "/quotes/payments/", {
           authentication: "yokozuna",
           params: {
@@ -1433,7 +1433,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         })
         .then(function (response) {
           return response.data;
-        });
+        });*/
     },
     pay: function (id, payment) {
       return $http
