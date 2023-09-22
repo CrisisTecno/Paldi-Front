@@ -93,10 +93,10 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         height: inches_to_meters(data.height + parseFloat(data.h_fraction??0))
         }
       
-        return (await $http.post(globals.apiURL + "/newapi" + "/products/price", obj)).data.data
+        return (await $http.post(globals.apiURL + "/cotizaciones" + "/products/price", obj)).data.data
       }
 
-      return (await $http.post(globals.apiURL + "/newapi" + "/products/price", data)).data.data
+      return (await $http.post(globals.apiURL + "/cotizaciones" + "/products/price", data)).data.data
     },
     fetchAdditionals: async (data) => {
       return (await $http.post(globals.apiURL + "/newapi" + "/products/additionals", data)).data.data
@@ -108,13 +108,13 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
       return (await $http.post(globals.apiURL + "/newapi" + "/products/all_additionals", data)).data.data
     },
     fetchColors: async (data) => {
-      return (await $http.post(globals.apiURL + "/newapi" + '/products/colors', data)).data.data
+      return (await $http.post(globals.apiURL + "/cotizaciones" + '/products/colors', data)).data.data
     },
     fetchCortinaAcabados: async () => {
-      return (await $http.post(globals.apiURL + "/newapi" + '/products/oki', {})).data.data
+      return (await $http.post(globals.apiURL + "/cotizaciones" + '/products/oki', {})).data.data
     },
     fetchCortinaFiltrasolAcabados: async () => {
-      return (await $http.post(globals.apiURL + "/newapi" + '/products/oki', {type:"Cortina Filtrasol"})).data.data
+      return (await $http.post(globals.apiURL + "/cotizaciones" + '/products/oki', {type:"Cortina Filtrasol"})).data.data
     },
   }
 
