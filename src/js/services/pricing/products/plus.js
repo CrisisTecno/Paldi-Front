@@ -30,13 +30,23 @@ export function generatePlusHandlers($http, $filter) {
       .then(function (response) {
         model.motorList = [];
         response.data.forEach(function (element, index) {
-          model.motorList.push({
-            label: element.name +
-              " (" +
-              $filter("currency")(element.price) +
-              ")",
-            value: element,
-          });
+          if (element.priceType == "MOTOR") {
+            model.motorList.push({
+              label: element.name +
+                " (" +
+                $filter("currency")(element.price) +
+                ")",
+              value: element,
+            });
+          } else {
+            model.plusList.push({
+              label: element.name +
+                " (" +
+                $filter("currency")(element.price) +
+                ")",
+              value: element,
+            });
+          }
         });
       });
   };
