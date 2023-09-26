@@ -8,6 +8,11 @@ import { apply } from "file-loader"
 pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $stateParams, ngDialog, paldiService, colorPriceService, $timeout, jsonService, DTOptionsBuilder, DTColumnDefBuilder, permissionsHelper,) {
   const MIXED_ORDER = "Mixta"
   $scope.updateTotals = colorPriceService.updateTotals
+
+  $scope.roleUser = {};
+  setTimeout(() => {
+    $scope.roleUser = $rootScope.currentUser;
+  }, 1000);
   
   $scope.originalMix = false;
   $scope.needsLoadProjects = true;
