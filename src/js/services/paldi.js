@@ -102,7 +102,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
       return (await $http.post(globals.apiURL + "/newapi" + "/products/additionals", data)).data.data
     },
     fetchAdditional: async (data) => {
-      return (await $http.post(globals.apiURL + "/newapi" + "/products/additional", data)).data.data
+      return (await $http.post(globals.apiURL + "/cotizaciones" + "/products/additional", data)).data.data
     },
     fetchAllAdditionals: async (data) => {
       return (await $http.post(globals.apiURL + "/newapi" + "/products/all_additionals", data)).data.data
