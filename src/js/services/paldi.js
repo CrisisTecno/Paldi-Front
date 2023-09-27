@@ -1416,9 +1416,8 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   //------------------------- PAYMENTS ------------------
   service.payments = {
     getPayments: async function (page, start, end, size, sort) {
-      const response = await fetch(`https://paldi-services.vercel.app/api/quotes/orders/search/user/list?startDate=${start}&endDate=${end}&page=${page}&size=${size}&sort=${sort}`);
+      const response = await fetch(`${globals.apiURL}/quotes/payments/list?startDate=${start}&endDate=${end}&page=${page}&size=${size}&sort=${sort}`);
       const data = await response.json();
-      console.log("response", response);
       return data;
       /*return $http
         .get(globals.apiURL + "/quotes/payments/", {
