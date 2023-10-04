@@ -1076,6 +1076,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
             params: {
               user: $rootScope.currentUser.id,
               notes: notes,
+              date: date
             },
           }
         )
