@@ -343,7 +343,7 @@ pdApp.controller(
         .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Tipo de producto":"Product Type")
         .renderWith(function (data) {
           return (
-            "<a href=\"#/console/order/" +
+            "<a style='max-width: 400px;white-space: normal;word-wrap: break-word;display: inline-block;' href=\"#/console/order/" +
             data.id +
             "\">" +
             productTypeTranslate( data.productType_txt) +
