@@ -313,6 +313,18 @@ pdApp.controller(
           )
         }),
       DTColumnBuilder.newColumn(null)
+        .withOption("name", "clientName_txt")
+        .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Asesor":"Consultant")
+        .renderWith(function (data) {
+          return (
+            "<a href=\"#/console/order/" +
+            data.id +
+            "\">" +
+            data.assesor_txt +
+            "</a>"
+          )
+        }),
+     /*  DTColumnBuilder.newColumn(null)
         .withOption("name", "clientType_txt")
         .withTitle(EXECUTION_ENV!="EXTERNAL" ? "Tipo de Cliente":"Sidemark")
         .renderWith(function (data) {
@@ -324,7 +336,7 @@ pdApp.controller(
             (EXECUTION_ENV!="EXTERNAL" ? data.clientType_txt : data.project_txt) +
             "<a>"
           )
-        }),
+        }), */
 
       DTColumnBuilder.newColumn(null)
         .withOption("name", "products_i")
