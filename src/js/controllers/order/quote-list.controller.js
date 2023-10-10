@@ -358,7 +358,7 @@ pdApp.controller(
             "<a style='max-width: 400px;white-space: normal;word-wrap: break-word;display: inline-block;' href=\"#/console/order/" +
             data.id +
             "\">" +
-            productTypeTranslate( data.productType_txt) +
+            productTypeTranslate([...new Set(data.productType_txt || [])]) +
             "<a>"
           )
         }),
