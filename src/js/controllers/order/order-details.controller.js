@@ -564,6 +564,46 @@ pdApp.controller(
         });
     };
 
+	  $scope.downloadWorkOrder = () => {
+      window.open("{{order.pdfOrderLink}}", "_blank");
+    };
+    
+    $scope.downloadPdfOrderYPdfInstallation = function (pdfOrden, pdfInstalacion) {
+      //primer pdf orden 
+      
+      // Crear un enlace temporal
+      setTimeout(() => {
+        var link = document.createElement('a');
+        link.href = pdfOrden;
+        // link.target = '_blank';
+        link.download = 'pdfOrden.pdf';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        
+        // Simular el clic en el enlace
+        link.click();
+        
+        // Eliminar el enlace temporal
+        document.body.removeChild(link);
+      }, 2000);
+     
+
+
+      //segundo pdf de instalacion
+
+      var link2 = document.createElement('a');
+      link2.href = pdfInstalacion;
+      link2.target = '_blank';
+      link2.style.display = 'none';
+      document.body.appendChild(link2);
+      
+      // Simular el clic en el enlace
+      link2.click();
+      
+      // Eliminar el enlace temporal
+      document.body.removeChild(link2);
+    };
+
 
     $scope.createInstallationSheet = () => {
       showCreateInstallationSheetDialog($scope,$timeout, () => {
