@@ -541,7 +541,8 @@
               <a ng-show="perms.order.installation_sheet.edit" ng-click="editInstallationSheet()" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
                 <span class="btn-icon glyphicon glyphicon glyphicon-edit"></span><%= htmlWebpackPlugin.options.general.edit%>  </a>
               <div class="dropdown-divider"></div>
-              <a ng-show="perms.order.installation_sheet.download" ng-href="{{order.installationSheetPdfLink}}" download="{{order.installationSheetPdfLink}}" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
+<!--               ng-href="{{order.installationSheetPdfLink}}" download="{{order.installationSheetPdfLink}}" -->
+              <a ng-show="perms.order.installation_sheet.download" href="javascript:void(0);"  ng-click="downloadPdfOrderYPdfInstallation(order.installationSheetPdfLink , order.pdfOrderLink)" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
                 <span class="btn-icon glyphicon glyphicon glyphicon-save"></span><%= htmlWebpackPlugin.options.general.download%>  </a>
             </div>
           </div>
