@@ -51,7 +51,7 @@ pdApp.controller("ReportsController", function (
     $scope.reports.templateUrl = `/js/controllers/reports/${reportName}/index.html`
     
   }
-  controller.download = () => {
+  controller.download = async () => {
     
     
 
@@ -80,6 +80,27 @@ pdApp.controller("ReportsController", function (
         endDate: endDate,
       }
     }
+
+    var query = `name=${properties.name}&`;
+    query += `type=${properties.type}&`;
+    query += `userId=${properties.data.userId}&`;
+    query += `group=${properties.data.group}&`;
+    query += `startDate=${properties.data.startDate}&`;
+    query += `endDate=${properties.data.endDate}`;
+
+    const response = await fetch(`${globals.apiURL}/reports/download/excel?${query}`);
+    const blob = await response.blob();
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Cuentas por cobrar de ${moment(startDate).format('yyyy-MM-DD')} a ${moment(endDate).format('yyyy-MM-DD')}.xlsx`
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+
+    setTimeout(() => $('#reportHistory').DataTable().ajax.reload(), 100);
+    return;
     
     paldiService.reports.download(properties).success((data, status, headers) => {
       const filename = `Cuentas por cobrar de ${moment(startDate).format('yyyy-MM-DD')} a ${moment(endDate).format('yyyy-MM-Dd')}.xlsx`
