@@ -82,7 +82,21 @@ export const buildHistoryObject = (
       .withOption("name", "download")
       .withTitle('Descargar')
       .renderWith((data) => {
-        return `<a class="btn btn-xs btn-info" href=${globals.apiURL + "/newapi" + "/reports/download/" + data.rid} download="${`Cuentas por cobrar de ${moment(data.startDate).format('yyyy-MM-DD')} a ${moment(data.endDate).format('yyyy-MM-DD')}.xlsx`}">Descargar Reporte</a>`
+        return `<button class="btn btn-xs btn-info" onclick="(async (startDate,endDate,group)=> {
+          const query = 'name=&type=&userId=&group=' + group + '&startDate='+startDate + '&endDate=' + endDate;
+      
+          const response = await fetch('https://paldi-services.vercel.app/api' + '/reports/download/excel?' + query);
+          const blob = await response.blob();
+      
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'Cuentas por cobrar de'+startDate.substr(0,10) +' a '+ endDate.substr(0,10)+'.xlsx'
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+        })('${data.startDate.toString().trim()}','${data.endDate.toString().trim()}','${data.group.toString().trim()}')">Descargar Reporte</button>`
+        // return `<a class="btn btn-xs btn-info" href=${globals.apiURL + "/newapi" + "/reports/download/" + data.rid} download="${`Cuentas por cobrar de ${moment(data.startDate).format('yyyy-MM-DD')} a ${moment(data.endDate).format('yyyy-MM-DD')}.xlsx`}">Descargar Reporte</a>`
       }),
     ]
 
