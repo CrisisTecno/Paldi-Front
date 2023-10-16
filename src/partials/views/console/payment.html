@@ -59,7 +59,7 @@
                 <ul>
                     <li><small><%= htmlWebpackPlugin.options.payments.products %></small> <span>{{order.productsTotal | currency}}</span></li>
                     <li ng-show="order.plusTotal"><small><%= htmlWebpackPlugin.options.payments.additionals %> </small><span>{{order.plusTotal | currency}}</span></li>
-                    <li ng-show="order.motorTotal"><small><%= htmlWebpackPlugin.options.payments.mottor %> </small><span>{{order.motorTotal | currency}}</span></li>
+                    <li ng-show="order.motorTotal"><small><%= htmlWebpackPlugin.options.payments.motor %> </small><span>{{order.motorTotal | currency}}</span></li>
                     <li ng-show="order.discountPercent"><small><%= htmlWebpackPlugin.options.payments.discount %> ({{order.discountPercent}}%): </small><span>{{order.discount | currency}}</span></li>
                     <li ng-show="order.installationTotal"><small><%= htmlWebpackPlugin.options.payments.installation %> </small> <span>{{order.installationTotal | currency}}</span></li>
                     <li><small><%= htmlWebpackPlugin.options.payments.sub_total %></small> <span>{{order.subTotal | currency}}</span></li>
