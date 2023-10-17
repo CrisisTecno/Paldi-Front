@@ -469,8 +469,7 @@ module.exports = {
     discounts:`
     <li
                     class="discount"
-                    ng-show="quote.clientMaxDiscount && product != 'Custom' && !isMultiple || product != 'Custom' && !isMultiple && ['CONSULTANT', 'EXTERNAL_CONSULTANT'].includes(roleUser.role) && (quote.user && quote.user.id) ? (quote.user.id == roleUser.id) : true"
-                ><small>Descuento:</small></li>
+ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULTANT'].includes(roleUser.role) && quote.user && quote.user.id == roleUser.id)"                ><small>Descuento:</small></li>
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"
