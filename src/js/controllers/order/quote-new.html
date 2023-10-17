@@ -73,8 +73,7 @@
                 <li>-{{quote.client.address}}</li>
                 <li
                     class="discount"
-                    ng-show="quote.clientMaxDiscount && product != 'Custom' && !isMultiple || product != 'Custom' && !isMultiple && ['CONSULTANT', 'EXTERNAL_CONSULTANT'].includes(roleUser.role) && (quote.user && quote.user.id) ? (quote.user.id == roleUser.id) : true"
-                ><input
+ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULTANT'].includes(roleUser.role) && quote.user && quote.user.id == roleUser.id)"                ><input
                     max="{{quote.clientMaxDiscount}}"
                     min="0"
                     ng-change="validateDiscounts()"
