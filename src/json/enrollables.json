@@ -24,6 +24,11 @@
 		"priceType" : "TOTAL",
 		"configs" : ["XFM", "XDM", "XFMM", "XDMM", "XFM90", "XDM90"]
 	},
+	"Advantage ": {
+		"colorLabel" : "Textil",
+		"priceType" : "TOTAL",
+		"configs" : ["XFM", "XDM", "XFMM", "XDMM", "XFM90", "XDM90"]
+	},
 	"Horizontales de Madera": {
 		"colorLabel" : "Color",
 		"priceType" : "TOTAL",
