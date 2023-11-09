@@ -928,7 +928,7 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
     <option value="Horizontales de Aluminio">Horizontales de Aluminio</option>
     <option value="Celular">Celular</option>
     <option value="Enrollables Wolken">Enrollables Wolken</option>
-    <option value="Advantage 1">Advantage 1</option>
+    <option value="Advantage ">Advantage </option>
     `,
     system:"Sistema",
     config:"Config",
