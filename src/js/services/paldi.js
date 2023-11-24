@@ -66,6 +66,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   service.shipment = {
 
     sheet: async function(order_id,boxesNum,user, folio){
+      console.log("como es hermanito")
       let params = {
         user:user,
         folio:folio,
@@ -533,7 +534,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   service.orders = {
 
     get: function (id) {
-
+      // console.log("hermano aqui es tu cambio")
       if(EXECUTION_ENV=="EXTERNAL"){
         const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
       return $http
@@ -735,7 +736,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
     save: function (orders,additionalParams) {
       // console.log("aca es gfesito");
-      console.log(additionalParams)
+      // console.log(additionalParams)
       let order = { ...angular.copy(orders) }
       if(EXECUTION_ENV=="EXTERNAL"){
       order.products = [...(order.products.map(v => ({
@@ -975,19 +976,23 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           return response.data;
         });
     },
-
-    updateProviderStatus: function (order, status,notes=" ") {
+    //para cambiar a estados alternos
+    updateProviderStatus: function (order, status) {
+    // updateProviderStatus: function (order, status,notes=" ") {
+      
       return $http
-        .post(
+        .put(
           globals.apiURL +
           "/quotes/orders/" +
           order.id +
           "/" +
-          status +"/provider",notes,
+          // status +"/provider",notes,
+          status +"/provider",
         
           {
             authentication: "yokozuna",
             params: {user: $rootScope.currentUser.id},
+            status:status,
           }
         )
         .then(function (response) {
