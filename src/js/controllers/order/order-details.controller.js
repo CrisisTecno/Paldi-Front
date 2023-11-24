@@ -294,18 +294,18 @@ pdApp.controller(
       $scope.suborders = [];
       $scope.limitDays = 20;
       $scope.maxDate;
+      $scope.showChangeStatusButton = false;
 
       
       paldiService.orders.get(id).then(async function (order) {
         
-        $scope.order = order;
-        
-
-        
-        
-      
-      
+        $scope.order = order;     
         $scope.quoteStatus = order.quoteStatus;
+        
+        if(order.status=="LINE"){
+          $scope.showChangeStatusButton = true;
+        }
+        
         $scope.quoteSubStatus = order.quoteSubStatus;
         $scope.products = order.products;
         $scope.isSuborder = false;
