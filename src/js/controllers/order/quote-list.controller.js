@@ -502,7 +502,13 @@ pdApp.controller(
        
       })
       
-      paldiService.orders.save($scope.quote).then(function (quote) {
+      // $scope.quote.iscopy = true;
+      // console.log($scope.quote)
+      // console.log(quote)
+      
+      paldiService.orders.save($scope.quote, { params: { iscopy: true } } ).then(function (quote) {
+    
+      // paldiService.orders.save($scope.quote).then(function (quote) {
          
       
         swal({
