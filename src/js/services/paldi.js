@@ -733,11 +733,11 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
 
-    save: function (orders) {
+    save: function (orders,additionalParams) {
+      // console.log("aca es gfesito");
+      console.log(additionalParams)
       let order = { ...angular.copy(orders) }
       if(EXECUTION_ENV=="EXTERNAL"){
-        
-      
       order.products = [...(order.products.map(v => ({
         ...v,
         width: inches_to_meters(v.width + parseFloat(v.w_fraction || 0)),
@@ -763,14 +763,22 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         })
       }
       }
+      const requestOptions = {
+        authentication: "yokozuna",
+    };
 
-      return $http
-        .post(globals.apiURL + "/quotes/orders", order, {
-          authentication: "yokozuna",
-        })
-        .then(function (response) {
-          return response.data;
-        });
+    if (additionalParams) {
+        requestOptions.params = additionalParams;
+    }
+      return $http.post(globals.apiURL + "/quotes/orders", order, requestOptions)
+      .then(function (response) {
+        
+        return response.data;
+      });
+        // .post(globals.apiURL + "/quotes/orders", order, {
+        //   authentication: "yokozuna",
+        // })
+        
     },
     saveSubOrder: function (order, orderType) {
 
@@ -1027,8 +1035,11 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           {authentication: "yokozuna"}
         )
         .then(function (response) {
+          console.log("aca enviamos gfe");
           return response.data;
+          
         });
+        
     },
     sendOrderTo: function (id, email) {
       return $http
