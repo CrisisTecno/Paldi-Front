@@ -340,9 +340,9 @@ module.exports = {
     <option ng-if="changePermissions.canQuoted" value="QUOTED">Cotizado</option>
     <option ng-if="changePermissions.canAuth" value="AUTHORIZED">Autorizado</option>
 
-    <option ng-if="changePermissions.canBackorder" value="BACKORDER">Backorder</option>
-    <option ng-if="changePermissions.canProduction" value="PRODUCTION">Producción</option>
-    <option ng-if="changePermissions.canTransit" value="TRANSIT">Tránsito</option>
+    <option ng-if="changePermissions.canBackorder && !showChangeStatusTree" value="BACKORDER">Backorder</option>
+    <option ng-if="changePermissions.canProduction && !showChangeStatusTree" value="PRODUCTION">Producción</option>
+    <option ng-if="changePermissions.canTransit && !showChangeStatusTree" value="TRANSIT">Tránsito</option>
     <option ng-if="changePermissions.canFinished" value="FINISHED">I. Terminado</option>
     <option ng-if="changePermissions.canProgrammed" value="PROGRAMMED">Programada</option>
     <option ng-if="changePermissions.canIncomplete" value="INSTALLED_INCOMPLETE">Instalada Parcial</option>
