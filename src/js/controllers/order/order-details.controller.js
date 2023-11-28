@@ -295,6 +295,7 @@ pdApp.controller(
       $scope.limitDays = 20;
       $scope.maxDate;
       $scope.showChangeStatusButton = false;
+      $scope.showChangeStatusTree= false;
 
       
       paldiService.orders.get(id).then(async function (order) {
@@ -302,8 +303,9 @@ pdApp.controller(
         $scope.order = order;     
         $scope.quoteStatus = order.quoteStatus;
         
-        if(order.status=="LINE"){
+        if(order.status=="LINE"||order.status=="PENDING_INFO"||order.status=="QUOTE"||order.status=="QUOTED"){
           $scope.showChangeStatusButton = true;
+          $scope.showChangeStatusTree= true;
         }
         
         $scope.quoteSubStatus = order.quoteSubStatus;
@@ -987,6 +989,7 @@ pdApp.controller(
     };
 
     $scope.changeStatusDialog = function (status) {
+
       if (status && status == "LINE" && !$scope.order.user.warehouse) {
         swal({
           title:  (EXECUTION_ENV=="EXTERNAL"?"Sales Rep is not afiliated to a warehouse":"El vendedor no está asignado a un almacén"),
