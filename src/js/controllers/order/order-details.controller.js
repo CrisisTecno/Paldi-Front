@@ -954,11 +954,10 @@ pdApp.controller(
        let user = $scope.currentUser.name + " " + $scope.currentUser.lastName
        let folio = $scope.order.orderTransitInvoice
        $scope.dialog.close()
-       let res = await paldiService.shipment.sheet($stateParams.orderId,boxesNum,user,folio)
-
+      //  let res = await paldiService.shipment.sheet($stateParams.orderId,boxesNum,user,folio)
+        let res =await paldiService.tickets.gettickets($stateParams.orderId,boxesNum,user,folio)
        
 			  const link = document.createElement("a");
-			  
 				link.href = res;
 				link.setAttribute("download", "etiqueta");
 				document.body.appendChild(link);

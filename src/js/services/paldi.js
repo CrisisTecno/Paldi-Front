@@ -81,7 +81,6 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
     //para pruebas de la generacion de pfds a partir de etiquetas
     sheet: async function(order_id,boxesNum,user, folio){
-      
       let params = {
         user:user,
         folio:folio,
@@ -89,16 +88,21 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
       }
       return $http.get(
+        // globals.apiURL + "/newapi" + "/pdf/shipment/" + order_id,
+        // {authentication: "yokozuna",
+        // params :params}).then(function (response) {
+        //   return response
+        // })
         globals.apiURL + "/newapi" + "/pdf/shipment/" + order_id,
         {authentication: "yokozuna",
         params :params}).then(response=>{
           let urlString = globals.apiURL + "/newapi" + "/pdf/shipment/" + order_id + addParams(params)
-        
           return  urlString
         })
-      
-    }
+        
+      },
   }
+
   service.reports = buildReportsService($http)
 
   service.products = {
@@ -2037,7 +2041,47 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
         });
     },
   };
+  //------------------- TICKETS --------------
+  
+    
+  service.tickets = {
 
+
+    // sheet: async function(order_id,boxesNum,user, folio){
+    //   let params = {
+    //     user:user,
+    //     folio:folio,
+    //     boxes:boxesNum,
+
+    //   }
+    //   return $http.get(
+    //     globals.apiURL + "/newapi" + "/pdf/shipment/" + order_id,
+    //     {authentication: "yokozuna",
+    //     params :params}).then(response=>{
+    //       let urlString = globals.apiURL + "/newapi" + "/pdf/shipment/" + order_id + addParams(params)
+    //       return  urlString
+    //     })
+        
+    //   },
+    gettickets: function (order_id,boxesNum,user, folio) {
+      let params = {
+        order_id:order_id,
+            user:user,
+            folio:folio,
+            boxes:boxesNum,
+
+      }
+      return $http
+        .get(globals.apiURL + "/reports/tickets/tickets", {
+          authentication: "yokozuna",
+          params: params
+        })
+        .then((response)=> {
+          let urlString = globals.apiURL + "/reports/tickets/tickets" + addParams(params)
+          return urlString;
+        });
+    },
+  }
   //------------------- MOVEMENTS --------------
   service.movements = {
     getMovements: function (
