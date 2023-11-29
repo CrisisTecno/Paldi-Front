@@ -330,26 +330,31 @@ module.exports = {
     min_value:"El valor mínimo es de 0%"
 
   },
+  //ADD ACA
   change_status:{
     change_status:"Cambiar Estado",
     new_status:"Nuevo Estado",
     status_options:`
+
     <option ng-if="changePermissions.canLine" value="LINE">Línea</option>
-    <option ng-if="changePermissions.canQuote" value="QUOTE">Cotizacion</option>
+    <option ng-if="changePermissions.canQuote" value=" QUOTE ">Cotizacion</option>
     <option ng-if="changePermissions.canInfo" value="PENDING_INFO">Informacion Pendiente</option>
     <option ng-if="changePermissions.canQuoted" value="QUOTED">Cotizado</option>
-    <option ng-if="changePermissions.canAuth" value="AUTHORIZED">Autorizado</option>
+    <option ng-if="showChangeStatusButton" value="AUTHORIZED">Autorizado</option>
+
+
 
     <option ng-if="changePermissions.canBackorder && !showChangeStatusTree" value="BACKORDER">Backorder</option>
     <option ng-if="changePermissions.canProduction && !showChangeStatusTree" value="PRODUCTION">Producción</option>
     <option ng-if="changePermissions.canTransit && !showChangeStatusTree" value="TRANSIT">Tránsito</option>
+    
     <option ng-if="changePermissions.canFinished" value="FINISHED">I. Terminado</option>
     <option ng-if="changePermissions.canProgrammed" value="PROGRAMMED">Programada</option>
     <option ng-if="changePermissions.canIncomplete" value="INSTALLED_INCOMPLETE">Instalada Parcial</option>
     <option ng-if="changePermissions.canNonConform" value="INSTALLED_NONCONFORM">Instalado Inconforme</option>          
     `
   },
-  modals:{
+modals:{
     admission_xml:"Solo se admiten archivos con formato .XML",
     empty_file:"El archivo está vacio",
     load_recipt:"Cargar Factura",
