@@ -198,10 +198,12 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 			};
 		},
 
+
+		
 		getStatusList: function (list) {
 			
 			var statusList = [
-				"QUOTE",
+				" QUOTE ",
 				"PENDING",
 				"REJECTED",
 				"LINE",
@@ -230,7 +232,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"ORDER_CANCELED",
 					"AUTHORIZED",
 					"PENDING_INFO",
-					"QUOTE",
+					" QUOTE ",
 					"QUOTED"
 				
 				];
@@ -265,7 +267,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"ORDER_CANCELED",
 					"AUTHORIZED",
 					"PENDING_INFO",
-					"QUOTE",
+					" QUOTE ",
 					"QUOTED"
 				];
 			}
@@ -284,7 +286,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"ORDER_CANCELED",
 					"AUTHORIZED",
 					"PENDING_INFO",
-					"QUOTE",
+					" QUOTE ",
 					"QUOTED"
 				];
 			}
@@ -303,7 +305,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"ORDER_CANCELED",
 					"AUTHORIZED",
 					"PENDING_INFO",
-					"QUOTE",
+					" QUOTE ",
 					"QUOTED"
 				];
 			}
@@ -322,7 +324,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"ORDER_CANCELED",
 					"AUTHORIZED",
 					"PENDING_INFO",
-					"QUOTE",
+					" QUOTE ",
 					"QUOTED"
 				];
 			}
@@ -341,7 +343,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					"ORDER_CANCELED",
 					"AUTHORIZED",
 					"PENDING_INFO",
-					"QUOTE",
+					" QUOTE ",
 					"QUOTED"
 				];
 			}
@@ -375,14 +377,14 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 			var canInfo = false;
 			var canAuth = false;
 			var canQuoted= false;
-
 			if(order.providerStatus!="QUOTE"){
 				canQuote=true
 			}
 			if(order.providerStatus!="PENDING_INFO" && order.providerStatus!="PENDING_INFO"){
 				canInfo=true
 			}
-			if(order.providerStatus!="PENDING_INFO" && order.providerStatus!="PENDING_INFO" && order.providerStatus!="QUOTED"){
+			if(order.providerStatus!="PENDING_INFO" && order.providerStatus!="PENDING_INFO"
+			 && order.providerStatus!="QUOTED"){
 				canQuoted=true
 			}
 			
@@ -390,8 +392,6 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				canLine = true;
 			}
 			if (order.status != "LINE") {
-				
-			
 				canAuth = true
 			}
 

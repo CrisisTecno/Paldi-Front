@@ -31,10 +31,7 @@ function addParams(params){
 
 pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   let service = {};
-
-
   service.bitrix = {
-
     getBitrixProjects: async function(clientId){
       let body = {clientId:clientId}
       
@@ -65,8 +62,26 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
   service.shipment = {
 
+    // sheet: async function(order_id,boxesNum,user, folio){
+    //   console.log("como es hermanito")
+    //   let params = {
+    //     user:user,
+    //     folio:folio,
+    //     boxes:boxesNum,
+
+    //   }
+    //   return $http.get(
+    //     globals.apiURL + "/newapi" + "/pdf/shipment/" + order_id,
+    //     {authentication: "yokozuna",
+    //     params :params}).then(function (response) {
+    //       return response.data;
+    //     });
+      
+    // }
+
+    //para pruebas de la generacion de pfds a partir de etiquetas
     sheet: async function(order_id,boxesNum,user, folio){
-      console.log("como es hermanito")
+      
       let params = {
         user:user,
         folio:folio,
@@ -1001,6 +1016,8 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
 
     updateRetroStatus: function (order, status) {
+      // http://localhost:3000/api/quotes/orders/656644fbe86eaeffd432830e/PENDING_INFO/provider
+  
       return $http
         .put(
           globals.apiURL +
@@ -1040,7 +1057,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           {authentication: "yokozuna"}
         )
         .then(function (response) {
-          console.log("aca enviamos gfe");
+          
           return response.data;
           
         });
@@ -1057,7 +1074,9 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           return response.data;
         });
     },
+
     setQuoteStatus: function (id, quoteStatus, quoteSubStatus) {
+      
       quoteSubStatus = !quoteSubStatus ? "" : quoteSubStatus;
       return $http
         .put(
@@ -1120,9 +1139,9 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
       endDate, // done
       provStatus=false
     ) {
-
+     //FETCH PÁRA EL 
       let params = {}
-
+      //aca para el listado
       if (EXECUTION_ENV === "EXTERNAL") {
         if (getQuoteStatusFromList(statusList).length > 0) {
           statusList = [...statusList, "QUOTE"]

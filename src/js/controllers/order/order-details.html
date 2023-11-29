@@ -73,18 +73,35 @@
       <legend class="details-title" ng-if="order.status != 'QUOTE' && step=='loaded'"><%= htmlWebpackPlugin.options.order_details.details_order%> </legend>
       <hr>
       <div class="pull-left" ng-if="isMaster && order.status != 'PENDING' &&  order.status != 'REJECTED'" ng-repeat="suborder in suborders">
-        <a href="#/console/order/{{suborder.id}}" ng-show="order.status != 'QUOTE'" class="status-tag ORDER">#{{suborder.orderNo}}-{{suborder.suborderNo}}: {{suborder.type}}</a>
+        <a href="#/console/order/{{suborder.id}}" ng-show="order.status  != 'QUOTE'" class="status-tag ORDER">#{{suborder.orderNo}}-{{suborder.suborderNo}}: {{suborder.type}}</a>
       </div>
       <div class="pull-left" ng-if="isSuborder">
         <a href="#/console/order/{{order.orderParent.id}}" ng-show="order.status != 'QUOTE'" class="status-tag ORDER">Orden #{{order.orderNo}}</a>
       </div>
+      <!-- //ADD ACA  -->
       <div class="pull-right">
         <% if (htmlWebpackPlugin.options.features.city) {%>
         <span ng-show="order.source" class="status-tag source">{{order.source}}</span>
         <%}%>
-        <span ng-show="order.status != 'QUOTE'" class="status-tag {{order.providerStatus && order.status=='LINE' &&(currentUser.role=='PROVIDER' || currentUser.role=='MANAGER' || currentUser.role=='BUYER' || currentUser.role=='SUPERADMIN')?order.providerStatus :order.status}}"><%=htmlWebpackPlugin.options.order_details.order_stats%></span>
-        <span ng-show="order.status == 'QUOTE'" class="status-tag {{order.quoteStatus}}"><%=htmlWebpackPlugin.options.order_details.order_status_p%></span>
-        <span ng-show="['LINE', 'BACKORDER', 'PRODUCTION', 'TRANSIT', 'FINISHED'].indexOf(order.status) !== -1 && order.installationDate" class="status-tag PROGRAMMED">P</span>
+        <span ng-show="order.status != 'QUOTE' && order.status ==' QUOTE '" 
+        class="status-tag {{order.providerStatus && order.status=='LINE' &&(currentUser.role=='PROVIDER'
+         || currentUser.role=='MANAGER' || currentUser.role=='BUYER' || currentUser.role=='SUPERADMIN')
+         ?order.providerStatus :order.status}}" style="color:#f4d942 ;border: 1px solid #f4d942;">
+         Cotizacion
+        </span>
+        <span ng-show="order.status != 'QUOTE' && order.status !=' QUOTE '" 
+        class="status-tag {{order.providerStatus && order.status=='LINE' &&(currentUser.role=='PROVIDER'
+         || currentUser.role=='MANAGER' || currentUser.role=='BUYER' || currentUser.role=='SUPERADMIN')
+         ?order.providerStatus :order.status}}">
+         <%=htmlWebpackPlugin.options.order_details.order_stats%>
+        </span>
+
+        <span ng-show="order.status == 'QUOTE'" class="status-tag {{order.quoteStatus}}">
+          <%=htmlWebpackPlugin.options.order_details.order_status_p%>
+        </span>
+
+        <span ng-show="['LINE', 'BACKORDER', 'PRODUCTION', 'TRANSIT', 'FINISHED'].indexOf(order.status) 
+        !== -1 && order.installationDate" class="status-tag PROGRAMMED">P</span>
       </div>
       <br>
       <br>
@@ -531,7 +548,11 @@
             <button ng-show="!currentUser.realRole"class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="btn-icon glyphicon glyphicon-menu-down"></span><%= htmlWebpackPlugin.options.order_details.work_order%>  </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item btn btn-secondary-actions btn-sm btn-square" ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN'" ng-click="sendToSpecialEmail(order)" style="margin-bottom: 0;"><span class="btn-icon glyphicon glyphicon-envelope"></span>
+              <a class="dropdown-item btn btn-secondary-actions btn-sm btn-square" 
+              ng-show="currentUser.role == 'BUYER' || currentUser.role == 
+              'MANAGER' || currentUser.role == 'SUPERADMIN'" 
+              ng-click="sendToSpecialEmail(order)"
+               style="margin-bottom: 0;"><span class="btn-icon glyphicon glyphicon-envelope"></span>
                 <%= htmlWebpackPlugin.options.general.send%>  </a>
               <div class="dropdown-divider"></div>
               <a ng-href="{{order.pdfOrderLink}}" id="download_installation_sheet" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;" ng-show="currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN' ||currentUser.role == 'CONSULTANT' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'INSTALLATION_MANAGER' || currentUser.role == 'ADMIN'" download>

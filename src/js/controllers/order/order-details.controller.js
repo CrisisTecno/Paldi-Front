@@ -296,14 +296,20 @@ pdApp.controller(
       $scope.maxDate;
       $scope.showChangeStatusButton = false;
       $scope.showChangeStatusTree= false;
-
+      //ADD ACA
       
       paldiService.orders.get(id).then(async function (order) {
         
         $scope.order = order;     
         $scope.quoteStatus = order.quoteStatus;
         
-        if(order.status=="LINE"||order.status=="PENDING_INFO"||order.status=="QUOTE"||order.status=="QUOTED"){
+        if(
+        order.status=="LINE"||
+        order.status=="PENDING_INFO"||
+        order.status==" QUOTE "||
+        order.status=="QUOTED"||
+        order.status=="AUTHORIZED"
+        ){
           $scope.showChangeStatusButton = true;
           $scope.showChangeStatusTree= true;
         }
@@ -1083,20 +1089,25 @@ pdApp.controller(
     };
 
     $scope.changeOrderStatus = async function (form, status) {
-      var exceptionStatus=["QUOTED","QUOTE","AUTHORIZED","PENDING_INFO"]
-
+      //var exceptionStatus=["QUOTED"," QUOTE ","AUTHORIZED","PENDING_INFO"]
       if (form.$valid) {
-        
         $scope.dialog.close();
-        if(exceptionStatus.includes(status)){
-          var actualStatus =status
-          await paldiService.orders.updateProviderStatus($scope.order,actualStatus,"Retroactivo")
-          status="LINE";
-          if($scope.order.status=="LINE") {
-            $scope.loadOrder()
-            return
-          }
-        }
+        // if(exceptionStatus.includes(status)){
+        //   var actualStatus =status
+        //   await paldiService.orders.updateProviderStatus($scope.order,actualStatus,"Retroactivo")
+        //   status="LINE";
+        //   if($scope.order.status=="LINE") {
+        //     $scope.loadOrder()
+        //     return
+        //   }
+        // }
+        // if (exceptionStatus.includes(status)) {
+        //   var actualStatus =status
+        //   if ($scope.order.status == "LINE") {
+        //     $scope.loadOrder();
+        //     return;
+        //   }
+        // }
         paldiService.orders
           .updateRetroStatus($scope.order, status)
           .then(function (order) {
@@ -1345,7 +1356,7 @@ pdApp.controller(
         $scope.dateModel = {};
       }
     };
-
+    //cambios para poder ir de linea a autorizado y viceversa
     $scope.statusOrderMaster = function (
       orderParent,
       suborderStatus,
@@ -1366,8 +1377,10 @@ pdApp.controller(
       var currentStatus = suborderStatus;
       paldiService.orders
         .getByOrderParent(orderParent.id)
+        
         .then(function (suborders) {
           suborders.forEach(function (suborder) {
+
             if (status[currentStatus] > status[suborder.status]) {
               currentStatus = suborder.status;
             }
@@ -1391,6 +1404,73 @@ pdApp.controller(
         });
     };
 
+    //pruebas para cambios para poder ir de linea a autorizado y viceversa
+//     $scope.statusOrderMaster = function (
+//       orderParent,
+//       suborderStatus,
+//       retroStatus
+//     ) {
+//       var status = {
+//         LINE: 1,
+//         BACKORDER: 2,
+//         PRODUCTION: 3,
+//         TRANSIT: 4,
+//         FINISHED: 5,
+//         PROGRAMMED: 6,
+//         INSTALLED_INCOMPLETE: 7,
+//         INSTALLED_NONCONFORM: 8,
+//         INSTALLED: 9,
+//         QUOTE: 10,
+//         QUOTED: 11,
+//         PENDING_INFO: 12,
+//         AUTHORIZED: 13,
+//       };
+    
+//       var currentStatus = suborderStatus;
+    
+//       paldiService.orders.getByOrderParent(orderParent.id).then(function (suborders) {
+//         suborders.forEach(function (suborder) {
+//           // Permitir transiciones desde "LINE" a ["QUOTE", "QUOTED", "PENDING_INFO", "AUTHORIZED"]
+//           if (
+//             status[currentStatus] > status[suborder.status] &&
+//             suborderStatus === "LINE" &&
+//             [" QUOTE ", "QUOTED", "PENDING_INFO", "AUTHORIZED"].includes(
+//               suborder.status
+//             )
+//           ) {
+//             currentStatus = suborder.status;
+//           }
+    
+//           // Permitir transiciones entre ["QUOTE", "QUOTED", "PENDING_INFO", "AUTHORIZED"]
+//           // Permitir transiciones entre ["QUOTE", "QUOTED", "PENDING_INFO", "AUTHORIZED"] y hacia "LINE"
+// if (
+//   status[currentStatus] > status[suborder.status] &&
+//   [" QUOTE ", "QUOTED", "PENDING_INFO", "AUTHORIZED"].includes(currentStatus) &&
+//   [" QUOTE ", "QUOTED", "PENDING_INFO", "AUTHORIZED", "LINE"].includes(
+//     suborder.status
+//   )
+// ) {
+//   currentStatus = suborder.status;
+// }
+
+//         });
+    
+//         // Resto de la lógica original
+//         if (currentStatus !== orderParent.status) {
+//           if (!retroStatus) {
+//             var updatedOrder = orderParent;
+//             updatedOrder.statusNotes = "";
+//             updatedOrder.providerId = "";
+//             paldiService.orders.updateStatus(updatedOrder, currentStatus).then(
+//               function (order) {}
+//             );
+//           } else {
+//             paldiService.orders.updateRetroStatus(orderParent, currentStatus);
+//           }
+//         }
+//       });
+//     };
+    
     //=================================================================
 
     $scope.editOrder = function () {

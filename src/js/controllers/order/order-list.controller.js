@@ -17,7 +17,7 @@ pdApp.controller(
 		DTColumnBuilder
 	) {
 		$timeout(function(){},2000)
-
+//ADD ACA
 		$scope.external = EXECUTION_ENV=="EXTERNAL"
 		$scope.statusList = [];
 		$scope.availableStatusList = [];
@@ -85,6 +85,7 @@ pdApp.controller(
 				fnCallback(result);
 			} else {
 				if ($scope.selectedType !== "consultant") {
+					console.log(cleanStatusList)
 					paldiService.orders
 						.searchByStatusList(
 							cleanStatusList,
@@ -128,6 +129,7 @@ pdApp.controller(
 							$scope.currentUser.id
 						)
 						.then(function (data) {
+							
 							var result = {
 								draw: draw,
 								recordsTotal: data.numFound,
@@ -379,12 +381,7 @@ pdApp.controller(
 							'<a ng-click="toggleDetails(' +
 							id +
 							')" class="status-block status-circle PROGRAMMED">P</a>';
-						
-						
-						
-						text = text + programmed;
-
-						
+						text = text + programmed;						
 					}
 					if(data.providerId_txt && data.providerId_txt[0]!==" - "){
 						
@@ -876,6 +873,29 @@ pdApp.controller(
 					if(status=="LINE" && data.providerStatus_s){
 						status = data.providerStatus_s
 					  }
+					// //  //QUEDA VOLVER ACA 
+					//   var text;
+
+					//   if (status === ' QUOTE ') {
+					// 	  text = (
+					// 		  '<a ng-click="toggleDetails(' +
+					// 		  id +
+					// 		  ')" style="background-color: #f4d942; color: white;">' +
+					// 		  Cotizacion +
+					// 		  "</a>"
+					// 	  );
+					//   } else {
+					// 	  text = (
+					// 		  '<a ng-click="toggleDetails(' +
+					// 		  id +
+					// 		  ')" class="status-block ' +
+					// 		  status +
+					// 		  '">' +
+					// 		  (EXECUTION_ENV !== "EXTERNAL" ? $scope.pretty("orderStatus", status) : $scope.pretty("orderStatusEn", status)) +
+					// 		  "</a>"
+					// 	  );
+					//   }
+					//ADD ACA
 					var text = (
 						'<a ng-click="toggleDetails(' +
 						id +

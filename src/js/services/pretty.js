@@ -52,13 +52,13 @@ pdApp.factory("prettyHelper", function () {
 					break
 			}
 		},
-
+		//ADD ACA
 		getOrderStatus: function (status) {
 			if(EXECUTION_ENV=="EXTERNAL"){
 				return this.getOrderStatusEn(status)
 			}
 			switch (status) {
-				case "QUOTE":
+				case " QUOTE ":
 					return "Cotización";
 				case "REJECTED":
 					return "Rechazada";
@@ -98,7 +98,6 @@ pdApp.factory("prettyHelper", function () {
 			return status;
 		},
 		getOrderStatusEn: function (status) {
-		
 			switch (status) {
 				case "QUOTE":
 					return "Quote";
@@ -178,7 +177,7 @@ pdApp.factory("prettyHelper", function () {
 		getReverseOrderStatus: function (status) {
 			switch (status) {
 				case "Cotizacion":
-					return "QUOTE";
+					return " QUOTE ";
 				case "Rechazada":
 					return "REJECTED";
 				case "Cancelada":
@@ -314,9 +313,8 @@ pdApp.factory("prettyHelper", function () {
 			}
 			return "";
 		},
-
-		getProductType: function (type) {
 		
+		getProductType: function (type) {
 			if(EXECUTION_ENV=="EXTERNAL"){
 				
 				return this.getProductTypeEN(type)
