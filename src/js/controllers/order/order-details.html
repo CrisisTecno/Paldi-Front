@@ -105,7 +105,8 @@
       </div>
       <br>
       <br>
-      <div ng-if="order.type == 'Mixta'">
+      <!-- cambio aqui  de descuentos a totales-->
+      <!-- <div ng-if="order.type == 'Mixta'">
         <ul>
           
           <li ng-if="order.balanceDiscount > 0">
@@ -137,7 +138,7 @@
             <span>{{order.molduraDiscount | currency}}</span>
           </li>
         </ul>
-      </div>
+      </div> -->
       <br>
       <div ng-if="order.statusNotes" class="order-notes">
         <h3><%= htmlWebpackPlugin.options.order_details.state_comments%></h3>
@@ -401,10 +402,13 @@
         <p>{{order.notes}}</p>
       </div>
       <!--/////////////////////// Totales ///////////////////////-->
+      
       <div class="order-notes">
         <h3 class="details-title"><%= htmlWebpackPlugin.options.quotes.totals%></h3>
         <div class="ibox-content">
           <ul>
+                  <!--/////////////////////// modificado///////////////////////-->
+            
             <li>
               <small><%= htmlWebpackPlugin.options.quote_commons.products%>:</small>
               <span>{{order.productsTotal | currency}}</span>
@@ -417,6 +421,40 @@
               <small><%= htmlWebpackPlugin.options.payments.motor%>:</small>
               <span>{{order.motorTotal | currency}}</span>
             </li>
+            <!--/////////////////////// modificado///////////////////////-->
+            <div ng-if="order.type == 'Mixta'">
+              <ul>
+                
+                <li ng-if="order.balanceDiscount > 0">
+                  <small>{{getMatchDiscounts('Descuento Balance')}} ({{order.discountPercentBalance}}%):</small>
+                  <span>{{order.balanceDiscount | currency}}</span>
+                </li>
+                <li ng-if="order.shutterDiscount > 0">
+                  <small>Descuento Shutters ({{order.discountPercentShutter}}%):</small>
+                  <span>{{order.shutterDiscount | currency}}</span>
+                </li>
+                <li ng-if="order.enrollableDiscount > 0">
+                  <small>{{getMatchDiscounts('Descuento Persiana')}} ({{order.discountPercentEnrollable}}%):</small>
+                  <span>{{order.enrollableDiscount | currency}}</span>
+                </li>
+                <li ng-if="order.filtrasolDiscount > 0">
+                  <small>Descuento Filtrasol ({{order.discountPercentFiltrasol}}%):</small>
+                  <span>{{order.filtrasolDiscount | currency}}</span>
+                </li>
+                <li ng-if="order.cortinaDiscount > 0">
+                  <small>Descuento Cortina ({{order.discountPercentCortina}}%):</small>
+                  <span>{{order.cortinaDiscount | currency}}</span>
+                </li>
+                <li ng-if="order.pisoDiscount > 0">
+                  <small>Descuento Piso ({{order.discountPercentPiso}}%):</small>
+                  <span>{{order.pisoDiscount | currency}}</span>
+                </li>
+                <li ng-if="order.molduraDiscount > 0">
+                  <small>Descuento Moldura ({{order.discountPercentMoldura}}%):</small>
+                  <span>{{order.molduraDiscount | currency}}</span>
+                </li>
+              </ul>
+            </div>
             <li ng-show="order.discountPercent && !(order.discountPercentBalance > 0 || order.discountPercentShutter > 0 || order.discountPercentEnrollable > 0 || order.discountPercentFiltrasol > 0 || order.discountPercentCortina > 0 || order.discountPercentPiso > 0 || order.discountPercentMoldura > 0 )">
               <small>{{getMatchDiscount()}} ({{order.discountPercent}}%):</small>
               <span>{{order.discount | currency}}</span>
