@@ -424,33 +424,39 @@
             <!--/////////////////////// modificado///////////////////////-->
             <div ng-if="order.type == 'Mixta'">
               <ul>
-                
                 <li ng-if="order.balanceDiscount > 0">
-                  <small>{{getMatchDiscounts('Descuento Balance')}} ({{order.discountPercentBalance}}%):</small>
+
+                  <small>Descuento Balance ({{(order.discountPercentBalance / order.productsTotal * 100).toFixed(2)}}%):</small>                  
+
                   <span>{{order.balanceDiscount | currency}}</span>
                 </li>
                 <li ng-if="order.shutterDiscount > 0">
-                  <small>Descuento Shutters ({{order.discountPercentShutter}}%):</small>
+                  <small>Descuento Shutters ({{(order.shutterDiscount / order.productsTotal * 100).toFixed(2)}}%):</small>               
+
                   <span>{{order.shutterDiscount | currency}}</span>
                 </li>
                 <li ng-if="order.enrollableDiscount > 0">
-                  <small>{{getMatchDiscounts('Descuento Persiana')}} ({{order.discountPercentEnrollable}}%):</small>
+                  <small>Descuento Persiana ({{(order.discountPercentEnrollable / order.productsTotal * 100).toFixed(2)}}%):</small>                  
+
                   <span>{{order.enrollableDiscount | currency}}</span>
                 </li>
                 <li ng-if="order.filtrasolDiscount > 0">
-                  <small>Descuento Filtrasol ({{order.discountPercentFiltrasol}}%):</small>
+                  <small>Descuento Filtrasol ({{(order.discountPercentFiltrasol / order.productsTotal * 100).toFixed(2)}}%):</small>                  
+
                   <span>{{order.filtrasolDiscount | currency}}</span>
                 </li>
                 <li ng-if="order.cortinaDiscount > 0">
-                  <small>Descuento Cortina ({{order.discountPercentCortina}}%):</small>
+                  <small>Descuento Cortina ({{(order.discountPercentCortina / order.productsTotal * 100).toFixed(2)}}%):</small>                  
                   <span>{{order.cortinaDiscount | currency}}</span>
                 </li>
                 <li ng-if="order.pisoDiscount > 0">
-                  <small>Descuento Piso ({{order.discountPercentPiso}}%):</small>
-                  <span>{{order.pisoDiscount | currency}}</span>
+                  <small>Descuento Piso ({{(order.pisoDiscount / order.productsTotal * 100).toFixed(2)}}%):</small>   
+                  <span>{{order.pisoDiscount | currency}}</span>               
                 </li>
                 <li ng-if="order.molduraDiscount > 0">
-                  <small>Descuento Moldura ({{order.discountPercentMoldura}}%):</small>
+
+                  <small>Descuento Moldura ({{(order.molduraDiscount / order.productsTotal * 100).toFixed(2)}}%):</small>                 
+
                   <span>{{order.molduraDiscount | currency}}</span>
                 </li>
               </ul>
@@ -536,10 +542,17 @@
         <br><br>
         <!--/////////////////////// Botones ///////////////////////-->
         <h3 class="details-title" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida'  || order.status == 'ORDER_CANCELED' <%= htmlWebpackPlugin.options.order_details.condition_action%>"> <%= htmlWebpackPlugin.options.details_headers.actions%></h3>
-        <div class="pull-right" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida' || order.status == 'ORDER_CANCELED'">
+        <div class="pull-right" 
+        ng-hide="order.status == 'CANCELED' || 
+        order.quoteStatus == 'Duplicada' || 
+        order.quoteStatus == 'Venta Perdida' 
+        || order.status == 'ORDER_CANCELED'">
           <a href="{{order.pdfLink}}" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canDownload" download><span class="btn-icon glyphicon glyphicon glyphicon-save"></span><%= htmlWebpackPlugin.options.order_details.download_pdf%></a>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canMail && !external" ng-click="sendToClient(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span><%= htmlWebpackPlugin.options.order_details.send_client%> </button>
-          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="currentUser.role == 'BUYER' && currentUser.role == 'SALES_MANAGER' && currentUser.role == 'SUPERADMIN'" ng-click="sendToSpecialEmail(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span>
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="currentUser.role == 'BUYER' && currentUser.role == 'SALES_MANAGER'
+           && currentUser.role == 'SUPERADMIN'" 
+           ng-click="sendToSpecialEmail(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span>
             <%= htmlWebpackPlugin.options.order_details.send_work_order%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canEdit" ng-click="editOrder() "><span class="btn-icon glyphicon glyphicon-pencil   "></span><%= htmlWebpackPlugin.options.general.edit%> </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canPay  && !isSuborder" ng-click="paymentDialog('payment')" style="z-index: 9999;"><span class="btn-icon glyphicon glyphicon-usd"></span><%= htmlWebpackPlugin.options.order_details.register_payment%> </button>
@@ -551,15 +564,52 @@
           <button type="button" class="btn btn-primary-actions btn-sm btn-square" ng-show="permissions.canSend" ng-click="sendToOrderDialog()"><span class="btn-icon glyphicon glyphicon-log-in  "></span><%= htmlWebpackPlugin.options.order_details.send_as_order%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canApprove " ng-click="changeStatusDialog('LINE')"><span class="btn-icon glyphicon glyphicon-ok      "></span><%= htmlWebpackPlugin.options.order_details.approve_order%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canApprove" ng-click="changeStatusDialog('REJECTED')"><span class="btn-icon glyphicon glyphicon-remove  "></span><%= htmlWebpackPlugin.options.order_details.reject%>  </button>
-          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canProduction  && (order.providerStatus=='AUTHORIZED' || !order.provider )&& !isMaster" ng-click="changeStatusDialog('PRODUCTION')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_prod%>  </button>
+          <button type="button" 
+          class="btn btn-secondary-actions btn-sm btn-square"
+           ng-show="order.status=='AUTHORIZED' && !isMaster"
+            ng-click="changeStatusDialog('PRODUCTION')">
+            <span class="btn-icon glyphicon glyphicon-th-large">
 
+            </span><%= htmlWebpackPlugin.options.order_details.send_prod%>  </button>
+          
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
-          ng-show="permissions.canBackorder  && !isMaster" 
+          ng-show="order.status=='AUTHORIZED' && !isMaster" 
           ng-click="changeStatusDialog('BACKORDER')">
           <span class="btn-icon glyphicon glyphicon-th-large"></span>
           <%= htmlWebpackPlugin.options.order_details.send_back%> </button>
 
-          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canTransit  && !isMaster" ng-click="changeStatusDialog('TRANSIT')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_transit%>  </button>
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canProduction  && (order.providerStatus=='AUTHORIZED' || !order.provider )&& !isMaster" ng-click="changeStatusDialog('PRODUCTION')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_prod%>  </button>
+          
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="permissions.canBackorder  && !isMaster" 
+          >
+          <span class="btn-icon glyphicon glyphicon-th-large"></span>
+          <%= htmlWebpackPlugin.options.order_details.send_back%> </button>
+
+        
+       
+
+
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="permissions.canTransit  && !isMaster" 
+          ng-click="changeStatusDialog('TRANSIT')">
+          <span class="btn-icon glyphicon glyphicon-th-large">
+          </span><%= htmlWebpackPlugin.options.order_details.send_transit%>  
+        </button>
+
+          <!-- <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="permissions.canTransit  && !isMaster" 
+          ng-click="fortransit('TRANSIT')">
+          <span class="btn-icon glyphicon glyphicon-th-large">
+          </span>Guias 
+        </button> -->
+        <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="order.status == 'TRANSIT' "
+          ng-click="updateGuidesDialog()">
+          <span class="btn-icon glyphicon glyphicon-th-large">
+          </span>Editar Guias 
+        </button>
+
 
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
           ng-show="(currentUser.role=='SUPERADMIN' || currentUser.role=='BUYER' || currentUser.role=='SALES_MANAGER')&& order.status=='LINE' && !order.providerStatus && !isMaster && order.provider" ng-click="changeProviderStatus('QUOTE')">
@@ -575,7 +625,8 @@
           <span class="btn-icon glyphicon glyphicon-th-large"></span>Marcar como Autorizado</button>
 
           
-          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canFinish  && !isMaster" ng-click="changeStatusDialog('FINISHED')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.finish%>  </button>
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
+           ng-show="permissions.canFinish  && !isMaster" ng-click="changeStatusDialog('FINISHED')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.finish%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canSetInstallDate  && !isMaster" ng-click="dateDialog('install')"><span class="btn-icon glyphicon glyphicon-calendar "></span><%= htmlWebpackPlugin.options.order_details.inst_date%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canFinish  && !isMaster && !external" ng-click="shipmentDialog()"><span class="btn-icon glyphicon glyphicon-tags"></span> Generar Etiquetas</button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="!order.provider && !external && (currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN') && order.status=='LINE' && needsProviderAssigned"                   ng-click="selectProvidersTrigger()"><span class="btn-icon glyphicon glyphicon-tags"></span> Asignar Proveedor</button>
@@ -612,18 +663,26 @@
                 <span class="btn-icon glyphicon glyphicon glyphicon-save"></span><%= htmlWebpackPlugin.options.general.download%>  </a>
             </div>
           </div>
-          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED')"><span class="btn-icon glyphicon glyphicon-th"></span><%= htmlWebpackPlugin.options.order_details.installed%>  </button>
-          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canPartialInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED_INCOMPLETE')">
-            <span class="btn-icon glyphicon glyphicon-th"></span><%= htmlWebpackPlugin.options.order_details.partial_install%> </button>
-          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canPartialInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED_NONCONFORM')">
-            <span class="btn-icon glyphicon glyphicon-th"></span><%= htmlWebpackPlugin.options.order_details.inconform_install%> </button>
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="permissions.canInstall  && !isMaster" 
+          ng-click="changeStatusDialog('INSTALLED')"><span class="btn-icon glyphicon glyphicon-th"></span>
+          <%= htmlWebpackPlugin.options.order_details.installed%>  </button>
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="permissions.canPartialInstall  && !isMaster" 
+          ng-click="changeStatusDialog('INSTALLED_INCOMPLETE')">
+            <span class="btn-icon glyphicon glyphicon-th"></span>
+            <%= htmlWebpackPlugin.options.order_details.partial_install%> </button>
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="permissions.canPartialInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED_NONCONFORM')">
+            <span class="btn-icon glyphicon glyphicon-th"></span>
+            <%= htmlWebpackPlugin.options.order_details.inconform_install%> </button>
           <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" ng-show="permissions.canUpdateProvider " ng-click="updateProviderDialog()"><span class="btn-icon glyphicon glyphicon-edit   "></span><%= htmlWebpackPlugin.options.order_details.change_provider%>  </button>
           
-          <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" 
+          <!-- <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" 
           ng-show="permissions.canUpdateProvider && order.orderTransitInvoice"
            ng-click="updateGuidesDialog()"><span class="btn-icon glyphicon glyphicon-edit   ">
 
-           </span><%= htmlWebpackPlugin.options.order_details.change_guides%>  </button>
+           </span><%= htmlWebpackPlugin.options.order_details.change_guides%>  </button> -->
           
 
 
@@ -648,9 +707,13 @@
         </button> -->
 
 
-          <button type="button" ng-show="order.status ==  'QUOTE' && permissions.canCancel" class="btn btn-tertiary-actions btn-sm btn-square" ng-click="changeStatusDialog('CANCELED')"><span class="btn-icon glyphicon glyphicon-remove   "></span><%= htmlWebpackPlugin.options.general.cancel%>  </button>
+          <button type="button"
+           ng-show="order.status ==  'QUOTE' && permissions.canCancel" 
+           class="btn btn-tertiary-actions btn-sm btn-square"
+            ng-click="changeStatusDialog('CANCELED')"><span class="btn-icon glyphicon glyphicon-remove   "></span><%= htmlWebpackPlugin.options.general.cancel%>  </button>
           <button type="button" ng-show="order.status !=  'QUOTE' && order.orderParent == null && order.status !=  'ORDER_CANCELED' && permissions.canCancel && order.balance >= 0.1" class="btn btn-tertiary-actions btn-sm btn-square" ng-click="changeStatusDialog('ORDER_CANCELED')">
-            <span class="btn-icon glyphicon glyphicon-remove"></span><%= htmlWebpackPlugin.options.general.cancel%>  </button>
+            <span class="btn-icon glyphicon glyphicon-remove"></span>
+            <%= htmlWebpackPlugin.options.general.cancel%>  </button>
           <button type="button" ng-show="order.status !=  'QUOTE' && order.status !=  'ORDER_CANCELED' && permissions.canCancel && order.balance < 0.1" class="btn btn-tertiary-actions btn-sm btn-square" ng-click="" disabled><span class="btn-icon glyphicon glyphicon-remove"></span>
             <%= htmlWebpackPlugin.options.general.cancel%>  </button>
         </div>
