@@ -583,12 +583,12 @@
         <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
           ng-show="order.status == 'FINISHED' || 
           order.status == 'PROGRAMMED' || 
-          order.Status == 'INSTALLED'  || 
+          order.status == 'INSTALLED'  || 
           order.status == 'INSTALLED_NONCONFORM' || 
-          order.Status == 'INSTALLED_INCOMPLETE'"
+          order.status == 'INSTALLED_INCOMPLETE'"
           ng-click="updateGuidesDialog()">
           <span class="btn-icon glyphicon glyphicon-th-large">
-          </span>Guias 
+          </span>Editar Guias 
         </button>
 
 
@@ -650,11 +650,11 @@
             <span class="btn-icon glyphicon glyphicon-th"></span><%= htmlWebpackPlugin.options.order_details.inconform_install%> </button>
           <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" ng-show="permissions.canUpdateProvider " ng-click="updateProviderDialog()"><span class="btn-icon glyphicon glyphicon-edit   "></span><%= htmlWebpackPlugin.options.order_details.change_provider%>  </button>
           
-          <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" 
+          <!-- <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" 
           ng-show="permissions.canUpdateProvider && order.orderTransitInvoice"
            ng-click="updateGuidesDialog()"><span class="btn-icon glyphicon glyphicon-edit   ">
 
-           </span><%= htmlWebpackPlugin.options.order_details.change_guides%>  </button>
+           </span><%= htmlWebpackPlugin.options.order_details.change_guides%>  </button> -->
           
 
 
