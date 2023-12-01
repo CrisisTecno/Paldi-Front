@@ -424,33 +424,39 @@
             <!--/////////////////////// modificado///////////////////////-->
             <div ng-if="order.type == 'Mixta'">
               <ul>
-                
                 <li ng-if="order.balanceDiscount > 0">
-                  <small>{{getMatchDiscounts('Descuento Balance')}} ({{order.discountPercentBalance}}%):</small>
+
+                  <small>Descuento Balance ({{(order.discountPercentBalance / order.productsTotal * 100).toFixed(2)}}%):</small>                  
+
                   <span>{{order.balanceDiscount | currency}}</span>
                 </li>
                 <li ng-if="order.shutterDiscount > 0">
-                  <small>Descuento Shutters ({{order.discountPercentShutter}}%):</small>
+                  <small>Descuento Shutters ({{(order.shutterDiscount / order.productsTotal * 100).toFixed(2)}}%):</small>               
+
                   <span>{{order.shutterDiscount | currency}}</span>
                 </li>
                 <li ng-if="order.enrollableDiscount > 0">
-                  <small>{{getMatchDiscounts('Descuento Persiana')}} ({{order.discountPercentEnrollable}}%):</small>
+                  <small>Descuento Persiana ({{(order.discountPercentEnrollable / order.productsTotal * 100).toFixed(2)}}%):</small>                  
+
                   <span>{{order.enrollableDiscount | currency}}</span>
                 </li>
                 <li ng-if="order.filtrasolDiscount > 0">
-                  <small>Descuento Filtrasol ({{order.discountPercentFiltrasol}}%):</small>
+                  <small>Descuento Filtrasol ({{(order.discountPercentFiltrasol / order.productsTotal * 100).toFixed(2)}}%):</small>                  
+
                   <span>{{order.filtrasolDiscount | currency}}</span>
                 </li>
                 <li ng-if="order.cortinaDiscount > 0">
-                  <small>Descuento Cortina ({{order.discountPercentCortina}}%):</small>
+                  <small>Descuento Cortina ({{(order.discountPercentCortina / order.productsTotal * 100).toFixed(2)}}%):</small>                  
                   <span>{{order.cortinaDiscount | currency}}</span>
                 </li>
                 <li ng-if="order.pisoDiscount > 0">
-                  <small>Descuento Piso ({{order.discountPercentPiso}}%):</small>
-                  <span>{{order.pisoDiscount | currency}}</span>
+                  <small>Descuento Piso ({{(order.pisoDiscount / order.productsTotal * 100).toFixed(2)}}%):</small>   
+                  <span>{{order.pisoDiscount | currency}}</span>               
                 </li>
                 <li ng-if="order.molduraDiscount > 0">
-                  <small>Descuento Moldura ({{order.discountPercentMoldura}}%):</small>
+
+                  <small>Descuento Moldura ({{(order.molduraDiscount / order.productsTotal * 100).toFixed(2)}}%):</small>                 
+
                   <span>{{order.molduraDiscount | currency}}</span>
                 </li>
               </ul>
