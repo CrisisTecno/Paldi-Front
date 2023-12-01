@@ -37,7 +37,7 @@ pdApp.controller(
     
     $scope.external = EXECUTION_ENV=="EXTERNAL"
 
-
+    $scope.guias=false
     $scope.optionsList = []
 
     $scope.decideStatus = function(val){
@@ -894,14 +894,11 @@ pdApp.controller(
 
       })
     }
+    
     $scope.updateGuidesDialog = function () {
       $scope.dateModel = {};
-     
-
       $scope.dateModel['guides']=$scope.order.guides??[]
       $scope.dateModel['orderTransitInvoice']=$scope.order.orderTransitInvoice??""
-    
-
       $scope.dialog = ngDialog.open({
         scope: $scope,
         template: "partials/views/console/update-guides.html",
@@ -915,7 +912,6 @@ pdApp.controller(
       updatedOrder.statusNotes = $scope.dateModel.notes;
       updatedOrder.orderTransitInvoice=$scope.dateModel.orderTransitInvoice
       updatedOrder.guides = $scope.dateModel.guides
-
       paldiService.orders.setGuides(updatedOrder).then(()=>{
         loadOrder();
       })
@@ -993,8 +989,20 @@ pdApp.controller(
       );
     };
 
-    $scope.changeStatusDialog = function (status) {
+    $scope.fortransit=function (){
+      paldiService.orders.getGuides($stateParams.orderId)
+      .then(function(guias){
+        console.log(guias)
+        $scope.guias=guias
+        ngDialog.open({
+          template: "partials/views/console/datepicker.html",
+          scope: $scope,
+          showClose: false,
+        });
+      })
 
+    };
+    $scope.changeStatusDialog = function (status) {
       if (status && status == "LINE" && !$scope.order.user.warehouse) {
         swal({
           title:  (EXECUTION_ENV=="EXTERNAL"?"Sales Rep is not afiliated to a warehouse":"El vendedor no está asignado a un almacén"),
@@ -1017,12 +1025,9 @@ pdApp.controller(
             closeOnCancel: false,
           },
           function (isConfirm) {
-            
             if (isConfirm  ) {
               $scope.newStatus = status;
-              
               if (status === "PENDING") {
-
                 if(EXECUTION_ENV=="EXTERNAL"){
                   $scope.statusNotesDialog();
                   return
@@ -1056,11 +1061,9 @@ pdApp.controller(
                       if (limitDays) {
                         $scope.limitDays = limitDays;
                       }
-
                       var maxDate = getMaxDate(
                         $scope.limitDays
                       );
-
                       $scope.dateOptions.maxDate =
                         new Date(maxDate);
                       $scope.changeStatus();
@@ -1250,6 +1253,7 @@ pdApp.controller(
             }
           );
       } else if ($scope.newStatus == "TRANSIT") {
+        // aca mirar
         $scope.dateDialog("arrival");
       } else if ($scope.newStatus == "PRODUCTION") {
         $scope.dateDialog("endProduction");
@@ -1492,7 +1496,6 @@ pdApp.controller(
     $scope.date.setHours(0, 0, 0, 0);
 
     $scope.dateDialog = function (dateType) {
-      
       $scope.dateModel = {};
       $scope.dateType = dateType;
       if(dateType=='arrival'){
@@ -1513,7 +1516,6 @@ pdApp.controller(
     };
 
     $scope.addDataToRepeater = function(model,type){
-     
       if(type=="guides"){
         if(!model.guides){
           model.guides = [""]
@@ -1522,7 +1524,6 @@ pdApp.controller(
           model.guides.push("")
         }
       }
-
     }
 
     $scope.removeDataFromRepeater = function(model,type,index){

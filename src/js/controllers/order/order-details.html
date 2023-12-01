@@ -498,10 +498,17 @@
         <br><br>
         <!--/////////////////////// Botones ///////////////////////-->
         <h3 class="details-title" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida'  || order.status == 'ORDER_CANCELED' <%= htmlWebpackPlugin.options.order_details.condition_action%>"> <%= htmlWebpackPlugin.options.details_headers.actions%></h3>
-        <div class="pull-right" ng-hide="order.status == 'CANCELED' || order.quoteStatus == 'Duplicada' || order.quoteStatus == 'Venta Perdida' || order.status == 'ORDER_CANCELED'">
+        <div class="pull-right" 
+        ng-hide="order.status == 'CANCELED' || 
+        order.quoteStatus == 'Duplicada' || 
+        order.quoteStatus == 'Venta Perdida' 
+        || order.status == 'ORDER_CANCELED'">
           <a href="{{order.pdfLink}}" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canDownload" download><span class="btn-icon glyphicon glyphicon glyphicon-save"></span><%= htmlWebpackPlugin.options.order_details.download_pdf%></a>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canMail && !external" ng-click="sendToClient(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span><%= htmlWebpackPlugin.options.order_details.send_client%> </button>
-          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="currentUser.role == 'BUYER' && currentUser.role == 'SALES_MANAGER' && currentUser.role == 'SUPERADMIN'" ng-click="sendToSpecialEmail(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span>
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="currentUser.role == 'BUYER' && currentUser.role == 'SALES_MANAGER'
+           && currentUser.role == 'SUPERADMIN'" 
+           ng-click="sendToSpecialEmail(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span>
             <%= htmlWebpackPlugin.options.order_details.send_work_order%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canEdit" ng-click="editOrder() "><span class="btn-icon glyphicon glyphicon-pencil   "></span><%= htmlWebpackPlugin.options.general.edit%> </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canPay  && !isSuborder" ng-click="paymentDialog('payment')" style="z-index: 9999;"><span class="btn-icon glyphicon glyphicon-usd"></span><%= htmlWebpackPlugin.options.order_details.register_payment%> </button>
@@ -521,7 +528,31 @@
           <span class="btn-icon glyphicon glyphicon-th-large"></span>
           <%= htmlWebpackPlugin.options.order_details.send_back%> </button>
 
-          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canTransit  && !isMaster" ng-click="changeStatusDialog('TRANSIT')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_transit%>  </button>
+
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="permissions.canTransit  && !isMaster" 
+          ng-click="changeStatusDialog('TRANSIT')">
+          <span class="btn-icon glyphicon glyphicon-th-large">
+          </span><%= htmlWebpackPlugin.options.order_details.send_transit%>  
+        </button>
+
+          <!-- <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="permissions.canTransit  && !isMaster" 
+          ng-click="fortransit('TRANSIT')">
+          <span class="btn-icon glyphicon glyphicon-th-large">
+          </span>Guias 
+        </button> -->
+        <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="order.status == 'FINISHED' || 
+          order.status == 'PROGRAMMED' || 
+          order.Status == 'INSTALLED'  || 
+          order.status == 'INSTALLED_NONCONFORM' || 
+          order.Status == 'INSTALLED_INCOMPLETE'"
+          ng-click="updateGuidesDialog()">
+          <span class="btn-icon glyphicon glyphicon-th-large">
+          </span>Guias 
+        </button>
+
 
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
           ng-show="(currentUser.role=='SUPERADMIN' || currentUser.role=='BUYER' || currentUser.role=='SALES_MANAGER')&& order.status=='LINE' && !order.providerStatus && !isMaster && order.provider" ng-click="changeProviderStatus('QUOTE')">
