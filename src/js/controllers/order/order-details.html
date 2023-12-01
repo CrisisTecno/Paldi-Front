@@ -552,7 +552,7 @@
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canApprove " ng-click="changeStatusDialog('LINE')"><span class="btn-icon glyphicon glyphicon-ok      "></span><%= htmlWebpackPlugin.options.order_details.approve_order%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canApprove" ng-click="changeStatusDialog('REJECTED')"><span class="btn-icon glyphicon glyphicon-remove  "></span><%= htmlWebpackPlugin.options.order_details.reject%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canProduction  && (order.providerStatus=='AUTHORIZED' || !order.provider )&& !isMaster" ng-click="changeStatusDialog('PRODUCTION')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_prod%>  </button>
-          
+
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
           ng-show="permissions.canBackorder  && !isMaster" 
           ng-click="changeStatusDialog('BACKORDER')">
