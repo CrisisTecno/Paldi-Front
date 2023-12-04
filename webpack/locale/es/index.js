@@ -335,21 +335,22 @@ module.exports = {
     change_status:"Cambiar Estado",
     new_status:"Nuevo Estado",
     status_options:`
+    <option ng-if="changePermissions.canLine || showlvl7  || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="LINE">Línea</option>
+    <option ng-if="changePermissions.canQuote || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1 " value=" QUOTE ">Cotizando</option>
+    <option ng-if="changePermissions.canInfo || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="PENDING_INFO">Informacion Pendiente</option>
+    <option ng-if="changePermissions.canQuoted || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="QUOTED">Cotizado</option>
+    <option ng-if="showChangeStatusButton || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="AUTHORIZED">Autorizado</option>
 
-    <option ng-if="changePermissions.canLine" value="LINE">Línea</option>
-    <option ng-if="changePermissions.canQuote" value=" QUOTE ">Cotizando</option>
-    <option ng-if="changePermissions.canInfo" value="PENDING_INFO">Informacion Pendiente</option>
-    <option ng-if="changePermissions.canQuoted" value="QUOTED">Cotizado</option>
-    <option ng-if="showChangeStatusButton" value="AUTHORIZED">Autorizado</option>
+    <option ng-if="(changePermissions.canBackorder && !showChangeStatusTree)|| showlvl7 ||  showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3" value="BACKORDER">Backorder</option>
 
+    <option ng-if="(changePermissions.canProduction && !showChangeStatusTree)|| showlvl7 ||  showlvl6  ||  showlvl5 ||  showlvl4 " value="PRODUCTION">Producción</option>
 
+    <option ng-if="(changePermissions.canTransit && !showChangeStatusTree)|| showlvl7 ||  showlvl6  ||  showlvl5 " value="TRANSIT">Tránsito</option>
 
-    <option ng-if="changePermissions.canBackorder && !showChangeStatusTree" value="BACKORDER">Backorder</option>
-    <option ng-if="changePermissions.canProduction && !showChangeStatusTree" value="PRODUCTION">Producción</option>
-    <option ng-if="changePermissions.canTransit && !showChangeStatusTree" value="TRANSIT">Tránsito</option>
-    
-    <option ng-if="changePermissions.canFinished" value="FINISHED">I. Terminado</option>
-    <option ng-if="changePermissions.canProgrammed" value="PROGRAMMED">Programada</option>
+    <option ng-if="changePermissions.canFinished || showlvl7 ||  showlvl6  " value="FINISHED">I. Terminado</option>
+
+    <option ng-if="changePermissions.canProgrammed || showlvl7 " value="PROGRAMMED">Programada</option>
+
     <option ng-if="changePermissions.canIncomplete" value="INSTALLED_INCOMPLETE">Instalada Parcial</option>
     <option ng-if="changePermissions.canNonConform" value="INSTALLED_NONCONFORM">Instalado Inconforme</option>          
     `

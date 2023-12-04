@@ -296,6 +296,14 @@ pdApp.controller(
       $scope.maxDate;
       $scope.showChangeStatusButton = false;
       $scope.showChangeStatusTree= false;
+      // show cases
+      $scope.showlvl1= false;
+      $scope.showlvl2= false;
+      $scope.showlvl3= false;
+      $scope.showlvl4= false;
+      $scope.showlvl5= false;
+      $scope.showlvl6= false;
+      $scope.showlvl7= false;
       //ADD ACA
       
       paldiService.orders.get(id).then(async function (order) {
@@ -303,8 +311,7 @@ pdApp.controller(
         $scope.order = order;     
         $scope.quoteStatus = order.quoteStatus;
         
-        if(
-        order.status=="LINE"||
+        if(order.status=="LINE"||
         order.status=="PENDING_INFO"||
         order.status==" QUOTE "||
         order.status=="QUOTED"||
@@ -312,6 +319,38 @@ pdApp.controller(
         ){
           $scope.showChangeStatusButton = true;
           $scope.showChangeStatusTree= true;
+        }
+  
+        if($scope.currentUser.role=="SUPERADMIN" && order.status!='QUOTE' && !order.status!='PENDING'){
+          $scope.showChangeStatusButton = true;
+          switch(order.status){
+            case "LINE":
+            case " QUOTE ":
+            case "PENDING_INFO":
+            case "QUOTED":
+            case "AUTHORIZED":
+              $scope.showlvl1= true;
+              break;
+            case "BACKORDER":
+              $scope.showlvl2= true;
+              break;
+            case "PRODUCTION":
+              $scope.showlvl3= true;
+              break;
+            case "TRANSIT":
+              $scope.showlvl4= true;
+              break;
+            case "FINISHED":
+              $scope.showlvl5= true;
+              break;
+            case "PROGRAMMED":
+              $scope.showlvl6= true;
+              break;
+            case "INSTALLED_INCOMPLETE":
+            case "INSTALLED_NONCONFORM":
+              $scope.showlvl7 = true;
+              break;
+          }
         }
         
         $scope.quoteSubStatus = order.quoteSubStatus;
