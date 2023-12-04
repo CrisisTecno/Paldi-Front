@@ -87,7 +87,7 @@
         class="status-tag {{order.providerStatus && order.status=='LINE' &&(currentUser.role=='PROVIDER'
          || currentUser.role=='MANAGER' || currentUser.role=='BUYER' || currentUser.role=='SUPERADMIN')
          ?order.providerStatus :order.status}}" style="color:#f4d942 ;border: 1px solid #f4d942;">
-         Cotizacion
+         Cotizando
         </span>
         <span ng-show="order.status != 'QUOTE' && order.status !=' QUOTE '" 
         class="status-tag {{order.providerStatus && order.status=='LINE' &&(currentUser.role=='PROVIDER'
@@ -674,7 +674,7 @@
 
           <button type="button" 
           class="btn btn-tertiary-actions btn-sm btn-square" 
-          ng-show="showChangeStatusButton" 
+          ng-show="showChangeStatusButton " 
           ng-click="changeStatusDialog()">
           <span class="btn-icon glyphicon glyphicon-refresh   ">
 
