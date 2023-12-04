@@ -337,7 +337,7 @@ module.exports = {
     status_options:`
 
     <option ng-if="changePermissions.canLine" value="LINE">Línea</option>
-    <option ng-if="changePermissions.canQuote" value=" QUOTE ">Cotizacion</option>
+    <option ng-if="changePermissions.canQuote" value=" QUOTE ">Cotizando</option>
     <option ng-if="changePermissions.canInfo" value="PENDING_INFO">Informacion Pendiente</option>
     <option ng-if="changePermissions.canQuoted" value="QUOTED">Cotizado</option>
     <option ng-if="showChangeStatusButton" value="AUTHORIZED">Autorizado</option>

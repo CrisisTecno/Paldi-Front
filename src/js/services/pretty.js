@@ -59,7 +59,7 @@ pdApp.factory("prettyHelper", function () {
 			}
 			switch (status) {
 				case " QUOTE ":
-					return "Cotización";
+					return "Cotizando";
 				case "REJECTED":
 					return "Rechazada";
 				case "CANCELED":
@@ -176,8 +176,10 @@ pdApp.factory("prettyHelper", function () {
 
 		getReverseOrderStatus: function (status) {
 			switch (status) {
-				case "Cotizacion":
+				case "Cotizando":
 					return " QUOTE ";
+				case "Cotizacion":
+					return "QUOTE";
 				case "Rechazada":
 					return "REJECTED";
 				case "Cancelada":
