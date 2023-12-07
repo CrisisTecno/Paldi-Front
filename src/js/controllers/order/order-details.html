@@ -72,12 +72,16 @@
       <legend class="details-title" ng-if="order.status == 'QUOTE' && step=='loaded'"><%= htmlWebpackPlugin.options.order_details.details_quote%> </legend>
       <legend class="details-title" ng-if="order.status != 'QUOTE' && step=='loaded'"><%= htmlWebpackPlugin.options.order_details.details_order%> </legend>
       <hr>
+
+
       <div class="pull-left" ng-if="isMaster && order.status != 'PENDING' &&  order.status != 'REJECTED'" ng-repeat="suborder in suborders">
         <a href="#/console/order/{{suborder.id}}" ng-show="order.status  != 'QUOTE'" class="status-tag ORDER">#{{suborder.orderNo}}-{{suborder.suborderNo}}: {{suborder.type}}</a>
       </div>
+
       <div class="pull-left" ng-if="isSuborder">
-        <a href="#/console/order/{{order.orderParent.id}}" ng-show="order.status != 'QUOTE'" class="status-tag ORDER">Orden #{{order.orderNo}}</a>
+        <a href="#/console/order/{{order.orderParent.$id}}" ng-show="order.status != 'QUOTE'" class="status-tag ORDER">Orden #{{order.orderNo}}</a>
       </div>
+
       <!-- //ADD ACA  -->
       <div class="pull-right">
         <% if (htmlWebpackPlugin.options.features.city) {%>
@@ -160,10 +164,13 @@
             <%= htmlWebpackPlugin.options.order_details.reason_options%>
           </select>
         </li>
+
         <li>
-          <button class="btn btn-primary-left" ng-hide="order.quoteStatus == quoteStatus ||(quoteStatus == 'Venta Perdida' && !quoteSubStatus)" ng-click="changeQuoteStatusDialog(quoteStatus)">
+          <button class="btn btn-primary-left" 
+          ng-hide="order.quoteStatus == quoteStatus ||(quoteStatus == 'Venta Perdida' && !quoteSubStatus)" ng-click="changeQuoteStatusDialog(quoteStatus)">
             <%= htmlWebpackPlugin.options.order_details.change_status%> </button>
         </li>
+
         <li ng-show="order.status ==  'QUOTE' && (order.quoteStatus == 'Nueva' || order.quoteStatus == 'Seguimiento')">
         </li>
         <% if (htmlWebpackPlugin.options.features.city) { %>
@@ -688,7 +695,7 @@
 
           <button type="button" 
           class="btn btn-tertiary-actions btn-sm btn-square" 
-          ng-show="showChangeStatusButton " 
+          ng-show="showChangeStatusButton" 
           ng-click="changeStatusDialog()">
           <span class="btn-icon glyphicon glyphicon-refresh   ">
 
