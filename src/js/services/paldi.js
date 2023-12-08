@@ -702,6 +702,22 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
       if (await service.installationSheet.exists(order.id))
         return `${"http://143.110.235.225:8003"}/installation/sheet/download/${order.id}.pdf`;
     },
+    getPdfOrderWorkAndInstallation:function(order_id,order_nro){
+           let params = {
+             order_id:order_id,
+             order_nro:order_nro
+        }
+      return $http
+        .get(globals.apiURL +"/quotes/orders/" + order_id +"/workandinstalation",
+         {
+          authentication: "yokozuna",
+          params: params,
+        })
+        .then((response)=> {
+          let urlString = globals.apiURL + "/quotes/orders/"+ order_id +"/workandinstalation" + addParams(params)
+          return urlString;
+        });
+    },
     getPdfOrderLink: function (order) {
       if (
         order.status == "QUOTE" ||
@@ -1070,7 +1086,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     sendOrderTo: function (id, email) {
       return $http
         .post(
-          globals.apiURL + "/quotes/orders/" + id + "/sendto/",
+          globals.apiURL + "/quotes/orders/" + id + "/sendto",
           {email: email},
           {authentication: "yokozuna"}
         )
@@ -1452,6 +1468,17 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           return response.data;
         });
     },
+    // getGuides: function (id, status) {
+    //   return $http
+    //     .get(
+    //       globals.apiURL + "/quotes/orders/" + id + "/obtain_guides",
+    //       {authentication: "yokozuna"}
+    //     )
+    //     .then(function (response) {
+    //       console.log("responmde",response);
+    //       return response.data;
+    //     });
+    // },
   };
   //------------------------- PAYMENTS ------------------
   service.payments = {

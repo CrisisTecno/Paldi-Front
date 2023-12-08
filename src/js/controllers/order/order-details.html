@@ -556,6 +556,7 @@
         || order.status == 'ORDER_CANCELED'">
           <a href="{{order.pdfLink}}" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canDownload" download><span class="btn-icon glyphicon glyphicon glyphicon-save"></span><%= htmlWebpackPlugin.options.order_details.download_pdf%></a>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canMail && !external" ng-click="sendToClient(order)"><span class="btn-icon glyphicon glyphicon-envelope"></span><%= htmlWebpackPlugin.options.order_details.send_client%> </button>
+          
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
           ng-show="currentUser.role == 'BUYER' && currentUser.role == 'SALES_MANAGER'
            && currentUser.role == 'SUPERADMIN'" 
@@ -657,8 +658,12 @@
           </div>
           <!-- INSTALLATION SHEET BUTTON CREISI -->
           <div ng-show="perms.order.installation_sheet.view_button" class="dropdown show" style="width: min-content;">
+
             <button class="dropdown-toggle btn btn-secondary-actions btn-sm btn-square" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="btn-icon glyphicon glyphicon-menu-down"></span><%= htmlWebpackPlugin.options.order_details.installation_order%>  </button>
+              <span class="btn-icon glyphicon glyphicon-menu-down"></span>
+              <%= htmlWebpackPlugin.options.order_details.installation_order%>
+            </button>
+
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a ng-show="perms.order.installation_sheet.create" ng-click="createInstallationSheet()" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
                 <span class="btn-icon glyphicon glyphicon glyphicon-plus"></span><%= htmlWebpackPlugin.options.general.create%>  </a>
@@ -666,7 +671,10 @@
                 <span class="btn-icon glyphicon glyphicon glyphicon-edit"></span><%= htmlWebpackPlugin.options.general.edit%>  </a>
               <div class="dropdown-divider"></div>
 <!--               ng-href="{{order.installationSheetPdfLink}}" download="{{order.installationSheetPdfLink}}" -->
-              <a ng-show="perms.order.installation_sheet.download" href="javascript:void(0);"  ng-click="downloadPdfOrderYPdfInstallation(order.installationSheetPdfLink , order.pdfOrderLink)" class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
+             
+              <a ng-show="perms.order.installation_sheet.download" href="javascript:void(0);"
+                ng-click="downloadPdfOrderYPdfInstallation(order.installationSheetPdfLink , order.pdfOrderLink,order)" 
+                class="dropdown-item btn btn-secondary-actions btn-sm btn-square" style="margin-bottom: 0;">
                 <span class="btn-icon glyphicon glyphicon glyphicon-save"></span><%= htmlWebpackPlugin.options.general.download%>  </a>
             </div>
           </div>

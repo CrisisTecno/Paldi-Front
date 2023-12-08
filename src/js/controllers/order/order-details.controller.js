@@ -307,7 +307,7 @@ pdApp.controller(
       //ADD ACA
       
       paldiService.orders.get(id).then(async function (order) {
-        
+
         $scope.order = order;     
         $scope.quoteStatus = order.quoteStatus;
         
@@ -439,6 +439,8 @@ pdApp.controller(
         $scope.order.installationPlusTotal = order.installationPlusTotal ? order.installationPlusTotal : 0;
 
         const res = (await paldiService.orders.getPdfInstallationSheetLink(order))
+        // $scope.order.pdfOrderLink = paldiService.orders.getPdfOrderLink(order);
+
         $scope.order.installationSheetPdfLink = res
         // document.getElementById('download_installation_sheet').href = $scope.installationSheet.pdfLink
         // $("#download_installation_sheet").attr('href', $scope.installationSheet.pdfLink)
@@ -600,6 +602,7 @@ pdApp.controller(
             return false
           }
           var id = $stateParams.orderId;
+
           paldiService.orders.sendOrderTo(id, value).then(function (order) {
             swal({
               title: (EXECUTION_ENV=="EXTERNAL"?"Sent":"Enviado"),
@@ -614,41 +617,61 @@ pdApp.controller(
 	  $scope.downloadWorkOrder = () => {
       window.open("{{order.pdfOrderLink}}", "_blank");
     };
-    
-    $scope.downloadPdfOrderYPdfInstallation = function (pdfOrden, pdfInstalacion) {
-      //primer pdf orden 
-      
-      // Crear un enlace temporal
-      setTimeout(() => {
-        var link = document.createElement('a');
-        link.href = pdfOrden;
-        // link.target = '_blank';
-        link.download = 'pdfOrden.pdf';
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        
-        // Simular el clic en el enlace
-        link.click();
-        
-        // Eliminar el enlace temporal
-        document.body.removeChild(link);
-      }, 2000);
-     
+
+    // downloadPdfOrderYPdfInstallation(order.installationSheetPdfLink , order.pdfOrderLink)
+    $scope.downloadPdfOrderYPdfInstallation =async function (pdfOrden, pdfInstalacion,order) {
+      // console.log(order)
+      // //primer pdf orden 
+      // // Crear un enlace temporal
+      // setTimeout(() => {
+      //   var link = document.createElement('a');
+      //   link.href = pdfOrden;
+      //   // link.target = '_blank';
+      //   link.download = 'pdfOrden.pdf';
+      //   link.style.display = 'none';
+      //   document.body.appendChild(link);
+      //   // Simular el clic en el enlace
+      //   link.click();
+      //   // Eliminar el enlace temporal
+      //   document.body.removeChild(link);
+      // }, 2000);
+      // // {{order.pdfOrderLink}}
+      // //segundo pdf de instalacion
+      // var link2 = document.createElement('a');
+      // link2.href = pdfInstalacion;
+      // link2.target = '_blank';
+      // link2.style.display = 'none';
+      // document.body.appendChild(link2);
+      // // Simular el clic en el enlace
+      // link2.click();
+      // // Eliminar el enlace temporal
+      // document.body.removeChild(link2);
 
 
-      //segundo pdf de instalacion
+  //   let user = $scope.currentUser.name + " " + $scope.currentUser.lastName
+  //   let folio = $scope.order.orderTransitInvoice
+  //   $scope.dialog.close()
+  //   let res = await paldiService.shipment.sheet($stateParams.orderId,boxesNum,user,folio)
 
-      var link2 = document.createElement('a');
-      link2.href = pdfInstalacion;
-      link2.target = '_blank';
-      link2.style.display = 'none';
-      document.body.appendChild(link2);
-      
-      // Simular el clic en el enlace
-      link2.click();
-      
-      // Eliminar el enlace temporal
-      document.body.removeChild(link2);
+  //  //  let res = await paldiService.shipment.sheet($stateParams.orderId,boxesNum,user,folio)
+  //    let res =await paldiService.tickets.gettickets($stateParams.orderId,boxesNum,user,folio)
+
+  //    const link = document.createElement("a");
+
+  //    link.href = res;
+  //    link.setAttribute("download", "etiqueta");
+  //    document.body.appendChild(link);
+
+      let res = await paldiService.orders.getPdfOrderWorkAndInstallation(
+        order.id,order.orderNo
+        )
+        res;
+        const link = document.createElement("a");
+     link.href = res;
+       link.setAttribute("download", "etiqueta");
+       document.body.appendChild(link);
+       link.click()
+
     };
 
 
