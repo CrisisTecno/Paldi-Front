@@ -1609,12 +1609,19 @@ pdApp.controller(
       }
     };
 
+    // $scope.dateOptions = {
+    //   dateDisabled: disabled,
+    //   formatYear: "yy",
+    //   startingDay: 1,
+    //   minDate: new Date(),
+    // };
     $scope.dateOptions = {
-      dateDisabled: disabled,
-      formatYear: "yy",
-      startingDay: 1,
       minDate: new Date(),
-    };
+      dateDisabled: disabled,
+      maxDate: new Date(2024, 12, 31),
+      formatYear: 'yy',
+      startingDay: 1
+  };
 
     function disabled(data) {
       var date = data.date,
