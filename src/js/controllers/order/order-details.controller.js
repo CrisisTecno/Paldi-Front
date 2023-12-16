@@ -1123,9 +1123,11 @@ pdApp.controller(
                       if (limitDays) {
                         $scope.limitDays = limitDays;
                       }
-                      var maxDate = getMaxDate(
-                        $scope.limitDays
-                      );
+                      // aca cambios
+                      // var maxDate = getMaxDate(
+                      //   $scope.limitDays
+                      // );
+                      var maxDate = new Date(2024, 12, 31);
                       $scope.dateOptions.maxDate =
                         new Date(maxDate);
                       $scope.changeStatus();
@@ -1556,7 +1558,7 @@ pdApp.controller(
     //============================ DATES ===============================
     $scope.date = new Date();
     $scope.date.setHours(0, 0, 0, 0);
-
+    // revisar aca
     $scope.dateDialog = function (dateType) {
       $scope.dateModel = {};
       $scope.dateType = dateType;
