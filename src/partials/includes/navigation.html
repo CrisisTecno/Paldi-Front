@@ -107,11 +107,11 @@
         <a ui-sref="console.resource-list" ng-if="currentUser.role != 'PROVIDER'">
             <i class="fa fa-file fa-lg"></i> <span class="nav-label"><%=htmlWebpackPlugin.options.resources.resources%></span></a>
     </metis-item>
-
+<!-- 
     <metis-item ng-if="currentUser.realRole!='EXTERNAL_CONSULTANT' && currentUser.role != 'PROVIDER'" ui-sref-active="selected">
         <a ui-sref="console.calendar-install">
             <i class="fa fa-file fa-lg"></i> <span class="nav-label">Calendario</span></a>
-    </metis-item>
+    </metis-item> -->
 
     <metis-item ui-sref-active="selected" ng-if="currentUser.role != 'SALES_MANAGER' && currentUser.role != 'PROVIDER'">
         <a ui-sref="console.client-list">
