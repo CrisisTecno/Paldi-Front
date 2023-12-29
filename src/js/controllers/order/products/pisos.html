@@ -58,7 +58,7 @@
             <button type="button" class="btn btn-default" ng-click="addPlus()"><%= htmlWebpackPlugin.options.floors.add_moldind %></button>
         <hr/>
         </div>
-        <!-- <div class="form-adding" ng-show="addingPlus == true && piso.plusList.length > 0">
+        <div class="form-adding" ng-show="addingPlus == true && piso.plusList.length > 0">
             <label class="title"><%= htmlWebpackPlugin.options.floors.moldind %></label>
             <div class="form-group">
                 <label><%= htmlWebpackPlugin.options.quote_commons.quantity %></label>
@@ -73,7 +73,7 @@
                 <button type="button" class="btn btn-tertiary-left" ng-click="cancelPlus()"><%= htmlWebpackPlugin.options.general.cancel %></button>
             </div>
             <hr/>
-        </div> -->
+        </div>
         <div ng-show="plusList.length > 0">
             <div ng-include="'js/controllers/order/products/additional-details.html'"></div>
         </div>
