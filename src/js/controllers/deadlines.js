@@ -119,6 +119,10 @@ pdApp.controller(
 		};
 
 		var productionData = function (sSource, aoData, fnCallback, oSettings) {
+			console.log("aodata",aoData)
+			console.log("sSource",sSource)
+			console.log("fnCallback",fnCallback)
+			console.log("oSettings",oSettings)
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var sort =
@@ -168,7 +172,8 @@ pdApp.controller(
 					});
 			}
 		};
-
+		console.log("transit dataa",transitData)
+		console.log("transit dataa",productionData)
 		$scope.transitTableOptions = DTOptionsBuilder.newOptions()
 			.withLanguageSource("lang/table_lang.json")
 			.withFnServerData(transitData)
@@ -205,6 +210,7 @@ pdApp.controller(
 				.withOption("Id", "no_l")
 				.withTitle("Nombre")
 				.renderWith(function (data) {
+					console.log("transi register",data)
 					return (
 						'<a>' 
 						+ data.clientName_txt +
@@ -234,9 +240,14 @@ pdApp.controller(
 					
 					return (
 						'<a>' 
-						+ data.dataB.orderTransitInvoice +
+						+ "-" +
 						"</a>"
 					);
+					// return (
+					// 	'<a>' 
+					// 	+ data.dataB.orderTransitInvoice +
+					// 	"</a>"
+					// );
 				}),
 				DTColumnBuilder.newColumn(null)
 				.withOption("refer1", "no_l")
@@ -245,10 +256,15 @@ pdApp.controller(
 					
 					
 					return (
-						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides &&data.dataB.guides.length>0 ? data.dataB.guides[0].trim() :"") + '">' 
-						+ (data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0] :"") +
+						'<a >' 
+						+ "-" +
 						"</a>"
 					);
+					// return (
+					// 	'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides &&data.dataB.guides.length>0 ? data.dataB.guides[0].trim() :"") + '">' 
+					// 	+ (data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0] :"") +
+					// 	"</a>"
+					// );
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "transitDate_dt")
@@ -303,6 +319,7 @@ pdApp.controller(
 				.withOption("name", "orderNo")
 				.withTitle("No. orden")
 				.renderWith(function (data) {
+					console.log("ptva",data)
 					let iddata=data.id
 					if($scope.currentUser.role=="PROVIDER") iddata=data.orderId
 					
@@ -328,6 +345,7 @@ pdApp.controller(
 				.withOption("Id", "no_l")
 				.withTitle("Nombre")
 				.renderWith(function (data) {
+					console.log("transi register",data)
 					return (
 						'<a>' 
 						+ data.client +
@@ -434,6 +452,7 @@ pdApp.controller(
     })*/
 		];
 
+		console.log("prudcuit¿ion dataa",transitData)
 		$scope.productionTableOptions = DTOptionsBuilder.newOptions()
 			.withLanguageSource("lang/table_lang.json")
 			.withFnServerData(productionData)
@@ -448,6 +467,7 @@ pdApp.controller(
 				.withOption("name", "no_l")
 				.withTitle("No. orden")
 				.renderWith(function (data) {
+					
 					if (!data.isSuborder_b) {
 						return (
 							'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
@@ -496,10 +516,10 @@ pdApp.controller(
 				.withTitle("Folio de Producción")
 				.renderWith(function (data) {
 				
-					
+			
 					return (
 						'<a>' 
-						+ data.dataB.orderTransitInvoice +
+						+ "-" +
 						"</a>"
 					);
 				}),
@@ -510,8 +530,8 @@ pdApp.controller(
 					
 					
 					return (
-						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0].trim() :"") + '">' 
-						+ (data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0] :"") +
+						'<a>' 
+						+ "-"  +
 						"</a>"
 					);
 				}),
@@ -572,7 +592,6 @@ pdApp.controller(
 				.withOption("name", "orderNo")
 				.withTitle("No. orden")
 				.renderWith(function (data) {
-					
 					if (!data.isSuborder_b) {
 						
 						return (
