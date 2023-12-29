@@ -1699,182 +1699,61 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   };
 
   //------------------------- DEADLINES -----------------
-  var start1 = "0";
-var rows1 = "20";
-var search = ""; // Vacío en la URL de ejemplo
-var sort1 = "no_l+desc+,date_dt+desc";
-var statusList = ["PRODUCTION"]; // La URL codificada se decodifica a ["PRODUCTION"]
-var startDate = "*"; // Asumiendo que '*' indica que no hay fecha de inicio específica
-var endDate = "*"; // Asumiendo que '*' indica que no hay fecha de fin específica
-var userId = ""; // No se proporciona en la URL de ejemplo, por lo que lo dejo vacío
-var provider = "true"; // Se añade basado en tu URL de ejemplo
-
-
   service.deadlines = {
     getDeadlines: function (deadlineType, status, start, rows, sort,providerId) {
-      if(status=="PRODUCTION"){
-        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
-          authentication: "yokozuna",
-          params: {
-            start: start1,
-            rows: rows1,
-            search: search,
-            sort: sort1.replace(/\+/g, ' '), // Reemplaza '+' por espacios
-            orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
-            userId: userId,
-            provider: provider // Añadido basado en tu URL de ejemplo
-          },
-        })
-          .then(async function (response) {
-            
-            // for(const f of response.data.response.docs)
-            // {
-            //     console.log("karajo mierda",response.data.response)
-            //     var fullData = await service.orders.get(f["id"])
-            //     f["dataB"] = fullData
-            // }
-           
-            return response.data.response;
-          });
-      }else{
-        statusList[0]="TRANSIT";
-        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
-          authentication: "yokozuna",
-          params: {
-            start: start1,
-            rows: rows1,
-            search: search,
-            sort: sort1.replace(/\+/g, ' '), // Reemplaza '+' por espacios
-            orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
-            userId: userId,
-            provider: provider // Añadido basado en tu URL de ejemplo
-          },
-        }) .then(async function (response) {
-            
-            // for(const f of response.data.response.docs)
-            // {
-            //     console.log("karajo mierda",response.data.response)
-            //     var fullData = await service.orders.get(f["id"])
-            //     f["dataB"] = fullData
-            // }
-           
-            return response.data.response;
-          });
-      }
-
-    },
-    // getDeadlines: function (deadlineType, status, start, rows, sort,providerId) {
       
-    //   return $http
-    //     .get(
-    //       globals.apiURL +
-    //       "/quotes/deadlines/type/" +
-    //       deadlineType +
-    //       "/status/" +
-    //       status,
-    //       {
-    //         authentication: "yokozuna",
-    //         params: {start: start, rows: rows, sort: sort,providerId:providerId},
-    //       }
-    //     )
-    //     .then(async function (response) {
+      return $http
+        .get(
+          globals.apiURL +
+          "/quotes/deadlines/type/" +
+          deadlineType +
+          "/status/" +
+          status,
+          {
+            authentication: "yokozuna",
+            params: {start: start, rows: rows, sort: sort,providerId:providerId},
+          }
+        )
+        .then(async function (response) {
           
-    //       for(const f of response.data.response.docs)
-    //       {
-    //           console.log(response.data.response)
-    //           var fullData = await service.orders.get(f["id"])
-    //           f["dataB"] = fullData
-    //       }
+          for(const f of response.data.response.docs)
+          {
+           
+              var fullData = await service.orders.get(f["id"])
+              f["dataB"] = fullData
+          }
          
-    //       return response.data.response;
-    //     });
-    // },
+          return response.data.response;
+        });
+    },
 
     getPastDeadlines: function (status, page, size, sort,providerId) {
-      if(status=="PRODUCTION"){
-        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
-          authentication: "yokozuna",
-          params: {
-            start: start1,
-            rows: rows1,
-            search: search,
-            sort: sort1.replace(/\+/g, ' '), // Reemplaza '+' por espacios
-            orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
-            userId: userId,
-            provider: provider // Añadido basado en tu URL de ejemplo
-          },
-        })
-          .then(async function (response) {
-            
-            // for(const f of response.data.response.docs)
-            // {
-            //     console.log("karajo mierda",response.data.response)
-            //     var fullData = await service.orders.get(f["id"])
-            //     f["dataB"] = fullData
-            // }
-           
-            return response.data;
-          });
-      }else{
-        statusList[0]="TRANSIT";
-        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
-          authentication: "yokozuna",
-          params: {
-            start: start1,
-            rows: rows1,
-            search: search,
-            sort: sort1.replace(/\+/g, ' '), // Reemplaza '+' por espacios
-            orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
-            userId: userId,
-            provider: provider // Añadido basado en tu URL de ejemplo
-          },
-        }) .then(async function (response) {
-            
-            // for(const f of response.data.response.docs)
-            // {
-            //     console.log("karajo mierda",response.data.response)
-            //     var fullData = await service.orders.get(f["id"])
-            //     f["dataB"] = fullData
-            // }
-           
-            return response.data;
-          });
-      }
-    },
-    // getPastDeadlines: function (status, page, size, sort,providerId) {
-    //   return $http
-    //     .get(
-    //       globals.apiURL +
-    //       "/quotes/deadlines/PAST/status/" +
-    //       status +
-    //       "?page=" +
-    //       page +
-    //       "&size=" +
-    //       size +
-    //       "&sort=" +
-    //       sort
-    //       +"&providerId="+
-    //       providerId,
-    //       {authentication: "yokozuna"}
-    //     )
-    //     .then(async function (response) {
+      return $http
+        .get(
+          globals.apiURL +
+          "/quotes/deadlines/PAST/status/" +
+          status +
+          "?page=" +
+          page +
+          "&size=" +
+          size +
+          "&sort=" +
+          sort
+          +"&providerId="+
+          providerId,
+          {authentication: "yokozuna"}
+        )
+        .then(async function (response) {
          
-    //       for(const f of response.data.content)
-    //       {
-    //           var fullData = await service.orders.get(f["orderId"])
-    //           f["dataB"] = fullData
-    //       }
-    //       return response.data;
-    //     });
-    // },
+          for(const f of response.data.content)
+          {
+           
+              var fullData = await service.orders.get(f["orderId"])
+              f["dataB"] = fullData
+          }
+          return response.data;
+        });
+    },
     getDeadlinesDownloadLink: function (type,providerId) {
       
       return (
@@ -2157,144 +2036,18 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
           return response.data;
         });
     },
-    // const fileInput = document.getElementById('file-input');
-    // const file = fileInput.files[0];
-    // const formData = new FormData();
-    // formData.append('file', file, file.name);
-
-    // const url = "https://417f4qebzk.execute-api.us-east-1.amazonaws.com/default/handle-catalog";
-
-    // // fetch(url, {
-    // //     method: 'POST',
-    // //     body: formData
-    // // })
-    // // .then(response => response.text())
-    // // .then(data => {
-    // //     console.log("Respuesta a solicitud POST:", data);
-    // // })
-    // // .catch(error => {
-    // //     console.error("Error en la carga del archivo:", error);
-    // // });
     upload: function (formData) {
       console.log("[DEBUG] formData : ", formData);
-    
-        var url = "https://50rob0l4oa.execute-api.us-east-1.amazonaws.com/default/handle-catalog";
-
-        $http.post(url, formData).then(
-            function(response) {
-                // Manejo exitoso
-                console.log("Archivo subido con éxito:", response.data);
-            }, 
-            function(error) {
-                // Manejo de errores
-                console.error("Error al subir el archivo:", error);
-            }
-        );
+      return $http
+        .post(globals.apiURL + "/pricing/catalog", formData, {
+          authentication: "yokozuna",
+          headers: {"Content-Type": undefined},
+          transformRequest: angular.identity,
+        })
+        .then((response) => {
+          return response.data;
+        });
     },
-//     angular.module('tuApp', [])
-// .controller('TuControlador', function($scope, $http) {
-//     $scope.enviarArchivo = function() {
-//         // URL de tu función Lambda
-//         var url = "https://50rob0l4oa.execute-api.us-east-1.amazonaws.com/default/handle-catalog";
-        
-//         // Suponiendo que 'encoded_file' contiene tu archivo codificado en base64
-//         var data = {
-//             file: $scope.encoded_file
-//         };
-
-//         $http.post(url, data).then(
-//             function(response) {
-//                 // Manejo exitoso
-//                 console.log("Respuesta exitosa:", response.data);
-//             }, 
-//             function(error) {
-//                 // Manejo de error
-//                 console.error("Error en la solicitud:", error);
-//             }
-//         );
-//     };
-// });
-
-// upload: function (formData) {
-//   console.log("[DEBUG] formData1 : ", formData);
-// const file=formData.get('file');
-//   const fromData1=new FormData();
-//   fromData1.append('file',file,file.name)
-//    const url = "https://417f4qebzk.execute-api.us-east-1.amazonaws.com/default/handle-catalog";
-//      fetch(url, {
-//         method: 'POST',
-//         body: formData
-//     })
-//     .then((response) => {
-//       return response.data;
-//     });
-// },
-    // upload: function (formData) {
-    //   console.log("[DEBUG] formData : ", formData);
-    //   return $http
-    //     .post(globals.apiURL + "/pricing/catalog", formData, {
-    //       authentication: "yokozuna",
-    //       headers: {"Content-Type": undefined},
-    //       transformRequest: angular.identity,
-    //     })
-    //     .then((response) => {
-    //       return response.data;
-    //     });
-    // },
-    // Función upload modificada para utilizar el servicio AWS Lambda
-
-      // upload:async function (formData) {
-      //   const url = "https://417f4qebzk.execute-api.us-east-1.amazonaws.com/default/handle-catalog";
-      //   console.log("[DEBUG] formData1 : ", formData.get('file'));
-        
-      //   console.log(formData1)
-      //   try {
-      //     // const response = await fetch(url, {
-      //     //   method: 'POST',
-      //     //   body: formData
-      //     // });
-
-      //     if (!response.ok) {
-      //       throw new Error(`Error HTTP: ${response.status}`);
-      //     }
-
-      //     const responseText = await response.text();
-      //     console.log("Respuesta a solicitud POST:", responseText);
-      //   } catch (error) {
-      //     console.error("Error al realizar la solicitud:", error);
-      //   }
-      // },
-
-  //   upload: async function uploadFile(file) {
-  //     try {
-  //         const formData = new FormData();
-  //         formData.append('file', file);
-  
-  //         const response = await fetch("https://417f4qebzk.execute-api.us-east-1.amazonaws.com/default/handle-catalog", {
-  //             method: 'POST',
-  //             body: formData
-  //         });
-  
-  //         if (!response.ok) {
-  //             throw new Error(`Error: ${response.status}`);
-  //         }
-  
-  //         const data = await response.text();
-  //         console.log("Respuesta a solicitud POST:", data);
-  //         // Manejar la respuesta como sea necesario
-  //     } catch (error) {
-  //         console.error("Error al cargar el archivo:", error);
-  //     }
-  // },
-  
-  // // Event handler para el input de tipo archivo
-  // function handleFileUpload(event) {
-  //     const file = event.target.files[0];
-  //     if (file) {
-  //         uploadFile(file);
-  //     }
-  // }
-  
     getFile: function (id) {
       return $http
         .get(globals.apiURL + "/pricing/catalog/" + id, {
