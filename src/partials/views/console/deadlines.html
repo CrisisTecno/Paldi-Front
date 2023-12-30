@@ -4,18 +4,58 @@
             <h3 class="pull-left">
                 <%= htmlWebpackPlugin.options.deadlines.operation %>
             </h3>
+         
+
             <h3 class="pull-right">{{getTypeTitle(type)}}</h3>
         </div>
         <div class="ibox-content">
             <div>
                 <h4><%= htmlWebpackPlugin.options.date.select_date %></h4>
-                <button ng-disabled="!ready" ng-repeat="day in days" class="btn" ng-class="(day.value == type)? 'btn-today' : 'btn-secondary-left'" ng-click="typeChange(day.value)">{{day.date | date : 'dd/MM/yy'}}</button>
-                <button ng-disabled="!ready" class="btn" ng-class="type == 'PAST' ? 'btn-today' : 'btn-secondary-left'" ng-click="typeChange('PAST')">
+                <!-- <button ng-disabled="!ready" ng-repeat="day in days" class="btn" ng-class="(day.value == type)? 'btn-today' : 'btn-secondary-left'" 
+                ng-click="typeChange(day.value)">{{day.date | date : 'dd/MM/yy'}}</button> -->
+                
+                <!-- <button ng-disabled="!ready" class="btn" ng-class="type == 'PAST' ? 'btn-today' : 'btn-secondary-left'" ng-click="typeChange('PAST')">
                     <%= htmlWebpackPlugin.options.deadlines.overdue %>
-                </button>
-                <a class="btn btn-success" href="{{downloadLink}}" download="Operaciones.xlsx">
+                </button> -->
+                <p class="input-group pull-left"
+                style="width: 25%; margin-right: 1rem;">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-calendar"
+                    ng-click="changeDateDialog('DATE', orderId)"><%=htmlWebpackPlugin.options.date.from%> <i
+                            class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+                <input name="startDate" type="text" class="form-control"
+                    uib-datepicker-popup="{{format}}" ng-model="startDate"
+                    is-open="startDatePopup.opened"
+                    datepicker-options="startDateOptions" required="true"
+                    close-text="<%= htmlWebpackPlugin.options.button_commons.close %>" 
+                    current-text="<%= htmlWebpackPlugin.options.button_commons.today %>" 
+                    clear-text="<%= htmlWebpackPlugin.options.button_commons.clean %>"
+                    alt-input-formats="altInputFormats"
+                    ng-change="changeDateDialog('DATE', orderId)" />
+                </p>
+                <p class="input-group" style="width: 25%; margin-right: 1rem;">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-calendar"
+                        ng-click="changeDateDialog('DATE', orderId)"><%=htmlWebpackPlugin.options.date.to%> <i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    <input name="endDate" type="text" class="form-control"
+                        uib-datepicker-popup="{{format}}" ng-model="endDate"
+                        is-open="endDatePopup.opened"
+                        datepicker-options="endDateOptions" required="true"
+                        close-text="<%= htmlWebpackPlugin.options.button_commons.close %>" 
+                        current-text="<%= htmlWebpackPlugin.options.button_commons.today %>" 
+                        clear-text="<%= htmlWebpackPlugin.options.button_commons.clean %>"
+                        alt-input-formats="altInputFormats"
+                        ng-change="changeDateDialog('DATE', orderId)" />
+                </p>
+                <!-- <button style="margin-left: 5%;"  type="button" class="btn btn-calendar"
+                ng-click="changeDateDialog('DATE', orderId)">Hasta <i
+                    class="glyphicon glyphicon-calendar"></i></button> -->
+                <!-- <a class="btn btn-success"  >
                     <%= htmlWebpackPlugin.options.general.download %>
-                </a>
+                </a> -->
 
             </div>
             <br>

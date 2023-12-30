@@ -66,6 +66,7 @@ pdApp.controller(
 		function createdRow(row, data, dataIndex) {
 		
 			$compile(angular.element(row).contents())($scope);
+			
 		}
 
 		var transitData = function (sSource, aoData, fnCallback, oSettings) {
@@ -119,10 +120,7 @@ pdApp.controller(
 		};
 
 		var productionData = function (sSource, aoData, fnCallback, oSettings) {
-			console.log("aodata",aoData)
-			console.log("sSource",sSource)
-			console.log("fnCallback",fnCallback)
-			console.log("oSettings",oSettings)
+
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var sort =
@@ -172,8 +170,6 @@ pdApp.controller(
 					});
 			}
 		};
-		console.log("transit dataa",transitData)
-		console.log("transit dataa",productionData)
 		$scope.transitTableOptions = DTOptionsBuilder.newOptions()
 			.withLanguageSource("lang/table_lang.json")
 			.withFnServerData(transitData)
@@ -219,7 +215,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "providerId_s")
-				.withTitle("Proveedor")
+				.withTitle("ID_Proveedor")
 				.renderWith(function (data) {
 					var provider = data.providerId_s
 						? data.providerId_s
@@ -240,7 +236,7 @@ pdApp.controller(
 					
 					return (
 						'<a>' 
-						+ "-" +
+						+ (data.orderTransitInvoice ?? '-') +
 						"</a>"
 					);
 					// return (
@@ -255,11 +251,12 @@ pdApp.controller(
 				.renderWith(function (data) {
 					
 					
-					return (
-						'<a >' 
-						+ "-" +
-						"</a>"
-					);
+					if (Array.isArray(data.guides)) {
+						return '<a>' + data.guides.join(', ') + '</a>';
+					} else {
+						// Manejar el caso en el que data.guides no es un arreglo
+						return '<a>' + (data.guides??'-') + '</a>';
+					}
 					// return (
 					// 	'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides &&data.dataB.guides.length>0 ? data.dataB.guides[0].trim() :"") + '">' 
 					// 	+ (data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0] :"") +
@@ -452,7 +449,6 @@ pdApp.controller(
     })*/
 		];
 
-		console.log("prudcuit¿ion dataa",transitData)
 		$scope.productionTableOptions = DTOptionsBuilder.newOptions()
 			.withLanguageSource("lang/table_lang.json")
 			.withFnServerData(productionData)
@@ -498,7 +494,7 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "providerId_s")
-				.withTitle("Proveedor")
+				.withTitle("ID_Proveedor")
 				.renderWith(function (data) {
 					var provider = data.providerId_s
 						? data.providerId_s
@@ -519,7 +515,7 @@ pdApp.controller(
 			
 					return (
 						'<a>' 
-						+ "-" +
+						+ (data.orderTransitInvoice ?? '-') +
 						"</a>"
 					);
 				}),
@@ -529,11 +525,14 @@ pdApp.controller(
 				.renderWith(function (data) {
 					
 					
-					return (
-						'<a>' 
-						+ "-"  +
-						"</a>"
-					);
+					
+						if (Array.isArray(data.guides)) {
+							return '<a>' + data.guides.join(', ') + '</a>';
+						} else {
+							// Manejar el caso en el que data.guides no es un arreglo
+							return '<a>' + (data.guides??'-') + '</a>';
+						}
+				
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "productionDate_dt")
@@ -753,10 +752,14 @@ pdApp.controller(
 			$scope.date = new Date();
 			$scope.currentOrderId = orderId;
 			$scope.dateType = dateType;
+			$scope.invisible=false;
 			$scope.dialog = ngDialog.open({
 				template: "partials/views/console/datepicker.html",
 				scope: $scope,
 				showClose: false,
+				data: {
+					hideSomeElements: false 
+				}
 			});
 		};
 
