@@ -70,8 +70,8 @@ pdApp.controller(
 		}
 
 		var transitData = function (sSource, aoData, fnCallback, oSettings) {
-			console.log("aoData",aoData)
-			console.log("fnCallback",fnCallback)
+			// console.log("aoData",aoData)
+			// console.log("fnCallback",fnCallback)
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var sort =
@@ -126,8 +126,8 @@ pdApp.controller(
 		};
 
 		var productionData = function (sSource, aoData, fnCallback, oSettings) {
-			console.log("aoData",aoData)
-			console.log("fnCallback",fnCallback)
+			// console.log("aoData",aoData)
+			// console.log("fnCallback",fnCallback)
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var sort =
@@ -217,7 +217,7 @@ pdApp.controller(
 				.withOption("Id", "no_l")
 				.withTitle("Nombre")
 				.renderWith(function (data) {
-					console.log("transi register",data)
+					// console.log("transi register",data)
 					return (
 						'<a>' 
 						+ data.clientName_txt +
@@ -355,7 +355,7 @@ pdApp.controller(
 				.withOption("Id", "no_l")
 				.withTitle("Nombre")
 				.renderWith(function (data) {
-					console.log("transi register",data)
+					// console.log("transi register",data)
 					return (
 						'<a>' 
 						+ data.client +
@@ -554,7 +554,7 @@ pdApp.controller(
 				.withOption("name", "productionDate_dt")
 				.withTitle("Entrada")
 				.renderWith(function (data) {
-					console.log("production date",data)
+					// console.log("production date",data)
 					var date =
 					data.arrivalDate_dt != null ? data.arrivalDate_dt : "-";
 				return (

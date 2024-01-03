@@ -1714,8 +1714,8 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
     getDeadlines: function (deadlineType, status, start, rows, sort, providerId, startDate, endDate) {
 
     // getDeadlines: function (deadlineType, status, start, rows, sort,providerId) {
-      console.log("startdate",startDate)
-      console.log("endDate",endDate)
+      // console.log("startdate",startDate)
+      // console.log("endDate",endDate)
       var startDate1 = "*"; 
       var endDate1 = "*"; 
       if(startDate!==null||endDate!==null){
@@ -1723,7 +1723,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
         endDate1 = endDate; 
       }
       var statusList = ["PRODUCTION"];
-      console.log("llamas al NORMAL".repeat(60))
+      // console.log("llamas al NORMAL".repeat(60))
       if(status=="PRODUCTION"){
         statusList[0]="PRODUCTION";
         return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
@@ -1774,7 +1774,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
 
     },
     getPastDeadlines: function (status, page, size, sort,providerId) {
-      console.log("llamas al past".repeat(60))
+      // console.log("llamas al past".repeat(60))
       var statusList = ["PRODUCTION"];
       if(status=="PRODUCTION"){
         statusList[0]="PRODUCTION";
