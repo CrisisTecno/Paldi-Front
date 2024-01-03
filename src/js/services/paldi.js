@@ -290,6 +290,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
             response.data.realRole = "EXTERNAL_CONSULTANT"
             response.data.role = "CONSULTANT"
           }
+          console.log(response.data)
           return response.data;
         });
     },
