@@ -53,17 +53,17 @@
 
 			</div>
 		</div>
-<div ng-show="invisible !== true">
+    <div ng-show="invisible !== true">
 
 
-		<div ng-hide="dateType == 'commitment'"class="form-group notes">
-			<label>
-				<%= htmlWebpackPlugin.options.datepicker.comments %>
-			</label>
-			<textarea name="notes" ng-model="dateModel.notes" class="form-control" ng-required="newStatus == 'PRODUCTION'"></textarea>
-		</div>
+        <div ng-hide="dateType == 'commitment'"class="form-group notes">
+          <label>
+            <%= htmlWebpackPlugin.options.datepicker.comments %>
+          </label>
+          <textarea name="notes" ng-model="dateModel.notes" class="form-control" ng-required="newStatus == 'PRODUCTION'"></textarea>
+        </div>
 
-  </div>
+      </div>
 
 		<div>
 			<button type="button" class="btn btn-default" ng-click="closeThisDialog()">

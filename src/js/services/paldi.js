@@ -1703,16 +1703,28 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 var rows1 = "20";
 var search = ""; // Vacío en la URL de ejemplo
 var sort1 = "no_l+desc+,date_dt+desc";
-var statusList = ["PRODUCTION"]; // La URL codificada se decodifica a ["PRODUCTION"]
-var startDate = "*"; // Asumiendo que '*' indica que no hay fecha de inicio específica
-var endDate = "*"; // Asumiendo que '*' indica que no hay fecha de fin específica
+ // La URL codificada se decodifica a ["PRODUCTION"]
+// Asumiendo que '*' indica que no hay fecha de fin específica
 var userId = ""; // No se proporciona en la URL de ejemplo, por lo que lo dejo vacío
 var provider = "true"; // Se añade basado en tu URL de ejemplo
 
 
   service.deadlines = {
-    getDeadlines: function (deadlineType, status, start, rows, sort,providerId) {
+    getDeadlines: function (deadlineType, status, start, rows, sort, providerId, startDate, endDate) {
+
+    // getDeadlines: function (deadlineType, status, start, rows, sort,providerId) {
+      console.log("startdate",startDate)
+      console.log("endDate",endDate)
+      var startDate1 = "*"; 
+      var endDate1 = "*"; 
+      if(startDate!==null||endDate!==null){
+        startDate1 = startDate; 
+        endDate1 = endDate; 
+      }
+      var statusList = ["PRODUCTION"];
+      console.log("llamas al NORMAL".repeat(60))
       if(status=="PRODUCTION"){
+        statusList[0]="PRODUCTION";
         return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
           authentication: "yokozuna",
           params: {
@@ -1721,21 +1733,14 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
             search: search,
             sort: sort1.replace(/\+/g, ' '), // Reemplaza '+' por espacios
             orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
+            startDate: startDate1,
+            endDate: endDate1,
             userId: userId,
             provider: provider // Añadido basado en tu URL de ejemplo
           },
         })
           .then(async function (response) {
-            
-            // for(const f of response.data.response.docs)
-            // {
-            //     console.log("karajo mierda",response.data.response)
-            //     var fullData = await service.orders.get(f["id"])
-            //     f["dataB"] = fullData
-            // }
-           
+
             return response.data.response;
           });
       }else{
@@ -1748,8 +1753,8 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
             search: search,
             sort: sort1.replace(/\+/g, ' '), // Reemplaza '+' por espacios
             orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
+            startDate: startDate1,
+            endDate: endDate1,
             userId: userId,
             provider: provider // Añadido basado en tu URL de ejemplo
           },
@@ -1766,6 +1771,48 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
           });
       }
 
+    },
+    getPastDeadlines: function (status, page, size, sort,providerId) {
+      console.log("llamas al past".repeat(60))
+      var statusList = ["PRODUCTION"];
+      if(status=="PRODUCTION"){
+        statusList[0]="PRODUCTION";
+        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
+          authentication: "yokozuna",
+          params: {
+            start: start1,
+            rows: rows1,
+            search: search,
+            sort: sort1.replace(/\+/g, ' '), 
+            orderStatusList: JSON.stringify(statusList),
+            startDate: startDate,
+            endDate: endDate,
+            userId: userId,
+            provider: provider 
+          },
+        })
+          .then(async function (response) {
+            return response.data;
+          });
+      }else{
+        statusList[0]="TRANSIT";
+        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
+          authentication: "yokozuna",
+          params: {
+            start: start1,
+            rows: rows1,
+            search: search,
+            sort: sort1.replace(/\+/g, ' '), 
+            orderStatusList: JSON.stringify(statusList),
+            startDate: startDate,
+            endDate: endDate,
+            userId: userId,
+            provider: provider 
+          },
+        }) .then(async function (response) {
+            return response.data;
+          });
+      }
     },
     // getDeadlines: function (deadlineType, status, start, rows, sort,providerId) {
       
@@ -1794,61 +1841,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
     //     });
     // },
 
-    getPastDeadlines: function (status, page, size, sort,providerId) {
-      if(status=="PRODUCTION"){
-        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
-          authentication: "yokozuna",
-          params: {
-            start: start1,
-            rows: rows1,
-            search: search,
-            sort: sort1.replace(/\+/g, ' '), // Reemplaza '+' por espacios
-            orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
-            userId: userId,
-            provider: provider // Añadido basado en tu URL de ejemplo
-          },
-        })
-          .then(async function (response) {
-            
-            // for(const f of response.data.response.docs)
-            // {
-            //     console.log("karajo mierda",response.data.response)
-            //     var fullData = await service.orders.get(f["id"])
-            //     f["dataB"] = fullData
-            // }
-           
-            return response.data;
-          });
-      }else{
-        statusList[0]="TRANSIT";
-        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
-          authentication: "yokozuna",
-          params: {
-            start: start1,
-            rows: rows1,
-            search: search,
-            sort: sort1.replace(/\+/g, ' '), // Reemplaza '+' por espacios
-            orderStatusList: JSON.stringify(statusList),
-            startDate: startDate,
-            endDate: endDate,
-            userId: userId,
-            provider: provider // Añadido basado en tu URL de ejemplo
-          },
-        }) .then(async function (response) {
-            
-            // for(const f of response.data.response.docs)
-            // {
-            //     console.log("karajo mierda",response.data.response)
-            //     var fullData = await service.orders.get(f["id"])
-            //     f["dataB"] = fullData
-            // }
-           
-            return response.data;
-          });
-      }
-    },
+
     // getPastDeadlines: function (status, page, size, sort,providerId) {
     //   return $http
     //     .get(

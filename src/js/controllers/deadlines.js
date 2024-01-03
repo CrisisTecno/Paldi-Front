@@ -70,6 +70,8 @@ pdApp.controller(
 		}
 
 		var transitData = function (sSource, aoData, fnCallback, oSettings) {
+			console.log("aoData",aoData)
+			console.log("fnCallback",fnCallback)
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var sort =
@@ -83,6 +85,8 @@ pdApp.controller(
 			var size = aoData[4].value;
 			var page = aoData[3].value / size;
 			var prov = ""
+			var startDate = $filter('date')($scope.dateRange.start, 'yyyy-MM-dd');
+    		var endDate = $filter('date')($scope.dateRange.end, 'yyyy-MM-dd');
 			if($scope.currentUser.role=="PROVIDER")
 				prov=$scope.currentUser.id
 			if ($scope.type == "PAST") {
@@ -105,7 +109,9 @@ pdApp.controller(
 						page * size,
 						size,
 						sort,
-						prov
+						prov,
+						startDate,
+        				endDate
 					)
 					.then(function (data) {
 						var result = {
@@ -120,7 +126,8 @@ pdApp.controller(
 		};
 
 		var productionData = function (sSource, aoData, fnCallback, oSettings) {
-
+			console.log("aoData",aoData)
+			console.log("fnCallback",fnCallback)
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var sort =
@@ -134,6 +141,8 @@ pdApp.controller(
 			var size = aoData[4].value;
 			var page = aoData[3].value / size;
 			var prov=''
+			var startDate = $filter('date')($scope.dateRange.start, 'yyyy-MM-dd');
+   			var endDate = $filter('date')($scope.dateRange.end, 'yyyy-MM-dd');
 			if($scope.currentUser.role=="PROVIDER")
 				prov=$scope.currentUser.id
 
@@ -157,7 +166,9 @@ pdApp.controller(
 						page * size,
 						size,
 						sort,
-						prov
+						prov,
+						startDate,
+						endDate 
 					)
 					.then(function (data) {
 						var result = {
@@ -217,8 +228,8 @@ pdApp.controller(
 				.withOption("name", "providerId_s")
 				.withTitle("ID_Proveedor")
 				.renderWith(function (data) {
-					var provider = data.providerId_s
-						? data.providerId_s
+					var provider = data.id_proveedor
+						? data.id_proveedor
 						: " - ";
 					return (
 						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
@@ -265,17 +276,19 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "transitDate_dt")
-				.withTitle("Embarque")
+				.withTitle("Salida")
 				.renderWith(function (data) {
 					var date =
-						data.transitDate_dt != null ? data.transitDate_dt : "-";
-					return (
-						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
-						data.id +
-						'">' +
-						$filter("date")(date, "dd/MM/yyyy") +
-						"<a>"
-					);
+					data.endProductionDate_dt != null
+						? data.endProductionDate_dt
+						: "-";
+				return (
+					'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
+					data.id +
+					'">' +
+					$filter("date")(date, "dd/MM/yyyy") +
+					"<a>"
+				);
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "arrivalDate_dt")
@@ -353,7 +366,7 @@ pdApp.controller(
 				.withOption("name", "providerId")
 				.withTitle("Proveedor")
 				.renderWith(function (data) {
-					var provider = data.providerId ? data.providerId : " - ";
+					var provider = data.id_proveedor ? data.id_proveedor : " - ";
 					return (
 						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
@@ -388,16 +401,19 @@ pdApp.controller(
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "startDate")
-				.withTitle("Embarque")
+				.withTitle("Salida")
 				.renderWith(function (data) {
-					var date = data.startDate != null ? data.startDate : "-";
-					return (
-						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
-						data.orderId +
-						'">' +
-						$filter("date")(date, "dd/MM/yyyy") +
-						"<a>"
-					);
+					var date =
+					data.endProductionDate_dt != null
+						? data.endProductionDate_dt
+						: "-";
+				return (
+					'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
+					data.id +
+					'">' +
+					$filter("date")(date, "dd/MM/yyyy") +
+					"<a>"
+				);
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "originalEndDate")
@@ -432,7 +448,7 @@ pdApp.controller(
 				.withOption("name", "realDate")
 				.withTitle("Llegada")
 				.renderWith(function (data) {
-					var date = data.realDate != null ? data.realDate : "-";
+					var date = data.arrivalDate_dt != null ? data.arrivalDate_dt : "-";
 					return (
 						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
@@ -538,17 +554,16 @@ pdApp.controller(
 				.withOption("name", "productionDate_dt")
 				.withTitle("Entrada")
 				.renderWith(function (data) {
+					console.log("production date",data)
 					var date =
-						data.productionDate_dt != null
-							? data.productionDate_dt
-							: "-";
-					return (
-						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
-						data.id +
-						'">' +
-						$filter("date")(date, "dd/MM/yyyy") +
-						"<a>"
-					);
+					data.arrivalDate_dt != null ? data.arrivalDate_dt : "-";
+				return (
+					'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
+					data.id +
+					'">' +
+					$filter("date")(date, "dd/MM/yyyy") +
+					"<a>"
+				);
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "endProductionDate_dt")
@@ -665,14 +680,16 @@ pdApp.controller(
 				.withOption("name", "startDate")
 				.withTitle("Entrada")
 				.renderWith(function (data) {
-					var date = data.startDate != null ? data.startDate : "-";
-					return (
-						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
-						data.orderId +
-						'">' +
-						$filter("date")(date, "dd/MM/yyyy") +
-						"<a>"
-					);
+					console.log("production data",data)
+					var date =
+					data.arrivalDate_dt != null ? data.arrivalDate_dt : "-";
+				return (
+					'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
+					data.id +
+					'">' +
+					$filter("date")(date, "dd/MM/yyyy") +
+					"<a>"
+				);
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "originalEndDate")
@@ -747,22 +764,141 @@ pdApp.controller(
 			}
 		};
 
-		$scope.changeDateDialog = function (dateType, orderId) {
-			$scope.dateModel = {};
-			$scope.date = new Date();
-			$scope.currentOrderId = orderId;
-			$scope.dateType = dateType;
-			$scope.invisible=false;
-			$scope.dialog = ngDialog.open({
-				template: "partials/views/console/datepicker.html",
-				scope: $scope,
-				showClose: false,
-				data: {
-					hideSomeElements: false 
-				}
-			});
-		};
+		// $scope.changeDateDialog = function (dateType, orderId) {
+		// 	$scope.dateModel = {};
+		// 	$scope.startDate  = new Date();
+		// 	$scope.currentOrderId = orderId;
+		// 	$scope.dateType = dateType;
+		// 	$scope.invisible=true;
+		// 	$scope.dialog = ngDialog.open({
+		// 		template: "partials/views/console/datepicker.html",
+		// 		scope: $scope,
+		// 		showClose: false,
+		// 		data: {
+		// 			hideSomeElements: false 
+		// 		}
+		// 	});
+		// };
+		
+		// $scope.changeDate = function(newDate) {   
+		// 	$scope.startDate = newDate;
+		// };
 
+		// Controlador AngularJS
+// $scope.dateModel = {
+//     startDate: null,
+//     endDate: null,
+//     startDateOpened: false,
+//     endDateOpened: false
+// };
+
+// $scope.changeDateDialog = function (dateType, orderId) {
+//     $scope.currentOrderId = orderId;
+//     $scope.dateType = dateType;
+//     $scope.invisible = true;
+
+//     // Decidir cuál datepicker mostrar
+//     if (dateType === 'start') {
+//         $scope.dateModel.startDateOpened = true;
+//     } else if (dateType === 'end') {
+//         $scope.dateModel.endDateOpened = true;
+//     }
+
+//     // Abrir el diálogo de ngDialog con el scope actual
+//     $scope.dialog = ngDialog.open({
+//         template: "partials/views/console/datepicker.html",
+//         scope: $scope,
+//         showClose: false,
+//         data: {
+//             hideSomeElements: false 
+//         }
+//     });
+// };
+
+// // Función para manejar la actualización de fechas
+// $scope.changeDate = function (dateType, newDate) {
+//     if (dateType === 'start') {
+//         $scope.dateModel.startDate = newDate;
+//     } else if (dateType === 'end') {
+//         $scope.dateModel.endDate = newDate;
+//     }
+// };
+// JavaScript en tu controlador
+$scope.dateRange = {
+    start: null,
+    end: null,
+    startOpened: false,
+    endOpened: false
+};
+
+$scope.openDateDialog = function (type, orderId) {
+    if(type === 'start'){
+        $scope.dateRange.startOpened = true;
+    } else if(type === 'end'){
+        $scope.dateRange.endOpened = true;
+    }
+    // Aquí puedes manejar la apertura del diálogo si es necesario
+};
+
+// $scope.updateDateRange = function (type, newDate) {
+//     if(type === 'start'){
+//         $scope.dateRange.start = newDate;
+//     } else if(type === 'end'){
+//         $scope.dateRange.end = newDate;
+//     }
+// 	var aoData = [
+// 		{ name: "draw", value: 1 },
+// 		{
+// 			name: "columns",
+// 			value: [
+// 				{ data: null, name: 'no_l', searchable: true, orderable: true, search: { value: '', regex: false } },
+// 				{ data: null, name: '', searchable: true, orderable: true, search: { value: '', regex: false } },
+// 				{ data: null, name: 'providerId_s', searchable: true, orderable: true, search: { value: '', regex: false } },
+// 				{ data: null, name: '', searchable: true, orderable: true, search: { value: '', regex: false } },
+// 				{ data: null, name: '', searchable: true, orderable: true, search: { value: '', regex: false } },
+// 				{ data: null, name: 'productionDate_dt', searchable: true, orderable: true, search: { value: '', regex: false } },
+// 				{ data: null, name: 'endProductionDate_dt', searchable: true, orderable: true, search: { value: '', regex: false } },
+// 				{ data: null, name: '', searchable: true, orderable: true, search: { value: '', regex: false } },
+// 				{ data: null, name: 'providerId_s', searchable: true, orderable: true, search: { value: '', regex: false } },
+// 			]
+// 		},
+// 		{
+// 			name: "order",
+// 			value: [
+// 				{ column: 0, dir: 'asc' }
+// 			]
+// 		},
+// 		{ name: "start", value: 0 },
+// 		{ name: "length", value: 20 },
+// 		{
+// 			name: "search",
+// 			value: { value: '', regex: false }
+// 		}
+// 	];
+// 	// var startDateFormatted = $filter('date')($scope.dateRange.start, 'yyyy-MM-dd');
+//     // var endDateFormatted = $filter('date')($scope.dateRange.end, 'yyyy-MM-dd');
+
+//     // if ($scope.dateRange.start && $scope.dateRange.end) {
+        
+//     //     transitData(/* parámetros que normalmente pasas a transitData */);
+//     //     productionData(/* parámetros que normalmente pasas a productionData */);
+//     // }
+// };
+$scope.updateDateRange = function () {
+    if ($scope.dateRange.start && $scope.dateRange.end) {
+        // Establecer 'ready' a false ocultará las tablas y destruirá las instancias de DataTables
+        $scope.ready = false;
+
+        // Necesitamos esperar un ciclo de digest para que 'ng-if' procese el cambio
+        $timeout(function () {
+            // Ahora que las tablas han sido destruidas, establecemos 'ready' a true para recrearlas
+            $scope.ready = true;
+
+            // Debido a que las tablas se recrearán, DataTables hará nuevas llamadas al servidor
+            // para obtener los datos con las fechas actualizadas que se configuraron en 'productionTableOptions' y 'transitTableOptions'
+        });
+    }
+};
 		$scope.dateChanged = function (calendar) {
 			$scope.date = calendar.date;
 		};
