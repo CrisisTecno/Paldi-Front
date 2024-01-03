@@ -70,8 +70,7 @@ pdApp.controller(
 		}
 
 		var transitData = function (sSource, aoData, fnCallback, oSettings) {
-			// console.log("aoData",aoData)
-			// console.log("fnCallback",fnCallback)
+
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var sort =
@@ -126,8 +125,7 @@ pdApp.controller(
 		};
 
 		var productionData = function (sSource, aoData, fnCallback, oSettings) {
-			// console.log("aoData",aoData)
-			// console.log("fnCallback",fnCallback)
+
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
 			var sort =
@@ -217,7 +215,7 @@ pdApp.controller(
 				.withOption("Id", "no_l")
 				.withTitle("Nombre")
 				.renderWith(function (data) {
-					// console.log("transi register",data)
+			
 					return (
 						'<a>' 
 						+ data.clientName_txt +
@@ -329,7 +327,7 @@ pdApp.controller(
 				.withOption("name", "orderNo")
 				.withTitle("No. orden")
 				.renderWith(function (data) {
-					console.log("ptva",data)
+
 					let iddata=data.id
 					if($scope.currentUser.role=="PROVIDER") iddata=data.orderId
 					
@@ -355,7 +353,7 @@ pdApp.controller(
 				.withOption("Id", "no_l")
 				.withTitle("Nombre")
 				.renderWith(function (data) {
-					// console.log("transi register",data)
+		
 					return (
 						'<a>' 
 						+ data.client +
@@ -512,9 +510,9 @@ pdApp.controller(
 				.withOption("name", "providerId_s")
 				.withTitle("ID_Proveedor")
 				.renderWith(function (data) {
-					var provider = data.providerId_s
-						? data.providerId_s
-						: " - ";
+					var provider = data.id_proveedor
+					? data.id_proveedor
+					: " - ";
 					return (
 						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.id +
@@ -554,7 +552,7 @@ pdApp.controller(
 				.withOption("name", "productionDate_dt")
 				.withTitle("Entrada")
 				.renderWith(function (data) {
-					// console.log("production date",data)
+				
 					var date =
 					data.arrivalDate_dt != null ? data.arrivalDate_dt : "-";
 				return (
@@ -631,7 +629,6 @@ pdApp.controller(
 				.withOption("Id", "no_l")
 				.withTitle("Nombre")
 				.renderWith(function (data) {
-					
 					return (
 						'<a>' 
 						+ data.client +
@@ -643,7 +640,9 @@ pdApp.controller(
 				.withOption("name", "providerId")
 				.withTitle("Proveedor")
 				.renderWith(function (data) {
-					var provider = data.providerId ? data.providerId : " - ";
+					var provider = data.id_proveedor
+					? data.id_proveedor
+					: " - ";
 					return (
 						'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 						data.orderId +
@@ -660,7 +659,7 @@ pdApp.controller(
 					
 					return (
 						'<a>' 
-						+ data.dataB.orderTransitInvoice +
+						+ (data.orderTransitInvoice ?? '-') +
 						"</a>"
 					);
 				}),
@@ -670,17 +669,19 @@ pdApp.controller(
 				.renderWith(function (data) {
 					
 					
-					return (
-						'<a href="https://paquetexpress.com.mx/rastreo/' +(data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0].trim() :"") + '">' 
-						+ (data.dataB.guides &&data.dataB.guides.length>0? data.dataB.guides[0] :"") +
-						"</a>"
-					);
+										
+					if (Array.isArray(data.guides)) {
+						return '<a>' + data.guides.join(', ') + '</a>';
+					} else {
+						// Manejar el caso en el que data.guides no es un arreglo
+						return '<a>' + (data.guides??'-') + '</a>';
+					}
 				}),
 			DTColumnBuilder.newColumn(null)
 				.withOption("name", "startDate")
 				.withTitle("Entrada")
 				.renderWith(function (data) {
-					console.log("production data",data)
+			
 					var date =
 					data.arrivalDate_dt != null ? data.arrivalDate_dt : "-";
 				return (
