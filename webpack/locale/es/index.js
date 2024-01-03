@@ -293,7 +293,7 @@ module.exports = {
   deadlines:{
     operation:"Operaciones",
     overdue:"Vencidas",
-    shipment:"Embarque",
+    shipment:"Salida",
     arrival:"Llegada"
 
   },
