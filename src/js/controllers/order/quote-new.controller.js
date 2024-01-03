@@ -193,9 +193,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     }), paldiService.products.fetchCortinaFiltrasolAcabados(), paldiService.products.fetchAllAdditionals({
       product: "Cortina Filtrasol",
     }),])
-    console.log({
-      motors:motors2, sistemas:sistemas2, colores:colores2, acabados:acabados2, allAdditionals:allAdditionals2
-    });
+    // console.log({
+    //   motors:motors2, sistemas:sistemas2, colores:colores2, acabados:acabados2, allAdditionals:allAdditionals2
+    // });
     $scope.productData = $scope.productData ?? {}
     $scope.productData.cortinaFiltrasol = {
       motors:motors2, sistemas:sistemas2, colores:colores2, acabados:acabados2, allAdditionals:allAdditionals2
@@ -489,7 +489,6 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
   // @note addProduct new quote
   $scope.addProduct = function (product, form, model) {
-     
     
     // addProduct(productName, undefined, undefined) is called when adding a
     // new product from the quote-new view buttons
@@ -513,21 +512,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     // addProduct(productName, productDetails, $scope.{product}) is called
     // when a product is added from the views/console/products/{product}.html
     if (form) {
-      
-      
       $scope.updatePrices(product, model)
       const sellerValid = validateSeller(product, $scope)
 
       $scope.systemsValid = validateSystems($scope, model)
-
-      
-      
-      
-      
-      
-      
-    
-       
 
       if (( typeof(form)=='boolean' || form.$valid) && model.total && model.price && $scope.systemsValid && sellerValid ) {
         
@@ -567,10 +555,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         if(product!="Moldura"){
           colorPriceService.updateTotals(product, $scope.quote)
         }
-        
-
         // @todo Abstract product list separation
-        
         $scope.productsSorted.forEach(function (typeList) {
           typeList.products = []
         })
@@ -1286,14 +1271,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
   // @note updatePrices
   $scope.updatePrices = function (product, model) {
-     
-     
     // this should not be done in here, but best place to put it
     // quick and dirty, todo: clean later
-    
+    console.log("product",product);
+    console.log("model",model);
     if (product === "Cortina") {
-     
-      
 
       model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color.toLowerCase() == model.colorName.toLowerCase())[0]
       
@@ -1520,7 +1502,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.getTemplate = function (product) {
-    
+  
     var path = "js/controllers/order/products/"
     switch (product) {
       case "Balance":
@@ -2068,11 +2050,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.updateType = function (product, model, color) {
-     
+    console.log(product)
+    console.log(model)
+    console.log(color)
     if ($scope.rotated) {
       $scope.rotate(product, model)
     }
-
     if (model.type || model.sistema.type) {
       if (product == "Enrollable") {
         $scope.productMeta = $scope.enrollablesMeta[model.type]
@@ -2082,6 +2065,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         } else {
           $scope.hasSystems = false
         }
+
       } else if (product == "Filtrasol") {
         $scope.productMeta = $scope.filtrasolesMeta[model.type]
         $scope.hasSystems = false
