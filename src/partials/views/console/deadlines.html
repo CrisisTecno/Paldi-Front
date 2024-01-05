@@ -44,10 +44,11 @@
             </button>
         </span>
         <input name="endDate" type="text" class="form-control"
-            uib-datepicker-popup="{{format}}" ng-model="dateRange.end"
-            is-open="dateRange.endOpened"
-            datepicker-options="endDateOptions" required="true"
-            ng-change="updateDateRange('end', dateRange.end)" />
+       uib-datepicker-popup="{{format}}" ng-model="dateRange.end"
+       is-open="dateRange.endOpened"
+       datepicker-options="endDateOptions" required="true"
+       ng-change="updateDateRange('end', dateRange.end)" />
+
     </p>
 </div>
 

@@ -63,7 +63,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   service.shipment = {
 
     // sheet: async function(order_id,boxesNum,user, folio){
-    //   console.log("como es hermanito")
+    //   
     //   let params = {
     //     user:user,
     //     folio:folio,
@@ -290,7 +290,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
             response.data.realRole = "EXTERNAL_CONSULTANT"
             response.data.role = "CONSULTANT"
           }
-          console.log(response.data)
+      
           return response.data;
         });
     },
@@ -554,7 +554,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
   service.orders = {
 
     get: function (id) {
-      // console.log("hermano aqui es tu cambio")
+
       if(EXECUTION_ENV=="EXTERNAL"){
         const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
       return $http
@@ -771,8 +771,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     },
 
     save: function (orders,additionalParams) {
-      // console.log("aca es gfesito");
-      // console.log(additionalParams)
+
       let order = { ...angular.copy(orders) }
       if(EXECUTION_ENV=="EXTERNAL"){
       order.products = [...(order.products.map(v => ({
@@ -1476,7 +1475,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
     //       {authentication: "yokozuna"}
     //     )
     //     .then(function (response) {
-    //       console.log("responmde",response);
+    
     //       return response.data;
     //     });
     // },
@@ -1714,16 +1713,18 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
     getDeadlines: function (deadlineType, status, start, rows, sort, providerId, startDate, endDate) {
 
     // getDeadlines: function (deadlineType, status, start, rows, sort,providerId) {
-      // console.log("startdate",startDate)
-      // console.log("endDate",endDate)
+
       var startDate1 = "*"; 
       var endDate1 = "*"; 
-      if(startDate!==null||endDate!==null){
+      if(startDate!==null){
         startDate1 = startDate; 
+      }
+      if(endDate!==null){
         endDate1 = endDate; 
       }
+      
       var statusList = ["PRODUCTION"];
-      // console.log("llamas al NORMAL".repeat(60))
+
       if(status=="PRODUCTION"){
         statusList[0]="PRODUCTION";
         return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
@@ -1760,13 +1761,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
             provider: provider // Añadido basado en tu URL de ejemplo
           },
         }) .then(async function (response) {
-            
-            // for(const f of response.data.response.docs)
-            // {
-            //     console.log("karajo mierda",response.data.response)
-            //     var fullData = await service.orders.get(f["id"])
-            //     f["dataB"] = fullData
-            // }
+        
            
             return response.data.response;
           });
@@ -1774,7 +1769,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
 
     },
     getPastDeadlines: function (status, page, size, sort,providerId) {
-      // console.log("llamas al past".repeat(60))
+   
       var statusList = ["PRODUCTION"];
       if(status=="PRODUCTION"){
         statusList[0]="PRODUCTION";
@@ -1833,7 +1828,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
           
     //       for(const f of response.data.response.docs)
     //       {
-    //           console.log(response.data.response)
+    //           
     //           var fullData = await service.orders.get(f["id"])
     //           f["dataB"] = fullData
     //       }
@@ -2164,7 +2159,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
     // // })
     // // .then(response => response.text())
     // // .then(data => {
-    // //     console.log("Respuesta a solicitud POST:", data);
+    // //     
     // // })
     // // .catch(error => {
     // //     console.error("Error en la carga del archivo:", error);
@@ -2199,7 +2194,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
 //         $http.post(url, data).then(
 //             function(response) {
 //                 // Manejo exitoso
-//                 console.log("Respuesta exitosa:", response.data);
+//            
 //             }, 
 //             function(error) {
 //                 // Manejo de error
@@ -2210,7 +2205,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
 // });
 
 // upload: function (formData) {
-//   console.log("[DEBUG] formData1 : ", formData);
+//  
 // const file=formData.get('file');
 //   const fromData1=new FormData();
 //   fromData1.append('file',file,file.name)
@@ -2224,7 +2219,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
 //     });
 // },
     // upload: function (formData) {
-    //   console.log("[DEBUG] formData : ", formData);
+    // 
     //   return $http
     //     .post(globals.apiURL + "/pricing/catalog", formData, {
     //       authentication: "yokozuna",

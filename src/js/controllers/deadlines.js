@@ -885,21 +885,32 @@ $scope.openDateDialog = function (type, orderId) {
 //     //     productionData(/* parámetros que normalmente pasas a productionData */);
 //     // }
 // };
-$scope.updateDateRange = function () {
-    if ($scope.dateRange.start && $scope.dateRange.end) {
-        // Establecer 'ready' a false ocultará las tablas y destruirá las instancias de DataTables
-        $scope.ready = false;
+		$scope.updateDateRange = function () {
+			if ($scope.dateRange.start || $scope.dateRange.end) {
+				// Establecer 'ready' a false ocultará las tablas y destruirá las instancias de DataTables
+				$scope.ready = false;
 
-        // Necesitamos esperar un ciclo de digest para que 'ng-if' procese el cambio
-        $timeout(function () {
-            // Ahora que las tablas han sido destruidas, establecemos 'ready' a true para recrearlas
-            $scope.ready = true;
+				// Necesitamos esperar un ciclo de digest para que 'ng-if' procese el cambio
+				$timeout(function () {
+					// Ahora que las tablas han sido destruidas, establecemos 'ready' a true para recrearlas
+					$scope.ready = true;
 
-            // Debido a que las tablas se recrearán, DataTables hará nuevas llamadas al servidor
-            // para obtener los datos con las fechas actualizadas que se configuraron en 'productionTableOptions' y 'transitTableOptions'
-        });
-    }
-};
+					// Debido a que las tablas se recrearán, DataTables hará nuevas llamadas al servidor
+					// para obtener los datos con las fechas actualizadas que se configuraron en 'productionTableOptions' y 'transitTableOptions'
+				});
+			}
+		};
+		$scope.format = 'dd/MM/yyyy';
+		$scope.endDateOptions = {
+			datepickerMode: 'day',
+			formatYear: 'yy',
+			startingDay: 1
+		};
+		$scope.startDateOptions = {
+			datepickerMode: 'day',
+			formatYear: 'yy',
+			startingDay: 1
+		};
 		$scope.dateChanged = function (calendar) {
 			$scope.date = calendar.date;
 		};
