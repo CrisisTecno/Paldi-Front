@@ -165,6 +165,14 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
 
   service.installationSheet = {
     create: function (data) {
+
+      $http.put(
+        globals.apiURL + "/api2/installation/create",
+        data,
+        {
+          authentication: "yokozuna",
+        }
+      );
       return $http.post(
         globals.apiURL + "/newapi" + "/installation/sheet/create",
         data,
@@ -174,6 +182,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
       );
     },
     edit: function (data) {
+      
       return $http.post(
         globals.apiURL + "/newapi" + "/installation/sheet/edit",
         data,
@@ -1727,7 +1736,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
 
       if(status=="PRODUCTION"){
         statusList[0]="PRODUCTION";
-        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
+        return $http.get(globals.apiURL + "/quotes/orders/search/status/list2", {
           authentication: "yokozuna",
           params: {
             start: start1,
@@ -1747,7 +1756,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
           });
       }else{
         statusList[0]="TRANSIT";
-        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
+        return $http.get(globals.apiURL + "/quotes/orders/search/status/list2", {
           authentication: "yokozuna",
           params: {
             start: start1,
@@ -1773,7 +1782,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
       var statusList = ["PRODUCTION"];
       if(status=="PRODUCTION"){
         statusList[0]="PRODUCTION";
-        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
+        return $http.get(globals.apiURL + "/quotes/orders/search/status/list2", {
           authentication: "yokozuna",
           params: {
             start: start1,
@@ -1792,7 +1801,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
           });
       }else{
         statusList[0]="TRANSIT";
-        return $http.get(globals.apiURL + "/quotes/orders/search/status/list", {
+        return $http.get(globals.apiURL + "/quotes/orders/search/status/list2", {
           authentication: "yokozuna",
           params: {
             start: start1,

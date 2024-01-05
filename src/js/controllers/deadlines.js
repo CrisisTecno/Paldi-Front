@@ -554,7 +554,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 				
 					var date =
-					data.arrivalDate_dt != null ? data.arrivalDate_dt : "-";
+					data.productionStartDate != null ? data.productionStartDate : "-";
 				return (
 					'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 					data.id +
@@ -683,7 +683,7 @@ pdApp.controller(
 				.renderWith(function (data) {
 			
 					var date =
-					data.arrivalDate_dt != null ? data.arrivalDate_dt : "-";
+					data.productionStartDate != null ? data.productionStartDate : "-";
 				return (
 					'<a href="#/console/order/' + ($scope.currentUser.role=="PROVIDER"?"provider/" :"" )+
 					data.id +
