@@ -293,8 +293,8 @@ module.exports = {
   deadlines:{
     operation:"Operaciones",
     overdue:"Vencidas",
-    shipment:"Salida",
-    arrival:"Llegada"
+    shipment:"Ordenes en Produccion",
+    arrival:"Ordenes en Transito"
 
   },
   datepicker:{
