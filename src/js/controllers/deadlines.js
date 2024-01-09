@@ -586,6 +586,7 @@ pdApp.controller(
 					$scope.currentUser.role != "SALES_MANAGER" &&
 					$scope.currentUser.role != "BUYER"
 				) {
+	
 					return (
 						'<button class="btn btn-xs btn-danger" ng-click="changeDateDialog(' +
 						dateType +
@@ -765,21 +766,31 @@ pdApp.controller(
 			}
 		};
 
-		// $scope.changeDateDialog = function (dateType, orderId) {
-		// 	$scope.dateModel = {};
-		// 	$scope.startDate  = new Date();
-		// 	$scope.currentOrderId = orderId;
-		// 	$scope.dateType = dateType;
-		// 	$scope.invisible=true;
-		// 	$scope.dialog = ngDialog.open({
-		// 		template: "partials/views/console/datepicker.html",
-		// 		scope: $scope,
-		// 		showClose: false,
-		// 		data: {
-		// 			hideSomeElements: false 
-		// 		}
-		// 	});
-		// };
+		$scope.changeDateDialog = function (dateType, orderId) {
+			$scope.dateModel = {};
+			$scope.startDate  = new Date();
+			$scope.currentOrderId = orderId;
+			$scope.dateType = dateType;
+			$scope.invisible=true;
+			$scope.dialog = ngDialog.open({
+				template: "partials/views/console/datepicker.html",
+				scope: $scope,
+				showClose: false,
+				data: {
+					hideSomeElements: false 
+				}
+			});
+			    // Cuando se cierre el diálogo, recargar la página
+			$scope.dialog.closePromise.then(function (data) {
+				$scope.ready = false;
+
+				$timeout(function () {
+					$scope.ready = true;
+		
+				});
+			});
+		};
+
 		
 		// $scope.changeDate = function(newDate) {   
 		// 	$scope.startDate = newDate;
@@ -890,13 +901,9 @@ $scope.openDateDialog = function (type, orderId) {
 				// Establecer 'ready' a false ocultará las tablas y destruirá las instancias de DataTables
 				$scope.ready = false;
 
-				// Necesitamos esperar un ciclo de digest para que 'ng-if' procese el cambio
 				$timeout(function () {
-					// Ahora que las tablas han sido destruidas, establecemos 'ready' a true para recrearlas
 					$scope.ready = true;
 
-					// Debido a que las tablas se recrearán, DataTables hará nuevas llamadas al servidor
-					// para obtener los datos con las fechas actualizadas que se configuraron en 'productionTableOptions' y 'transitTableOptions'
 				});
 			}
 		};

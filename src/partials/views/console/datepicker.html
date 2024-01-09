@@ -30,7 +30,7 @@
 			<span ng-show="dateType == 'install'" class="form-control">{{ date | date : 'dd/MM/yyyy hh:mm a'}}</span>
 			<span ng-show="dateType == 'arrival' || dateType == 'endProduction'" class="form-control">{{ date | date : 'dd/MM/yyyy'}}</span>
 		</div>
-
+    <div ng-show="invisible !== true">
 		<div ng-show="dateType == 'arrival' ">
 			<div>
 			<label><%= htmlWebpackPlugin.options.datepicker.folio %></label>
@@ -41,6 +41,7 @@
 			<label><%= htmlWebpackPlugin.options.datepicker.guide %></label>
 			<button type="button" class="btn btn-primary" ng-click="addDataToRepeater(dateModel,'guides')">+</button>
 			<div>
+        
 				<div   ng-repeat="guide in dateModel.guides track by $index" >
 					<div style="display:flex">
 					<input style="max-width:90%; margin:auto;" ng-model="dateModel.guides[$index]" type="text"  class="form-control">
@@ -48,12 +49,12 @@
 					</div>
 					<br>
 				</div>
-				
-			</div>
+      </div>
+			
 
 			</div>
 		</div>
-    <div ng-show="invisible !== true">
+    
 
 
         <div ng-hide="dateType == 'commitment'"class="form-group notes">
