@@ -183,6 +183,15 @@ const pdApp = angular
         authRequired: true,
         env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
+      .state("console.stadistic", {
+        url: "/stadistic",
+        templateUrl: "partials/views/console/stadistic.html",
+        controller: "StadisticCtrl",
+        title: EXECUTION_ENV=="EXTERNAL"?"Stadistic":"Estadistica",
+        authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
+      })
+
       .state("console.calendar-install", {
         url: "/installCalendar",
         templateUrl: "js/controllers/order/installation-calendar.html",

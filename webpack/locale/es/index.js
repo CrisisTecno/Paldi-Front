@@ -336,12 +336,13 @@ module.exports = {
     new_status:"Nuevo Estado",
     status_options:`
     <option ng-if="changePermissions.canLine || showlvl7  || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="LINE">Línea</option>
+    <option ng-if="changePermissions.canBackorder || showlvl7 ||  showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="BACKORDER">Backorder</option>
     <option ng-if="changePermissions.canQuote || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1 " value=" QUOTE ">Cotizando</option>
     <option ng-if="changePermissions.canInfo || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="PENDING_INFO">Informacion Pendiente</option>
     <option ng-if="changePermissions.canQuoted || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="QUOTED">Cotizado</option>
     <option ng-if="showChangeStatusButton || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="AUTHORIZED">Autorizado</option>
 
-    <option ng-if="(changePermissions.canBackorder && !showChangeStatusTree)|| showlvl7 ||  showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3" value="BACKORDER">Backorder</option>
+    
 
     <option ng-if="(changePermissions.canProduction && !showChangeStatusTree)|| showlvl7 ||  showlvl6  ||  showlvl5 ||  showlvl4 " value="PRODUCTION">Producción</option>
 
@@ -1162,6 +1163,10 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
     name:"Nombre",
     description:"Descripción",
     load:"Subir Archivo"
+  },
+  stadistics:{
+    stadistic:"Estadistica",
+    stadistics:"Estadisticas"
   }
   
   
