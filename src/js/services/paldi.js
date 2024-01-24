@@ -2173,22 +2173,69 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
     // // .catch(error => {
     // //     console.error("Error en la carga del archivo:", error);
     // // });
-    upload: function (formData) {
+    //el bueno
+    // upload: async function (formData) {
+    //   console.log("[DEBUG] formData : ", formData);
+      
+    //     const {fileBase64,name}=formData
+    //     const urlaws='https://50rob0l4oa.execute-api.us-east-1.amazonaws.com/default/handle-catalog'
+    //     const filename = name.replace(".xlsx", "")
+    //     const requestBody = {
+    //         filename: filename,
+    //         body: fileBase64,
+    //         isBase64Encoded: true
+    //       };
+    //     const response = await fetch(urlaws, {
+    //         method: 'POST',
+    //         body: JSON.stringify(requestBody), 
+    //         });
+    //     if (!response.ok) {
+    //             throw new Error(`Error: ${response.status}`);
+    //     }
+    //     const data = await response.json(); 
+    //     return $http.post(globals.apiURL+"/pricing/catalog/upload",{authentication: "yokozuna", formData}).then(
+    //       (response) => {
+    //          return response.data;
+    //       });
+    // },
+    upload: async function (formData) {
       console.log("[DEBUG] formData : ", formData);
     
-        var url = "https://50rob0l4oa.execute-api.us-east-1.amazonaws.com/default/handle-catalog";
-
-        $http.post(url, formData).then(
-            function(response) {
-                // Manejo exitoso
-                console.log("Archivo subido con éxito:", response.data);
-            }, 
-            function(error) {
-                // Manejo de errores
-                console.error("Error al subir el archivo:", error);
-            }
-        );
+      try {
+        const { fileBase64, name } = formData;
+        const base64Content = fileBase64.split('base64,')[1];
+        const urlaws = 'https://50rob0l4oa.execute-api.us-east-1.amazonaws.com/default/handle-catalog';
+        const filename = name.replace(".xlsx", "");
+        const requestBody = {
+          filename: filename,
+          body: base64Content,
+          isBase64Encoded: true
+        };
+    
+        const response = await fetch(urlaws, {
+          method: 'POST',
+          body: JSON.stringify(requestBody),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+    
+        const data = await response.json();
+        console.log(data)
+        // Ahora maneja la respuesta y realiza la segunda solicitud POST
+        return $http.post(globals.apiURL + "/pricing/catalog/upload", {
+          authentication: "yokozuna", 
+          formData,url:data.downloadUrl
+        }).then((response) => {
+          return response.data;
+        });
+      } catch (error) {
+        console.error("Error en la función de carga:", error);
+        throw error; // O maneja el error como lo consideres adecuado
+      }
     },
+    
 //     angular.module('tuApp', [])
 // .controller('TuControlador', function($scope, $http) {
 //     $scope.enviarArchivo = function() {

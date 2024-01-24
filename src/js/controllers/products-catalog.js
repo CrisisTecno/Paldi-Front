@@ -30,72 +30,148 @@ pdApp.controller(
 			});
 		};
 
+		// $scope.selectFile = function (files) {
+		// 	$scope.fd2 = {
+		// 		file: files[0],
+		// 		name: files[0].name,
+		// 		userId: $rootScope.currentUser.id,
+		// 		userName:
+		// 			$rootScope.currentUser.name +
+		// 			" " +
+		// 			$rootScope.currentUser.lastName,
+		// 	};
+		// 	$scope.fd = new FormData();
+
+		// 	// console.log("[DEBUG] FILE : ", files[0]);
+
+		// 	$scope.fd.append("file", files[0]);
+		// 	$scope.fd.append("name", files[0].name);
+		// 	$scope.fd.append("userId", $rootScope.currentUser.id);
+
+		// 	// console.log("[DEBUG] USER : ", $rootScope.currentUser);
+
+		// 	$scope.fd.append(
+		// 		"userName",
+		// 		$rootScope.currentUser.name +
+		// 			" " +
+		// 			$rootScope.currentUser.lastName
+		// 	);
+		// 	// console.log("[DEBUG] CATALOG FD1 : ", $scope.fd);
+		// 	// console.log($scope.fd.has("file"));
+		// 	// console.log($scope.fd.get('file'));
+		// 	$scope.fileValid = true;
+		// 	$scope.$apply();
+		// };
 		$scope.selectFile = function (files) {
-			$scope.fd2 = {
-				file: files[0],
-				name: files[0].name,
-				userId: $rootScope.currentUser.id,
-				userName:
-					$rootScope.currentUser.name +
-					" " +
-					$rootScope.currentUser.lastName,
+			var reader = new FileReader();
+		
+			reader.onload = function (e) {
+				var base64 = e.target.result;
+				$scope.fd2 = {
+					fileBase64: base64,
+					name: files[0].name,
+					userId: $rootScope.currentUser.id,
+					userName: $rootScope.currentUser.name + " " + $rootScope.currentUser.lastName,
+				};
+		
+				$scope.fileValid = true;
+				$scope.$apply();
 			};
-			$scope.fd = new FormData();
-			console.log("[DEBUG] FILE : ", files[0]);
-			$scope.fd.append("file", files[0]);
-			$scope.fd.append("name", files[0].name);
-			$scope.fd.append("userId", $rootScope.currentUser.id);
-			console.log("[DEBUG] USER : ", $rootScope.currentUser);
-			$scope.fd.append(
-				"userName",
-				$rootScope.currentUser.name +
-					" " +
-					$rootScope.currentUser.lastName
-			);
-
-			$scope.fileValid = true;
-			$scope.$apply();
+		
+			reader.readAsDataURL(files[0]);
 		};
+		
+		// $scope.uploadCatalog = function () {
 
-		$scope.uploadCatalog = function () {
-			console.log("[DEBUG] CATALOG : ", $scope.fd);
-			console.log("[DEBUG] CATALOG : ", $scope.fd2);
-			$scope.uploading = true;
-			paldiService.catalog.upload($scope.fd).then(
-				(data) => {
-					$scope.uploading = false;
-					$scope.fd = null;
-					$scope.fd2 = null;
-					$scope.dialog.close();
+		// 	console.log("[DEBUG] CATALOG FD1 : ", $scope.fd);
+		// 	console.log("[DEBUG] CATALOG FD2: ", $scope.fd2);
 
-					swal({
-						title: "Catálogo subido",
-						text: "Se cargó el catálogo correctamente",
-						type: "success",
-						showConfirmButton: false,
-						timer: 1000,
-					});
-					$timeout(function () {
-						init();
-					}, 1000);
-				},
-				(error) => {
-					$scope.uploading = false;
-					$scope.fd = null;
-					$scope.dialog.close();
-					init();
-
-					swal({
-						title: "Error",
-						text: "Favor de revisar que el formato del archivo sea el correcto",
-						type: "error",
-						confirmButtonText: "Aceptar",
-					});
+		// 	$scope.uploading = true;
+		// 	paldiService.catalog.upload($scope.fd2).then(
+		// 		(data) => {
+		// 			$scope.uploading = false;
+		// 			$scope.fd = null;
+		// 			$scope.fd2 = null;
+		// 			$scope.dialog.close();
+		// 			swal({
+		// 				title: "Catálogo subido",
+		// 				text: "Se cargó el catálogo correctamente",
+		// 				type: "success",
+		// 				showConfirmButton: false,
+		// 				timer: 1000,
+		// 			});
+		// 			$timeout(function () {
+		// 				init();
+		// 			}, 1000);
+		// 		},
+		// 		(error) => {
+		// 			$scope.uploading = false;
+		// 			$scope.fd = null;
+		// 			$scope.dialog.close();
+		// 			init();
+		// 			swal({
+		// 				title: "Error",
+		// 				text: "Favor de revisar que el formato del archivo sea el correcto",
+		// 				type: "error",
+		// 				confirmButtonText: "Aceptar",
+		// 			});
 					
-				}
-			);
+		// 		}
+		// 	);
+		// };
+		$scope.uploadCatalog = function () {
+			console.log("[DEBUG] CATALOG FD2: ", $scope.fd2);
+		
+			if (!$scope.fd2 || !$scope.fd2.fileBase64) {
+				swal({
+					title: "Error",
+					text: "No se ha seleccionado ningún archivo",
+					type: "error",
+					confirmButtonText: "Aceptar",
+				});
+				return;
+			}
+		
+			$scope.uploading = true;
+		
+			paldiService.catalog.upload($scope.fd2)
+				.then(
+					(data) => {
+						$scope.uploading = false;
+						// Limpiar los datos del formulario
+						$scope.fd2 = null;
+						$scope.dialog.close();
+						
+						swal({
+							title: "Catálogo subido",
+							text: "Se cargó el catálogo correctamente",
+							type: "success",
+							showConfirmButton: false,
+							timer: 1000,
+						});
+		
+						$timeout(() => {
+							init(); // Reinicializar para reflejar cambios
+						}, 1000);
+					},
+					(error) => {
+						$scope.uploading = false;
+						$scope.fd2 = null;
+						$scope.dialog.close();
+						
+						swal({
+							title: "Error",
+							text: "Hubo un problema al subir el archivo. Por favor, inténtelo de nuevo.",
+							type: "error",
+							confirmButtonText: "Aceptar",
+						});
+					}
+				)
+				.finally(() => {
+					console.log("ARCHIVO CARGADO CON EXITO")
+				});
 		};
-
+		
 		function init() {
 			$scope.canUpload = false;
 			checkStatus();
@@ -116,15 +192,17 @@ pdApp.controller(
 		}
 
 		// ============= Download File ============= //
-		$scope.downloadFile = (id, name) => {
-			paldiService.catalog.getFile(id).then((file) => {
-				const url = window.URL.createObjectURL(new Blob([file]));
-				const link = document.createElement("a");
-				link.href = url;
-				link.setAttribute("download", name);
-				document.body.appendChild(link);
-				link.click();
-			});
+		$scope.downloadFile = (url, name) => {
+			if (!url || !name) {
+				console.error('URL or file name is missing for download');
+				return;
+			}
+			const link = document.createElement("a");
+			link.href = url;
+			link.setAttribute("download", name);
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link); // Opcional: remover el link después de hacer click
 		};
 
 		// ============= Data tables ============= //
@@ -219,7 +297,7 @@ pdApp.controller(
 				.renderWith((data) => {
 					return (
 						"<a ng-click=\"downloadFile('" +
-						data.id +
+						data.url +
 						"', '" +
 						data.name +
 						"')\">Descargar<a>"
