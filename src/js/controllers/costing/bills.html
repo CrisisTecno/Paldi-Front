@@ -4,11 +4,12 @@
       <h3>
         <%= htmlWebpackPlugin.options.general.receipts %>
       </h3>
+      
     </div>
     <div class="ibox-content">
       <a 
           class="btn btn-success" 
-          href="{{downloadLink}}" 
+          href="{{download1Link}}" 
           download="Facturas.xlsx" 
           ng-hide="statusList.length < 1 || isEmpty">
         <%= htmlWebpackPlugin.options.general.download %>
