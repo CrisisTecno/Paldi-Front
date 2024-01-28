@@ -1,5 +1,5 @@
 import { pdApp } from "./index";
-
+import {globals} from "../services/index";
 pdApp.controller(
 	"MovementsCtrl",
 	function (
@@ -28,6 +28,23 @@ pdApp.controller(
 		var cleanInvStatusList = [];
 
 		var search = "";
+		var getDownloadLinkSC1 = function () {
+			var statusListJson = JSON.stringify(cleanStatusList);
+
+			var queryParams = {
+				search: search || '',
+				orderStatusList: [statusListJson],
+				startDate: $scope.startDate ? $scope.startDate.toISOString() : '*',
+				endDate: $scope.endDate ? $scope.endDate.toISOString() : '*'
+			};
+		
+			var queryString = Object.keys(queryParams)
+				.map(key => key + '=' + encodeURIComponent(queryParams[key]))
+				.join('&');
+				
+				
+			$scope.download1Link = globals.apiURL+ "/api2/excels/movements_excel?"+ queryString;
+		};
 		$scope.availableStatusList = [];
 		$scope.statusList = [];
 
@@ -177,7 +194,8 @@ pdApp.controller(
 
 			search = sear;
 			getDownloadLink();
-
+			getDownloadLinkSC1()
+			console.log("aca entra movements")
 			if (cleanStatusList.length == 0) {
 				var result = {
 					draw: draw,

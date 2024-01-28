@@ -62,21 +62,9 @@ pdApp.controller(
 				.map(key => key + '=' + encodeURIComponent(queryParams[key]))
 				.join('&');
 				
-			$scope.download1Link = globals.apiURL+ "/api2/bills/bills_excel?"+ queryString;
+			$scope.download1Link = globals.apiURL+ "/api2/excels/bills_excel?"+ queryString;
 		};
-		// http://localhost:3000/api/quotes/bills/missing?page=0&start=0&rows=15&sort=dat
-		// e_dt%20asc&search=&startDate=%222018-01-01T03:00:00.000Z%22&endDate=*&orderStatu
-		// sList=[%22LINE%22,%22BACKORDER%22,%22PRODUCTION%22,%22TRANSIT%22,%22FINISHED%22
 
-		// %22PROGRAMMED%22,%22INSTALLED%22,%22INSTALLED_INCOMPLETE%22,%22INSTALLED_NONCONFORM%22]
-		// href="http://localhost:3000/api/api2/bills/bills_excelsearch=&statusList=%255B%2522LINE%252
-		// 2%252C%2522BACKORDER%2522%252C%2522PRODUCTION%2522%252C%2522TRANSIT%2522%252C%2522FINISHED%2522%
-		// 252C%2522PROGRAMMED%2522%252C%2522INSTALLED%2522%25
-		// 2C%2522INSTALLED_INCOMPLETE%2522%252C%2522INSTALLED_NONCONFORM%2522%255D&startDate=*&endDate=*"
-
-		// href="http://localhost:3000/api/api2/bills/bills_excel?search=&statusList=LINE%2CBACKORDER%2CPRODUCTION%2CTRANSIT%2CFI
-		// NISHED%2CPROGRAMMED%2CINSTALLED%2CINSTALLED_INCOMPLETE%2CINSTALLED_NONCONFORM&startDate=*&endDate=*"
-		//ESTA FUNCION NOS TRAE LAS FACTURAS CON TODO
 		var serverData = function (sSource, aoData, fnCallback, oSettings) {
 			var sear = aoData[5].value.value;
 			var draw = aoData[0].value;
