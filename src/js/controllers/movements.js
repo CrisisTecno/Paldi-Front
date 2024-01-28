@@ -193,9 +193,7 @@ pdApp.controller(
 				aoData[2].value[0].dir;
 
 			search = sear;
-			getDownloadLink();
-			getDownloadLinkSC1()
-			console.log("aca entra movements")
+			getDownloadLinkSC1();
 			if (cleanStatusList.length == 0) {
 				var result = {
 					draw: draw,
