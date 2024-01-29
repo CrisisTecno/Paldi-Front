@@ -30,12 +30,14 @@ export function generateEnrollableHandlers($http, $rootScope) {
     if (!isUnitPrice && !enrollable.height) {
       isValid = false;
     }
-
+    console.log(enrollable.width)
+    console.log(enrollable.height)
     if (enrollable.width && enrollable.height) {
       enrollable.m2 =
         validateMin(enrollable.width, isUnitPrice) *
         validateMin(enrollable.height, isUnitPrice);
       enrollable.m2 = Math.round(enrollable.m2 * 100) / 100;
+      console.log("m2",enrollable.m2)
     } else {
       enrollable.m2 = null;
     }
@@ -48,8 +50,10 @@ export function generateEnrollableHandlers($http, $rootScope) {
         code: enrollable.colorObj.code,
       };
       if (!isUnitPrice) {
-        obj.width = validateMin(enrollable.width, isUnitPrice);
-        obj.height = validateMin(enrollable.height, isUnitPrice);
+        obj.width = enrollable.width;
+        obj.height =enrollable.height;
+        // obj.width = validateMin(enrollable.width, isUnitPrice);
+        // obj.height = validateMin(enrollable.height, isUnitPrice);
       } else {
         obj.system =
           enrollable.system != "N/A" ? enrollable.system : null;
@@ -76,16 +80,12 @@ export function generateEnrollableHandlers($http, $rootScope) {
             enrollable.doable = true;
             var price = response.data.price;
             var priceType = response.data.priceType;
-            var m2 = enrollable.m2 &&
-              enrollable.m2 < 1 &&
-              isUnitPrice
+            var m2 = enrollable.m2 && enrollable.m2 < 1 && isUnitPrice
               ? 1
               : enrollable.m2;
 
-            enrollable.unit =
-              priceType == "METER" ? price : null;
-            enrollable.price =
-              priceType == "METER" ? m2 * price : price;
+            enrollable.unit =priceType == "METER" ? price : null;
+            enrollable.price =priceType == "METER" ? m2 * price : price;
             enrollable.total = enrollable.quantity
               ? enrollable.price * enrollable.quantity
               : null;
