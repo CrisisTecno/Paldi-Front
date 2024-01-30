@@ -3,7 +3,7 @@ import { pdApp, globals } from "../../index";
 export function generateBalanceHandlers($http) {
 
   var getBalancePrice = function (balance) {
-    const intervals = [
+    const intervalsWrappedCornice  = [
       { min: 0.1, max: 0.6 },
       { min: 0.6, max: 0.75 },
       { min: 0.75, max: 0.9 },
@@ -24,18 +24,41 @@ export function generateBalanceHandlers($http) {
       { min: 3, max: 3.15 }
     ];
     
+    const intervalsAluminumGallery = [
+      { min: 0.1, max: 1 },
+      { min: 1, max: 1.5 },
+      { min: 1.5, max: 2 },
+      { min: 2, max: 2.5 },
+      { min: 2.5, max: 3 },
+      { min: 3, max: 3.5 },
+      { min: 3.5, max: 4 },
+      { min: 4, max: 4.5 },
+      { min: 4.5, max: 5 },
+      { min: 5, max: 5.5 },
+      { min: 5.5, max: 6 },
+    ];
+    
+    let intervals;
+    
     if (balance.type == "Wrapped Cornice" && balance.width) {
-      
+      intervals = intervalsWrappedCornice;
+    } else if (balance.type == "Aluminum Gallery" && balance.width) {
+      intervals = intervalsAluminumGallery;
+    }
+    
+    if (intervals) {
       const interval = intervals.find(i => balance.width > i.min && balance.width <= i.max);
-      
     
       if (interval) {
         balance.maxWidth = interval.max;
         balance.minWidth = interval.min;
       } else {
-        console.log('ERROR');
+        console.log('Width is out of the defined intervals.');
       }
     }
+
+
+
     var isValid = true;
 
     if (!balance) {
