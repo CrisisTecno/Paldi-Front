@@ -67,8 +67,9 @@ export function generateShutterHandlers($http) {
         .then(function (response) {
           shutter.colors = [];
           response.data.forEach(function (element, index) {
+            
             shutter.colors.push({
-              label: element.code,
+              label: element.color,
               value: element,
             });
           });
