@@ -89,14 +89,16 @@ export function generateBalanceHandlers($http) {
         .then(function (response) {
           var price = response.data.price;
           balance.unit = price;
-          balance.price = balance.width
-            ? balance.unit * balance.width
-            : null;
+          balance.price = balance.width? balance.unit * balance.width: null;
+          console.log(balance.price)
           if(balance.type=="Wrapped Cornice" || balance.type=="Aluminum Gallery"){
             balance.price=price
           }
-          balance.total =balance.width && balance.quantity && balance.price? balance.price * balance.quantity
+          console.log(balance.price)
+          balance.total =balance.quantity && balance.price? balance.price * balance.quantity
               : null;
+              console.log(balance.price)
+              console.log(balance.total)
           
         });
     } else {
