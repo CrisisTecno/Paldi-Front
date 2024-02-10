@@ -373,6 +373,8 @@ modals:{
 
     orders:"Órdenes",
     order_tracking:"Seguimiento OV",
+    order_production:"Seguimiento Produccion",
+    order_transit:"Seguimiento Transito",
     manual_register:"Registro OV",
 
     my_sells:"Mis Ventas",
@@ -444,6 +446,7 @@ modals:{
      role:"Permisos",
      role_options:`
      <option value="CONSULTANT">Asesor</option>
+     <option value="CONSULTANT_MAYOR">Asesor Mayoreo</option>
      <option value="BUYER">Comprador</option>
      <option value="MANAGER" ng-if="currentUser.canAdmin">Gerente de Compras</option>
      <option value="INSTALLATION_MANAGER" ng-if="currentUser.canAdmin">Gerente de Instalación</option>

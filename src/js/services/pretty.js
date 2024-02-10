@@ -278,6 +278,8 @@ pdApp.factory("prettyHelper", function () {
 			switch (role) {
 				case "CONSULTANT":
 					return "Asesor";
+				case "CONSULTANT_MAYOR":
+					return "Asesor Mayoreo";
 				case "MANAGER":
 					return "Gerente de Compras";
 				case "SALES_MANAGER":

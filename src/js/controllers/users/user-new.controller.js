@@ -144,8 +144,9 @@ $scope.changeStatus= function(value){
   }
 
   function init() {
-    $scope.roles = globals.roles
-    
+    $scope.roles = globals.roles 
+    $scope.roles["9"] = {name:'CONSULTANT_MAYOR', text: 'Asesor Mayoreo', creation_permission:  (currentUser) => currentUser.canAdmin };
+
     if(EXECUTION_ENV=="INTERNAL") delete $scope.roles["7"]
     inventoryDataService.getWarehouses().then(function (data) {
       $scope.warehouses = data

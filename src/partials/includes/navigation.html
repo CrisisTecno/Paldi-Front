@@ -13,9 +13,9 @@
             <li ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'"><a ui-sref="console.quote-list">
                 <%= htmlWebpackPlugin.options.navigation.quotes %>
             </a></li>
-            <li ng-if="currentUser.realRole!='EXTERNAL_CONSULTANT'" ><a ui-sref="console.statistics">
+            <!-- <li ng-if="currentUser.realRole!='EXTERNAL_CONSULTANT'" ><a ui-sref="console.statistics">
                 <%= htmlWebpackPlugin.options.navigation.statistics %>
-            </a></li>
+            </a></li> -->
             <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT'"><a ui-sref="console.quote-new">
                 <%= htmlWebpackPlugin.options.navigation.new_quote %>
             </a></li>
@@ -30,12 +30,16 @@
             <li ng-if="currentUser.role != 'PROVIDER'"><a ui-sref="console.order-list">
                 <%= htmlWebpackPlugin.options.navigation.orders %>
             </a></li>
-            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER' || currentUser.role=='PROVIDER'"><a ui-sref="console.deadlines">
-                <%= htmlWebpackPlugin.options.navigation.order_tracking %>
+            
+
+            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER' || currentUser.role=='PROVIDER'"><a ui-sref="console.transit">
+                <%= htmlWebpackPlugin.options.navigation.order_transit %>
             </a></li>
-            <li ng-if="currentUser.canAdmin"><a ui-sref="console.quote-new-manual">
-                <%= htmlWebpackPlugin.options.navigation.manual_register %>
+            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER' || currentUser.role=='PROVIDER'"><a ui-sref="console.production">
+                <%= htmlWebpackPlugin.options.navigation.order_production %>
             </a></li>
+
+            
             <%= htmlWebpackPlugin.options.navigation.providers %>
         </ul>
     </metis-item>
@@ -75,11 +79,17 @@
             <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'" ui-sref="console.payments">
                 <%= htmlWebpackPlugin.options.navigation.payments %>
             </a></li>
+            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER' || currentUser.role=='PROVIDER'"><a ui-sref="console.deadlines">
+                <%= htmlWebpackPlugin.options.navigation.order_tracking %>
+            </a></li>
             <li><a ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'CONSULTANT' " ui-sref="console.commissions">
                 <%= htmlWebpackPlugin.options.navigation.commissions %>
             </a></li>
             <li><a ui-sref="console.costing" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">
                 <%= htmlWebpackPlugin.options.navigation.cost %>
+            </a></li>
+            <li ng-if="currentUser.canAdmin"><a ui-sref="console.quote-new-manual">
+                <%= htmlWebpackPlugin.options.navigation.manual_register %>
             </a></li>
             <li><a ui-sref="console.products-catalog" ng-if="currentUser.role == 'SUPERADMIN'">
                 <%= htmlWebpackPlugin.options.navigation.catalog %>

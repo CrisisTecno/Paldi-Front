@@ -249,14 +249,30 @@ const pdApp = angular
         authRequired: true,
         env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
-      .state("console.statistics", {
-        url: "/statistics",
-        templateUrl: "partials/views/console/statistics.html",
-        controller: "StatisticsCtrl",
-        title: "Estadísticas",
+      .state("console.production", {
+        url: "/production",
+        templateUrl: "partials/views/console/production.html",
+        controller: "DeadlinesCtrl",
+        title: "Ordenes de Produccion",
         authRequired: true,
         env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
       })
+      .state("console.transit", {
+        url: "/transit",
+        templateUrl: "partials/views/console/transit.html",
+        controller: "DeadlinesCtrl",
+        title: "Ordenes de Transito",
+        authRequired: true,
+        env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
+      })
+      // .state("console.statistics", {
+      //   url: "/statistics",
+      //   templateUrl: "partials/views/console/statistics.html",
+      //   controller: "StatisticsCtrl",
+      //   title: "Estadísticas",
+      //   authRequired: true,
+      //   env:EXECUTION_ENV=="EXTERNAL"?"PLD Blinds":"Paldi"
+      // })
 
       .state("console.payments", {
         url: "/payments",
