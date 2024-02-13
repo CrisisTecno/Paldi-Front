@@ -685,16 +685,41 @@
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
           ng-show="permissions.canInstall  && !isMaster" 
           ng-click="changeStatusDialog('INSTALLED')"><span class="btn-icon glyphicon glyphicon-th"></span>
+          
           <%= htmlWebpackPlugin.options.order_details.installed%>  </button>
+
+
+
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="permissions.canPartialInstall  && !isMaster" 
+          ng-click="initChangeStatusWithReason()">
+            <span class="btn-icon glyphicon glyphicon-th"></span>
+            <%= htmlWebpackPlugin.options.order_details.partial_install%> </button>
+
+
+
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
+          ng-show="permissions.canPartialInstall  && !isMaster" ng-click="initChangeStatuIncompletesWithReason()">
+            <span class="btn-icon glyphicon glyphicon-th"></span>
+            <%= htmlWebpackPlugin.options.order_details.inconform_install%> </button>
+
+          <!-- <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
           ng-show="permissions.canPartialInstall  && !isMaster" 
           ng-click="changeStatusDialog('INSTALLED_INCOMPLETE')">
             <span class="btn-icon glyphicon glyphicon-th"></span>
             <%= htmlWebpackPlugin.options.order_details.partial_install%> </button>
+
+
+
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
           ng-show="permissions.canPartialInstall  && !isMaster" ng-click="changeStatusDialog('INSTALLED_NONCONFORM')">
             <span class="btn-icon glyphicon glyphicon-th"></span>
-            <%= htmlWebpackPlugin.options.order_details.inconform_install%> </button>
+            <%= htmlWebpackPlugin.options.order_details.inconform_install%> </button> -->
+
+
+
+
+
           <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" ng-show="permissions.canUpdateProvider " ng-click="updateProviderDialog()"><span class="btn-icon glyphicon glyphicon-edit   "></span><%= htmlWebpackPlugin.options.order_details.change_provider%>  </button>
           
           <!-- <button type="button" class="btn btn-tertiary-actions btn-sm btn-square" 

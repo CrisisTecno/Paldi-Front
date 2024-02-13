@@ -26,7 +26,157 @@ pdApp.controller(
   ) {
 
     
+    $scope.initChangeStatusWithReason = function () {
+      swal({
+        title: "Selecciona la razón de la instalación parcial",
+        text: "Elige una opción:",
+        type: "input",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar",
+        cancelButtonText: EXECUTION_ENV == "EXTERNAL" ? "Cancel" : "Cancelar",
+        animation: "slide-from-top",
+        inputPlaceholder: "Razón"
+      },function (inputValue) {
+        if (inputValue === false) return false;
+        if (inputValue === "") {
+          swal.showInputError("Necesitas escribir una razón");
+          return false;
+        }
+        
+        setTimeout(function() {
+          swal({
+            title: (EXECUTION_ENV == "EXTERNAL" ? "Do you want to change the order status to " : "¿Cambiar estado de la orden a ") +
+                  "INSTALACIÓN PARCIAL" + " debido a '" + inputValue + "'?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar"),
+            cancelButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Cancel" : "Cancelar"),
+            closeOnConfirm: true,
+            closeOnCancel: false,
+          }, function (isConfirm) {
+                if (isConfirm) {
+                  $scope.newStatus = 'INSTALLED_INCOMPLETE';
+                  if (
+                    $scope.newStatus != "TRANSIT" &&
+                    $scope.newStatus != "PRODUCTION"
+                  ) {
+                    $scope.statusNotesDialog();
+                  } else {
+                    var statusToLimit =
+                      $scope.newStatus === "PRODUCTION"
+                        ? "production"
+                        : "transit";
+                    setTimeout(function () {
+                      $scope.limitDays = 0;
+                      paldiService.orders
+                        .getLimitDays(
+                          $stateParams.orderId,
+                          statusToLimit
+                        )
+                        .then(function (limitDays) {
+                          if (limitDays) {
+                            $scope.limitDays = limitDays;
+                          }
+                          var maxDate = new Date(2024, 12, 31);
+                          $scope.dateOptions.maxDate =
+                            new Date(maxDate);
+                          $scope.changeStatus();
+                        });
+                    }, 400);
+                  }
+                  
+                }else {
+                  swal({
+                    title: (EXECUTION_ENV == "EXTERNAL" ? "Canceled" : "Cancelado"),
+                    type: "error",
+                    confirmButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar"),
+                  });
+                }
+              }
+            );
+          }, 200);
+          }
+      );
+    };
 
+    $scope.initChangeStatuIncompletesWithReason = function () {
+      swal({
+        title: "Selecciona la razón de la instalación inconforme",
+        text: "Elige una opción:",
+        type: "input",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar",
+        cancelButtonText: EXECUTION_ENV == "EXTERNAL" ? "Cancel" : "Cancelar",
+        animation: "slide-from-top",
+        inputPlaceholder: "Razón"
+      },function (inputValue) {
+        if (inputValue === false) return false;
+        if (inputValue === "") {
+          swal.showInputError("Necesitas escribir una razón");
+          return false;
+        }
+        
+        setTimeout(function() {
+          swal({
+            title: (EXECUTION_ENV == "EXTERNAL" ? "Do you want to change the order status to " : "¿Cambiar estado de la orden a ") +
+                  "INSTALACIÓN INCONFORME" + " debido a '" + inputValue + "'?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar"),
+            cancelButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Cancel" : "Cancelar"),
+            closeOnConfirm: true,
+            closeOnCancel: false,
+          }, function (isConfirm) {
+                if (isConfirm) {
+                  $scope.newStatus = 'INSTALLED_NONCONFORM';
+                  if (
+                    $scope.newStatus != "TRANSIT" &&
+                    $scope.newStatus != "PRODUCTION"
+                  ) {
+                    $scope.statusNotesDialog();
+                  } else {
+                    var statusToLimit =
+                      $scope.newStatus === "PRODUCTION"
+                        ? "production"
+                        : "transit";
+                    setTimeout(function () {
+                      $scope.limitDays = 0;
+                      paldiService.orders
+                        .getLimitDays(
+                          $stateParams.orderId,
+                          statusToLimit
+                        )
+                        .then(function (limitDays) {
+                          if (limitDays) {
+                            $scope.limitDays = limitDays;
+                          }
+                          var maxDate = new Date(2024, 12, 31);
+                          $scope.dateOptions.maxDate =
+                            new Date(maxDate);
+                          $scope.changeStatus();
+                        });
+                    }, 400);
+                  }
+                  
+                }else {
+                  swal({
+                    title: (EXECUTION_ENV == "EXTERNAL" ? "Canceled" : "Cancelado"),
+                    type: "error",
+                    confirmButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar"),
+                  });
+                }
+              }
+            );
+          }, 200);
+          }
+      );
+    };
     $scope.closeDialogFn =function(){
       $scope.dialog.close()
       if($scope.newStatus=="PENDING_INFO"){
