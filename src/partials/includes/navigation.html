@@ -10,13 +10,13 @@
             <%= htmlWebpackPlugin.options.navigation.manage_quotes %> 
         </span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
-            <li ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER'"><a ui-sref="console.quote-list">
+            <li ng-if="currentUser.canAdmin || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'CONSULTANT_MAYOR' "><a ui-sref="console.quote-list">
                 <%= htmlWebpackPlugin.options.navigation.quotes %>
             </a></li>
             <!-- <li ng-if="currentUser.realRole!='EXTERNAL_CONSULTANT'" ><a ui-sref="console.statistics">
                 <%= htmlWebpackPlugin.options.navigation.statistics %>
             </a></li> -->
-            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT'"><a ui-sref="console.quote-new">
+            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'CONSULTANT_MAYOR'|| currentUser.role == 'CONSULTANT'"><a ui-sref="console.quote-new">
                 <%= htmlWebpackPlugin.options.navigation.new_quote %>
             </a></li>
         </ul>

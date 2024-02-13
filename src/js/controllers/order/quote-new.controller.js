@@ -2335,12 +2335,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     },)
   } else if (!$scope.isCustomOrder) {
     if ($scope.currentUser) {
-      if ($scope.currentUser.role != "SUPERADMIN" && $scope.currentUser.role != "CONSULTANT" && $scope.currentUser.role != "SALES_MANAGER") {
+      if ($scope.currentUser.role != "SUPERADMIN"     && $scope.currentUser.role != "CONSULTANT" && $scope.currentUser.role != "SALES_MANAGER" && $scope.currentUser.role != "CONSULTANT_MAYOR" ) {
         $state.go("console.order-list")
       }
     } else {
       $timeout(function () {
-        if ($scope.currentUser.role != "SUPERADMIN" && $scope.currentUser.role != "CONSULTANT" && $scope.currentUser.role != "SALES_MANAGER") {
+        if ($scope.currentUser.role != "SUPERADMIN" &&   $scope.currentUser.role != "CONSULTANT" && $scope.currentUser.role != "SALES_MANAGER"  && $scope.currentUser.role != "CONSULTANT_MAYOR" ) {
           $state.go("console.order-list")
         }
       }, 500)
