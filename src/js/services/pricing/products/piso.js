@@ -2,7 +2,6 @@ import { pdApp, globals } from "../../index";
 
 export function generatePisoHandlers($http) {
   var getPisoPrice = function (piso,etk) {
-    console.log("llego aca el etk brochi",etk)
     var isValid = true;
 
     if (!piso) {
@@ -33,7 +32,6 @@ export function generatePisoHandlers($http) {
           authentication: "yokozuna",
         })
         .then(function (response) {
-          console.log(response)
           var price = response.data.price;
           var quantity = piso.m2 / response.data.m2Box;
           piso.quantity =
@@ -85,7 +83,6 @@ export function generatePisoHandlers($http) {
   };
 
   var getPisoColors = function (piso,etk) {
-    console.log("llegamos ala obtencion de colores y llego el",etk)
     if (piso.type) {
       delete piso.color;
       delete piso.colorObj;

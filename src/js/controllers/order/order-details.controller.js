@@ -356,7 +356,6 @@ pdApp.controller(
         
         $scope.quoteSubStatus = order.quoteSubStatus;
 
-        console.log("products",order.products)
 
         $scope.products = order.products;
         $scope.isSuborder = false;
@@ -1058,7 +1057,6 @@ pdApp.controller(
     $scope.fortransit=function (){
       paldiService.orders.getGuides($stateParams.orderId)
       .then(function(guias){
-        console.log(guias)
         $scope.guias=guias
         ngDialog.open({
           template: "partials/views/console/datepicker.html",

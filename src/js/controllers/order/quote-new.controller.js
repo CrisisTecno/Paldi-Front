@@ -492,7 +492,6 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   // @note addProduct new quote
   $scope.addProduct = function (product, form, model) {
     //1
-    console.log("el productor es ",product)
     // addProduct(productName, undefined, undefined) is called when adding a
     // new product from the quote-new view buttons
     if (!form) {
@@ -1241,9 +1240,6 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     // quick and dirty, todo: clean later
 
     //2
-    console.log("product entramos aca",product);
-    console.log("model",model);
-    console.log(etk)
     if (product === "Cortina") {
 
       model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color.toLowerCase() == model.colorName.toLowerCase())[0]
@@ -2020,10 +2016,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.updateType = function (product, model, color) {
-    console.log("entramos aca")
-    console.log(product)
-    console.log(model)
-    console.log(color)
+
     if ($scope.rotated) {
       $scope.rotate(product, model)
     }

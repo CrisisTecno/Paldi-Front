@@ -53,7 +53,6 @@ pdApp.factory(
 	  },
       // Update Scope
       updatePrice: function (product, model, meta,etk) {
-         console.log("venimos aca con el",etk)
        
        
         switch (product) {
@@ -338,7 +337,6 @@ pdApp.factory(
           });
       },
       getColors: function (product, model,etk) {
-		console.log("entramos aca y llego el",etk)
         switch (product) {
           case "Balance":
             return getBalanceColors(model);
