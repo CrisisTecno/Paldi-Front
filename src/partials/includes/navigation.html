@@ -32,11 +32,13 @@
             </a></li>
             
 
-            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER' || currentUser.role=='PROVIDER'"><a ui-sref="console.transit">
-                <%= htmlWebpackPlugin.options.navigation.order_transit %>
-            </a></li>
+            
             <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER' || currentUser.role=='PROVIDER'"><a ui-sref="console.production">
                 <%= htmlWebpackPlugin.options.navigation.order_production %>
+            </a></li>
+
+            <li ng-if="currentUser.role == 'SUPERADMIN' || currentUser.role == 'MANAGER' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'BUYER' || currentUser.role=='PROVIDER'"><a ui-sref="console.transit">
+                <%= htmlWebpackPlugin.options.navigation.order_transit %>
             </a></li>
 
             

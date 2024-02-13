@@ -373,8 +373,8 @@ modals:{
 
     orders:"Órdenes",
     order_tracking:"Seguimiento OV",
-    order_production:"Seguimiento Produccion",
-    order_transit:"Seguimiento Transito",
+    order_production:"Ordenes en Produccion",
+    order_transit:"Ordenes en Transito",
     manual_register:"Registro OV",
 
     my_sells:"Mis Ventas",
