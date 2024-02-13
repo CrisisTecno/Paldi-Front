@@ -591,6 +591,12 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
                 ng-show="!quote.type || quote.type=='Moldura' || quote.type=='Piso' || (quote.type=='Mixta' && pisoMolduraQuote())"
             >Pisos
             </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Piso Eteka')"
+                ng-show="!quote.type || quote.type=='Moldura' || quote.type=='Piso' || (quote.type=='Mixta' && pisoMolduraQuote())"
+            >Pisos Eteka
+            </button>
 
             <button
                 class="btn btn-default"
@@ -654,6 +660,13 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
     ng-click="addProduct('Piso')"
     ng-show="!quote.type || quote.type=='Piso'"
 >Pisos
+</button>
+
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Pisos Eteka')"
+    ng-show="!quote.type || quote.type=='Piso'"
+>Pisos Eteka
 </button>
 
 <button
@@ -827,6 +840,24 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
   },
   floors:{
     floors:"Pisos",
+    type_options:`
+   
+    <option value="Vinil">Vinil</option>
+    <option value="Ingenieria">Ingeniería</option>
+    `,
+    squared_per_box:true,
+    installed:"Instalación",
+    add_moldind:"Agregar Moldura/Adicional",
+    moldind:"Moldura/Adicional:",
+    quantity:"Cantidad",
+    name:"Nombre",
+    add_installation_additional:"Agregar Adicional de Instalación",
+    installation_additional:"Adicional de Instalación",
+    code:" Codigo",
+    line:"Línea",
+  },
+  floors_eteka:{
+    floors_eteka:"Pisos Eteka",
     type_options:`
    
     <option value="Vinil">Vinil</option>

@@ -52,8 +52,8 @@ pdApp.factory(
 		  })
 	  },
       // Update Scope
-      updatePrice: function (product, model, meta) {
-         
+      updatePrice: function (product, model, meta,etk) {
+         console.log("venimos aca con el",etk)
        
        
         switch (product) {
@@ -72,9 +72,11 @@ pdApp.factory(
           case "Filtrasol":
             getFiltrasolPrice(model, meta);
             break;
-          case "Piso":
-            getPisoPrice(model);
-            break;
+          case "Piso"||"Piso Eteka":
+			getPisoPrice(model, etk === 'etk' ? etk : undefined);
+			break;
+
+            
           case "Cortina":
             getCortinaPrice(model);
             break;
@@ -335,8 +337,8 @@ pdApp.factory(
             return response.data;
           });
       },
-      getColors: function (product, model) {
-		
+      getColors: function (product, model,etk) {
+		console.log("entramos aca y llego el",etk)
         switch (product) {
           case "Balance":
             return getBalanceColors(model);
@@ -349,7 +351,11 @@ pdApp.factory(
           case "Filtrasol":
             return getFiltrasolColors(model);
           case "Piso":
-            return getPisoColors(model);
+			if(etk=='etk'){
+				return getPisoColors(model,etk);
+			}else{
+				return getPisoColors(model);
+			} 
 		  case "Moldura":
 			return getMoldingTypes(model);	
           case "Plus":
@@ -1212,8 +1218,9 @@ else{
 			}
 
       const width = inches_to_meters(enrollable.width + parseFloat(enrollable.w_fraction ?? 0))
+	
       const height = inches_to_meters(enrollable.height + parseFloat(enrollable.h_fraction ?? 0))
-      
+     
       
 
 			if (enrollable.width && enrollable.height) {
@@ -1245,7 +1252,6 @@ else{
 						authentication: "yokozuna",
 					})
 					.then(function (response) {
-              
 						if (!response.data) {
 							enrollable.doable = false;
 							enrollable.unit = null;

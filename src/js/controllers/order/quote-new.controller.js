@@ -175,7 +175,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       product: "Cortina", group: "Sistema",
     }), paldiService.products.fetchColors({
       product: "Cortina",
-    }), paldiService.products.fetchCortinaAcabados(), paldiService.products.fetchAllAdditionals({
+    }), paldiService.products.fetchCortinaAcabados(),
+    paldiService.products.fetchAllAdditionals({
       product: "Cortina",
     }),])
     $scope.productData = $scope.productData ?? {}
@@ -478,6 +479,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.productsSorted.push({type: "Enrollable", products: []})
   $scope.productsSorted.push({type: "Filtrasol", products: []})
   $scope.productsSorted.push({type: "Piso", products: []})
+  $scope.productsSorted.push({type: "Piso Eteka", products: []})
   $scope.productsSorted.push({type: "Cortina", products: []})
   $scope.productsSorted.push({type: "Cortina Filtrasol", products: []})
   $scope.productsSorted.push({type: "Moldura", products: []})
@@ -489,12 +491,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
   // @note addProduct new quote
   $scope.addProduct = function (product, form, model) {
-    
+    //1
+    console.log("el productor es ",product)
     // addProduct(productName, undefined, undefined) is called when adding a
     // new product from the quote-new view buttons
-    
     if (!form) {
-      
       $scope.cortina = {
         ...$scope.cortina, sistema: {
           ...$scope.cortina?.sistema, type: "Cortina",
@@ -505,51 +506,33 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
           ...$scope.cortinaFiltrasol?.sistema, type: "Cortina Filtrasol",
         }
       }
-      
       addNewProduct($scope, product)
     }
-
     // addProduct(productName, productDetails, $scope.{product}) is called
     // when a product is added from the views/console/products/{product}.html
     if (form) {
       $scope.updatePrices(product, model)
       const sellerValid = validateSeller(product, $scope)
-
       $scope.systemsValid = validateSystems($scope, model)
-
       if (( typeof(form)=='boolean' || form.$valid) && model.total && model.price && $scope.systemsValid && sellerValid ) {
-        
-        
         model.productType = product
         $scope.quote.type = product
         if(EXECUTION_ENV=="EXTERNAL"){
         updateDiscountExternal()
         }
-       
         if (product.toUpperCase() === "CUSTOM") {
           model.seller = $scope.quote.seller
         }
-
         setModelColor(product, model)
-        
-        
         if(typeof(form)!='boolean'){
         model.plusList = $scope.plusList
         model.motorList = $scope.motorList
         model.installationPlusList = $scope.installationPlusList
         model.rotated = $scope.rotated
         }
-
-        
-        
         setModelControlHeight(product, $scope, model)
-
-       
         setIndexforProducts()
-        
         updateProductList()
-       
-
         $scope.hasAdditionals()
         $scope.hasMultipleProducts()
         if(product!="Moldura"){
@@ -560,22 +543,15 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
           typeList.products = []
         })
         sortProducts()
-        
         $scope.quote.products.forEach(function (product) {
-          
           orderProductsByType(product)
         })
-        
         $scope.sortProductsByType()
         sortProducts()
-        
-
         if(product=="Moldura"){
           colorPriceService.updateTotals(product, $scope.quote)
         }
-
         $scope.editFlag = false
-
         // clear thestate create by the quote
         $scope.cancelProduct()
         // remove the data in $scope.{product}
@@ -591,20 +567,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         colorPriceService.updateTotals(product, $scope.quote)
         }
     }
-
     $scope.filterProducts()
-
-    
-
-    
-
     function updateProductList() {
       if ($scope.editFlag) {
-        
         let editedProduct = angular.copy(model)
         delete editedProduct['colors']
-        
-        
         $scope.quote.products.splice(edittedProductIndex, 0, editedProduct,)
         $scope.productsSorted[editedObjectIndex].products.splice(editedProductIndex, 0, editedProduct,)
         editedObjectIndex = null
@@ -612,7 +579,6 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         edittedProductIndex = null
       } else {
         let newProduct = angular.copy(model)
-        
         let pos = $scope.quote.products.length
         delete newProduct['colors']
         newProduct['idx']=pos
@@ -620,6 +586,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       }
     }
   }
+
   function setIndexforProducts (){
     $scope.productsSorted.forEach((productTypeList,idx) =>{
       
@@ -670,7 +637,6 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       let size = $scope.productsSorted[pos].products.length
       product['idx']=size
     }
-    
     $scope.productsSorted[pos].products.push(product)
   }
 
@@ -1270,20 +1236,21 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   // ---------------------------------------------------------------------------------------------//
 
   // @note updatePrices
-  $scope.updatePrices = function (product, model) {
+  $scope.updatePrices = function (product, model,etk) {
     // this should not be done in here, but best place to put it
     // quick and dirty, todo: clean later
-    console.log("product",product);
+
+    //2
+    console.log("product entramos aca",product);
     console.log("model",model);
+    console.log(etk)
     if (product === "Cortina") {
 
       model.color = $scope.productData.cortina.colores[model.textil]?.filter(color => color.color.toLowerCase() == model.colorName.toLowerCase())[0]
-      
-      
+
       model.color.name = model.color.color
       model.color.type = "Cortina"
 
-      
     }
     if (product==="Cortina Filtrasol") {
      
@@ -1298,12 +1265,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       
     }
 
-    if (product == "Piso") {
+    if (product == "Piso"||'Piso Eteka') {
       model.clientType = $scope.quote.client ? $scope.quote.client.type : null
       $scope.pisoModel = model
     }
     
-    colorPriceService.updatePrice(product, model, $scope.productMeta)
+    colorPriceService.updatePrice(product, model, $scope.productMeta,etk)
     $timeout(
       colorPriceService.updatePrice(product, model, $scope.productMeta)
       
@@ -1500,6 +1467,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       }
     }
   }
+  ///aca en el new-quote
 
   $scope.getTemplate = function (product) {
   
@@ -1517,6 +1485,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         return path + "filtrasol.html"
       case "Piso":
         return path + "pisos.html"
+      case "Piso Eteka":
+        return path + "piso_eteka.html"
       case "Custom":
         return path + "custom.html";
       case "Cortina":
@@ -2050,6 +2020,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.updateType = function (product, model, color) {
+    console.log("entramos aca")
     console.log(product)
     console.log(model)
     console.log(color)
@@ -2085,7 +2056,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       if (model.system) {
         model.system = null
       }
-      color = null
+      
       model.colorObj = null
       model.color = null
       model.width = null
@@ -2119,11 +2090,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       $scope.installationPlusList = []
       
     
-      colorPriceService.getColors(product, model)
+      colorPriceService.getColors(product, model,color)
       colorPriceService.getPlusList(product, model)
       colorPriceService.getMotorList(product, model)
       colorPriceService.getInstallationPlusList(product, model)
       colorPriceService.getPlusColorsList(product, model)
+      color = null
     }
     
     $scope.updatePrices(product, model)

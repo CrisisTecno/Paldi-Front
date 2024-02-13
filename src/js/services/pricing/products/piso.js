@@ -1,7 +1,8 @@
 import { pdApp, globals } from "../../index";
 
 export function generatePisoHandlers($http) {
-  var getPisoPrice = function (piso) {
+  var getPisoPrice = function (piso,etk) {
+    console.log("llego aca el etk brochi",etk)
     var isValid = true;
 
     if (!piso) {
@@ -19,12 +20,40 @@ export function generatePisoHandlers($http) {
     }
 
     if (isValid) {
-      var obj = {
-        type: piso.type,
-        code: piso.colorObj.code,
-        clientType: "",
-      };
-
+      
+      if(etk=='etk'){
+        let obj = {
+          type: piso.type,
+          code: piso.colorObj.code,    
+          category:"Pisos Eteka",
+          clientType: "",
+        };
+      $http
+        .post(globals.apiURL + "/pricing/prices/piso", obj, {
+          authentication: "yokozuna",
+        })
+        .then(function (response) {
+          console.log(response)
+          var price = response.data.price;
+          var quantity = piso.m2 / response.data.m2Box;
+          piso.quantity =
+            quantity - Math.floor(quantity) > 0
+              ? Math.floor(quantity) + 1
+              : quantity;
+          piso.m2Box = response.data.m2Box;
+          piso.unit = price;
+          piso.price = piso.unit;
+          piso.total = piso.price * piso.quantity;
+          piso.installationPrice = piso.install
+            ? response.data.installationPrice * piso.m2
+            : 0;
+        });
+      }else{
+        let obj = {
+          type: piso.type,
+          code: piso.colorObj.code,    
+          clientType: "",
+        };
       $http
         .post(globals.apiURL + "/pricing/prices/piso", obj, {
           authentication: "yokozuna",
@@ -44,6 +73,7 @@ export function generatePisoHandlers($http) {
             ? response.data.installationPrice * piso.m2
             : 0;
         });
+      }
     } else {
       piso.m2Box = null;
       piso.quantity = null;
@@ -54,11 +84,42 @@ export function generatePisoHandlers($http) {
     }
   };
 
-  var getPisoColors = function (piso) {
+  var getPisoColors = function (piso,etk) {
+    console.log("llegamos ala obtencion de colores y llego el",etk)
     if (piso.type) {
       delete piso.color;
       delete piso.colorObj;
-      $http
+      if(etk=='etk'){
+        $http
+        .get(
+          globals.apiURL + "/pricing/colors/pisos/" + piso.type+'etk',
+          { authentication: "yokozuna" }
+        )
+        .then(function (response) {
+          piso.colors = [];
+          piso.woodTypes = {}
+          response.data.forEach(function (element, index) {
+            if(!piso.woodTypes[element.wood]){
+              piso.woodTypes[element.wood] = [{
+                label: element.name,
+                value: element,
+              }]
+            }
+            else{
+              piso.woodTypes[element.wood].push({
+                label: element.name,
+                value: element,
+              })
+            }
+
+            piso.colors.push({
+              label: element.name,
+              value: element,
+            });
+          });
+        });
+      }else{
+$http
         .get(
           globals.apiURL + "/pricing/colors/pisos/" + piso.type,
           { authentication: "yokozuna" }
@@ -86,6 +147,8 @@ export function generatePisoHandlers($http) {
             });
           });
         });
+      }
+      
     }
   };
 

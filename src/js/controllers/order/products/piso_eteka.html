@@ -1,0 +1,130 @@
+<div class="quote-view">
+    <h3 class="form-title"><%= htmlWebpackPlugin.options.floors_eteka.floors_eteka %></h3>
+    <small class="error-message alert" ng-if="piso.doable==false"><%= htmlWebpackPlugin.options.quote_commons.no_doable %></small>
+    <small class="error-message alert" ng-if="piso.clientError"><%= htmlWebpackPlugin.options.general.select_a_client %></small>
+    <form name="pisoForm" role="form" novalidate ng-submit="addProduct('Piso Eteka', pisoForm, piso)" autocomplete="off">
+        <div class="form-group">
+            <label><%= htmlWebpackPlugin.options.quote_commons.room %></label>
+            <input type="text" name="location" ng-model="piso.location" class="form-control" required="">
+            <small class="error-message" ng-if="pisoForm.$validated && pisoForm.location.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+        </div>
+        <div class="form-group">
+            <label><%= htmlWebpackPlugin.options.quote_commons.type %></label>
+            <select name="type" ng-model="piso.type" class="form-control" ng-change="updateType('Piso', piso,'etk')" required="">
+                <%= htmlWebpackPlugin.options.floors_eteka.type_options %>
+            </select>
+            <small class="error-message" ng-if="pisoForm.$validated && pisoForm.type.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+        </div>
+
+        <div class="form-group">
+            <label>Linea</label>
+            <select id="wood" name="wood" ng-model="piso.wood" class="form-control"  required="">
+                <option value={{key}} ng-repeat="(key,value) in piso.woodTypes">{{key}}</option>
+              </select>
+            <small class="error-message" ng-if="pisoForm.$validated && pisoForm.type.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+        </div>
+      
+        <div class="form-group">
+            <label ng-hide="showSpinner"><%= htmlWebpackPlugin.options.quote_commons.color %></label>
+            <input ng-hide="showSpinner" type="text" name="color" ng-model="color" id="color" ng-disabled="!piso.type" class="form-control" value="{{color}}" required="" uib-typeahead="color.label for color in piso.woodTypes[piso.wood] | filter: $viewValue | limitTo:12" typeahead-editable="false" typeahead-on-select="colorSelected($item, 'Piso', piso)">
+            <small ng-hide="showSpinner" class="error-message" ng-if="pisoForm.$validated && pisoForm.color.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+            <img ng-show="showSpinner" class="spinner-img" src="img/spinner.gif">
+        </div>
+
+        <div class="form-group">
+            <label><%= htmlWebpackPlugin.options.quote_commons.squared_meters %></label>
+            <input type="number" name="m2" id="m2" ng-model="piso.m2" ng-change="updatePrices('Piso', piso,'etk')" min="0.1" class="form-control" required="" step="0.1">
+            <small class="error-message" ng-if="pisoForm.$validated && pisoForm.m2.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+        </div>
+        <% if  (htmlWebpackPlugin.options.floors_eteka.squared_per_box) { %>
+        <div class="form-group">
+            <label>m²/Caja</label>
+            <input type="number" name="m2Box" ng-model="piso.m2Box" class="form-control" required="" disabled placeholder="{{piso.m2Box}}">
+            <small class="error-message" ng-if="pisoForm.$validated && pisoForm.quantity.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+        </div>
+        <%}%>
+        <div class="form-group">
+            <label><%= htmlWebpackPlugin.options.quote_commons.boxes_qty %></label>
+            <input type="number" name="quantity" ng-model="piso.quantity" class="form-control" required="" disabled placeholder="{{piso.quantity}}">
+            <small class="error-message" ng-if="pisoForm.$validated && pisoForm.quantity.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+        </div>
+        <div class="form-group">
+            <label><%= htmlWebpackPlugin.options.floors_eteka.installed %></label>
+            <input name="install" type="checkbox" ng-model="piso.install" ng-init="piso.install = piso.install ? piso.install : false" ng-change="updatePrices('Piso', piso,'etk')">
+        </div>
+
+        <div ng-show="addingPlus == false && piso.plusList.length > 0">
+        <hr/>
+            <button type="button" class="btn btn-default" ng-click="addPlus()"><%= htmlWebpackPlugin.options.floors_eteka.add_moldind %></button>
+        <hr/>
+        </div>
+        <div class="form-adding" ng-show="addingPlus == true && piso.plusList.length > 0">
+            <label class="title"><%= htmlWebpackPlugin.options.floors_eteka.moldind %></label>
+            <div class="form-group">
+                <label><%= htmlWebpackPlugin.options.quote_commons.quantity %></label>
+                <input type="number" ng-model="piso.plusQuantity" name="plusQuantity" id="plusQuantity" class="form-control" pattern="[0-9]*">
+            </div>
+            <div class="form-group">
+                <label> <%= htmlWebpackPlugin.options.quote_commons.name%></label>
+                <input type="text" ng-model="piso.plus" name="plus" id="plus" class="form-control" uib-typeahead="plus as plus.label for plus in piso.plusList | filter:$viewValue | limitTo:12" typeahead-editable="false">
+            </div>
+            <div>
+                <button type="button" class="btn btn-secondary-left" ng-click="addPlus(piso.plus, piso.plusQuantity)"><%= htmlWebpackPlugin.options.general.add %></button>
+                <button type="button" class="btn btn-tertiary-left" ng-click="cancelPlus()"><%= htmlWebpackPlugin.options.general.cancel %></button>
+            </div>
+            <hr/>
+        </div>
+        <div ng-show="plusList.length > 0">
+            <div ng-include="'js/controllers/order/products/additional-details.html'"></div>
+        </div>
+
+        <div ng-show="addingInstallationPlus == false && piso.installationPlusList.length > 0">
+            <button type="button" class="btn btn-default" ng-click="addInstallationPlus()"><%= htmlWebpackPlugin.options.floors_eteka.add_installation_additional %></button>
+        <hr/>
+        </div>
+        <div class="form-adding" ng-show="addingInstallationPlus == true && piso.installationPlusList.length > 0">
+            <label class="title"><%= htmlWebpackPlugin.options.floors_eteka.installation_additional %>:</label>
+            <div class="form-group">
+                <label><%= htmlWebpackPlugin.options.quote_commons.quantity %></label>
+                <input type="number" ng-model="piso.installationPlusQuantity" name="installationPlusQuantity" id="installationPlusQuantity" class="form-control" pattern="[0-9]*">
+            </div>
+            <div class="form-group">
+                <label><%= htmlWebpackPlugin.options.quote_commons.name %></label>
+                <input type="text" ng-model="piso.installationPlus" name="installationPlus" id="installationPlus" class="form-control" uib-typeahead="installationPlus as installationPlus.label for installationPlus in piso.installationPlusList | filter:$viewValue | limitTo:12" typeahead-editable="false">
+            </div>
+            <div>
+                <button type="button" class="btn btn-secondary-left" ng-click="addInstallationPlus(piso.installationPlus, piso.installationPlusQuantity)"><%= htmlWebpackPlugin.options.general.add %></button>
+                <button type="button" class="btn btn-tertiary-left" ng-click="cancelInstallationPlus()"><%= htmlWebpackPlugin.options.general.cancel %></button>
+            </div>
+            <hr/>
+        </div>
+        <div ng-show="installationPlusList.length > 0">
+            <div ng-include="'js/controllers/order/products/installationPlus-details.html'"></div>
+        </div>
+
+        <div class="form-group notes">
+            <label><%= htmlWebpackPlugin.options.quote_commons.notes %></label>
+            <textarea name="notes" ng-model="piso.notes" class="form-control"></textarea>
+        </div>
+
+        <div class="total-configuration">
+            <div class="form-group" ng-show="piso.unit">
+                <label><%= htmlWebpackPlugin.options.quote_commons.price_per_box %></label>
+                <input ng-currency type="text" name="unit" ng-model="piso.unit" class="form-control" disabled="disabled" placeholder="{{piso.unit}}">
+            </div>
+            <div class="form-group" ng-show="piso.install && piso.installationPrice">
+                <label><%= htmlWebpackPlugin.options.quote_commons.installation_price %></label>
+                <input ng-currency type="text" name="unit" ng-model="piso.installationPrice" class="form-control" disabled="disabled" placeholder="{{piso.installationPrice}}">
+            </div>
+            <div class="form-group" ng-show="piso.total">
+                <label><%= htmlWebpackPlugin.options.quote_commons.total %></label>
+                <input ng-currency type="text" name="total" ng-model="piso.total" class="form-control" disabled="disabled" placeholder="{{piso.total}}">
+            </div>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary-left"><%= htmlWebpackPlugin.options.general.add %></button>
+            <button type="button" class="btn btn-tertiary-left" ng-click="cancelProduct(pisoForm)"><%= htmlWebpackPlugin.options.general.cancel %></button>
+        </div>
+    </form>
+</div>

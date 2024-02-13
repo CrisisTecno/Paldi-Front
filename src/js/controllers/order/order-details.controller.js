@@ -287,6 +287,7 @@ pdApp.controller(
       $scope.productsSorted.push({ type: "Filtrasol", products: [] });
       $scope.productsSorted.push({ type: "Persiana o Filtrasol", products: [] });
       $scope.productsSorted.push({ type: "Piso", products: [] });
+      $scope.productsSorted.push({ type: "Piso Eteka", products: [] });
       $scope.productsSorted.push({ type: "Cortina", products: [] });
       $scope.productsSorted.push({ type: "Cortina Filtrasol", products: [] });
       $scope.productsSorted.push({ type: "Moldura", products: [] });
@@ -354,6 +355,9 @@ pdApp.controller(
         }
         
         $scope.quoteSubStatus = order.quoteSubStatus;
+
+        console.log("products",order.products)
+
         $scope.products = order.products;
         $scope.isSuborder = false;
         $scope.isMaster = false;
@@ -1887,10 +1891,9 @@ pdApp.controller(
         });
       }
 
+
       product.item = ++item;
       $scope.productsSorted[pos].products.push(product);
-      
-
     }
 
     var getCycleDays = function (currentDate, startDate, endDate) {
