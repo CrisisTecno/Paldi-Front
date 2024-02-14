@@ -1357,7 +1357,6 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   // ---------------------------------------------------------------------------------------------//
 
   $scope.save = function (client) {
- 
     $scope.checkForm = true
     if ($scope.quote.notes != "" && $scope.quote.notes != null && (($scope.quote.source && $scope.quote.city) || $scope.currentUser.realRole)) {
       if($scope.currentUser.realRole){
@@ -1370,6 +1369,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         $scope.productsFiltered.forEach(function (productFiltered) {
           colorPriceService.prepare(productFiltered.type, $scope.quote,)
           $scope.quote.userId = $rootScope.currentUser.id
+ 
           $scope.saveDisabled = true
         })
         
@@ -2361,7 +2361,7 @@ function setModelControlHeight(product, $scope, model) {
 function setModelColor(product, model) {
     
   if (product != "Custom") {
-    if (["Toldo", "Enrollable", "Filtrasol", "Piso", // "Shutter",
+    if (["Toldo", "Enrollable", "Filtrasol", "Piso", "Piso Eteka" // "Shutter",
     ].includes(model.productType)) {
       model.color = model.colorObj
     } else if (["Cortina", "Cortina Filtrasol"].includes(model.productType) ) {
