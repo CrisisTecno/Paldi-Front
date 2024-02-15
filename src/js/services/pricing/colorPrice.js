@@ -71,7 +71,10 @@ pdApp.factory(
           case "Filtrasol":
             getFiltrasolPrice(model, meta);
             break;
-          case "Piso"||"Piso Eteka":
+          case "Piso":
+			getPisoPrice(model, etk === 'etk' ? etk : undefined);
+			break;
+          case "Piso Eteka":
 			getPisoPrice(model, etk === 'etk' ? etk : undefined);
 			break;
 
@@ -197,6 +200,9 @@ pdApp.factory(
 				)
 				break;
           case "Piso":
+            model.pisos = filterProducts(model.products, product);
+            break;
+          case "Piso Eteka":
             model.pisos = filterProducts(model.products, product);
             break;
 		case "Moldura":
@@ -355,26 +361,40 @@ pdApp.factory(
 				return getPisoColors(model);
 			} 
 		  case "Moldura":
-			return getMoldingTypes(model);	
+
+		  if(etk=='etk'){
+			return getMoldingTypes(model,etk);
+		}else{
+			return getMoldingTypes(model);
+		} 
           case "Plus":
             return getPlusColors(model);
         }
       },
 
       // Get additional lists
-      getPlusList: function (product, model) {
+      getPlusList: function (product, model,etk) {
         if (product != "Balance" && model.type) {
-          getPlusList(model);
+			if(etk=='etk'){
+				getPlusList(model,'etk');
+			}else{
+				getPlusList(model);
+			}
         }
       },
-      getMotorList: function (product, model) {
+      getMotorList: function (product, model,etk) {
         if (
           model.type &&
           product != "Balance" &&
           product != "Shutter" &&
           product != "Piso"
         ) {
-          getMotorList(model);
+			if(etk=='etk'){
+				getMotorList(model,'etk');
+			}else{
+				getMotorList(model);
+			}
+          
         }
       },
       getPlusColorsList: function (product, model) {
@@ -515,6 +535,9 @@ else{
 					case "Piso":
 						getPisoPrice(model);
 						break;
+					case "Piso Eteka":
+						getPisoPrice(model);
+						break;
 					case "Custom":
 						getCustomPrice(model);
 						break;
@@ -606,6 +629,11 @@ else{
 					case "Piso":
 						model.pisos = filterProducts(model.products, product);
 						break;
+
+					case "Piso Eteka":
+						model.pisos = filterProducts(model.products, product);
+						break;
+					
 						case "Cortina":
 							model.cortinas = filterProducts(
 							  model.products,
@@ -751,7 +779,7 @@ else{
 					});
 			},
 
-			getColors: function (product, model) {
+			getColors: function (product, model,etk) {
 				switch (product) {
 					case "Balance":
 						getBalanceColors(model);
@@ -771,26 +799,40 @@ else{
 					case "Piso":
 						getPisoColors(model);
 						break;
+					case "Piso":
+						if(etk=='etk'){
+							return getPisoColors(model,etk);
+						}else{
+							return getPisoColors(model);
+						} 
 					case "Plus":
 						getPlusColors(model);
 						break;
 				}
 			},
 
-			getPlusList: function (product, model) {
+			getPlusList: function (product, model,etk) {
 				if (product != "Balance" && model.type) {
-					getPlusList(model);
+					if(etk=='etk'){
+						getPlusList(model,'etk');
+					}else{
+						getPlusList(model);
+					}
 				}
 			},
 
-			getMotorList: function (product, model) {
+			getMotorList: function (product, model,etk) {
 				if (
 					model.type &&
 					product != "Balance" &&
 					product != "Shutter" &&
 					product != "Piso"
 				) {
-					getMotorList(model);
+					if(etk=='etk'){
+						getMotorList(model,'etk');
+					}else{
+						getMotorList(model);
+					}
 				}
 			},
 
@@ -888,25 +930,52 @@ else{
 			}
 		};
 
-		var getPisoColors = function (piso) {
-			if (piso.type) {
-				delete piso.color;
-				delete piso.colorObj;
-				$http
-					.get(
-						globals.apiURL + "/pricing/colors/pisos/" + piso.type,
-						{ authentication: "yokozuna" }
-					)
-					.then(function (response) {
-						piso.colors = [];
-						response.data.forEach(function (element, index) {
-							piso.colors.push({
-								label: element.name,
-								value: element,
+		var getPisoColors = function (piso,etk) {
+			console.log("vengo aca we")
+			console.log(etk)
+			if(etk=='etk'){
+				if (piso.type) {
+					delete piso.color;
+					delete piso.colorObj;
+					$http
+						.get(
+							globals.apiURL + "/pricing/colors/pisos/" + piso.type+'etk',
+							{ authentication: "yokozuna" }
+						)
+						.then(function (response) {
+							piso.colors = [];
+							response.data.forEach(function (element, index) {
+								piso.colors.push({
+									label: element.name,
+									value: element,
+								});
 							});
 						});
-					});
+				}
+			}else{
+				if (piso.type) {
+					delete piso.color;
+					delete piso.colorObj;
+					$http
+						.get(
+							globals.apiURL + "/pricing/colors/pisos/" + piso.type,
+							{ authentication: "yokozuna" }
+						)
+						.then(function (response) {
+							piso.colors = [];
+							response.data.forEach(function (element, index) {
+								piso.colors.push({
+									label: element.name,
+									value: element,
+								});
+							});
+						});
+				}
 			}
+			
+
+
+
 		};
 
 		var getPlusColors = function (plus) {
@@ -1439,8 +1508,27 @@ else{
 		};
 
 		//------------------------------ Plus ------------------------------
-		var getPlusList = function (model) {
-			$http
+		var getPlusList = function (model,etk) {
+			if(etk=='etk'){
+				$http
+				.get(globals.apiURL + "/pricing/plus/" + model.type+'etk', {
+					authentication: "yokozuna",
+				})
+				.then(function (response) {
+					model.plusList = [];
+					response.data.forEach(function (element, index) {
+						model.plusList.push({
+							label:
+								element.name +
+								" (" +
+								$filter("currency")(element.price) +
+								")",
+							value: element,
+						});
+					});
+				});
+			}else{
+				$http
 				.get(globals.apiURL + "/pricing/plus/" + model.type, {
 					authentication: "yokozuna",
 				})
@@ -1457,26 +1545,58 @@ else{
 						});
 					});
 				});
+			}
+
+			
+
+
+
 		};
 
-		var getMotorList = function (model) {
-			$http
-				.get(globals.apiURL + "/pricing/plus/motor/" + model.type, {
-					authentication: "yokozuna",
-				})
-				.then(function (response) {
-					model.motorList = [];
-					response.data.forEach(function (element, index) {
-						model.motorList.push({
-							label:
-								element.name +
-								" (" +
-								$filter("currency")(element.price) +
-								")",
-							value: element,
-						});
-					});
-				});
+		var getMotorList = function (model,etk,etk2) {
+console.log(etk)
+console.log(etk2)
+ if(etk2=='etk'){
+	$http
+	.get(globals.apiURL + "/pricing/plus/motor/" + model.type+'etk', {
+		authentication: "yokozuna",
+	})
+	.then(function (response) {
+		model.motorList = [];
+		response.data.forEach(function (element, index) {
+			model.motorList.push({
+				label:
+					element.name +
+					" (" +
+					$filter("currency")(element.price) +
+					")",
+				value: element,
+			});
+		});
+	});
+ }else{
+	$http
+	.get(globals.apiURL + "/pricing/plus/motor/" + model.type, {
+		authentication: "yokozuna",
+	})
+	.then(function (response) {
+		model.motorList = [];
+		response.data.forEach(function (element, index) {
+			model.motorList.push({
+				label:
+					element.name +
+					" (" +
+					$filter("currency")(element.price) +
+					")",
+				value: element,
+			});
+		});
+	});
+ }
+			
+
+
+
 		};
 
 		var getInstallationPlusList = function (model) {

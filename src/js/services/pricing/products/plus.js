@@ -2,7 +2,10 @@ import { pdApp, globals } from "../../index";
 
 //------------------------------ Plus ------------------------------
 export function generatePlusHandlers($http, $filter) {
-  var getPlusList = function (model) {
+
+
+  var getPlusList = function (model,etk) {
+    if(etk=='etk'){
     $http
       .get(globals.apiURL + "/pricing/plus/" + model.type, {
         authentication: "yokozuna",
@@ -20,16 +23,39 @@ export function generatePlusHandlers($http, $filter) {
           });
         });
       });
-  };
-
-  var getMotorList = function (model) {
-    $http
-      .get(globals.apiURL + "/pricing/plus/motor/" + model.type, {
+    }else{
+      $http
+      .get(globals.apiURL + "/pricing/plus/" + model.type+'etk', {
         authentication: "yokozuna",
       })
       .then(function (response) {
-        model.motorList = [];
+        model.plusList = [];
         response.data.forEach(function (element, index) {
+          
+          model.plusList.push({
+            label: element.name +
+              " (" +
+              $filter("currency")(element.price) +
+              ")",
+            value: element,
+          });
+        });
+      });
+      }
+  };
+
+  var getMotorList = function (model,etk) {
+    console.log("modelo moldura",model)
+   
+    if(etk=='etk'){
+
+      $http
+      .get(globals.apiURL + "/pricing/plus/motor/" + model.type+'etk', {
+        authentication: "yokozuna",
+      })
+      .then(function (response) {
+        response.data.forEach(function (element, index) {
+          model.motorList = []; 
           if (element.priceType == "MOTOR") {
             model.motorList.push({
               label: element.name +
@@ -49,6 +75,38 @@ export function generatePlusHandlers($http, $filter) {
           }
         });
       });
+
+    }else{
+
+      $http
+      .get(globals.apiURL + "/pricing/plus/motor/" + model.type, {
+        authentication: "yokozuna",
+      })
+      .then(function (response) {
+        response.data.forEach(function (element, index) {
+          model.motorList = []; 
+          if (element.priceType == "MOTOR") {
+            model.motorList.push({
+              label: element.name +
+                " (" +
+                $filter("currency")(element.price) +
+                ")",
+              value: element,
+            });
+          } else {
+            model.plusList.push({
+              label: element.name +
+                " (" +
+                $filter("currency")(element.price) +
+                ")",
+              value: element,
+            });
+          }
+        });
+      });
+
+    }
+    
   };
 
   var getInstallationPlusList = function (model) {

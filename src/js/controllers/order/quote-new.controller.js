@@ -459,6 +459,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   // ---------------------------------------------------------------------------------------------//
 
   $scope.editFlag = false
+  $scope.productetk = false
+
   $scope.isMultiple
   $scope.producInEdit
   $scope.motorsInEdit
@@ -494,6 +496,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     //1
     // addProduct(productName, undefined, undefined) is called when adding a
     // new product from the quote-new view buttons
+   
+    if($scope.quote.type=='Piso Eteka'){
+      $scope.productetk = true
+    }
+
     if (!form) {
       $scope.cortina = {
         ...$scope.cortina, sistema: {
@@ -1520,8 +1527,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     return [Math.round(parseFloat(val[0])+parseFloat(fracs[1])),fracs[0]]
   }
 
+  //aca agregamos piso eteka a moldura
   $scope.pisoMolduraQuote = function(){
-    let allowedTypes = ["Moldura", "Piso"]
+    let allowedTypes = ["Moldura", "Piso","Piso Eteka"]
 
     for( const elem of $scope.productsSorted){
 
@@ -2016,7 +2024,6 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }
 
   $scope.updateType = function (product, model, color) {
-
     if ($scope.rotated) {
       $scope.rotate(product, model)
     }
@@ -2058,6 +2065,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       model.colorName = null
       model.total=null
       model.price=null
+      
       $scope.valid = false
 
       $("#color").val("")
@@ -2081,13 +2089,26 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       $scope.plusList = []
       $scope.motorList = []
       $scope.installationPlusList = []
+   
+      //aca we we we
       
-    
-      colorPriceService.getColors(product, model,color)
-      colorPriceService.getPlusList(product, model)
-      colorPriceService.getMotorList(product, model)
       colorPriceService.getInstallationPlusList(product, model)
       colorPriceService.getPlusColorsList(product, model)
+      if(product=="Moldura" &&$scope.productetk===true ){
+        colorPriceService.getMotorList(product, model,'etk')
+        colorPriceService.getPlusList(product, model,'etk')
+        
+      }else{
+        colorPriceService.getMotorList(product, model)
+        colorPriceService.getPlusList(product, model)
+      }
+      if(color=="etk" ){
+        colorPriceService.getColors(product, model,'etk')
+      }else{
+        colorPriceService.getColors(product, model)
+      }
+      
+     
       color = null
     }
     
@@ -2141,10 +2162,16 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       
       
       colorPriceService.getColors(product, model)
+
       
-      colorPriceService.getPlusList(product, model)
-      
-      colorPriceService.getMotorList(product, model)
+      if(product=="Moldura" &&$scope.productetk===true ){
+        colorPriceService.getMotorList(product, model,'etk')
+        colorPriceService.getPlusList(product, model,'etk')
+        
+      }else{
+        colorPriceService.getMotorList(product, model)
+        colorPriceService.getPlusList(product, model)
+      }
       
       colorPriceService.getInstallationPlusList(product, model)
       

@@ -600,8 +600,8 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
 
             <button
                 class="btn btn-default"
-                ng-click="addProduct('Moldura')"
-                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type || quote.type=='Moldura' || quote.type=='Piso' || (quote.type=='Mixta'  && pisoMolduraQuote()))"
+                ng-click="  quote.type=='Piso Eteka'? addProduct('Moldura',null,null,'etk'):addProduct('Moldura')"
+                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type || quote.type=='Moldura' || quote.type=='Piso' ||  quote.type=='Piso Eteka'  || (quote.type=='Mixta'  && pisoMolduraQuote()))"
             >Moldura 
             </button>
 
@@ -877,7 +877,6 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
   molds:{
     floors:"Molduras",
     type_options:`
-   
     <option value="Vinil">Vinil</option>
     <option value="Ingenieria">Ingeniería</option>
     <option value="Generales">Generales</option>
