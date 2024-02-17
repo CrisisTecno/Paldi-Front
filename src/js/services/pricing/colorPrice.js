@@ -383,6 +383,7 @@ pdApp.factory(
         }
       },
       getMotorList: function (product, model,etk) {
+		console.log("paso 1",etk)
         if (
           model.type &&
           product != "Balance" &&
@@ -822,6 +823,7 @@ else{
 			},
 
 			getMotorList: function (product, model,etk) {
+				console.log("paso 2",etk)
 				if (
 					model.type &&
 					product != "Balance" &&
@@ -1553,10 +1555,9 @@ else{
 
 		};
 
-		var getMotorList = function (model,etk,etk2) {
-console.log(etk)
-console.log(etk2)
- if(etk2=='etk'){
+		var getMotorList = function (model,etk) {
+			console.log("paso 3",etk)
+ if(etk=='etk'){
 	$http
 	.get(globals.apiURL + "/pricing/plus/motor/" + model.type+'etk', {
 		authentication: "yokozuna",

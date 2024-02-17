@@ -31,11 +31,8 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 
 				const max_retries =  EXECUTION_ENV=="EXTERNAL" ? 4 : 2;
 				if (
-					(order.status == "QUOTE" ||
-						(order.status == "REJECTED" && order.rejected < max_retries)) &&
-					(user.role == "SUPERADMIN" ||
-						user.role == "SALES_MANAGER" ||
-						user.id == order.user.id)
+					(order.status == "QUOTE" ||(order.status == "REJECTED" && order.rejected < max_retries)) &&
+					(user.role == "SUPERADMIN" ||user.role == "SALES_MANAGER" ||user.id == order.user.id)
 				) {
 					canEdit = true;
 				}
@@ -43,6 +40,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				if (
 					order.status == "QUOTE" &&
 					(user.role == "CONSULTANT" ||
+					user.role == "CONSULTANT_MAYOR"||
 						user.role == "SALES_MANAGER" ||
 						user.role == "SUPERADMIN")
 				) {
@@ -52,7 +50,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				if (
 					order.rejected < max_retries &&
 					order.status == "REJECTED" &&
-					(user.role == "CONSULTANT" || user.role == "SUPERADMIN")
+					(user.role == "CONSULTANT" || user.role == "SUPERADMIN"||user.role == "CONSULTANT_MAYOR")
 				) {
 					canSend = true;
 				}
@@ -101,7 +99,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					(user.role == "MANAGER" ||
 						user.role == "SUPERADMIN" ||
 						user.role == "BUYER" ||
-						user.role == "PROVIDER")
+						user.role == "PROVIDER" )
 				) {
 					canTransit = true;
 				}
@@ -128,7 +126,8 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				if (
 					order.status == "PROGRAMMED" &&
 					(user.role == "INSTALLATION_MANAGER" ||
-						user.role == "SUPERADMIN")
+						user.role == "SUPERADMIN"
+						)
 				) {
 					canPartialInstall = true;
 				}
@@ -148,7 +147,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				}
 
 				if (
-					(user.role == "SUPERADMIN"  || user.role == "MANAGER") &&
+					(user.role == "SUPERADMIN"  || user.role == "MANAGER" ) &&
 					order.status != "QUOTE" &&
 					order.status != "REJECTED" &&
 					order.status != "PENDING" &&
@@ -162,7 +161,8 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 					(user.role == "SUPERADMIN" ||
 						user.role == "MANAGER" ||
 						user.role == "PROVIDER"||
-						user.role == "INSTALLATION_MANAGER" ||
+						user.role == "INSTALLATION_MANAGER" || 
+					
 						user.role == "BUYER") &&
 					order.status != "QUOTE" &&
 					order.status != "REJECTED" &&
@@ -329,7 +329,7 @@ pdApp.factory("permissionsHelper", function ($http, $q, $filter, $rootScope) {
 				];
 			}
 
-			if (list == "CONSULTANT" || list=="EXTERNAL_CONSULTANT") {
+			if (list == "CONSULTANT"||  list=="EXTERNAL_CONSULTANT") {
 				statusList = [
 					"LINE",
 					"BACKORDER",

@@ -576,43 +576,71 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Enrollable')"
-                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance'  || quote.type=='Cortina'|| (quote.type=='Mixta' && !productsSorted[8].products.length > 0 && !productsSorted[5].products.length > 0))"
+                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&& !productetk2&& (!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance'  || quote.type=='Cortina'|| (quote.type=='Mixta' && !productsSorted[8].products.length > 0 && !productsSorted[5].products.length > 0))"
             >Persianas Wolken y Platinum
             </button>
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Filtrasol')"
-                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type || quote.type=='Filtrasol'|| quote.type=='Shutter' || quote.type=='Enrollable'|| quote.type=='Balance' ||(quote.type=='Mixta'  && !productsSorted[6].products.length>0 && !productsSorted[8].products.length > 0  && !productsSorted[5].products.length > 0))"
+                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  
+                 (!quote.type || quote.type=='Filtrasol'|| quote.type=='Shutter' || quote.type=='Enrollable'|| quote.type=='Balance' ||(quote.type=='Mixta'  && !productsSorted[6].products.length>0 && !productsSorted[8].products.length > 0  && !productsSorted[5].products.length > 0))"
             > Persianas Filtrasol
             </button>
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Piso')"
-                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type || quote.type=='Moldura' || quote.type=='Piso' || (quote.type=='Mixta' && pisoMolduraQuote()))"
+                ng-show=" 
+                            !(currentUser.role == 'CONSULTANT_MAYOR') &&  
+                            (!quote.type || 
+                                quote.type=='Moldura' ||
+                                quote.type=='Piso' || 
+                                (
+                                  quote.type=='Mixta' && pisoMolduraQuote()
+                                )
+                            )
+                            && !(productetk2)
+                          
+                          "
             >Pisos
             </button>
+
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Piso Eteka')"
-                ng-show="!quote.type || quote.type=='Moldura' || quote.type=='Piso' || (quote.type=='Mixta' && pisoMolduraQuote())"
-            >Pisos Eteka
+                ng-show="(!quote.type || productetk2) 
+                && 
+                (currentUser.role == 'CONSULTANT_MAYOR' ||currentUser.role == 'SUPERADMIN' )"
+            
+                >Pisos Eteka
             </button>
 
             <button
                 class="btn btn-default"
-                ng-click="  quote.type=='Piso Eteka'? addProduct('Moldura',null,null,'etk'):addProduct('Moldura')"
-                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type || quote.type=='Moldura' || quote.type=='Piso' ||  quote.type=='Piso Eteka'  || (quote.type=='Mixta'  && pisoMolduraQuote()))"
-            >Moldura 
-            </button>
+                ng-click="  addProduct('Moldura')"
+                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  
+                (!quote.type || quote.type=='Moldura' || quote.type=='Piso' ||  quote.type=='Piso Eteka'  || (quote.type=='Mixta'  && pisoMolduraQuote()))
+                 && !productetk2"
+            >Moldura </button>
+        
+            
 
+            <button
+                class="btn btn-default"
+                ng-click="  addProduct('Moldurax')"
+                ng-show="(currentUser.role == 'CONSULTANT_MAYOR' || currentUser.role == 'SUPERADMIN' ) &&  
+                ( !quote.type  ||quote.type=='Piso Eteka' ||productetk2)"
+            >Moldura Eteka
+            </button>
             
             
               <button
                   class="btn btn-default"
                   ng-click="addProduct('Cortina')"
-                  ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type || quote.type=='Cortina' || quote.type=='Enrollable' || (quote.type=='Mixta' && !productsSorted[0].products.length>0 && !productsSorted[1].products.length>0 && !productsSorted[4].products.length>0 && !productsSorted[8].products.length > 0  && !productsSorted[5].products.length > 0))"
+                  ng-show=" !( currentUser.role == 'CONSULTANT_MAYOR' ) &&  !productetk2&&(!quote.type || quote.type=='Cortina' || quote.type=='Enrollable' || (quote.type=='Mixta' && !productsSorted[0].products.length>0 && !productsSorted[1].products.length>0 && !productsSorted[4].products.length>0 && !productsSorted[8].products.length > 0  && !productsSorted[5].products.length > 0))"
               >Cortinas Wolken y Platinum
               </button>
+
+            
               <button
                   class="btn btn-default"
                   ng-click="addProduct('Cortina Filtrasol')"

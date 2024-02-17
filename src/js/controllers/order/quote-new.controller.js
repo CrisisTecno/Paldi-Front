@@ -8,14 +8,16 @@ import { apply } from "file-loader"
 pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $stateParams, ngDialog, paldiService, colorPriceService, $timeout, jsonService, DTOptionsBuilder, DTColumnDefBuilder, permissionsHelper,) {
   const MIXED_ORDER = "Mixta"
   $scope.updateTotals = colorPriceService.updateTotals
-
+ 
   $scope.roleUser = {};
   setTimeout(() => {
     $scope.roleUser = $rootScope.currentUser;
+    
   }, 1000);
   
   $scope.originalMix = false;
   $scope.needsLoadProjects = true;
+
   $scope.ngDialog = ngDialog;
   $scope.isInternalEnv = EXECUTION_ENV=="INTERNAL"
   
@@ -460,7 +462,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
   $scope.editFlag = false
   $scope.productetk = false
-
+  $scope.productetk2 = false
   $scope.isMultiple
   $scope.producInEdit
   $scope.motorsInEdit
@@ -493,14 +495,31 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
   // @note addProduct new quote
   $scope.addProduct = function (product, form, model) {
+    // if($scope.currentUser.role ==='CONSULTANT_MAYOR' ||'SUPERADMIN'){
+      
+    if($scope.currentUser.role ==='CONSULTANT_MAYOR' ){
+      
+      console.log($scope.currentUser.role )
+      $scope.productetk = true
+      $scope.productetk2 = true
+    }
+    if(product==='Moldurax' ){
+      console.log($scope.currentUser.role )
+      $scope.productetk = true
+      $scope.productetk2 = true
+      product='Moldura'
+      
+    }else{
+      if(product==='Moldura' ){
+        console.log($scope.currentUser.role )
+      $scope.productetk = false
+      }
+    }
+    console.log( $scope.productetk )
     //1
     // addProduct(productName, undefined, undefined) is called when adding a
     // new product from the quote-new view buttons
    
-    if($scope.quote.type=='Piso Eteka'){
-      $scope.productetk = true
-    }
-
     if (!form) {
       $scope.cortina = {
         ...$scope.cortina, sistema: {
@@ -2094,11 +2113,13 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       
       colorPriceService.getInstallationPlusList(product, model)
       colorPriceService.getPlusColorsList(product, model)
-      if(product=="Moldura" &&$scope.productetk===true ){
+      if($scope.productetk===true ){
+        console.log("entro por aca 1")
         colorPriceService.getMotorList(product, model,'etk')
         colorPriceService.getPlusList(product, model,'etk')
         
       }else{
+        console.log("entro por aca 2")
         colorPriceService.getMotorList(product, model)
         colorPriceService.getPlusList(product, model)
       }
@@ -2164,7 +2185,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       colorPriceService.getColors(product, model)
 
       
-      if(product=="Moldura" &&$scope.productetk===true ){
+      if($scope.productetk===true ){
         colorPriceService.getMotorList(product, model,'etk')
         colorPriceService.getPlusList(product, model,'etk')
         

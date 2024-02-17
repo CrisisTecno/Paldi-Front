@@ -7,7 +7,7 @@ export function generatePlusHandlers($http, $filter) {
   var getPlusList = function (model,etk) {
     if(etk=='etk'){
     $http
-      .get(globals.apiURL + "/pricing/plus/" + model.type, {
+      .get(globals.apiURL + "/pricing/plus/" + model.type+'etk', {
         authentication: "yokozuna",
       })
       .then(function (response) {
@@ -25,7 +25,7 @@ export function generatePlusHandlers($http, $filter) {
       });
     }else{
       $http
-      .get(globals.apiURL + "/pricing/plus/" + model.type+'etk', {
+      .get(globals.apiURL + "/pricing/plus/" + model.type, {
         authentication: "yokozuna",
       })
       .then(function (response) {
@@ -45,6 +45,7 @@ export function generatePlusHandlers($http, $filter) {
   };
 
   var getMotorList = function (model,etk) {
+    console.log("etk",etk)
     console.log("modelo moldura",model)
    
     if(etk=='etk'){
