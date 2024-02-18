@@ -4,7 +4,7 @@ import { pdApp, globals } from "../../index";
 export function generateMoldurasHandlers($http, $filter) {
 
   var getMoldingTypes = function (model,etk) {
-    console.log("modelo moldura",model)
+    // console.log("modelo moldura",model)
     if(etk=='etk'){
       $http
       .get(globals.apiURL + "/pricing/plus/" + model.type+'etk', {
@@ -43,8 +43,13 @@ export function generateMoldurasHandlers($http, $filter) {
   };
 
 
-  var getMoldingPrice = function (model) {
-    console.log("modelo moldura",model)
+  var getMoldingPrice = function (model,etk) {
+    
+    if(etk=='etk'){
+      model.category='Moldura Eteka'
+    }
+    //console.log("aca final final",model)
+   // console.log(model)
     if(!model.molding_types) return
     let type = model.molding_types.filter(x=> x.label == model.name)
     let price  = type.length > 0 ? type[0].value.price : null

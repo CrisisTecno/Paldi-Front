@@ -21,7 +21,10 @@ export function generatePlusHandlers($http, $filter) {
               ")",
             value: element,
           });
-        });
+        }
+        
+        );
+        //console.log(model.plusList )
       });
     }else{
       $http
@@ -42,11 +45,12 @@ export function generatePlusHandlers($http, $filter) {
         });
       });
       }
+      
   };
 
   var getMotorList = function (model,etk) {
-    console.log("etk",etk)
-    console.log("modelo moldura",model)
+    //console.log("etk",etk)
+    //console.log("modelo moldura",model)
    
     if(etk=='etk'){
 

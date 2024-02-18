@@ -86,8 +86,8 @@ pdApp.factory(
 			getCortinaFiltrasolPrice(model)
 			break;
 		  case "Moldura":
-			
-			getMoldingPrice(model)
+			//console.log("product eteka?")
+			getMoldingPrice(model, etk === 'etk' ? etk : undefined);
 			break;
           case "Custom":
             getCustomPrice(model);
@@ -383,7 +383,7 @@ pdApp.factory(
         }
       },
       getMotorList: function (product, model,etk) {
-		console.log("paso 1",etk)
+		//console.log("paso 1",etk)
         if (
           model.type &&
           product != "Balance" &&
@@ -823,7 +823,7 @@ else{
 			},
 
 			getMotorList: function (product, model,etk) {
-				console.log("paso 2",etk)
+				//console.log("paso 2",etk)
 				if (
 					model.type &&
 					product != "Balance" &&
@@ -933,8 +933,8 @@ else{
 		};
 
 		var getPisoColors = function (piso,etk) {
-			console.log("vengo aca we")
-			console.log(etk)
+			//console.log("paso2")
+			//console.log(etk)
 			if(etk=='etk'){
 				if (piso.type) {
 					delete piso.color;
@@ -1556,7 +1556,7 @@ else{
 		};
 
 		var getMotorList = function (model,etk) {
-			console.log("paso 3",etk)
+			//console.log("paso 3",etk)
  if(etk=='etk'){
 	$http
 	.get(globals.apiURL + "/pricing/plus/motor/" + model.type+'etk', {

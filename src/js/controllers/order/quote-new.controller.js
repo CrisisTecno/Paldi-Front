@@ -499,23 +499,23 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       
     if($scope.currentUser.role ==='CONSULTANT_MAYOR' ){
       
-      console.log($scope.currentUser.role )
+      //console.log($scope.currentUser.role )
       $scope.productetk = true
       $scope.productetk2 = true
     }
     if(product==='Moldurax' ){
-      console.log($scope.currentUser.role )
+      //console.log($scope.currentUser.role )
       $scope.productetk = true
       $scope.productetk2 = true
       product='Moldura'
       
     }else{
       if(product==='Moldura' ){
-        console.log($scope.currentUser.role )
+       // console.log($scope.currentUser.role )
       $scope.productetk = false
       }
     }
-    console.log( $scope.productetk )
+    //console.log( $scope.productetk )
     //1
     // addProduct(productName, undefined, undefined) is called when adding a
     // new product from the quote-new view buttons
@@ -1291,7 +1291,11 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       model.clientType = $scope.quote.client ? $scope.quote.client.type : null
       $scope.pisoModel = model
     }
-    
+    //console.log("product eteka?")
+			//console.log($scope.productetk)
+    if($scope.productetk){
+      etk='etk'
+    }
     colorPriceService.updatePrice(product, model, $scope.productMeta,etk)
     $timeout(
       colorPriceService.updatePrice(product, model, $scope.productMeta)
@@ -2114,12 +2118,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       colorPriceService.getInstallationPlusList(product, model)
       colorPriceService.getPlusColorsList(product, model)
       if($scope.productetk===true ){
-        console.log("entro por aca 1")
+        //console.log("entro por aca 1")
         colorPriceService.getMotorList(product, model,'etk')
         colorPriceService.getPlusList(product, model,'etk')
         
       }else{
-        console.log("entro por aca 2")
+        //console.log("entro por aca 2")
         colorPriceService.getMotorList(product, model)
         colorPriceService.getPlusList(product, model)
       }
