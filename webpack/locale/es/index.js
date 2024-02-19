@@ -607,9 +607,9 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Piso Eteka')"
-                ng-show="(!quote.type || productetk2) 
+                ng-show="(!quote.type || productetk2 || quote.type=='Moldura') 
                 && 
-                (currentUser.role == 'CONSULTANT_MAYOR' ||currentUser.role == 'SUPERADMIN' )"
+                (currentUser.role == 'CONSULTANT_MAYOR' ||currentUser.role == 'SUPERADMIN' ) && productetk3"
             
                 >Pisos Eteka
             </button>
@@ -628,7 +628,7 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
                 class="btn btn-default"
                 ng-click="  addProduct('Moldurax')"
                 ng-show="(currentUser.role == 'CONSULTANT_MAYOR' || currentUser.role == 'SUPERADMIN' ) &&  
-                ( !quote.type  ||quote.type=='Piso Eteka' ||productetk2)"
+                ( !quote.type  ||quote.type=='Piso Eteka' ||productetk2) && productetk3 "
             >Moldura Eteka
             </button>
             
