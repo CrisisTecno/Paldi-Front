@@ -514,6 +514,8 @@ pdApp.controller(
         $scope.providersSummary ={}
 
         if(order.category&&order.category=="Producto Eteka"){
+
+		console.log("pasa aca")
           $scope.productetk4= true;
 
         }
