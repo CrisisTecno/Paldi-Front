@@ -1,2230 +1,1238 @@
-import { globals, pdApp } from "../index";
+const { resources } = require("../en");
 
-import { getConfirmPayment } from "./order-details/confirm-payment";
-import { showSwal } from "../../utils/swal/show";
-import { merge, mergeDeep, moveToScope } from "../../utils/merge";
-import { showCreateInstallationSheetDialog } from "./order-details/installation-sheet/create";
-import { swalUserCreateSuccess } from "../../utils/swals/userCreate";
-import {to_fraction} from '../../utils/units'
-pdApp.controller(
-  "OrderDetailsCtrl",
-  function (
-    $rootScope,
-    $scope,
-    $state,
-    $stateParams,
-    $timeout,
-    $uibModal,
-    DTOptionsBuilder,
-    DTColumnDefBuilder,
-    paldiService,
-    colorPriceService,
-    permissionsHelper,
-    ngDialog,
-    orderService,
-    permissionService
-  ) {
+module.exports = {
+  client: {
+    details: "Detalles de Cliente",
+    name: "<span>Nombre:</span> {{client.name}}",
+    last_name: "<span>Apellidos:</span> {{client.lastName}}",
+    personal_information: "Información personal",
+    type: "Tipo de cliente",
+    category: "<span>Categoría:</span> {{pretty('clientType', client.type)}}",
+    contact_information: "Datos de contacto",
+    email: `
+      <span>E-mail:</span>
+      <a href="mailto:{{client.email}}">{{client.email}}</a>
+    `,
+    phone: "<span>Teléfono:</span> {{client.phoneNumber}}",
+    address_title: "Dirección",
+    address: "<span>Dirección:</span> {{client.address}}",
+    city: "<span>Ciudad:</span> {{client.city}}",
+    postal_code: "<span>Código Postal:</span> {{client.postalCode}}",
+    loading: "Cargando cliente",
+    error_postal_code: "El Código Postal debe tener 5 dígitos",
+    error_email: "El e-mail no es válido",
+    error_phone: "El número de teléfono debe tener 10 dígitos",
+    error_not_exists: "El cliente no existe",
+    error_no_clients: "No hay clientes para mostrar",
+    client_options:`
+    <select class="form-control" name="type" ng-model="client.type" required="" selected="{{client.type}}">
+    <option value="DIRECT_SALE"> {{pretty('clientType', 'DIRECT_SALE')}} </option>
+    <option value="DISTRIBUTOR_INDEPENDENT"> {{pretty('clientType', 'DISTRIBUTOR_INDEPENDENT')}} </option>
+    <option value="DISTRIBUTOR_PREMIUM"> {{pretty('clientType', 'DISTRIBUTOR_PREMIUM')}} </option>
+    <option value="PROJECTS"> {{pretty('clientType', 'PROJECTS')}} </option>
+    <option value="ARCHITECT_INTERIOR"> {{pretty('clientType', 'ARCHITECT_INTERIOR')}} </option>
+    </select>`
+  },
+  costing: {
+    ov_movements: "Movimientos de OV",
+    receipts_for: "Facturas para Orden No. {{selectedOrderNo}}",
+    receipt_no: "No. de factura",
 
-    
-    $scope.initChangeStatusWithReason = function () {
-      swal({
-        title: "Selecciona la razón de la instalación parcial",
-        text: "Elige una opción:",
-        type: "input",
-        showCancelButton: true,
-        closeOnConfirm: false,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar",
-        cancelButtonText: EXECUTION_ENV == "EXTERNAL" ? "Cancel" : "Cancelar",
-        animation: "slide-from-top",
-        inputPlaceholder: "Razón"
-      },function (inputValue) {
-        if (inputValue === false) return false;
-        if (inputValue === "") {
-          swal.showInputError("Necesitas escribir una razón");
-          return false;
-        }
-        
-        setTimeout(function() {
-          swal({
-            title: (EXECUTION_ENV == "EXTERNAL" ? "Do you want to change the order status to " : "¿Cambiar estado de la orden a ") +
-                  "INSTALACIÓN PARCIAL" + " debido a '" + inputValue + "'?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar"),
-            cancelButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Cancel" : "Cancelar"),
-            closeOnConfirm: true,
-            closeOnCancel: false,
-          }, function (isConfirm) {
-                if (isConfirm) {
-                  $scope.newStatus = 'INSTALLED_INCOMPLETE';
-                  if (
-                    $scope.newStatus != "TRANSIT" &&
-                    $scope.newStatus != "PRODUCTION"
-                  ) {
-                    $scope.statusNotesDialog();
-                  } else {
-                    var statusToLimit =
-                      $scope.newStatus === "PRODUCTION"
-                        ? "production"
-                        : "transit";
-                    setTimeout(function () {
-                      $scope.limitDays = 0;
-                      paldiService.orders
-                        .getLimitDays(
-                          $stateParams.orderId,
-                          statusToLimit
-                        )
-                        .then(function (limitDays) {
-                          if (limitDays) {
-                            $scope.limitDays = limitDays;
-                          }
-                          var maxDate = new Date(2024, 12, 31);
-                          $scope.dateOptions.maxDate =
-                            new Date(maxDate);
-                          $scope.changeStatus();
-                        });
-                    }, 400);
-                  }
-                  
-                }else {
-                  swal({
-                    title: (EXECUTION_ENV == "EXTERNAL" ? "Canceled" : "Cancelado"),
-                    type: "error",
-                    confirmButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar"),
-                  });
-                }
-              }
-            );
-          }, 200);
-          }
-      );
-    };
-
-    $scope.initChangeStatuIncompletesWithReason = function () {
-      swal({
-        title: "Selecciona la razón de la instalación inconforme",
-        text: "Elige una opción:",
-        type: "input",
-        showCancelButton: true,
-        closeOnConfirm: false,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar",
-        cancelButtonText: EXECUTION_ENV == "EXTERNAL" ? "Cancel" : "Cancelar",
-        animation: "slide-from-top",
-        inputPlaceholder: "Razón"
-      },function (inputValue) {
-        if (inputValue === false) return false;
-        if (inputValue === "") {
-          swal.showInputError("Necesitas escribir una razón");
-          return false;
-        }
-        
-        setTimeout(function() {
-          swal({
-            title: (EXECUTION_ENV == "EXTERNAL" ? "Do you want to change the order status to " : "¿Cambiar estado de la orden a ") +
-                  "INSTALACIÓN INCONFORME" + " debido a '" + inputValue + "'?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar"),
-            cancelButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Cancel" : "Cancelar"),
-            closeOnConfirm: true,
-            closeOnCancel: false,
-          }, function (isConfirm) {
-                if (isConfirm) {
-                  $scope.newStatus = 'INSTALLED_NONCONFORM';
-                  if (
-                    $scope.newStatus != "TRANSIT" &&
-                    $scope.newStatus != "PRODUCTION"
-                  ) {
-                    $scope.statusNotesDialog();
-                  } else {
-                    var statusToLimit =
-                      $scope.newStatus === "PRODUCTION"
-                        ? "production"
-                        : "transit";
-                    setTimeout(function () {
-                      $scope.limitDays = 0;
-                      paldiService.orders
-                        .getLimitDays(
-                          $stateParams.orderId,
-                          statusToLimit
-                        )
-                        .then(function (limitDays) {
-                          if (limitDays) {
-                            $scope.limitDays = limitDays;
-                          }
-                          var maxDate = new Date(2024, 12, 31);
-                          $scope.dateOptions.maxDate =
-                            new Date(maxDate);
-                          $scope.changeStatus();
-                        });
-                    }, 400);
-                  }
-                  
-                }else {
-                  swal({
-                    title: (EXECUTION_ENV == "EXTERNAL" ? "Canceled" : "Cancelado"),
-                    type: "error",
-                    confirmButtonText: (EXECUTION_ENV == "EXTERNAL" ? "Accept" : "Aceptar"),
-                  });
-                }
-              }
-            );
-          }, 200);
-          }
-      );
-    };
-    $scope.closeDialogFn =function(){
-      $scope.dialog.close()
-      if($scope.newStatus=="PENDING_INFO"){
-        $scope.promiseReject()
-        $scope.providerReject=true
-      }
-    }
-    
-    $scope.external = EXECUTION_ENV=="EXTERNAL"
-
-    $scope.guias=false
-    $scope.optionsList = []
-
-    $scope.decideStatus = function(val){
-      if($scope.order && $scope.order.status=="LINE" && $scope.order.providerStatus && ($scope.currentUser.role=="SUPERADMIN" ||$scope.currentUser.role=="PROVIDER"||$scope.currentUser.role=="BUYER"||$scope.currentUser.role=="MANAGER")){
-        return $scope.pretty("orderStatus",$scope.order.providerStatus)
-      }
-      return val
-    }
-    
-    let specialList =["QUOTE","AUTHORIZED","PENDING_INFO"];
-				angular.forEach(specialList,function(status){
-					$scope.optionsList.push({
-						label: (EXECUTION_ENV =="EXTERNAL"?$scope.pretty("orderStatusEn", status) :$scope.pretty("orderStatus", status)),
-						value: status,
-					});
-				})
-    $scope.providerStatusSelected = $scope.optionsList[0];
-
-    $scope.changeProviderStatusDialog = function(){
-    $scope.dialog =ngDialog.open({
-      template:"partials/views/console/change-provider-status.html",
-      scope:$scope,
-      showClose: false
-    })
-    }
-    $scope.changeProviderStatus =  function(status){
-      swal(
-        {
-          title:
-          (EXECUTION_ENV=="EXTERNAL"?"Do you want to change the order status to ":"¿Cambiar estado de la orden a ") +
-          (EXECUTION_ENV=="EXTERNAL"?$scope.pretty("orderStatusEn", status):$scope.pretty("orderStatus", status)) +
-            "?",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-          cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
-          closeOnConfirm: true,
-        },
-        async()=>{
-          if(status=="QUOTED"){
-            $scope.updateProviderDialog()
-            await $scope.providerUpdatedPromise
-            await $timeout(()=>{
-            if(!$scope.successProv){
-              return
-            }
-          },
-            300)
-          }
-        
-      $scope.statusNotesText=" "
-      if(status=="PENDING_INFO"){
-        $scope.newStatus="PENDING_INFO"
-      
-        $scope.statusNotesDialog()
-        var promise = new Promise(function(resolve, reject){
-          $scope.promiseResolve = resolve;
-          $scope.promiseReject = reject;
-        });
-        
-        
-        await promise
-        
-          
-
-      }
-      if($scope.providerReject){
-        $scope.providerReject=false
-        return;
-      }
-      paldiService.orders.updateProviderStatus($scope.order,status,$scope.statusNotesText).then(()=>{
-        $scope.newStatus==null;
-        $scope.statusNotesText="";
-        $scope.loadOrder();
-      }
-      )
-    }
-      );
-    }
-
-    var providerProducts = {
-      "Enrollable":[
-        "Cascade","Triple Shade","Horizontales de Madera","Enrollables","Romanas","Eclisse","Verticales de PVC","Horizontales de Aluminio","Celular","Enrollables Wolken"
-      ],
-      "Cortina":[
-        "Plitz Frances", "Ondulada"
-      ],
-      "Balance":
-      [
-        "Wrapped Cornice","Aluminum Gallery"
-      ],
-      "Toldo":[
-        "Capri","Select","Pergola","Pergolato","Arion"
-      ],
-      "Filtrasol":['Filtrasol Eclisse',"Filtrasol Enrollables","Filtrasol Panel Deslizante", "Filtrasol Triple Shade"]
-    }
-    
-    
-     function performAnalisis(){
-      
+  },
+  inventory: {
+    select_product: "Seleccione un producto de un almacen",
+    empty_warehohuse: "No hay existencias el almacen seleccionado",
+    product_types: `
      
-      let results = {}
-      for (let element of $scope.productsSorted){
-        for (let elem of element['products']){
-          
-          
-          if(Object.keys(providerProducts).includes(elem.productType) && providerProducts[elem.productType].includes(elem.type)){
-            if(!results[elem.productType])
-              results[elem.productType]=[]
+      <option value="Vinil">Vinil</option>
+      <option value="Ingenieria">Ingeniería</option>
+    `,
+  },
+  date: {
+    from: "Desde ",
+    to: "Hasta ",
+    today: "Hoy",
+    select_date:"Seleccione una fecha:",
+    selected_date:"Fecha Seleccionada",
+  },
+  general: {
+    send:"Enviar",
+    create:"Crear",
+    date:"Fecha",
+    edit: "Editar",
+    cancel: "Cancelar",
+    save: "Guardar",
+    download: "Descargar",
+    close: "Cerrar",
+    delete: "Eliminar",
+    back: "Regresar",
+    update:"Actualizar",
+    accept:"Aceptar",
+    change:"Cambiar",
+    
+    
+    erase:"Borrar",
+    remove:"Remover",
+    filter:"Filtrar",
+    clean:"Limpiar",
 
-              if(!results[elem.productType].includes(elem.type))
-             results[elem.productType].push(elem.type) 
-          }
 
-          if(Object.keys(providerProducts).includes(elem.productType) && providerProducts[elem.productType].includes(elem.finish)){
-            if(!results[elem.productType])
-              results[elem.productType]=[]
-            if(!results[elem.productType].includes(elem.finish))
-             results[elem.productType].push(elem.finish) 
-          }
-        }
-      }
-      
-      return  results
-    }
+    add: "Agregar",
+    loading: "Cargando",
+    new: "Nuevo",
+    clear: "Limpiar",
+    searching:"Buscando",
 
-   
+    previous:"Anterior",
+    next:"Siguiente",
 
-    $scope.typeTranslate = function(name){
-      if($scope.external){
-        return name
-      }
-      else{
-        switch(name){
-          case "Wrapped Cornice":
-            return "Corniza Forrada"
-          case "Aluminum Gallery":
-            return "Galeria de Aluminio"
-          default:
-            return name
-        }
-      }
-    }
+    no_comment:"No hay comentarios para mostrar",
+    no_data: "No hay datos para mostrar",
+    product_not_found:"No Se encontró el producto",
+    no_user:"El usuario no existe",
+    no_client:"No se encontraron clientes",
+    no_seller:"No se encontraron vendedores",
 
-    $scope.getMatchDiscount = function(){
-      if(EXECUTION_ENV=="INTERNAL" ) return "Descuento"
-      if($scope.order.type=="Mixta") return "Discount"
-      
-      return $scope.pretty("productType",$scope.order.type) + " & Add Ins Discount"
-    }
+    activate:"Activar",
+    deactivate:"Desactivar",
 
-    $scope.sendWhatsapp = function(){
-      const res = paldiService.schedule.sendMessage($stateParams.orderId)
+    name: "Nombre",
+    last_name: "Apellido",
+    address: "Domicilio",
+    city: "Ciudad",
+    postal_code: "Código postal",
+    email: "E-Mail",
+    phone: "Teléfono",
+    type: "Tipo",
+    all: "Todos",
 
-     
-    }
+    phone_required:"El número de teléfono debe tener 10 dígitos",
+    role:"Rol",
+    required_field: "Campo Requerido",
 
-    $scope.scheduleRedirect = async function(){
-      $scope.dialog.close();
-      const res = await paldiService.schedule.sendMessage($stateParams.orderId)
-      if(res.data=='Error'){
-        swal({
-          title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Error"),
-          type: "error",
-          text:"Hoja de Instalación no definida",
-          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar") ,
-        });
-      }
-      else{
-     
-      window.open(res.data.link, '_blank');
-      }
-    }
+    clients: "Clientes",
+    client: "Cliente",
+    client_name:"Nombre del cliente",
 
-    $scope.messageDialog = async function(){
-      $scope.dialog.close()
-      const res = await paldiService.schedule.sendMessage($stateParams.orderId)
-      if(res.data=='Error'){
-        swal({
-          title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Error"),
-          type: "error",
-          text:"Hoja de Instalación no definida",
-          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar") ,
-        });
-      }else{
-      $scope.messageSMS = res.data.message
-      $scope.dialog = ngDialog.open({
-        template:"js/controllers/order/scheduleforms/message-dialog.html",
-        scope:$scope,
-        showClose: false
-      })
-    }
-      
-    }
+    receipts: "Facturas",
+    receipt: "Factura",
+    adjustments: "Ajustes",
+    adjustment: "Ajuste",
+    warehouse: "Almacén",
+    cost: "Costo",
+    emission_date: "Fecha de emisión",
+    color: "Color",
+    molding: "Moldura",
+    difference: "Diferencia",
+    existance: "Existencias",
+    new_value: "Valor Nuevo",
+    reason: "Justificación",
 
-    $scope.copyToClipboard = function(){
-      navigator.clipboard.writeText($scope.messageSMS);
-      $scope.dialog.close()
-    }
-    $scope.showOptionsDialog = function(){
-      $scope.dialog = ngDialog.open({
-        template:"js/controllers/order/scheduleforms/options-dialog.html",
-        scope:$scope,
-        showClose: false
-      })
-    }
+    error_negative: "El valor no puede ser negativo",
+  },
+  files: {
+    movement_report: "reporte_movimientos.xlsx",
+  },
+  features: {
+    city: true,
+    cortinas: true,
+    balance: true,
+    shutter: true,
+    toldo: true,
+    enrollable: true,
+    filtrasol: true,
+    piso: true,
+    fractions:false,
+    faction_style:``,
+    shipping: false,
+    step:0.1,
+    min:0
+  },
+  console:{
 
-    $scope.getMatchDiscounts = function(name){
-      if(EXECUTION_ENV=="INTERNAL") return name
-      let formated
-      
-      switch(name){
-        case"Descuento Balance":
-          formated="Top Treatments";
-          break;
-        case"Descuento Persiana":
-          formated ="Shades";
-          break;
-        default:
-          formated = name.split(" ")[1];
-      }
-      return formated + " & Add Ins Discount"
-    }
+
+    personal_info:"Información Personal",
+    change_pass:"Cambiar Contraseña",
+    currency_ex:"Tipo de Cambio",
+    bank_ex:"Tipo de Cambio Actual",
+    logout:"Cerrar Cesión",
 
     
-     $scope.selectProvidersTrigger = function (){
-      $scope.providersNeeded = performAnalisis()
-                
-      if(Object.keys($scope.providersNeeded).length>0){
-        $scope.selectProvidersDialog()
-        return;
-      }
-     }
-    let localPromise =null
-    var loadOrder = function () {
-      var id = $stateParams.orderId;
-      $scope.step = "loading";
-      $scope.showNotes = false;
-      $scope.newStatus = '';
-      $scope.productNotes = '';
-      $scope.productsSorted = [];
-      $scope.productsSorted.push({ type: "Balance", products: [] });
-      $scope.productsSorted.push({ type: "Shutter", products: [] });
-      $scope.productsSorted.push({ type: "Toldo", products: [] });
-      $scope.productsSorted.push({ type: "Enrollable", products: [] });
-      $scope.productsSorted.push({ type: "Filtrasol", products: [] });
-      $scope.productsSorted.push({ type: "Persiana o Filtrasol", products: [] });
-      $scope.productsSorted.push({ type: "Piso", products: [] });
-      $scope.productsSorted.push({ type: "Piso Eteka", products: [] });
-      $scope.productsSorted.push({ type: "Cortina", products: [] });
-      $scope.productsSorted.push({ type: "Cortina Filtrasol", products: [] });
-      $scope.productsSorted.push({ type: "Moldura", products: [] });
-      $scope.productsSorted.push({ type: "Custom", products: [] });
-      $scope.suborders = [];
-      $scope.limitDays = 20;
-      $scope.maxDate;
-      $scope.showChangeStatusButton = false;
-      $scope.showChangeStatusTree= false;
-      // show cases
-      $scope.showlvl1= false;
-      $scope.showlvl2= false;
-      $scope.showlvl3= false;
-      $scope.showlvl4= false;
-      $scope.showlvl5= false;
-      $scope.showlvl6= false;
-      $scope.showlvl7= false;
-      //ADD ACA
-      
-      paldiService.orders.get(id).then(async function (order) {
+    update_provider: "Actualizar Proveedor",
 
-        $scope.order = order;     
-        $scope.quoteStatus = order.quoteStatus;
-        
-        if(order.status=="LINE"||
-        order.status=="PENDING_INFO"||
-        order.status==" QUOTE "||
-        order.status=="QUOTED"||
-        order.status=="AUTHORIZED"
-        ){
-          $scope.showChangeStatusButton = true;
-          $scope.showChangeStatusTree= true;
-        }
+    observations:"Observaciones",
+    supplier:"ID Proveedor",
+    statistics:"Estadistícas",
+    configuration:"Configuracion",
+    city:"Ciudad",
+    time_origin:"Cotizaciones Tiempo vs Origen",
+    weekly:"Semanal",
+    monthly:"Mensual",
+    product_type:"Cotizaciones por producto",
+    origin:"Origen de Cotización",
+    state:"Estado",
+    lost_subject:"Motivo Venta Perdida",
+    stats:"Estadística de Asesores",
+    stats_heading:`
+      <th rowspan="2">Asesor</th>
+			<th colspan="2">COTIZACIONES</th>
+			<th colspan="2">EN NEGOCIACIÓN</th>
+			<th colspan="2">CERRADAS</th>
+			<th colspan="2">PERDIDAS</th>
+			<th colspan="2">CANCELADAS</th>
+    `,
+    stats_row: `<th>Cant.</th>
+                <th>Valor</th>`,
+    efficiency:"Efectividad de Asesores",
+    efficiency_headings:`
+      <th rowspan="2">Asesor</th>
+      <th colspan="3">Tienda</th>
+      <th colspan="3">Facebook</th>
+      <th colspan="3">Prospección</th>
+      <th colspan="3">Cliente</th>
+      <th colspan="3">Recomendación</th>
+    `,
+    efficiency_rows:`
+      <th>Total</th>
+			<th>Cerr</th>
+			<th>Effect</th>
+    `,
+
+    products:"Productos",
+
+    catalog:"Catálogo de productos",
+    load_catalog:"Cargar catálogo",
+
+    general:"General",
+    type:"Tipo:",
+    engeenering:"Ingenieria",
+    laminates:"Laminados",
+    vynil:"Vinil",
+    generals:"Generales",
+    colors:"Colores",
+    product_table:`
+      <th>Nombre</th>
+      <th>Código</th>
+      <th>Línea</th>
+      <th>Precio</th>
+      <th>M² por caja</th>
+      <th></th>
+    `,
+    moldings:"Molduras/Adicionales",
+    moldings_table:`
+            <th>Nombre</th>
+						<th>Tipo de precio</th>
+						<th>Precio</th>
+						<th></th>
+    `,
+
+    product_details:"Detalles de producto",
+    name:"Nombre:",
+    code:"Código:",
+    line:"Línea:",
+    price_type:"Tipo de Precio:",
+    meters_per_box:"M² por caja:",
+    box_price:"Precio por caja:",
+    installation_per_meter:"Precio de Instalación por m",
+    
+    is_editing:"{{isEditing? 'Guardar' : 'Editar'}}",
+    payments:"Pagos"
+
+  },
+  payments:{
+    payment:"Pago",
+    payment_advance:"Pago de Anticipo",
+    currency:"Moneda",
+    exchange_rate:"Tipo de Cambio",
+    currency_options:`
+    <option value="PESOS">Pesos</option>
+    <option value="DOLLARS">Dollars</option>
+    `,
+    amount:"Cantidad",
+    min_payment:"El monto mínimo de pago es:",
+    min_percentage:"El monto mínimo es el 50% del total",
+    payment_method:"Forma de pago",
+    payment_options:`
+      <option value ="CASH">Efectivo</option>
+      <option value="CREDIT_CARD">Tarjeta de Crédito</option>
+      <option value="DEBIT_CARD">Tarjeta de Débito</option>
+      <option value="CHECK">Cheque</option>
+      <option value="BANK_TRANSFER">Transferencia Bancaria</option>
+    `,
+    total:"Totales",
+    products:"Productos:",
+    additionals:"Adicionales:",
+    motor:"Motorización:",
+    discount:"Descuento",
+    installation:"Instalación:",
+    sub_total:"Sub-Total:",
+    tax:"IVA:",
+    total_:"Total:",
+    balance:"Saldo:",
+    notes:"Observaciones",
+    payment_type:"Tipo de pago",
+    sale_disccount:"Descuento sobre venta",
+    invoice:"Enviar recibo al cliente",
+    pay:"Pagar",
+    
+    cancel_payment:"Cancelar Pago",
+    cancelation_reason:"Motivo de cancelación",
+  },
+  molding:{
+    details_of:"Detalles de ",
+    type:"Tipo:",
+    name:"Nombre:",
+    unit:"Unidad de medida:",
+    price:"Precio:",
+  },
+  exchange_rate:{
+    exchange_rate:"Tipo de cambio",
+    update_exchange:"Nuevo tipo de cambio",
+
+  },
+  deadlines:{
+    operation:"Operaciones",
+    overdue:"Vencidas",
+    shipment:"Ordenes en Produccion",
+    arrival:"Ordenes en Transito"
+
+  },
+  datepicker:{
+    folio:"Folio de Pedido",
+    guide:"Guia de Rastreo",
+    supplier_id:"ID del proveedor",
+    due_date:"Fecha de Salida de Producción",
+    arrival:"Fecha de Llegada",
+    installation:"Fecha de Instalación",
+    comments:"Observaciones",
+    save:"Capturar datos"
+  },
+  console_costing:{
+    cost:"Costeo",
+    average:"Promedio",
+    min:"Mínimo",
+    max:"Máximo"
+
+  },
+  commissions:{
+    commissions:"Comisiones",
+    select_agent:"Seleccione un asesor",
+    agent:"Asesor :",
+    min_sale:"Monto mínimo de venta:",
+    total_sale:"venta Total:",
+    total_commissions:"Total Comisiones:",
+    pay_commissions:"Total de comissiones a Pagar",
+    order_no:"No. de orden",
+
+    change_percentage:"Cambiar Porcentaje de Comisión",
+    new_percentage:"Nuevo Porcentaje",
+    max_value:"El valor máximo es de ",
+    min_value:"El valor mínimo es de 0%"
+
+  },
+  //ADD ACA
+  change_status:{
+    change_status:"Cambiar Estado",
+    new_status:"Nuevo Estado",
+    status_options:`
+    <option ng-if="changePermissions.canLine || showlvl7  || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="LINE">Línea</option>
+    <option ng-if="changePermissions.canBackorder || showlvl7 ||  showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="BACKORDER">Backorder</option>
+    <option ng-if="changePermissions.canQuote || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1 " value=" QUOTE ">Cotizando</option>
+    <option ng-if="changePermissions.canInfo || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="PENDING_INFO">Informacion Pendiente</option>
+    <option ng-if="changePermissions.canQuoted || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="QUOTED">Cotizado</option>
+    <option ng-if="showChangeStatusButton || showlvl7 || showlvl6  ||  showlvl5 ||  showlvl4 ||  showlvl3 ||  showlvl2 ||  showlvl1" value="AUTHORIZED">Autorizado</option>
+
+    
+
+    <option ng-if="(changePermissions.canProduction && !showChangeStatusTree)|| showlvl7 ||  showlvl6  ||  showlvl5 ||  showlvl4 " value="PRODUCTION">Producción</option>
+
+    <option ng-if="(changePermissions.canTransit && !showChangeStatusTree)|| showlvl7 ||  showlvl6  ||  showlvl5 " value="TRANSIT">Tránsito</option>
+
+    <option ng-if="changePermissions.canFinished || showlvl7 ||  showlvl6  " value="FINISHED">I. Terminado</option>
+
+    <option ng-if="changePermissions.canProgrammed || showlvl7 " value="PROGRAMMED">Programada</option>
+
+    <option ng-if="changePermissions.canIncomplete" value="INSTALLED_INCOMPLETE">Instalada Parcial</option>
+    <option ng-if="changePermissions.canNonConform" value="INSTALLED_NONCONFORM">Instalado Inconforme</option>          
+    `
+  },
+modals:{
+    admission_xml:"Solo se admiten archivos con formato .XML",
+    empty_file:"El archivo está vacio",
+    load_recipt:"Cargar Factura",
+
+    admission_xlsx:"Solo se adminten archivos con formato .xslx",
+    load_catalog:"Cargar Catálogo"
+    
+  },
+  navigation:{
+    manage_quotes:"Ventas",
+    quotes:"Cotizaciones",
+    statistics:"Estadísticas",
+    new_quote:"Cotizar",
+
+    orders:"Órdenes",
+    order_tracking:"Seguimiento OV",
+    order_production:"Ordenes en Produccion",
+    order_transit:"Ordenes en Transito",
+    manual_register:"Registro OV",
+
+    my_sells:"Mis Ventas",
+    my_orders:"Mis órdenes",
+    commissions:"Comisiones",
+    payments:"Pagos",
+    cost:"Costeo",
+    catalog:"Catálogo",
+    reports:`<li><a ui-sref="console.reports" ng-if="currentUser.role == 'SUPERADMIN' && currentUser.canAdmin || currentUser.role == 'ADMIN'">Reportes</a></li>`,
+
+    inventory_menu:`
+    <metis-item ui-sref-active="selected" ng-if="(currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER') && currentUser.role != 'PROVIDER'">
+        <a href="#"><i class="fa fa-check-square-o fa-lg"></i> <span class="nav-label">Inventario</span><span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level collapse">
+            <li><a ui-sref="console.inventory-movements" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER' || currentUser.role == 'BUYER'">Reporte Mov.</a></li>
+            <li><a ui-sref="console.inventory-report">Reporte Inv.</a></li>
+            <li><a ui-sref="console.inventory-in" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Entradas</a></li>
+            <li><a ui-sref="console.inventory-cross" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Traslados</a></li>
+            <li><a ui-sref="console.inventory-adjustments" ng-if="currentUser.role == 'SUPERADMIN'">Ajustes</a></li>
   
-        if($scope.currentUser.role=="SUPERADMIN" && order.status!='QUOTE' && !order.status!='PENDING'){
-          $scope.showChangeStatusButton = true;
-          switch(order.status){
-            case "LINE":
-            case " QUOTE ":
-            case "PENDING_INFO":
-            case "QUOTED":
-            case "AUTHORIZED":
-              $scope.showlvl1= true;
-              break;
-            case "BACKORDER":
-              $scope.showlvl2= true;
-              break;
-            case "PRODUCTION":
-              $scope.showlvl3= true;
-              break;
-            case "TRANSIT":
-              $scope.showlvl4= true;
-              break;
-            case "FINISHED":
-              $scope.showlvl5= true;
-              break;
-            case "PROGRAMMED":
-              $scope.showlvl6= true;
-              break;
-            case "INSTALLED_INCOMPLETE":
-            case "INSTALLED_NONCONFORM":
-              $scope.showlvl7 = true;
-              break;
-          }
-        }
-        
-        $scope.quoteSubStatus = order.quoteSubStatus;
+            <li><a ui-sref="console.warehouses" ng-if="currentUser.canAdmin || currentUser.role == 'MANAGER'">Almacenes</a></li>
+        </ul>
+    </metis-item>
+    `,
 
-
-        $scope.products = order.products;
-        $scope.isSuborder = false;
-        $scope.isMaster = false;
-        $scope.providersSummary ={}
-        
-
-        if(order.type!="Mixta"){
-          if(order.provider)
-         $scope.providersSummary[order.type]=order.provider
-        }
-        if (order.type === 'Mixta') {
-          $scope.isMaster = true;
-          (order.mixedLabel !== null) ? $scope.mixedLabel = order.mixedLabel : $scope.mixedLabel = "Mixta";
-          paldiService.orders.getByOrderParent($scope.order.id).then(function (suborders) {
-            localPromise =suborders.forEach(function (suborder) {
-              if(suborder.provider){
-                $scope.providersSummary[suborder.type]=suborder.provider
-              }
-              $scope.suborders.push(suborder);
-              if (suborder.products) {
-                suborder.products.forEach(function (product) {
-                  
-                  orderProductsByType(product);
-                })
-              }
-
-            })
-
-          })
-          
-        } else {
-          if ($scope.products) {
-            localPromise = $scope.products.forEach(function (product) {
-              orderProductsByType(product);
-            })
-          }
-        }
-        
-
-        if (order.orderParent) {
-          $scope.isSuborder = true;
-        }
-
-        $scope.cycleStartDate = order.cycleStartDate ? moment(order.cycleStartDate) : null;
-        $scope.cycleFinishDate = order.cycleFinishDate ? moment(order.cycleFinishDate) : null;
-        $scope.commitmentDate = order.commitmentDate ? moment(order.commitmentDate) : null;
-        $scope.productionStartDate = order.productionDate ? moment(order.productionDate) : null;
-        $scope.productionFinishDate = order.productionFinishDate ? moment(order.productionFinishDate) : null;
-        $scope.productionLimitDate = order.productionLimitDate ? moment(order.productionLimitDate) : null;
-        $scope.transitStartDate = order.transitDate ? moment(order.transitDate) : null;
-        $scope.transitFinishDate = order.transitFinishDate ? moment(order.transitFinishDate) : null;
-        $scope.transitLimitDate = order.transitLimitDate ? moment(order.transitLimitDate) : null;
-        $scope.currentDate = moment();
-        $scope.cycleDays = getCycleDays($scope.currentDate, $scope.cycleStartDate, $scope.cycleFinishDate);
-        $scope.dpfcStatus = '';
-        $scope.dpfcTotalStatus = '';
-        $scope.dpfcTotalDays = 0;
-        $scope.dpfcDays = getDPFCDays($scope.cycleStartDate, $scope.commitmentDate, $scope.cycleFinishDate);
-        $scope.productionStatus = '';
-        $scope.productionTotalStatus = '';
-        $scope.productionTotalDays = '-';
-        $scope.productionDays = getProductionDays($scope.productionStartDate, $scope.productionLimitDate, $scope.productionFinishDate);
-
-        $scope.transitDays = getTransitDays($scope.currentDate, $scope.transitStartDate, $scope.transitFinishDate, $scope.transitLimitDate);
-
-
-        $scope.client = order.client;
-        $scope.step = order ? "loaded" : "empty";
-        $scope.productType = order.type;
-        $scope.order.type = $scope.productType;
-        $timeout(function () {
-          $scope.loadAdditionals();
-        }, 200)
-
-        $scope.order.pdfLink = paldiService.orders.getPdfLink(order);
-        $scope.order.pdfOrderLink = paldiService.orders.getPdfOrderLink(order);
-        if (order.payments) {
-          $scope.order.payments = paldiService.orders.getReceiptLinks(order);
-        }
-        paldiService.orders.getLog(order.id).then(function (log) {
-          $scope.order.events = log;
-        });
-        $scope.order.installationPlusTotal = order.installationPlusTotal ? order.installationPlusTotal : 0;
-
-        const res = (await paldiService.orders.getPdfInstallationSheetLink(order))
-        // $scope.order.pdfOrderLink = paldiService.orders.getPdfOrderLink(order);
-
-        $scope.order.installationSheetPdfLink = res
-        // document.getElementById('download_installation_sheet').href = $scope.installationSheet.pdfLink
-        // $("#download_installation_sheet").attr('href', $scope.installationSheet.pdfLink)
-
-
-        
-        $scope.perms = permissionService.setDependencies([
-          ["user", $rootScope.currentUser],
-          ["order", $scope.order],
-          ["installationSheet", {
-            pdfLink: res,
-          }],
-        ]);
-
-        
-        $timeout(async function () {
-          $scope.permissions = permissionsHelper.get(order, $rootScope.currentUser);
-          $scope.canManagePayments = $scope.currentUser.role != 'MANAGER' && $scope.currentUser.role != 'INSTALLATION_MANAGER';
-          // $scope.canManagePayments = [
-          //   "MANAGER",
-          //   "INSTALLATION_MANAGER",
-          // // ].includes($scope.currentUser.role);
-          
-          
-        });
-        
-      }, function (error) {
-        $scope.step = "empty";
-        
-      }).then(async ()=>{
-        $timeout(function () {
-        $scope.needsProviderAssigned = Object.keys(performAnalisis()).length >0
-        
-        
-        }, 500)
-        
-      });
-    }
-
-    $scope.loadOrder = loadOrder;
-    $scope.paldiService = paldiService;
-    $scope.ngDialog = ngDialog;
-
-    $scope.showLog = false;
-    $scope.isPaying = false;
-    $scope.isCancellingPayment = false;
-    loadOrder();
-
-    $scope.sendToClient = function (order) {
-      var objName;
-      if (order.status == "QUOTE") {
-        objName = (EXECUTION_ENV!="EXTERNAL" ? "cotización":"Quote");
-      } else {
-        objName = (EXECUTION_ENV!="EXTERNAL" ? "orden" : "Order");
-      }
-
-      swal(
-        {
-          title:
-          (EXECUTION_ENV=="EXTERNAL"?"Do you want to send the ":"¿Seguro que deseas enviar la ") +
-            objName +
-          (EXECUTION_ENV=="EXTERNAL"?" to the client?":" al cliente?"),
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: EXECUTION_ENV=="EXTERNAL"?"Send":"Enviar",
-          cancelButtonText: EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar",
-          closeOnConfirm: true,
-          closeOnCancel: false,
-        },
-        function (isConfirm) {
-          if (isConfirm) {
-            var id = $stateParams.orderId;
-            paldiService.orders
-              .sendOrder(id)
-              .then(function (order) {
-                swal({
-                  title: (EXECUTION_ENV=="EXTERNAL"?"Sent":"Enviado"),
-                  text: (EXECUTION_ENV=="EXTERNAL"?(objName + " Sent" ):("Se envió la " + objName)),
-                  type: "success",
-                  confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-                });
-              });
-          } else {
-            swal({
-              title: (EXECUTION_ENV=="EXTERNAL"?"Canceled":"Cancelado"),
-              type: "error",
-              confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar") ,
-            });
-          }
-        }
-      );
-    };
-   
-    function toFraction(amt) {
-      
-      if(amt == undefined) return ""
-      if (amt > 0 && amt <= .125+(.125/7)) return '1/8';
-      if (amt <= .25+(.125/7)) return '1/4';
-      if (amt <= .375+(.125/7)) return '3/8';
-      if (amt <= .5+(.125/7)) return '1/2';
-      if (amt <= .625+(.125/7)) return '5/8';
-      if (amt <= .75+(.125/7)) return '3/4';
-      if (amt <= 1) return '7/8';
-      // etc
-    }
-    $scope.units ={
-     to_fraction:function(int,float){
-      
-        if(float=="undefined" || float==undefined) {
-          return int
-        }
-       return int + " " +to_fraction(parseFloat(float)??undefined)??""
-
-     }
-     }
-
-    $scope.sendToSpecialEmail = function (order) {
-
-      var objName;
-      if (order.status == "QUOTE") {
-        objName = EXECUTION_ENV=="EXTERNAL" ? "cotización" :"Quote" ;
-      } else {
-        objName = EXECUTION_ENV=="EXTERNAL" ? "order" : "Orden";
-      }
-      
-
-      const getProviderEmail = (type) => {
-        const emails = {
-          "Persianas": "atencion.premium@gabin.com.mx",
-          "Enrollable": "atencion.premium@gabin.com.mx",
-          "Filtrasol": "gabriela@farz.com.mx",
-        }
-        if (!Object.keys(emails).includes(type))
-          return "Correo"
-        return emails[type]
-      }
-      
-      
-      
-      
-      swal({
-        title: (EXECUTION_ENV=="EXTERNAL"?("Do you want to send the" + objName + "to the mail"):("¿Seguro que desea enviar la " + objName + " al correo?")),
-        type: "input",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Send":"Enviar"),
-        cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
-        closeOnConfirm: true,
-        closeOnCancel: true,
-        inputValue: getProviderEmail(order.products[0].productType)
-      },
-        function (value) {
-          if (!value)
-            return
-          
-          if (value.trim() === "") {
-            swal.showInputError((EXECUTION_ENV=="EXTERNAL"?"A mail direction is required":"Es necesario escribir una dirección de correo"));
-            return false
-          }
-          var id = $stateParams.orderId;
-
-          paldiService.orders.sendOrderTo(id, value).then(function (order) {
-            swal({
-              title: (EXECUTION_ENV=="EXTERNAL"?"Sent":"Enviado"),
-              text: (EXECUTION_ENV=="EXTERNAL"?(objName + "sent"):("Se envió la " + objName)),
-              type: "success",
-              confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar")
-            });
-          });
-        });
-    };
-
-	  $scope.downloadWorkOrder = () => {
-      window.open("{{order.pdfOrderLink}}", "_blank");
-    };
-
-    // downloadPdfOrderYPdfInstallation(order.installationSheetPdfLink , order.pdfOrderLink)
-    $scope.downloadPdfOrderYPdfInstallation =async function (pdfOrden, pdfInstalacion,order) {
-      // console.log(order)
-      // //primer pdf orden 
-      // // Crear un enlace temporal
-      // setTimeout(() => {
-      //   var link = document.createElement('a');
-      //   link.href = pdfOrden;
-      //   // link.target = '_blank';
-      //   link.download = 'pdfOrden.pdf';
-      //   link.style.display = 'none';
-      //   document.body.appendChild(link);
-      //   // Simular el clic en el enlace
-      //   link.click();
-      //   // Eliminar el enlace temporal
-      //   document.body.removeChild(link);
-      // }, 2000);
-      // // {{order.pdfOrderLink}}
-      // //segundo pdf de instalacion
-      // var link2 = document.createElement('a');
-      // link2.href = pdfInstalacion;
-      // link2.target = '_blank';
-      // link2.style.display = 'none';
-      // document.body.appendChild(link2);
-      // // Simular el clic en el enlace
-      // link2.click();
-      // // Eliminar el enlace temporal
-      // document.body.removeChild(link2);
-
-
-  //   let user = $scope.currentUser.name + " " + $scope.currentUser.lastName
-  //   let folio = $scope.order.orderTransitInvoice
-  //   $scope.dialog.close()
-  //   let res = await paldiService.shipment.sheet($stateParams.orderId,boxesNum,user,folio)
-
-  //  //  let res = await paldiService.shipment.sheet($stateParams.orderId,boxesNum,user,folio)
-  //    let res =await paldiService.tickets.gettickets($stateParams.orderId,boxesNum,user,folio)
-
-  //    const link = document.createElement("a");
-
-  //    link.href = res;
-  //    link.setAttribute("download", "etiqueta");
-  //    document.body.appendChild(link);
-
-      let res = await paldiService.orders.getPdfOrderWorkAndInstallation(
-        order.id,order.orderNo
-        )
-        res;
-        const link = document.createElement("a");
-     link.href = res;
-       link.setAttribute("download", "etiqueta");
-       document.body.appendChild(link);
-       link.click()
-
-    };
-
-
-    $scope.createInstallationSheet = () => {
-      showCreateInstallationSheetDialog($scope,$timeout, () => {
-        showSwal("messages.installation_sheet.created");
-      });
-    };
-
-    $scope.editInstallationSheet = () => {
-      showCreateInstallationSheetDialog(
-        $scope,$timeout,
-        () => {
-          showSwal("messages.installation_sheet.edited");
-        },
-        "edit"
-      );
-    };
-
-    var createSuborders = function (model, order) {
-      paldiService.orders.getByOrderParent($scope.order.id).then(function (suborders) {
-        var suborderNo = 0;
-        suborders.forEach(function (suborder) {
-          if (suborder.products && suborder.products.length > 0) {
-            suborderNo++;
-            var updatedOrder = suborder;
-            updatedOrder.suborderNo = suborderNo;
-            updatedOrder.orderNo = order.orderNo;
-
-            paldiService.orders.updateStatus(updatedOrder, 'LINE').then(function (order) {
-              $scope.isPaying = false;
-
-            }, function (error) {
-              console.error(error);
-              $scope.isPaying = false;
-              if (error.data.exception == 'io.lkmx.paldi.quote.components.error.InventoryNotEnoughException') {
-                swal({ title: (EXECUTION_ENV=="EXTERNAL"?"Not enough inventory available":'No hay inventario suficiente'), type: 'error', confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":'Aceptar') });
-              } else {
-                swal({ title: (EXECUTION_ENV=="EXTERNAL"?"An error ocurred":'Ocurrió un error'), type: 'error', confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":'Aceptar') });
-                loadOrder();
-              }
-
-            });
-
-          } else {
-            paldiService.orders.deleteSuborder($scope.order.id, suborder.type).then(function (order) {
-              $scope.isPaying = false;
-
-            }, function (error) {
-              console.error(error);
-              $scope.isPaying = false;
-              swal({ title: (EXECUTION_ENV=="EXTERNAL"?"An error ocurred":'Ocurrió un error'), type: 'error', confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":'Aceptar') });
-              loadOrder();
-            });
-          }
-          
-        })
-
-      })
-    };
-    $scope.createSuborders = createSuborders;
-
-    //========================= PAYMENTS ===========================
-
-    $scope.findProviders = function (name,subtype) {
+    providers:`
+    <li ng-if="currentUser.role=='PROVIDER'"><a ui-sref="console.provider-list">
+            Proveedores          
+            </a></li>
+    `,
+    costs:"Costeo",
+    recipts:"Facturas",
+    order_movement:"Movimientos de OV",
+    clients:"Clientes",
+    users:"Usuarios",
+  },
+  users:{
+    new_user:"Nuevo Usuario",
+    name:"Nombre",
+    last_name:"Apellidos",
+    email:"E-Mail",
+    phone:"Teléfono",
+    pwd:"Contraseña",
+    permissions:"Permisos",
+    warehouse:`
+    <div class="form-group" ng-show="user.role!='PROVIDER'">
+      <label>Almacén</label>
+      <select name="warehouses" ng-model="user.warehouseId" class="form-control" ng-options="warehouse.id as warehouse.name for warehouse in warehouses"></select>
+    </div>
+    `,
+    min_sale:"Monto mínimo de venta",
+    error_pwd:"Mínimo 8 caracteres, incluyendo al menos una mayúscula, una minúscula, un número y un caracter especial (! ( ) - . _ ` ~ @)",
     
-      return paldiService.users.searchProvider(subtype,name,$scope.providersNeeded[subtype])
-    }
+    users:"Usuarios",
 
-    $scope.conmuteProperty=function(value){
-      if(!value){
-        value =true
-      }
-      else{
-        value = !value
-      }
-    }
-
-    $scope.selectProvider = function(field,item){
-      field.user = item
-    }
-
-    $scope.deleteProperty = function(model,property){
-      delete model[property]
-    }
-
-    function checkIsProviderValid(providers){
-
-      
-      if(!providers || Object.keys(providers).length==0) return false
-      
-      for (const props of Object.values(providers)){
-        
-        if(props.skip) continue
-        if(!props.skip & !Object.keys(props).includes('user')) return false
-      }
-      return true
-    }
-
-    $scope.assignProviders = async function(providers){
-      
-      
-      if(checkIsProviderValid(providers)){
-        
-        swal({
-          title:"Desea asignar los anteriores proveedores?",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-          cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
-          closeOnConfirm: true,
-          closeOnCancel: true,
-          },async()=>{
-
-            var filtered = Object.fromEntries(Object.entries(providers).filter(([k,v]) => !v.skip));
-        
-            if($scope.order.type.toLowerCase()!="mixta" && Object.keys(filtered).length!=0){
-              let promise = paldiService.orders.updateSuborderProvider({id:$scope.order.id,type:$scope.order.type,providerId:filtered[$scope.order.type].user._id})
-
-              await promise;
-              $scope.dialog.close()
-              
-              
-
-            }
-            else{
-            paldiService.orders.getByOrderParent($scope.order.id).then(async function (suborders){
-              
-              let filterSubOrders = suborders.filter(v=>Object.keys(filtered).includes(v.type))
-              
-              let relevantInfo = filterSubOrders.map(elem=> {return{id:$scope.order.id,type:elem.type}})
-              
-              
-              relevantInfo = relevantInfo.map(x => {return{...x,providerId:filtered[x.type].user._id}})
-              
-              let promises = relevantInfo.map(x=> paldiService.orders.updateSuborderProvider(x))
-              await Promise.all(promises)
-              $scope.dialog.close()
-              
-              
-            })
-          }
-
-          })
-        
-        
-        
-      }
-    }
-
-    $scope.paymentDialog = function (paymentType) {
-      $scope.paymentType = paymentType;
-
-      $scope.minPayment =
-        paymentType == "payment"
-          ? 0.01
-          : parseFloat($scope.order.total / 2).toFixed(2);
-      $scope.maxPayment = parseFloat($scope.order.balance).toFixed(2);
-
-      $scope.payment = {
-        min: $scope.minPayment,
-        max: $scope.maxPayment,
-        exchangeRate: 1,
-        isDiscountPayment: false,
-        sendToClient: false,
-      };
-      $scope.dialog = ngDialog.open({
-        template: "partials/views/console/payment.html",
-        scope: $scope,
-        showClose: false,
-      });
-    };
-
-    $scope.pay = function (form, model) {
-      const confirmPayment = getConfirmPayment(this, $scope,$timeout, model);
-      if (form.$valid) {
-        $scope.dialog.close();
-        confirmPayment(model);
-      } else {
-        form.$validated = true;
-      }
-    };
-
-    $scope.currencyChange = function (model) {
-
-      model.exchangeRate = model.currency =="DOLLARS"? ($rootScope.currentExchangeRate ?? 19):1;
-      model.advance = 0;
-      $scope.exchangeRateChange(model);
-    };
-
-    $scope.exchangeRateChange = function (model) {
-      model.min =
-        $scope.minPayment > 0.01
-          ? parseFloat(
-            $scope.minPayment / model.exchangeRate
-          ).toFixed(2)
-          : $scope.minPayment;
-      model.max = parseFloat(
-        $scope.maxPayment / model.exchangeRate
-      ).toFixed(2);
-      model.advance = 0;
-    };
-
-    //========================= STATUS ===========================
-
-    $scope.sendToOrderDialog = async function () {
-      
-      if (!$scope.order.user.warehouse && $scope.order.user.role!="EXTERNAL_CONSULTANT") {
-        swal({
-          title:  (EXECUTION_ENV=="EXTERNAL"?"The seller is not afilliated to a warehouse":"El vendedor no está asignado a un almacén"),
-          type: "error",
-          confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Continue":"Continuar"),
-        });
-      } else {
-        if(EXECUTION_ENV=="EXTERNAL"){
-           swal({
-          title:"Do you want to move your order to production?",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-          cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
-          closeOnConfirm: true,
-          closeOnCancel: false,
-          },
-          function(isConfirm){
-          if(isConfirm){
-          setTimeout(function(){
-             swal({
-              title:"Order Sent",
-              type:"success",
-              text:"Your order has been moved to production, customer service will reach out for payment details",
-              confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Continue":"Continuar")
-  
-            },
-            function(isConfirm){
-              if(isConfirm){
-                setTimeout(function(){
-                  paldiService.orders.updateStatus($scope.order, "PENDING").then(loadOrder())
-                  loadOrder();
-                },500)
-              }
-            }
-            
-            )
-          },500)
-        }
-        }
-          )
+    user_details:"Detallaes de usuario",
+    personal_info:"Información personal",
+    user_rol:"Tipo de Usuario",
+    rol:"Rol:",
+    contact_info:"Datos de contacto",
+    minumun_sale:"Minimo de venta",
+    warehouse_info:`
+    <h3><i class="fa fa-industry" aria-hidden="true"></i>
+    Almacén</h3>
+     <ul>
+         <li> <span>Nombre:</span> {{ user.warehouse ? user.warehouse.name : 'N/A' }}</li>
+         <li ng-if="user.warehouse"> <span>Ciudad:</span> {{ user.warehouse.city }}</li>
+     </ul>`,
+     role:"Permisos",
+     role_options:`
+     <option value="CONSULTANT">Asesor</option>
+     <option value="CONSULTANT_MAYOR">Asesor Mayoreo</option>
+     <option value="BUYER">Comprador</option>
+     <option value="MANAGER" ng-if="currentUser.canAdmin">Gerente de Compras</option>
+     <option value="INSTALLATION_MANAGER" ng-if="currentUser.canAdmin">Gerente de Instalación</option>
+     <option value="SALES_MANAGER" ng-if="currentUser.canAdmin">Gerente de Ventas</option>
+     <option value="ADMIN" ng-if="currentUser.role=='SUPERADMIN'">Admin</option>
+     <option value="SUPERADMIN" ng-if="currentUser.canAdmin">Super Admin</option>
+     `,
+     load_user:"Cargando Usuario",
+  },
+  reports:{
+    reports:"Reportes",
+    generate_report:"Generar reporte:",
+    type:"Tipo",
+    history:"Historial de reportes",
+    report_options:"Opciones del reporte",
+    format:"Formato",
+    select:"Seleccionar",
+    group:"Agrupar :",
+    download_report:"Descargar Reporte"
+  },
+  quotes:{
+    installation:"Instalación",
+    quote:"Cotizar",
+    manual_order:"Orden Manual",
+    add_new_client:"Agregar nuevo cliente",
+    client_type:"Tipo de Cliente",
+    name:"Nombre:",
+    phone:"Telefono:",
+    address:"Domicilio:",
+    discounts:`
+    <li
+                    class="discount"
+ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULTANT'].includes(roleUser.role) && quote.user && quote.user.id == roleUser.id)"                ><small>Descuento:</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"
+                ><small>Desc. Balance & Cornizas:</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple  && productsSorted[1].products.length > 0"
+                ><small>Desc. Shutters:</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[3].products.length > 0"
+                ><small>Desc. Persianas:</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[4].products.length > 0"
+                ><small>Desc. Filtrasol:</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[6].products.length > 0"
+                ><small>Desc. Cortina :</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[5].products.length > 0"
+                ><small>Desc. Piso :</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[8].products.length > 0"
+                ><small>Desc. Molduras :</small></li>
+    `,
+    percentages:"(Max {{quote.clientMaxDiscount}}%)",
+    change_client:"Cambiar Cliente",
+    details:"Detalles",
+    sidemark:"Proyecto",
+    origin:`
+    <label>Origen</label>
+            <select
+                class="form-control"
+                name="type"
+                ng-model="quote.source"
+                required=""
+                ng-disabled="bitrixProjectExists"
+            >
+              <option value="Tienda">Tienda</option>
+              <option value="Recomendación">Recomendación</option>
+              <option value="Cliente">Cliente</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Prospección">Prospección</option>
+            </select>
+            <small
+                class="error-message"
+                ng-if="checkForm && (quote.source=='' || quote.source == null)"
+            >Campo requerido</small>
+            `,
+    city:`
+    <label>Ciudad</label>
+            <select
+                class="form-control"
+                name="type"
+                ng-model="quote.city"
+                required=""
+            >
+              <option value="Ensenada">Ensenada</option>
+              <option value="Tijuana">Tijuana</option>
+              <option value="Mexicali">Mexicali</option>
+              <option value="Rosarito">Rosarito</option>
+              <option value="Tecate">Tecate</option>
+            </select>
+            <small
+                class="error-message"
+                ng-if="checkForm && (quote.city=='' || quote.city == null)"
+            >Campo requerido</small>
           
-
-          
+    `,
+    product_options:`
+    <button
+                class="btn btn-default"
+                ng-click="addProduct('Balance')"
+                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type  || quote.type=='Filtrasol' || quote.type=='Shutter'|| quote.type=='Enrollable'||quote.type=='Balance' ||( quote.type=='Mixta'  && !productsSorted[6].products.length>0 && !productsSorted[8].products.length > 0 && !productsSorted[5].products.length > 0))"
+            >Balance & Cornizas
+            </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Shutter')"
+                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type  || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance' ||(quote.type=='Mixta' && !productsSorted[6].products.length>0 && !productsSorted[8].products.length > 0 && !productsSorted[5].products.length > 0))"
+            >Shutters
+            </button>
          
-        }
-        else{
-        $scope.dialog = ngDialog.open({
-          scope: $scope,
-          template: "js/controllers/order/order-send.html",
-          // template: "partials/views/console/order-send.html",
-          showClose: false,
-        });
-      }
-      }
-    };
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Toldo')"
+                ng-show=" !(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type || quote.type=='Toldo')"
+            >Productos para el Exterior
+            </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Enrollable')"
+                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&& !productetk2&& (!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance'  || quote.type=='Cortina'|| (quote.type=='Mixta' && !productsSorted[8].products.length > 0 && !productsSorted[5].products.length > 0))"
+            >Persianas Wolken y Platinum
+            </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Filtrasol')"
+                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  
+                 (!quote.type || quote.type=='Filtrasol'|| quote.type=='Shutter' || quote.type=='Enrollable'|| quote.type=='Balance' ||(quote.type=='Mixta'  && !productsSorted[6].products.length>0 && !productsSorted[8].products.length > 0  && !productsSorted[5].products.length > 0))"
+            > Persianas Filtrasol
+            </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Piso')"
+                ng-show=" 
+                           ( !(currentUser.role == 'CONSULTANT_MAYOR') &&  
+                            (!quote.type || 
+                                quote.type=='Moldura' ||
+                                quote.type=='Piso' || 
+                                (
+                                  quote.type=='Mixta' && pisoMolduraQuote()
+                                )
+                            )
+                            && !(productetk2) && !productetk4)
+                          
+                          "
+            >Pisos
+            </button>
 
-    $scope.updateProviderDialog = function () {
-      $scope.providerId = $scope.order.providerId;
-      $scope.dialog = ngDialog.open({
-        scope: $scope,
-        template: "partials/views/console/update-provider.html",
-        showClose: false,
-      });
-    };
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Piso Eteka')"
+                ng-show="(
+                  (!quote.type || productetk2 || quote.type=='Moldura') 
+                && 
+                (currentUser.role == 'CONSULTANT_MAYOR' ||currentUser.role == 'SUPERADMIN' ) && productetk3 ) ) ||!quote.type||
+                productetk4"
+            
+                >Pisos Eteka
+            </button>
 
-    var triggerMsg = async function(){
-      let owo = await swal({
-        title:"Order Sent",
-        type:"success",
-        text:"Your order has been moved to production, customer service will reach out for payment details",
-        confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Continue":"Continuar")
-
-      })
-    }
-    
-    $scope.updateGuidesDialog = function () {
-      $scope.dateModel = {};
-      $scope.dateModel['guides']=$scope.order.guides??[]
-      $scope.dateModel['orderTransitInvoice']=$scope.order.orderTransitInvoice??""
-      $scope.dialog = ngDialog.open({
-        scope: $scope,
-        template: "partials/views/console/update-guides.html",
-        showClose: false,
-      });
-    };
-
-    $scope.updateGuides = function (){
-      $scope.dialog.close();
-      var updatedOrder = $scope.order;
-      updatedOrder.statusNotes = $scope.dateModel.notes;
-      updatedOrder.orderTransitInvoice=$scope.dateModel.orderTransitInvoice
-      updatedOrder.guides = $scope.dateModel.guides
-      paldiService.orders.setGuides(updatedOrder).then(()=>{
-        loadOrder();
-      })
-    }
-
-    $scope.updateProvider = function (form, providerId) {
-      if (form.$valid) {
-        $scope.dialog.close();
-        $scope.providerUpdatedPromise = paldiService.orders
-          .updateProvider($scope.order, providerId)
-          .then(function (order) {
-            $scope.successProv = true
-            swal({
-              title:  (EXECUTION_ENV=="EXTERNAL"?"Supplier Updated":"Proveedor Actualizado"),
-              type: "success",
-              confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-            });
-             
-            loadOrder();
-          });
-      } else {
-        form.$validated = true;
-      }
-    };
-
-    $scope.shipmentDialog = function(){
-      $scope.dialog = ngDialog.open({
-        scope: $scope,
-        template: "partials/views/console/shipment-sheet.html",
-        showClose: false,
-      });
-    }
-
-    $scope.downloadShipmentSheet = async function(boxesNum){
-      
-       let user = $scope.currentUser.name + " " + $scope.currentUser.lastName
-       let folio = $scope.order.orderTransitInvoice
-       $scope.dialog.close()
-      //  let res = await paldiService.shipment.sheet($stateParams.orderId,boxesNum,user,folio)
-        let res =await paldiService.tickets.gettickets($stateParams.orderId,boxesNum,user,folio)
-       
-			  const link = document.createElement("a");
-				link.href = res;
-				link.setAttribute("download", "etiqueta");
-				document.body.appendChild(link);
-				link.click()
-    }
-
-    $scope.changeQuoteStatusDialog = function (quoteStatus) {
-      swal(
-        {
-          title:
-          (EXECUTION_ENV=="EXTERNAL"?"Do you want to change the quote status to ":"¿Cambiar estado de la cotización a ") +
-          (EXECUTION_ENV=="EXTERNAL"?$scope.pretty("orderStatusEn", quoteStatus):quoteStatus) +
-            "?",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-          cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
-          closeOnConfirm: true,
-          closeOnCancel: false,
-        },
-        function (isConfirm) {
-          if (isConfirm) {
-            changeQuoteStatus();
-          } else {
-            swal({
-              title:  (EXECUTION_ENV=="EXTERNAL"?"Canceled":"Cancelado"),
-              type: "error",
-              confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-            });
-          }
-        }
-      );
-    };
-
-    $scope.fortransit=function (){
-      paldiService.orders.getGuides($stateParams.orderId)
-      .then(function(guias){
-        $scope.guias=guias
-        ngDialog.open({
-          template: "partials/views/console/datepicker.html",
-          scope: $scope,
-          showClose: false,
-        });
-      })
-
-    };
-    $scope.changeStatusDialog = function (status) {
-      if (status && status == "LINE" && !$scope.order.user.warehouse) {
-        swal({
-          title:  (EXECUTION_ENV=="EXTERNAL"?"Sales Rep is not afiliated to a warehouse":"El vendedor no está asignado a un almacén"),
-          type: "error",
-          confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Continue":"Continuar"),
-        });
-      } else if (status) {
-        swal(
-          {
-            title:
-            (EXECUTION_ENV=="EXTERNAL"?"Do you want to change the order status to ":"¿Cambiar estado de la orden a ") +
-            (EXECUTION_ENV=="EXTERNAL"?$scope.pretty("orderStatusEn", status): $scope.pretty("orderStatus", status)) +
-              "?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-            cancelButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
-            closeOnConfirm: true,
-            closeOnCancel: false,
-          },
-          function (isConfirm) {
-            if (isConfirm  ) {
-              $scope.newStatus = status;
-              if (status === "PENDING") {
-                if(EXECUTION_ENV=="EXTERNAL"){
-                  $scope.statusNotesDialog();
-                  return
-                }
-                showCreateInstallationSheetDialog($scope,$timeout, () =>
-                  showSwal(
-                    "messages.installation_sheet.created",
-                    () => $scope.statusNotesDialog()
-                  )
-                );
-                return;
-              }
-              if (
-                $scope.newStatus != "TRANSIT" &&
-                $scope.newStatus != "PRODUCTION"
-              ) {
-                $scope.statusNotesDialog();
-              } else {
-                var statusToLimit =
-                  $scope.newStatus === "PRODUCTION"
-                    ? "production"
-                    : "transit";
-                setTimeout(function () {
-                  $scope.limitDays = 0;
-                  paldiService.orders
-                    .getLimitDays(
-                      $stateParams.orderId,
-                      statusToLimit
-                    )
-                    .then(function (limitDays) {
-                      if (limitDays) {
-                        $scope.limitDays = limitDays;
-                      }
-                      // aca cambios
-                      // var maxDate = getMaxDate(
-                      //   $scope.limitDays
-                      // );
-                      var maxDate = new Date(2024, 12, 31);
-                      $scope.dateOptions.maxDate =
-                        new Date(maxDate);
-                      $scope.changeStatus();
-                    });
-                }, 200);
-              }
-            } else {
-              swal({
-                title:  (EXECUTION_ENV=="EXTERNAL"?"Canceled":"Cancelado"),
-                type: "error",
-                confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-              });
-            }
-          }
-        );
-      } else {
-        $scope.changePermissions =
-          permissionsHelper.getChangePermissions($scope.order);
-        $scope.dialog = ngDialog.open({
-          scope: $scope,
-          template: "partials/views/console/change-status.html",
-          showClose: false,
-        });
-      }
-    };
-
-    $scope.changeOrderStatus = async function (form, status) {
-      //var exceptionStatus=["QUOTED"," QUOTE ","AUTHORIZED","PENDING_INFO"]
-      if (form.$valid) {
-        $scope.dialog.close();
-        // if(exceptionStatus.includes(status)){
-        //   var actualStatus =status
-        //   await paldiService.orders.updateProviderStatus($scope.order,actualStatus,"Retroactivo")
-        //   status="LINE";
-        //   if($scope.order.status=="LINE") {
-        //     $scope.loadOrder()
-        //     return
-        //   }
-        // }
-        // if (exceptionStatus.includes(status)) {
-        //   var actualStatus =status
-        //   if ($scope.order.status == "LINE") {
-        //     $scope.loadOrder();
-        //     return;
-        //   }
-        // }
-        paldiService.orders
-          .updateRetroStatus($scope.order, status)
-          .then(function (order) {
-            swal({
-              title:  (EXECUTION_ENV=="EXTERNAL"?"Status Updated":"Estado Actualizado"),
-              type: "success",
-              confirmButtonText:  (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-            });
-            loadOrder();
-            if (order.orderParent !== null) {
-              $scope.statusOrderMaster(
-                order.orderParent,
-                order.status,
-                true
-              );
-            }
-          });
-      } else {
-        form.$validated = true;
-      }
-    };
-
-    var changeQuoteStatus = function () {
-      if (
-        $scope.quoteStatus != "Venta Perdida" &&
-        $scope.quoteSubStatus
-      ) {
-        $scope.quoteSubStatus = null;
-      }
-
-      if (
-        $scope.quoteStatus != "Venta Perdida" ||
-        $scope.quoteSubStatus
-      ) {
-        paldiService.orders
-          .setQuoteStatus(
-            $scope.order.id,
-            $scope.quoteStatus,
-            $scope.quoteSubStatus
-          )
-          .then(function (order) {
-            loadOrder();
-          });
-      }
-    };
-
-    $scope.statusNotesDialog = function () {
-      $scope.dialog = ngDialog.open({
-        template: "partials/views/console/status-notes.html",
-        scope: $scope,
-        showClose: false,
-      });
-    };
-
-    function initProvidersSettings(elem){
-      for (const key of Object.keys($scope.providersNeeded)){
-        elem[key] = {'skip':false}
-      }
-      if(Object.keys($scope.providersSummary).length>0){
-        for (const [key,value] of Object.entries($scope.providersSummary)){
-          elem[key] = {'skip':false,user:value}
-        } 
-      }
-    }
-    $scope.selectProvidersDialog = function(){
-      $scope.providersSelected = {}
-      initProvidersSettings($scope.providersSelected)
-      $scope.dialog = ngDialog.open({
-        template: "partials/views/console/select-providers.html",
-        scope: $scope,
-        showClose: false,
-      })
-
-    }
-
-    $scope.changeStatus = function (form, model) {
-      if (form && form.$valid) {
-        $scope.dialog.close();
-        if($scope.newStatus=="PENDING_INFO"){
-          $scope.statusNotesText = model
-          $scope.promiseResolve()
-          return
-        }
-        var updatedOrder = $scope.order;
-        updatedOrder.statusNotes = model;
-
-        paldiService.orders
-          .updateStatus(updatedOrder, $scope.newStatus)
-          .then(
-            function (order) {
-              swal({
-                title:
-                (EXECUTION_ENV=="EXTERNAL"?"Status: ":"Estado: ") +
-                (EXECUTION_ENV=="EXTERNAL"?$scope.pretty("orderStatusEN",$scope.newStatus):$scope.pretty("orderStatus",$scope.newStatus)),
-                text: (EXECUTION_ENV=="EXTERNAL"?"Order Status updated":"Estado de orden cambiado"),
-                type: "success",
-                confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-              });
-
-              if (
-                order.type === "Mixta" &&
-                $scope.newStatus === "LINE"
-              ) {
-                createSuborders(model, order);
-              }
-
-              if ($scope.newStatus === "CANCELED") {
-                $state.go("console.quote-list");
-              } else {
-                loadOrder();
-              }
-
-              if (order.orderParent !== null) {
-                $scope.statusOrderMaster(
-                  order.orderParent,
-                  order.status,
-                  false
-                );
-              }
-            },
-            function (error) {
-              
-
-              if (
-                error.data.exception ==
-                "io.lkmx.paldi.quote.components.error.InventoryNotEnoughException"
-              ) {
-                swal({
-                  title: (EXECUTION_ENV=="EXTERNAL"?"Not enough Inventory":"No hay inventario suficiente"),
-                  type: "error",
-                  confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-                });
-              } else {
-                swal({
-                  title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Ocurrió un error"),
-                  type: "error",
-                  confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-                });
-                loadOrder();
-              }
-            }
-          );
-      } else if ($scope.newStatus == "TRANSIT") {
-        // aca mirar
-        $scope.dateDialog("arrival");
-      } else if ($scope.newStatus == "PRODUCTION") {
-        $scope.dateDialog("endProduction");
-      }
-    };
-
-    $scope.confirmTransit = function (model) {
-      $scope.dialog.close();
-      var updatedOrder = $scope.order;
-      updatedOrder.statusNotes = model.notes;
-      updatedOrder.orderTransitInvoice=model.orderTransitInvoice
-      updatedOrder.guides = model.guides
-      
-      paldiService.orders
-        .updateStatus(updatedOrder, "TRANSIT")
-        .then(function (order) {
-          paldiService.orders
-            .setDate(
-              updatedOrder.id,
-              $scope.dateType,
-              $scope.date,
-              model.notes
-            ).then( ()=>{
-              
-              paldiService.orders.setGuides(
-                updatedOrder
-              )})
-            .then(
-              function () {
-                swal({
-                  title: (EXECUTION_ENV=="EXTERNAL"?"Order in Transit":"Orden en Tránsito"),
-                  text: (EXECUTION_ENV=="EXTERNAL"?"Order set as In Transit":"Se marcó la orden como en tránsito"),
-                  type: "success",
-                  confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-                });
-                loadOrder();
-                if (order.orderParent !== null) {
-                  $scope.statusOrderMaster(
-                    order.orderParent,
-                    order.status,
-                    false
-                  );
-                }
-              },
-              function (error) {
-                swal({
-                  title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Ocurrió un error"),
-                  type: "error",
-                  confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-                });
-                loadOrder();
-              }
-            );
-        });
-      $scope.dateModel = {};
-    };
-
-    $scope.confirmProduction = function (model, form) {
-      form.$validated = true;
-      if (model.providerId && model.notes) {
-        $scope.dialog.close();
-        var updatedOrder = $scope.order;
-        updatedOrder.statusNotes = model.notes;
-        updatedOrder.providerId = model.providerId;
-        paldiService.orders
-          .updateStatus(updatedOrder, "PRODUCTION")
-          .then(function (order) {
-            paldiService.orders
-              .setDate(
-                updatedOrder.id,
-                $scope.dateType,
-                $scope.date,
-                model.notes
-              )
-              .then(
-                function () {
-                  swal({
-                    title: (EXECUTION_ENV=="EXTERNAL"?"Order In Production":"Orden en Producción"),
-                    text: (EXECUTION_ENV=="EXTERNAL"?"Order set as in Production":"Se marcó la orden como en producción"),
-                    type: "success",
-                    confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-                  });
-                  loadOrder();
-
-                  if (order.orderParent !== null) {
-                    $scope.statusOrderMaster(
-                      order.orderParent,
-                      order.status,
-                      false
-                    );
-                  }
-                },
-                function (error) {
-                  swal({
-                    title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Ocurrió un error"),
-                    type: "error",
-                    confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-                  });
-                  loadOrder();
-                }
-              );
-          });
-        $scope.dateModel = {};
-      }
-    };
-    //cambios para poder ir de linea a autorizado y viceversa
-    $scope.statusOrderMaster = function (
-      orderParent,
-      suborderStatus,
-      retroStatus
-    ) {
-      var status = {
-        LINE: 1,
-        BACKORDER: 2,
-        PRODUCTION: 3,
-        TRANSIT: 4,
-        FINISHED: 5,
-        PROGRAMMED: 6,
-        INSTALLED_INCOMPLETE: 7,
-        INSTALLED_NONCONFORM: 8,
-        INSTALLED: 9,
-      };
-
-      var currentStatus = suborderStatus;
-      paldiService.orders
-        .getByOrderParent(orderParent.id)
+            <button
+                class="btn btn-default"
+                ng-click="  addProduct('Moldura')"
+                ng-show=" ( !(currentUser.role == 'CONSULTANT_MAYOR')&&  
+                (!quote.type || quote.type=='Moldura' || quote.type=='Piso'  || (quote.type=='Mixta'  && pisoMolduraQuote()))
+                 && !productetk2 ) && !productetk4"
+            >Moldura </button>
         
-        .then(function (suborders) {
-          suborders.forEach(function (suborder) {
+            
 
-            if (status[currentStatus] > status[suborder.status]) {
-              currentStatus = suborder.status;
-            }
-          });
+            <button
+                class="btn btn-default"
+                ng-click="  addProduct('Moldurax')"
+                ng-show="( (currentUser.role == 'CONSULTANT_MAYOR' || currentUser.role == 'SUPERADMIN' ) &&  
+                ( quote.type=='Piso Eteka' ||productetk2 ||  quote.type=='Piso Eteka' ) && productetk3 ) || !quote.type
+                ||productetk4"
+            >Moldura Eteka
+            </button>
+            
+            
+              <button
+                  class="btn btn-default"
+                  ng-click="addProduct('Cortina')"
+                  ng-show=" !( currentUser.role == 'CONSULTANT_MAYOR' ) &&  !productetk2&&(!quote.type || quote.type=='Cortina' || quote.type=='Enrollable' || (quote.type=='Mixta' && !productsSorted[0].products.length>0 && !productsSorted[1].products.length>0 && !productsSorted[4].products.length>0 && !productsSorted[8].products.length > 0  && !productsSorted[5].products.length > 0))"
+              >Cortinas Wolken y Platinum
+              </button>
 
-          if (currentStatus !== orderParent.status) {
-            if (!retroStatus) {
-              var updatedOrder = orderParent;
-              updatedOrder.statusNotes = "";
-              updatedOrder.providerId = "";
-              paldiService.orders
-                .updateStatus(updatedOrder, currentStatus)
-                .then(function (order) { });
-            } else {
-              paldiService.orders.updateRetroStatus(
-                orderParent,
-                currentStatus
-              );
-            }
-          }
-        });
-    };
+            
+              <button
+                  class="btn btn-default"
+                  ng-click="addProduct('Cortina Filtrasol')"
+                  ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type || quote.type=='Cortina Filtrasol')"
+              >Cortinas Filtrasol
+              </button>
+            
+          
+    `,
+    products_btn:`
+    <button
+    class="btn btn-default"
+    ng-click="addProduct('Balance')"
+    ng-show="!quote.type || quote.type=='Balance'"
+>Balance & Cornizas 
+</button>
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Shutter')"
+    ng-show="!quote.type || quote.type=='Shutter'"
+>Shutters
+</button>
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Toldo')"
+    ng-show="!quote.type || quote.type=='Toldo'"
+>Productos para el Exterior
+</button>
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Enrollable')"
+    ng-show="!quote.type || quote.type=='Enrollable'"
+>Persianas Wolken y Platinum
+</button>
 
-    //pruebas para cambios para poder ir de linea a autorizado y viceversa
-//     $scope.statusOrderMaster = function (
-//       orderParent,
-//       suborderStatus,
-//       retroStatus
-//     ) {
-//       var status = {
-//         LINE: 1,
-//         BACKORDER: 2,
-//         PRODUCTION: 3,
-//         TRANSIT: 4,
-//         FINISHED: 5,
-//         PROGRAMMED: 6,
-//         INSTALLED_INCOMPLETE: 7,
-//         INSTALLED_NONCONFORM: 8,
-//         INSTALLED: 9,
-//         QUOTE: 10,
-//         QUOTED: 11,
-//         PENDING_INFO: 12,
-//         AUTHORIZED: 13,
-//       };
+
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Filtrasol')"
+    ng-show="!quote.type || quote.type=='Filtrasol'"
+>Persianas Filtrasol
+</button>
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Piso')"
+    ng-show="!quote.type || quote.type=='Piso'"
+>Pisos
+</button>
+
+<button
+    class="btn btn-default"
+    ng-click="addProduct('Pisos Eteka')"
+    ng-show="!quote.type || quote.type=='Piso'"
+>Pisos Eteka
+</button>
+
+<button
+                class="btn btn-default"
+                ng-click="addProduct('Moldura')"
+                ng-show="!quote.type || quote.type=='Moldura' || quote.type=='Piso' || (quote.type=='Mixta' && productsSorted[5].products.length>0 )"
+            >Moldura
+            </button>
+
+  <button
+      class="btn btn-default"
+      ng-click="addProduct('Cortinas')"
+      ng-show="!quote.type || quote.type=='Cortina'"
+  >Cortinas Wolken y Platinum
+  </button>
+    `,
+    shades:"Persianas",
+    products:"Productos",
+    shades_headers:`
+    <th>Item</th>
+    <th>Cant.</th>
+    <th>Ubicación</th>
+    <th>Tipo</th>
+    <th>Total</th>
+    <th>Acciones</th>
+    `,
+    additionals:"Adicionales",
+    additionals_headers:`
+    <th>Cant</th>
+    <th>Nombre</th>
+    <th>Color</th>
+    <th>Precio</th>
+    <th>Total</th>
+    `,
+    installation_additional:"Adicionales de instalación",
+    installation_additionals_headers:`
+    <th>Cant</th>
+    <th>Nombre</th>
+    <th>Precio</th>
+    <th>Total</th>
+    `,
+    motor:"Motorización",
+    motor_headers:`
+    <th>Cant</th>
+    <th>Nombre</th>
+    <th>Precio</th>
+    `,
+    order:"Orden",
+    order_headers:`
+    <th>Vendedor</th>
+    <th>Tipo</th>
+    <th>Precio</th>
+    <th>Fecha Compromiso</th>
+    <th>Acciones</th>
+    `,
+    totals:"Totales",
+    discount:"Descuento",
+    tax:"IVA",
+    advance:"Anticipo",
+    balance:"Saldo",
+    annotations:"Anotaciones",
+    notes:"Notas",
+
+    quotes:"Cotizar",
+    download_quotes:"Descargar Cotizaciones",
+    no_quotes:"No hay cotizaciones para mostrar",
+    loading_quotes:"Cargando Cotizaciones"
+  },
+  toldos:{
+    exterior_products:"Productos para el exterior",
+    no_doable:"No realizable",
+    room:"Ubicación",
+    type:"Tipo",
+    width:"Ancho (Metros)",
+    projection:"Proyeción/ Caída (Metros)",
+    control_position:"Lado de Mando",
+    left:"Izquierda",
+    right:"Derecha",
+    operation_mode:"Modo de operación",
+    motor:"Motorización",
+    add_additional:"Agregar Adicionales",
+    additional:"Adicionales:",
+    quantity:"Cantidad",
+    name:"Nombre",
+    add_motor:"Agregar Motorización",
+    add_motor_c:"Agregar Motorizfación",
+    motorization:"Motorización:",
+    notes:"Observaciones",
+    inch_price:"Precio Metro",
+    unit_price:"Precio Unitario",
+
+  },
+  details_headers:{
+    item:"Ítem",
+    qty:"Cant.",
+    location:"Ubicación",
+    type:"Tipo",
+    width:"Ancho",
+    height:"Altura",
+    projection:"Proyeccion / Caída",
+    operation_mode:"Modo de operación",
+    unit_price:"Precio Unitario",
+    notes:"Obs.",
+    view:"Ver",
+    squared_units:"m²",
+    price_per_box:"Precio por Caja",
+    boxes_qty:"Cant. Cajas",
+    installation:"Instalación",
+    system:"Sistema",
+    total:"Total",
+    name:"Nombre",
+    price:"Precio",
+    actions:"Acciones",
+    product:"Producto",
+    finish:"Acabado",
+    textil:"Textil",
+    opening:"Apertura",
+    color:"Color",
+
+    installation_type:"Tipo de Inst.",
+    squared:true,
+    units_height:"{{p.height}}",
+    units_width:"{{p.width}}"  ,
+
+    yes:"Si",
+    no:"No"
+  },
+  shutters:{
+    shutter:"Shutter",
+    no_doable:"No Realizable",
+    quantity:"Cantidad",
+    room:"Ubicación",
+    product:"Tipo de Shutter",
+    product_options:`
+    <option value="Regular">Regular</option>
+    <option value="Arco">Arco</option>
+    `,
+    color:"Color",
+    width:"Ancho (Metros)",
+    height:"Alto (metros)",
+    squared_meters:"m²",
+    installation_type:"Tipo de Instalación",
+    installation_options:`
+    <option value="Por dentro">Por dentro</option>
+    <option value="Por fuera">Por fuera</option>
+    `,
+    rod_type:"Tipo de Bastón",
+    rod_options:`
+    <option value="Visible">Visible</option>
+    <option value="Oculto">Oculto</option>
+    `,
+    measure_type:"Tipo de Media",
+    measure_options:`
+    <option value="Claro de ventana">Claro de ventana</option>
+    <option value="Medida exacta">Medida exacta</option>
+    `,
+    louver:"Louver",
+    frame_type:"Tipo de Marco",
+    frame_configuration:"Conf. del Marco",
+    nothing:"Nada",
+    panel_configuration:"Conf. de Paneles",
+    rail_location:"Ubicación Riel D.",
+    add_aditional:"Agregar Adicional",
+    additional:"Adicional:",
+    name:"Nombre",
+    notes:"Observaciones",
+    inch_price:"Precio Metro",
+    unit_price:"Precio Unitario",
+    total:"Total",
+    squared:true
+  },
+  floors:{
+    floors:"Pisos",
+    type_options:`
+   
+    <option value="Vinil">Vinil</option>
+    <option value="Ingenieria">Ingeniería</option>
+    `,
+    squared_per_box:true,
+    installed:"Instalación",
+    add_moldind:"Agregar Moldura/Adicional",
+    moldind:"Moldura/Adicional:",
+    quantity:"Cantidad",
+    name:"Nombre",
+    add_installation_additional:"Agregar Adicional de Instalación",
+    installation_additional:"Adicional de Instalación",
+    code:" Codigo",
+    line:"Línea",
+  },
+  floors_eteka:{
+    floors_eteka:"Pisos Eteka",
+    type_options:`
+   
+    <option value="Vinil">Vinil</option>
+    <option value="Ingenieria">Ingeniería</option>
+    `,
+    squared_per_box:true,
+    installed:"Instalación",
+    add_moldind:"Agregar Moldura/Adicional",
+    moldind:"Moldura/Adicional:",
+    quantity:"Cantidad",
+    name:"Nombre",
+    add_installation_additional:"Agregar Adicional de Instalación",
+    installation_additional:"Adicional de Instalación",
+    code:" Codigo",
+    line:"Línea",
+  },
+  molds:{
+    floors:"Molduras",
+    type_options:`
+    <option value="Vinil">Vinil</option>
+    <option value="Ingenieria">Ingeniería</option>
+    <option value="Generales">Generales</option>
+    `,
+  },
+  quote_commons:{
+    products:"Productos",
+    price_per_box:"Precio por caja",
+    installation_price:"Precio de Instalación",
+    total:"Total",
+    notes:"Observaciones",
+    name:"Nombre",
+    quantity:"Cantidad",
+    color:"Color",
+    squared_meters:"m²",
+    boxes_qty:"Cantidad de Cajas",
+    no_doable:"No realizable",
+    select_a_client:"Seleccione un cliente",
+    room:"Ubicación",
+    type:"Tipo",
+    price:"Precio",
+    squared_per_box:"M² por Caja",
+    price_type:"Tipo de Precio",
+    per_box:"Por Caja",
+    width:"Ancho (metros)",
+    height:"Alto (metros)",
+    squared:false,
+    add_additionals:"Agregar Adicional",
+    additional:"Adicional:",
+    add_motor:"Agregar Motorización",
+    motor:"Motorización:",
+    meter_price:"Precio Metro",
+    unit_price:"Precio Unitario",
+    rotate_fabric:"Girar Textil",
+    rotate_note:"",
+    cancel_turn:"Cancelar giro de textil",
+    qty:"Cant.",
+    system:"Sistema"
+  },
+  molding_form:{
+    molding:"Moldura/Adicional",
+    measure_unit:"Unidad de Medida",
+    measure_options:`
+    <option value="PIECE">Unidad</option>
+    <option value="METER">Metro cuadrado</option>
+    <option value="WIDTH">Ancho (metro lineal)</option>
+    <option value="HEIGHT">Alto (metro lineal)</option>
+    `,
+
+  },
+  filtrasol:{
+    filtrasol:"Persianas Filtrasol",
+    type_options:`
+    <option value="Filtrasol Eclisse">Eclisse</option>
+    <option value="Filtrasol Enrollables">Enrollables</option>
+    <option value="Filtrasol Panel Deslizante">Panel Deslizante</option>
+    <option value="Filtrasol Triple Shade">Triple Shade</option>
+    `,
+    config:"Config",
+    fall:"Caída",
+    fall_options:`
+    <option value="Atras">Atras</option>
+    <option value="Enfrente">Enfrente</option>
+    `,
+    control:"Mando",
+    control_options:`
+    <option value="Izquierda">Izquierda</option>
+    <option value="Derecha">Derecha</option>
+    <option value="N/A">N/A</option>
+    `,
+    chain_height:"Altura de Mando",
+    standard:"Estándar",
+    rotate_fabric:"Girar Textil",
+    cancel_turn:"Cancelar giro de textil",
     
-//       var currentStatus = suborderStatus;
+
+  },
+  enrollable:{
+    shades:"Persianas",
+    type_options:`
+    <option value="Cascade">Cascade</option>
+    <option value="Triple Shade">Triple Shade</option>
+    <option value="Horizontales de Madera">Horizontales de Madera</option>
+    <option value="Enrollables">Enrollables Platinum</option>
+    <option value="Romanas">Romanas</option>
+    <option value="Eclisse">Eclisse</option>
+    <option value="Panel Deslizante">Panel Deslizante</option>
+    <option value="Verticales de PVC">Verticales de PVC</option>
+    <option value="Horizontales de Aluminio">Horizontales de Aluminio</option>
+    <option value="Celular">Celular</option>
+    <option value="Enrollables Wolken">Enrollables Wolken</option>
+    <option value="Advantage ">Advantage </option>
+    `,
+    system:"Sistema",
+    config:"Config",
+    fall:"Caída",
+    fall_options:`
+    <option value="Atras">Atras</option>
+    <option value="Enfrente">Enfrente</option>
+    `,
+    control_position:"Mando",
+    control_options:`
+    <option value="Izquierda">Izquierda</option>
+    <option value="Derecha">Derecha</option>
+    <option value="N/A">N/A</option>
+    `,
+    chain_height:"Altura de Mando",
+    standard:"Estándar",
+
     
-//       paldiService.orders.getByOrderParent(orderParent.id).then(function (suborders) {
-//         suborders.forEach(function (suborder) {
-//           // Permitir transiciones desde "LINE" a ["QUOTE", "QUOTED", "PENDING_INFO", "AUTHORIZED"]
-//           if (
-//             status[currentStatus] > status[suborder.status] &&
-//             suborderStatus === "LINE" &&
-//             [" QUOTE ", "QUOTED", "PENDING_INFO", "AUTHORIZED"].includes(
-//               suborder.status
-//             )
-//           ) {
-//             currentStatus = suborder.status;
-//           }
+  },
+  custom:{
+    cusotm:"Personalizado",
+    seller:"Vendedor",
+    product_type:"Tipo de Producto",
+    product_types:`
+    <option value="Balance">Balances & Cornizas</option>
+    <option value="Shutter">Shutters</option>
+    <option value="Toldo">Productos para el exterior</option>
+    <option value="Enrollable">Persianas Wolken y Platinum</option>
+    <option value="Piso">Pisos</option>
+    `,
+    change_seller:"Cambiar vendedor",
+    invalid_price:"Precio Invalido"
+  },
+  cortina:{
+    cortina:"Cortina",
+    cortinaFiltrasol:"Cortina Filtrasol",
+    textil:"Textil",
+    opening:"Apertura",
+    installation:"Instalación",
+
+  },
+  new_client:{
+    new_client:"Nuevo Cliente",
+  },
+  balance:{
+    balance_field:true,
+    balances:"Balances & Cornizas",
+    textil:"Textil",
+    mount:"Configuracion",
+    types:`
+    <option value="De madera">De madera</option>
+    <option value="Wrapped Cornice">Corniza Forrada</option>
+    <option value="Aluminum Gallery">Galeria de Aluminio</option>`,
+    width:"Ancho/frente (metros)",
     
-//           // Permitir transiciones entre ["QUOTE", "QUOTED", "PENDING_INFO", "AUTHORIZED"]
-//           // Permitir transiciones entre ["QUOTE", "QUOTED", "PENDING_INFO", "AUTHORIZED"] y hacia "LINE"
-// if (
-//   status[currentStatus] > status[suborder.status] &&
-//   [" QUOTE ", "QUOTED", "PENDING_INFO", "AUTHORIZED"].includes(currentStatus) &&
-//   [" QUOTE ", "QUOTED", "PENDING_INFO", "AUTHORIZED", "LINE"].includes(
-//     suborder.status
-//   )
-// ) {
-//   currentStatus = suborder.status;
-// }
+    height:"Alto/frente (metros)",
+    heights:"Alto/frente (cm)",
+    way:"Tapa",
+    right_return:"Retorno derecho",
+    left_return:"Retorno Izquierdo",
+  },
+  login:{
+    mail_required:"El correo es requerido",
+    pass_required:"La contraseña es requerida",
+    password:"Contraseña",
+    access:"Ingresar",
+    forgot_password:"¿Olvidaste tu contraseña?",
+    login:"Iniciar Sesión",
+    recover_pass:"Recuperar Contraseña",
+    send_pass:"Recordar",
+    back_login:"Volver a ingreso"
+  },
+  order_list:{
+    order_client:"<span>{{pretty('clientType', selectedOrder.client.type)}}</span>",
+    supplier:"ID del Proveedor",
 
-//         });
+    orders:"Órdenes",
+    manual_register:"Registro Orden Manual",
+    download_orders:"Descargar Ordenes",
+    order_details:"Detalles de La orden",
+    order_no:"No. de Orden",
+    state:"Estado",
+    proyect:"Proyecto",
+    client:"Cliente",
+    client_type:"Tipo de Cliente",
+    seller:"Vendedor",
+    type:"Tipo",
+    product_qty:"Cantidad de Productos",
+    commitment:"Fecha de Compromiso",
+    production_in:"Entrada a producción",
+    production_out:"Salida de Produccion",
+    trackingId:"Guia de Rastreo",
+    transit_date:"Fecha de Embarque",
+    transitInvoice:"Folio de Pedido",
+    arrival_date:"Fecha de Llegada",
+    programmedDate:"Fecha de Programación de Instalación",
+    installation_date:"Fecha de Instalación",
+    products:"Productos",
+    additionals:"Adicionales",
+    motor:"Motorizacion",
+    discount:"Descuento",
+    installation:"Instalación",
+    sub_total:"Sub-Total",
+    tax:"IVA",
+    total:"TOTAL",
+    balance:"Saldo",
+    payments:"Pagos",
+    folio:"No. Folio",
+    date:"Fecha",
+    amount:"Monto",
     
-//         // Resto de la lógica original
-//         if (currentStatus !== orderParent.status) {
-//           if (!retroStatus) {
-//             var updatedOrder = orderParent;
-//             updatedOrder.statusNotes = "";
-//             updatedOrder.providerId = "";
-//             paldiService.orders.updateStatus(updatedOrder, currentStatus).then(
-//               function (order) {}
-//             );
-//           } else {
-//             paldiService.orders.updateRetroStatus(orderParent, currentStatus);
-//           }
-//         }
-//       });
-//     };
+
+  },
+  order_details:{
+    condition_action:"",
+    event:"{{pretty('event', event.action)}}",
+    order_status_p:"{{pretty('orderStatus',order.quoteStatus)}}",
+    change_status:"Cambiar Estado",
+    quote:"Cotización",
+    order:"Orden",
+    details_quote:"Detalles de Cotización",
+    details_order:"Detalles de Orden",
+    state_coments:"Comentatios de Estado",
+    quote_status:"Estado de Cotizacion",
+    quote_options:`
+    <option ng-if="order.quoteStatus == 'Nueva'" value="Nueva">Cotización </option>
+    <option value="Seguimiento">Negociación</option>
+    <option value="Duplicada">Duplicada</option>
+    <option value="Venta Perdida">Venta Perdida</option>
+    `,
+    reason:"Razon",
+    reason_options:`
+    <option value="Precio Menor">Precio Menor</option>
+    <option value="Tiempo de entrega menor">Tiempo de entrega menor </option>
+    <option value="Busca otro producto">Busca otro producto</option>
+    <option value="Falta Seguimiento">Falta de Seguimiento</option>
+    `,
+    postal_code:"C.P",
+    seller:"Vendedor",
+    proyect:"Proyecto",
+    cycle_time:"Tiempo de Ciclo",
+    dpfc:"DPFC",
+    production_days:"T. Entrega de Producción",
+    transit_days:"T. Entrega Tránsito",
+    history:"Historial",
+    history_options:`
+    <th>Fecha</th>
+    <th>Acción</th>
+    <th>Usuario</th>
+    <th>Observaciones</th>
+    `,
+    hide_history:"Ocultar Historial",
+    products:"Productos",
+    product_notes:"Observaciones de Producto",
+    hide:"Ocultar",
+    addi_motors:"Adicionales/Motorizacion",
+    addi_motor_options:`
+    <th>Ítem</th>
+              <th>Cant</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Total</th>
+    `,
+    download_invoice:"Descargar Recibo",
+    download_pdf:"Descargar PDF",
+    send_client:"Enviar al Cliente",
+    send_work_order:"Enviar Orden de Trabajo",
+    canceled:"Cancelado",
+    register_payment:"Registrar Pago",
+    need_invoice:"Necesita Factura",
+    send_as_order:"Enviar Como Orden",
+    approve_order:"Aprobar Orden",
+    reject:"Rechazar orden",
+    send_prod:"Enviar a producción",
+    send_back:"Enviar a Backorder",
+    send_transit:"Enviar a tránsito",
+    finish:"Terminar",
+    inst_date:"Fecha de Inst.",
+    work_order:"Orden de Trabajo",
+    installation_order:"Orden de Instalación",
+    installed:"Instalado",
+    partial_install:"Instalada Parcial",
+    inconform_install:"Instalada Inconforme",
+    change_provider:"Cambiar ID de Provedor",
+    change_guides:"Editar Guias",
+    change_state:"Cambiar Estado",
+    order_not_found:"No se encontró la orden",
+    show_history:"Mostrar Historial",
+    order_stats:"{{decideStatus(pretty('orderStatus', order.status))}}",
+
+    folio:"No. Folio",
+    date:"Fecha",
+    amount:"Monto",
+    charged:"Cobró"
+  },
+  send_as_order:{
+    send_order:"Enviar como Orden",
+    with_advance:"Con Anticipo",
+    without_advance:"Sin Anticipo"
+  },
+  change_pass:{
+    change_pass:"Cambiar Contraseña",
+    alert_pass:"Por cuestiones de seguridad debe crear una nueva contraseña",
+    actual_pass:"Contraseña actual",
+    incorrect_pass:"Contraseña incorrecta",
+    different_pass:"La Contraseña nueva debe ser diferente a la anterior",
+    recent_pass:"Esta contraseña fue utilizada recientemente, cree una nueva",
+    valid_pass:"Mínimo 8 caractéres, incluyendo al menos una mayúscula, una minúscula, un número y un caracter especial (! ( ) - . _ ` ~ @)",
+    confirm_pass:"Confirmación de contraseña",
+    no_match:"Contraseñas no coincide",
+    new_pass:"Contraseña nueva"
+  },
+  button_commons:{
+    today:"Hoy",
+    clean:"Limpiar",
+    duplicate:"Duplicar",
+    close:"Cerrar",
+    move_up:"Mover Arriba",
+    move_down:"Mover Abajo",
     
-    //=================================================================
-
-    $scope.editOrder = function () {
-      $state.go("console.quote-edit", { orderId: $scope.order.id });
-    };
-
-    //===========================================================
-
-    $scope.showProductNotes = function (notes) {
-      if (notes) {
-        $scope.showNotes = true;
-        $scope.productNotes = notes;
-      } else {
-        $scope.showNotes = false;
-        $scope.productNotes = "";
-      }
-    };
-    //============================ DATES ===============================
-    $scope.date = new Date();
-    $scope.date.setHours(0, 0, 0, 0);
-    // revisar aca
-    $scope.dateDialog = function (dateType) {
-      $scope.dateModel = {};
-      $scope.dateType = dateType;
-      if(dateType=='arrival'){
-        $scope.dateModel['guides']=$scope.order.guides??[]
-        $scope.dateModel['orderTransitInvoice']=$scope.order.orderTransitInvoice??""
-      }
-      if(dateType=='endProduction'){
-        if($scope.order.providerId){
-          $scope.dateModel['providerId']=$scope.order.providerId
-        }
-      }
-      $scope.dialog = ngDialog.open({
-        template: "partials/views/console/datepicker.html",
-        scope: $scope,
-        showClose: false,
-      });
-
-    };
-
-    $scope.addDataToRepeater = function(model,type){
-      if(type=="guides"){
-        if(!model.guides){
-          model.guides = [""]
-        }
-        else{
-          model.guides.push("")
-        }
-      }
-    }
-
-    $scope.removeDataFromRepeater = function(model,type,index){
-      
-      if(type=="guides"){
-        model.guides.splice(index,1)
-        
-      }
-
-    }
-
-    $scope.changeDate = function (model, form) {
-      if ($scope.dateType == "install") {
-        $scope.confirmInstallDate(model);
-      }
-      if ($scope.dateType == "arrival") {
-        $scope.confirmTransit(model);
-      }
-      if ($scope.dateType == "endProduction") {
-        $scope.confirmProduction(model, form);
-      }
-    };
-
-    // $scope.dateOptions = {
-    //   dateDisabled: disabled,
-    //   formatYear: "yy",
-    //   startingDay: 1,
-    //   minDate: new Date(),
-    // };
-    $scope.dateOptions = {
-      minDate: new Date(),
-      dateDisabled: disabled,
-      maxDate: new Date(2024, 12, 31),
-      formatYear: 'yy',
-      startingDay: 1
-  };
-
-    function disabled(data) {
-      var date = data.date,
-        mode = data.mode;
-      return mode === "day" && date.getDay() === 0;
-    }
-
-    $scope.dateChanged = function (calendar) {
-      $scope.date = calendar.date;
-    };
-
-    $scope.confirmInstallDate = function (model) {
-      $scope.dialog.close();
-      paldiService.orders
-        .setDate(
-          $scope.order.id,
-          $scope.dateType,
-          $scope.date,
-          model.notes
-        )
-        .then(
-          function () {
-            swal({
-              title: (EXECUTION_ENV=="EXTERNAL"?"Installation Date":"Fecha de Instalación"),
-              text:  (EXECUTION_ENV=="EXTERNAL"?"Installation Date set":"Se capturó la fecha de instalación"),
-              type: "success",
-              confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-            });
-            loadOrder();
-            if ($scope.order.orderParent !== null) {
-              $scope.statusOrderMaster(
-                $scope.order.orderParent,
-                $scope.order.status,
-                false
-              );
-            }
-          },
-          function (error) {
-            swal({
-              title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Ocurrió un error"),
-              type: "error",
-              confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-            });
-            loadOrder();
-          }
-        );
-    };
-
-    $scope.toggleLog = function () {
-      $scope.showLog = !$scope.showLog;
-    };
-
-    $scope.needsBill = function () {
-      swal(
-        {
-          title: (EXECUTION_ENV=="EXTERNAL"?"Do you want to mark the order as Need Invoice?":"¿Seguro que deseas marcar la orden como Necesita Factura?"),
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-          cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
-          closeOnConfirm: false,
-          closeOnCancel: false,
-        },
-        function (isConfirm) {
-          if (isConfirm) {
-            paldiService.bills
-              .needsBill($scope.order.id, "true")
-              .then(
-                function (order) {
-                  swal({
-                    title: (EXECUTION_ENV=="EXTERNAL"?"Order Set as Needs Invoice":"Orden marcada como Necesita factura"),
-                    type: "success",
-                    confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-                  });
-                  loadOrder();
-                },
-                function (error) {
-                  
-                }
-              );
-          } else {
-            swal({
-              title: (EXECUTION_ENV=="EXTERNAL"?"Canceled":"Cancelado"),
-              type: "error",
-              confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-            });
-          }
-        }
-      );
-    };
-
-    $scope.cancelPaymentDialog = function (paymentId) {
-      $scope.paymentId = paymentId;
-      $scope.dialog = ngDialog.open({
-        template: "partials/views/console/payment-cancel.html",
-        scope: $scope,
-        showClose: false,
-      });
-    };
-
-    $scope.cancelPayment = function (form, notes) {
-      if (form.$valid) {
-        swal(
-          {
-            title: (EXECUTION_ENV=="EXTERNAL"?"Dou you want to cancel de payment?":"¿Seguro que desea cancelar el Pago?"),
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-            cancelButtonText: (EXECUTION_ENV=="EXTERNAL"?"Cancel":"Cancelar"),
-            closeOnConfirm: false,
-            closeOnCancel: false,
-          },
-          function (isConfirm) {
-            if (isConfirm && !$scope.isCancellingPayment) {
-              $scope.isCancellingPayment = true;
-              var cancelRequest = {
-                user: $scope.currentUser,
-                paymentId: $scope.paymentId,
-                notes: notes,
-              };
-              paldiService.payments.cancel(cancelRequest).then(
-                function () {
-                  swal({
-                    title: (EXECUTION_ENV=="EXTERNAL"?"Payment Canceled":"Pago cancelado"),
-                    type: "success",
-                    confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-                  });
-                  loadOrder();
-                  $scope.dialog.close();
-                  $scope.isCancellingPayment = false;
-                },
-                function (error) {
-                  swal({
-                    title: (EXECUTION_ENV=="EXTERNAL"?"Error":"Ocurrió un error"),
-                    type: "error",
-                    confirmButtonText: (EXECUTION_ENV=="EXTERNAL"?"Accept":"Aceptar"),
-                  });
-                  $scope.isCancellingPayment = false;
-                  loadOrder();
-                }
-              );
-            } else {
-              swal({
-                title: (EXECUTION_ENV=="EXTERNAL"?"Canceled":"Cancelado"),
-                type: "error",
-                confirmButtonText: "Aceptar",
-              });
-            }
-          }
-        );
-      } else {
-        form.$validated = true;
-      }
-    };
-
-    $scope.loadAdditionals = function () {
-      $scope.plusList = [];
-      $scope.motorList = [];
-      $scope.installationPlusList = [];
-
-      $scope.productsSorted.forEach(function (productTypeArray) {
-        productTypeArray.products.forEach(function (product) {
-          if (product.plusList && product.plusList.length > 0) {
-            product.plusList.forEach(function (plus) {
-              plus.item = product.item;
-              $scope.plusList.push(plus);
-            });
-          }
-
-          if (
-            product.installationPlusList &&
-            product.installationPlusList.length > 0
-          ) {
-            product.installationPlusList.forEach(function (
-              installationPlus
-            ) {
-              installationPlus.item = product.item;
-              $scope.installationPlusList.push(installationPlus);
-            });
-          }
-
-          if (product.motorList.length > 0) {
-            product.motorList.forEach(function (motor) {
-              if(EXECUTION_ENV=="EXTERNAL"){
-
-              }
-              motor.item = product.item;
-              if(EXECUTION_ENV=="EXTERNAL"){
-                $scope.motorList.push(motor);
-              }
-              else{$scope.plusList.push(motor)};
-            });
-          }
-        });
-      });
-    };
-
-    $scope.getPositionOfProduct = function (type) {
-      return $scope.productsSorted.findIndex(function (t) {
-        return t.type === type;
-      });
-    };
-
-    var getMaxDate = function (limitDays) {
-      var START_CYCLE = 1;
-      var SATURDAY = 6;
-      var SUNDAY = 7;
-
-      var maxDate = $scope.currentDate.clone();
-
-      var limit = limitDays;
-
-      var count = START_CYCLE;
-      do {
-        if (
-          maxDate.isoWeekday() === SATURDAY ||
-          maxDate.isoWeekday() === SUNDAY
-        ) {
-          count--;
-        }
-
-        if (count < limit) {
-          maxDate = maxDate.add(1, "days");
-          count++;
-        }
-
-        if (
-          count === limit &&
-          (maxDate.isoWeekday() === SATURDAY ||
-            maxDate.isoWeekday() === SUNDAY)
-        ) {
-          if (maxDate.isoWeekday() === SATURDAY) {
-            maxDate = maxDate.add(2, "days");
-          } else {
-            maxDate = maxDate.add(1, "days");
-          }
-        }
-      } while (count < limit);
-
-      return maxDate;
-    };
-
-    var item = 0;
-    var orderProductsByType = function (product) {
-      var pos;
-      if ($scope.mixedLabel != undefined && ($scope.mixedLabel.indexOf("Persianas") != -1 && $scope.mixedLabel.indexOf("Filtrasol") != -1)) {
-        if (product.productType == "Enrollable" || product.productType == "Filtrasol") {
-          pos = $scope.productsSorted.findIndex(function (t) {
-            return t.type === "Persiana o Filtrasol"
-          });
-        } else {
-          pos = $scope.productsSorted.findIndex(function (t) {
-            return t.type === product.productType
-          });
-        }
-      } else {
-        pos = $scope.productsSorted.findIndex(function (t) {
-          return t.type === product.productType
-        });
-      }
-
-
-      product.item = ++item;
-      $scope.productsSorted[pos].products.push(product);
-    }
-
-    var getCycleDays = function (currentDate, startDate, endDate) {
-      var cycle = 0;
-      var days;
-      var daysExcludingWeekends = 0;
-      var START_CYCLE = 1;
-
-      if (startDate) {
-        if (!endDate) {
-          cycle = currentDate.diff(startDate, 'days');
-        } else {
-          cycle = endDate.diff(startDate, 'days');
-        }
-        days = (cycle <= 0) ? 0 : cycle;
-        daysExcludingWeekends = getDaysExcludingWeekends(startDate, days);
-        daysExcludingWeekends += START_CYCLE;
-
-        return daysExcludingWeekends;
-      } else {
-        return " - ";
-      }
-    }
-
-    var getRemainingDays = function (startDate, commitmentDate, endDate) {
-      var currentDate = moment();
-      var days = 0;
-      var daysLeft = 0;
-      var comparisonDate;
-      if (startDate && commitmentDate) {
-        days = commitmentDate.diff(startDate, 'days');
-        if (!endDate) {
-          comparisonDate = angular.copy(currentDate);
-        } else {
-          comparisonDate = angular.copy(endDate);
-        }
-        days = getDaysExcludingWeekends(startDate, days);
-        daysLeft = getDaysLeft(startDate, comparisonDate, days);
-        return daysLeft;
-      } else {
-        return " - ";
-      }
-    }
-
-    var getDaysExcludingWeekends = function (startDate, days) {
-      var daysExcludingWeekends = angular.copy(days);
-      var date = angular.copy(startDate);
-      for (var i = 0; i < days; i++) {
-        date = date.add(1, 'days');
-        if (date.isoWeekday() === 6 || date.isoWeekday() === 7) {
-          daysExcludingWeekends--;
-        }
-      }
-      return daysExcludingWeekends;
-    }
-
-    var getDaysLeft = function (startDate, comparisonDate, commitmentDays) {
-      var leftDays = angular.copy(commitmentDays);
-      var date = angular.copy(startDate);
-      var passedDays = comparisonDate.diff(date, 'days');
-      for (var i = 0; i < passedDays; i++) {
-        date = date.add(1, 'days');
-        if (date.isoWeekday() !== 6 && date.isoWeekday() !== 7) {
-          leftDays -= 1;
-        }
-      }
-      return leftDays;
-    }
-
-    var getDPFCDays = function (startDate, commitmentDate, endDate) {
-      var days;
-      var absDays;
-      var START_CYCLE = 1;
-      var dpfcDays;
-
-      if (startDate && commitmentDate) {
-        days = getRemainingDays(startDate, commitmentDate, endDate);
-        $scope.dpfcStatus = getCountdownStatus(startDate, days, commitmentDate, endDate);
-        $scope.dpfcTotalStatus = getCountdownStatus(startDate, days, commitmentDate, endDate);
-        absDays = isNaN(days) ? days : Math.abs(days);
-        var businessDays = commitmentDate.diff(startDate, 'days');
-        businessDays = getDaysExcludingWeekends(startDate, businessDays);
-        var totalDays = (businessDays + START_CYCLE) - days;
-        dpfcDays = absDays + "/" + (businessDays + START_CYCLE);
-
-        if (endDate === null) {
-          dpfcDays = absDays;
-        } else {
-          dpfcDays = totalDays;
-        }
-        $scope.dpfcTotalDays = businessDays + START_CYCLE;
-
-
-      } else {
-        dpfcDays = " - "
-      }
-      return dpfcDays;
-
-    }
-
-    var getProductionDays = function (startDate, commitmentDate, endDate) {
-      var days;
-
-      var START_CYCLE = 1;
-      var productionDays;
-      if (startDate && commitmentDate) {
-
-        days = getRemainingDays(startDate, commitmentDate, endDate);
-        $scope.productionStatus = getCountdownStatus(startDate, days, commitmentDate, endDate);
-        $scope.productionTotalStatus = getCountdownStatus(startDate, days, commitmentDate, endDate);
-        var absDays = isNaN(days) ? days : Math.abs(days);
-        var businessDays = commitmentDate.diff(startDate, 'days');
-        businessDays = getDaysExcludingWeekends(startDate, businessDays);
-        var totalDays = (businessDays + START_CYCLE) - days;
-        if (endDate === null) {
-          productionDays = absDays;
-        } else {
-          productionDays = totalDays;
-
-        }
-        $scope.productionTotalDays = businessDays + START_CYCLE;
-
-      } else {
-        productionDays = "-";
-      }
-      return productionDays;
-    }
-
-    var getCountdownStatus = function (startCycle, days, commitmentDate, endDate) {
-      var status = '';
-      if (startCycle && commitmentDate) {
-        if (!endDate) {
-          status = (days >= 0) ? 'START' : 'LATE';
-        } else {
-          status = 'END';
-        }
-      } else {
-        status = '';
-      }
-      return status;
-
-    }
-
-    var getTransitDays = function (currentDate, startDate, endDate, commitmentDate) {
-      var cycle = 0;
-      var days;
-      var daysExcludingWeekends = 0;
-      var transitDays;
-      var START_CYCLE = 1;
-
-      if (startDate && commitmentDate) {
-        if (!endDate) {
-          cycle = currentDate.diff(startDate, 'days');
-        } else {
-          cycle = endDate.diff(startDate, 'days');
-        }
-        var businessDays = commitmentDate.diff(startDate, 'days');
-        businessDays = getDaysExcludingWeekends(startDate, businessDays);
-        days = (cycle <= 0) ? 0 : cycle;
-        daysExcludingWeekends = getDaysExcludingWeekends(startDate, days);
-        daysExcludingWeekends += START_CYCLE;
-        transitDays = daysExcludingWeekends + "/" + (businessDays + START_CYCLE);
-
-        return transitDays;
-      } else {
-        return " - ";
-      }
-    }
-
-    //============= Data tables =============
-    $scope.tableOptions = DTOptionsBuilder.newOptions()
-      .withDisplayLength(25)
-      .withOption("ordering", false)
-      .withDOM("rt")
-      .withLanguage((EXECUTION_ENV=="EXTERNAL"?"lang/table_lang_en.json":"lang/table_lang.json"));
-
-    $scope.tableColumns = [
-      DTColumnDefBuilder.newColumnDef(1).withOption(
-        "responsivePriority",
-        1
-      ),
-    ];
+  },
+  resources:{
+    resources:"Recursos",
+    upload:"Selecciona el PDF",
+    name:"Nombre",
+    description:"Descripción",
+    load:"Subir Archivo"
+  },
+  stadistics:{
+    stadistic:"Estadistica",
+    stadistics:"Estadisticas"
   }
   
+  
+}
 
-);
