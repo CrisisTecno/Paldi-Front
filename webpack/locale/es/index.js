@@ -614,7 +614,7 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
                   (!quote.type || productetk2 || quote.type == 'Moldura'||quote.type == 'Piso Eteka') &&
                   (currentUser.role == 'CONSULTANT_MAYOR' || currentUser.role == 'SUPERADMIN') &&
                   productetk3
-                ) || !quote.type || productetk4"
+                ) || !quote.type || productetk4 ||currentUser.role == 'CONSULTANT_MAYOR'"
                 
             
                 >Pisos Eteka
@@ -637,7 +637,7 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
                   (currentUser.role == 'CONSULTANT_MAYOR' || currentUser.role == 'SUPERADMIN') &&
                   (quote.type == 'Piso Eteka' || productetk2 || quote.type == 'Piso Eteka') &&
                   productetk3
-                ) || !quote.type || productetk4"
+                ) || !quote.type || productetk4 ||currentUser.role == 'CONSULTANT_MAYOR'"
                 
             >Moldura Eteka
             </button>
