@@ -576,7 +576,10 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Enrollable')"
-                ng-show="!(currentUser.role == 'CONSULTANT_MAYOR')&& !productetk2&& (!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'|| quote.type=='Balance'  || quote.type=='Cortina'|| (quote.type=='Mixta' && !productsSorted[8].products.length > 0 && !productsSorted[5].products.length > 0))"
+                ng-show="(!(currentUser.role == 'CONSULTANT_MAYOR')&& !productetk2&& 
+                (!quote.type || quote.type=='Filtrasol' || quote.type=='Shutter' ||quote.type=='Enrollable'
+                || quote.type=='Balance'  || quote.type=='Cortina'|| (quote.type=='Mixta' &&
+                !productsSorted[8].products.length > 0 && !productsSorted[5].products.length > 0)) )&& !productetk4"
             >Persianas Wolken y Platinum
             </button>
             <button
@@ -643,7 +646,11 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
               <button
                   class="btn btn-default"
                   ng-click="addProduct('Cortina')"
-                  ng-show=" !( currentUser.role == 'CONSULTANT_MAYOR' ) &&  !productetk2&&(!quote.type || quote.type=='Cortina' || quote.type=='Enrollable' || (quote.type=='Mixta' && !productsSorted[0].products.length>0 && !productsSorted[1].products.length>0 && !productsSorted[4].products.length>0 && !productsSorted[8].products.length > 0  && !productsSorted[5].products.length > 0))"
+                  ng-show=" (!( currentUser.role == 'CONSULTANT_MAYOR' ) && 
+                   !productetk2&&(!quote.type || quote.type=='Cortina' || quote.type=='Enrollable' 
+                   || (quote.type=='Mixta' && !productsSorted[0].products.length>0 && 
+                   !productsSorted[1].products.length>0 && !productsSorted[4].products.length>0 && 
+                   !productsSorted[8].products.length > 0  && !productsSorted[5].products.length > 0)) )&& !productetk4"
               >Cortinas Wolken y Platinum
               </button>
 
