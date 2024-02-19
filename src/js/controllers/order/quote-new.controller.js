@@ -464,6 +464,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.productetk = false
   $scope.productetk2 = false
   $scope.productetk3 = false
+  $scope.productetk4= false
 
   $scope.isMultiple
   $scope.producInEdit
@@ -2274,6 +2275,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
   if ($stateParams.orderId) {
     paldiService.orders.get($stateParams.orderId).then(function (order) {
+
       $timeout(function () {
         var permissions = permissionsHelper.get(order, $rootScope.currentUser,)
         if (!permissions.canEdit) {
@@ -2307,6 +2309,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         
         if(!order.bitrixDealId){
           $scope.needsLoadProjects = false
+        }
+        if(order.category&&order.category=="Producto Eteka"){
+          $scope.productetk4= true;
+
         }
         $scope.selectClient(order.client)
         if(order.bitrixDealId){
