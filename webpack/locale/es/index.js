@@ -611,7 +611,7 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
                 class="btn btn-default"
                 ng-click="addProduct('Piso Eteka')"
                 ng-show="(
-                  (!quote.type || productetk2 || quote.type == 'Moldura') &&
+                  (!quote.type || productetk2 || quote.type == 'Moldura'||quote.type == 'Piso Eteka') &&
                   (currentUser.role == 'CONSULTANT_MAYOR' || currentUser.role == 'SUPERADMIN') &&
                   productetk3
                 ) || !quote.type || productetk4"
