@@ -2310,7 +2310,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         if(!order.bitrixDealId){
           $scope.needsLoadProjects = false
         }
-        if(order.category&&order.category=="Producto Eteka"){
+        if((order.category&&order.category=="Producto Eteka")||order.type=="Piso Eteka"){
+
+		
 		console.log("product debe ser eteka")
           $scope.productetk4= true;
 
