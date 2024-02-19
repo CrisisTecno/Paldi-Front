@@ -463,6 +463,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.editFlag = false
   $scope.productetk = false
   $scope.productetk2 = false
+  $scope.productetk3 = false
+
   $scope.isMultiple
   $scope.producInEdit
   $scope.motorsInEdit
@@ -507,6 +509,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       //console.log($scope.currentUser.role )
       $scope.productetk = true
       $scope.productetk2 = true
+      $scope.productetk3 = true
+
       product='Moldura'
       
     }else{
@@ -2128,6 +2132,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         colorPriceService.getPlusList(product, model)
       }
       if(color=="etk" ){
+        $scope.productetk3 = true
         colorPriceService.getColors(product, model,'etk')
       }else{
         colorPriceService.getColors(product, model)
