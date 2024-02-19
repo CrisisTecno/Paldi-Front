@@ -2311,6 +2311,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
           $scope.needsLoadProjects = false
         }
         if(order.category&&order.category=="Producto Eteka"){
+		console.log("product debe ser eteka")
           $scope.productetk4= true;
 
         }
