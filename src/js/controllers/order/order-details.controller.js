@@ -455,6 +455,7 @@ pdApp.controller(
       $scope.showlvl5= false;
       $scope.showlvl6= false;
       $scope.showlvl7= false;
+      $scope.productetk4= false;
       //ADD ACA
       
       paldiService.orders.get(id).then(async function (order) {
@@ -511,7 +512,13 @@ pdApp.controller(
         $scope.isSuborder = false;
         $scope.isMaster = false;
         $scope.providersSummary ={}
-        
+
+        if(order.category&&order.category=="Producto Eteka"){
+
+		console.log("pasa aca")
+          $scope.productetk4= true;
+
+        }
 
         if(order.type!="Mixta"){
           if(order.provider)
