@@ -463,6 +463,9 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.editFlag = false
   $scope.productetk = false
   $scope.productetk2 = false
+  $scope.productetk3 = false
+  $scope.productetk4= false
+
   $scope.isMultiple
   $scope.producInEdit
   $scope.motorsInEdit
@@ -507,6 +510,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       //console.log($scope.currentUser.role )
       $scope.productetk = true
       $scope.productetk2 = true
+      $scope.productetk3 = true
+
       product='Moldura'
       
     }else{
@@ -2128,6 +2133,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         colorPriceService.getPlusList(product, model)
       }
       if(color=="etk" ){
+        $scope.productetk3 = true
         colorPriceService.getColors(product, model,'etk')
       }else{
         colorPriceService.getColors(product, model)
@@ -2269,6 +2275,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
 
   if ($stateParams.orderId) {
     paldiService.orders.get($stateParams.orderId).then(function (order) {
+
       $timeout(function () {
         var permissions = permissionsHelper.get(order, $rootScope.currentUser,)
         if (!permissions.canEdit) {
@@ -2302,6 +2309,13 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         
         if(!order.bitrixDealId){
           $scope.needsLoadProjects = false
+        }
+        if((order.category&&order.category=="Producto Eteka")||order.type=="Piso Eteka"){
+
+		
+		console.log("product debe ser eteka")
+          $scope.productetk4= true;
+
         }
         $scope.selectClient(order.client)
         if(order.bitrixDealId){
