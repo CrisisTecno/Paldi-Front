@@ -53,14 +53,14 @@ export function generatePlusHandlers($http, $filter) {
     //console.log("modelo moldura",model)
    
     if(etk=='etk'){
-
       $http
       .get(globals.apiURL + "/pricing/plus/motor/" + model.type+'etk', {
         authentication: "yokozuna",
       })
       .then(function (response) {
+        model.motorList = []; 
         response.data.forEach(function (element, index) {
-          model.motorList = []; 
+         
           if (element.priceType == "MOTOR") {
             model.motorList.push({
               label: element.name +
@@ -82,15 +82,18 @@ export function generatePlusHandlers($http, $filter) {
       });
 
     }else{
-
       $http
       .get(globals.apiURL + "/pricing/plus/motor/" + model.type, {
         authentication: "yokozuna",
       })
       .then(function (response) {
+       
+        model.motorList = []; 
         response.data.forEach(function (element, index) {
-          model.motorList = []; 
+          
+          
           if (element.priceType == "MOTOR") {
+          
             model.motorList.push({
               label: element.name +
                 " (" +
@@ -107,8 +110,11 @@ export function generatePlusHandlers($http, $filter) {
               value: element,
             });
           }
-        });
-      });
+        }
+        );
+      }
+      
+    );
 
     }
     
