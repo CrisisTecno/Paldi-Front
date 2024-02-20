@@ -415,13 +415,76 @@ pdApp.factory(
       if (!model)
         return
 
-      
+        const intervalsEnrrolable = [
+			{ min: 0.1, max: 1 },
+			{ min: 1, max: 1.2 },
+			{ min: 1.2, max: 1.4 },
+			{ min: 1.4, max: 1.6 },
+			{ min: 1.6, max: 1.8 },
+			{ min: 1.8, max: 2 },
+			{ min: 2, max: 2.2 },
+			{ min: 2.2, max: 2.4 },
+			{ min: 2.4, max: 1.8 },
+			{ min: 1.8, max: 1.95 },
+			{ min: 1.95, max: 2.1 },
+			{ min: 2.1, max: 2.25 },
+			{ min: 2.25, max: 2.4 },
+			{ min: 2.4, max: 2.55 },
+			{ min: 2.55, max: 2.7 },
+			{ min: 2.7, max: 2.85 },
+			{ min: 2.85, max: 3 },
+			{ min: 3, max:  3.2  },
+			{ min: 3.2 , max: 3.4 },
+			{ min: 3.4, max: 3.6},
+			{ min:3.6, max: 3.8},
+			{ min:3.8, max: 4 },
+			{ min: 4, max: 4.5 },
+			{ min: 4.5, max: 5 }
+		  ];
+
+        const intervalsheigthEnrrolable = [
+			{ min: 0.1, max: 1.2 },
+			{ min: 1.2, max: 1.4 },
+			{ min: 1.4, max: 1.6 },
+			{ min: 1.6, max: 1.8 },
+			{ min: 1.8, max: 2 },
+			{ min: 2, max: 2.2 },
+			{ min: 2.2, max: 2.4 },
+			{ min: 2.4, max: 2.6 },
+			{ min: 2.6, max: 2.8 },
+			{ min: 2.8, max: 3 },
+			{ min: 3, max:  3.2 },
+			{ min: 3.2, max: 3.6 },
+			{ min: 3.6, max: 4 },
+			{ min: 4, max: 4.4 },
+			{ min: 4.4, max: 4.8 },
+			{ min: 4.8, max: 5.2 },
+			{ min: 5.2, max: 5.6 },
+			{ min: 5.6, max: 5.8 },
+			{ min: 5.8, max: 6 }
+		  ];
+		  if (intervalsEnrrolable) {
+			const interval = intervalsEnrrolable.find(i => model.width > i.min && model.width <= i.max);
+			const interval2 = intervalsheigthEnrrolable.find(i => model.height > i.min && model.height <= i.max);
+			if (interval) {
+				model.maxWidth = interval.max;
+				model.minWidth = interval.min;
+			} 
+			if (interval2) {
+				model.maxHeight = interval2.max;
+				model.minHeight = interval2.min;
+			} 
+		  }
       const payload = {
         product: "Cortina",
         finish: model.finish,
         textil: model.textil,
         width: model.width,
         height: model.height,
+		maxWidth:model.maxWidth,
+        minWidth:model.minWidth,
+        maxHeight:model.maxHeight,
+        minHeight:model.minHeight,
       }
 
       const result = await paldiService.products.fetchPrice(payload)
