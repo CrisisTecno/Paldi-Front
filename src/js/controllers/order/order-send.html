@@ -6,12 +6,12 @@
 			<%=htmlWebpackPlugin.options.general.cancel%>
 		</button>
 		<button class="btn btn-default"
-			ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER') && order.status != 'PENDING'"
+			ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'CONSULTANT_MAYOR' ||currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER') && order.status != 'PENDING'"
 			ng-click="closeThisDialog();changeStatusDialog('PENDING')">
 			<%=htmlWebpackPlugin.options.send_as_order.without_advance%>
 		</button>
 		<button class="btn btn-success"
-			ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'ADMIN')"
+			ng-if="(currentUser.role == 'CONSULTANT' || currentUser.role == 'CONSULTANT_MAYOR' ||currentUser.role == 'SUPERADMIN' || currentUser.role == 'SALES_MANAGER' || currentUser.role == 'ADMIN')"
 			ng-click="closeThisDialog();paymentDialog('advance')">
 			<%=htmlWebpackPlugin.options.send_as_order.with_advance%>
 		</button>
