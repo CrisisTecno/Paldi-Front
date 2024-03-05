@@ -479,11 +479,14 @@ modals:{
     discounts:`
     <li
                     class="discount"
-ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULTANT'].includes(roleUser.role) && quote.user && quote.user.id == roleUser.id)"                ><small>Descuento:</small></li>
+ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULTANT'].includes(roleUser.role) && quote.user && quote.user.id == roleUser.id)" 
+               ><small>Descuento:</small></li>
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"
                 ><small>Desc. Balance & Cornizas:</small></li>
+                
+                
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple  && productsSorted[1].products.length > 0"
@@ -504,6 +507,10 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[5].products.length > 0"
                 ><small>Desc. Piso :</small></li>
+                <li
+                    class="discount"
+                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[10].products.length > 0"
+                ><small>Desc. Pisos Eteka:</small></li>
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[8].products.length > 0"
@@ -573,6 +580,7 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
                 ng-show=" !(currentUser.role == 'CONSULTANT_MAYOR')&&  (!quote.type || quote.type=='Toldo')"
             >Productos para el Exterior
             </button>
+            
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Enrollable')"
@@ -582,6 +590,7 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
                 !productsSorted[8].products.length > 0 && !productsSorted[5].products.length > 0)) )&& !productetk4"
             >Persianas Wolken y Platinum
             </button>
+
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Filtrasol')"

@@ -778,7 +778,6 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           return response.data;
         });
     },
-
     save: function (orders,additionalParams) {
 
       let order = { ...angular.copy(orders) }
@@ -1947,6 +1946,7 @@ var provider = "true"; // Se añade basado en tu URL de ejemplo
   };
 
   //----------------------------- BILLS ----------------
+  //FACTURAS
   service.bills = {
     getPendingBills: function (
       search,

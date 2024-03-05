@@ -433,15 +433,19 @@ pdApp.controller(
       $scope.productsSorted.push({ type: "Balance", products: [] });
       $scope.productsSorted.push({ type: "Shutter", products: [] });
       $scope.productsSorted.push({ type: "Toldo", products: [] });
+
       $scope.productsSorted.push({ type: "Enrollable", products: [] });
       $scope.productsSorted.push({ type: "Filtrasol", products: [] });
+
       $scope.productsSorted.push({ type: "Persiana o Filtrasol", products: [] });
       $scope.productsSorted.push({ type: "Piso", products: [] });
-      $scope.productsSorted.push({ type: "Piso Eteka", products: [] });
+      
       $scope.productsSorted.push({ type: "Cortina", products: [] });
       $scope.productsSorted.push({ type: "Cortina Filtrasol", products: [] });
       $scope.productsSorted.push({ type: "Moldura", products: [] });
       $scope.productsSorted.push({ type: "Custom", products: [] });
+      $scope.productsSorted.push({ type: "Piso Eteka", products: [] });
+      console.log($scope.productsSorted)
       $scope.suborders = [];
       $scope.limitDays = 20;
       $scope.maxDate;

@@ -386,6 +386,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.quote.discountPercentFiltrasol = 0
     $scope.quote.discountPercentCortina = 0
     $scope.quote.discountPercentPiso =0
+    $scope.quote.discountPercentPisoEteka =0
     $scope.quote.discountPercentMoldura =0
     $scope.clientStep = "loaded"
     updateDiscount()
@@ -407,7 +408,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     $scope.quote.discountPercentEnrollable = $scope.editing ? $scope.quote.discountPercentEnrollable : 0
     $scope.quote.discountPercentFiltrasol = $scope.editing ? $scope.quote.discountPercentFiltrasol : 0
     $scope.quote.discountPercentCortina = $scope.editing ? $scope.quote.discountPercentCortina : 0
-    $scope.quote.discountPercenPiso = $scope.editing ? $scope.quote.discountPercentPiso : 0
+    $scope.quote.discountPercentPiso = $scope.editing ? $scope.quote.discountPercentPiso : 0
+    $scope.quote.discountPercentPisoEteka = $scope.editing ? $scope.quote.discountPercentPisoEteka : 0
     $scope.quote.discountPercentMoldura = $scope.editing ? $scope.quote.discountPercentMoldura : 0
 
     if (EXECUTION_ENV=="EXTERNAL"){
@@ -486,11 +488,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   $scope.productsSorted.push({type: "Enrollable", products: []})
   $scope.productsSorted.push({type: "Filtrasol", products: []})
   $scope.productsSorted.push({type: "Piso", products: []})
-  $scope.productsSorted.push({type: "Piso Eteka", products: []})
+  
   $scope.productsSorted.push({type: "Cortina", products: []})
   $scope.productsSorted.push({type: "Cortina Filtrasol", products: []})
   $scope.productsSorted.push({type: "Moldura", products: []})
   $scope.productsSorted.push({type: "Custom", products: []})
+  $scope.productsSorted.push({type: "Piso Eteka", products: []})
   $scope.productsFiltered = []
   $scope.productsMixed = []
 
@@ -1359,9 +1362,15 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       if ($scope.quote.discountPercentPiso > $scope.quote.clientMaxDiscount) {
         $scope.quote.discountPercentPiso = $scope.quote.clientMaxDiscount
       }
+      if ($scope.quote.discountPercentPisoEteka > $scope.quote.clientMaxDiscount) {
+        $scope.quote.discountPercentPisoEteka = $scope.quote.clientMaxDiscount
+      }
 
       if ($scope.quote.discountPercentPiso < 0 || !angular.isNumber($scope.quote.discountPercentPiso)) {
         $scope.quote.discountPercentPiso = 0
+      }
+      if ($scope.quote.discountPercentPisoEteka < 0 || !angular.isNumber($scope.quote.discountPercentPisoEteka)) {
+        $scope.quote.discountPercentPisoEteka = 0
       }
 
       if ($scope.quote.discountPercentMoldura > $scope.quote.clientMaxDiscount) {
@@ -1371,6 +1380,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       if ($scope.quote.discountPercentMoldura < 0 || !angular.isNumber($scope.quote.discountPercentMoldura)) {
         $scope.quote.discountPercentMoldura = 0
       }
+      console.log($scope.quote.discountPercentPisoEteka)
     } else {
       if ($scope.quote.discountPercent > $scope.quote.clientMaxDiscount) {
         $scope.quote.discountPercent = $scope.quote.clientMaxDiscount
@@ -1567,7 +1577,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     return true
     
   }
-
+  console.log($scope.productsSorted)
   $scope.getSubQuoteDiscount = function (product, model) {
    
     switch (product) {
@@ -1587,6 +1597,8 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
         model.discountPercent = $scope.quote.discountPercentCortina
       case "Piso":
         model.discountPercent = $scope.quote.discountPercentPiso
+      case "Piso Eteka":
+        model.discountPercent = $scope.quote.discountPercentPisoEteka
       case "Moldura":
         model.discountPercent = $scope.quote.discountPercentMoldura
     }
@@ -2021,11 +2033,12 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
       if ( h < metersToInches(color.minHeight)) model.height = Math.ceil(parseFloat(metersToInches(color.minHeight)) - parseFloat(model.h_fraction ?? 0))
       else if (h > metersToInches(color.maxHeight)) model.height = Math.floor(parseFloat(metersToInches(color.maxHeight)) - parseFloat(model.h_fraction ?? 0))
       else model.height = height
+      
       }
       else{
         model.height = height
       }
-      model.height = parseInt(model.height)
+      model.height = parseFloat(model.height.toFixed(3));
       
       $scope.updatePrices(product, model)
 

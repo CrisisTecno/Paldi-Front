@@ -106,7 +106,7 @@ pdApp.factory(
        
         let pisoDiscount = false
         angular.forEach(model.products, function (product, key) {
-          if (model.type == "Piso" && product.type == "Laminados" && model.client && model.client.type != "DIRECT_SALE") {
+          if ((model.type == "Piso"||model.type == "Piso Eteka") && product.type == "Laminados" && model.client && model.client.type != "DIRECT_SALE") {
             pisoDiscount = true;
           }
         })
@@ -488,7 +488,12 @@ pdApp.factory(
       }
 
       const result = await paldiService.products.fetchPrice(payload)
-      
+      if(result.maxHeight&&result.minWidth&&result.maxWidth&&result.minHeight){
+		delete model.maxHeight;
+		delete model.minWidth;
+		delete model.maxWidth;
+		delete model.minHeight;
+	  }
       model.m2 = Math.round(model.width * model.height * 100) / 100
       model.price = result.price
       model.total = result.price * model.quantity

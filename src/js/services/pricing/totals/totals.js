@@ -181,18 +181,31 @@ const getProductsTotal = (order) => {
     filtrasolTotal: isMixed ? getSubProductTotal('Filtrasol') : undefined,
     cortinaTotal: isMixed ? getSubProductTotal('Cortina') : undefined,
     molduraTotal: isMixed ? getSubProductTotal('Moldura') : undefined,
-    pisoTotal: isMixed ? getSubProductTotal("Piso") : undefined
+    pisoTotal: isMixed ? getSubProductTotal("Piso") : undefined,
+    pisoetekaTotal: isMixed ? getSubProductTotal("Piso Eteka") : undefined
   }
 }
 
 
 const getDiscounts = (order, totals) => {
+  
+  
   const toDecimalPercent = v => isNaN(v) ? 0 : (parseFloat(v) / 100)
   
   const getTotal = (name) => totals[`${name.toLowerCase()}Total`]
   const getOrderDiscount = (name) => toDecimalPercent(order[`discountPercent${name}`])
   const getDiscount = (name) => getOrderDiscount(name) ? toValue(getTotal(name) * getOrderDiscount(name)) : undefined
-
+  
+  // console.log("orden",order)
+  // console.log("totals",totals['discountPercentMoldura'])
+  // console.log("totals",totals['discountPercentPisoEteka'])
+  // console.log(getDiscount("PisoEteka"))
+  // console.log(getOrderDiscount("PisoEteka"))
+  // console.log(getOrderDiscount("Moldura"))
+  // console.log(getDiscount("Moldura"))
+  // console.log(order['discountPercentMoldura'])
+  // console.log(order['discountPercentPisoEteka'])
+  
 
   const balanceDiscount = getDiscount('Balance')
   const shutterDiscount = getDiscount('Shutter')
@@ -200,6 +213,7 @@ const getDiscounts = (order, totals) => {
   const filtrasolDiscount = getDiscount('Filtrasol')
   const cortinaDiscount = getDiscount('Cortina')
   const pisoDiscount = getDiscount("Piso")
+  const pisoEtekaDiscount = getDiscount("PisoEteka")
   const molduraDiscount = getDiscount("Moldura")
   const additionalsDiscount = order.products.map(product => getAdditionalDiscount(product,order)).reduce((p, c) => p + c, 0)
   const motorsDiscount = getMotorsTotalDiscount(order)
@@ -215,6 +229,7 @@ const getDiscounts = (order, totals) => {
     + (toValue(motorsDiscount)  * !IS_ZELBA)
     + toValue(installationPlusDiscount)
     + toValue(pisoDiscount)
+    + toValue(pisoEtekaDiscount)
     + toValue(molduraDiscount)
 
 
@@ -225,10 +240,9 @@ const getDiscounts = (order, totals) => {
 
   
   const discount = order.type === 'Mixta' ? mixedDiscount : fullDiscount
-  
-
+ 
   return {
-    ...({balanceDiscount, shutterDiscount, enrollableDiscount, filtrasolDiscount,cortinaDiscount,molduraDiscount,pisoDiscount}),
+    ...({balanceDiscount, shutterDiscount, enrollableDiscount, filtrasolDiscount,cortinaDiscount,molduraDiscount,pisoDiscount,pisoEtekaDiscount}),
     discount: toValue(discount)
   }
 }

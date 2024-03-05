@@ -246,9 +246,9 @@
         <%}%>
       </ul>
       <br>
-      <% if (htmlWebpackPlugin.options.features.city) { %>
-        <button ng-if="!showLog && order.events.length > 0" class="btn btn-secondary-left pull-right" ng-click="toggleLog()"> <%= htmlWebpackPlugin.options.order_details.show_history%></button>
-        <%}%>
+      
+      <button  class="btn btn-secondary-left pull-right" ng-click="toggleLog()"> <%= htmlWebpackPlugin.options.order_details.show_history%></button>
+       
       
       <div ng-if="showLog">
         <legend class="details-title"><%= htmlWebpackPlugin.options.order_details.history%></legend>
@@ -282,10 +282,10 @@
           <legend class="details-title" ng-if="productTypeList.type == 'Enrollable'"><%= htmlWebpackPlugin.options.enrollable.shades%></legend>
           <legend class="details-title" ng-if="productTypeList.type != 'Enrollable'">{{ pretty('productType',productTypeList.type)}} </legend>
           <!--<label ng-if="productTypeList.type != 'Enrollable'">{{ productTypeList.type}}</label>-->
-          <div ng-if="productTypeList.type =='Balance'">
+          <!-- <div ng-if="productTypeList.type =='Balance'">
             <div ng-include="'js/controllers/order/products/balances-details.html'">
             </div>
-          </div>
+          </div> -->
           <div ng-if="productTypeList.type =='Shutter'">
             <div ng-include="'js/controllers/order/products/shutters-details.html'">
             </div>
@@ -470,13 +470,25 @@
 
                   <span>{{order.molduraDiscount | currency}}</span>
                 </li>
+
+                <li ng-if="order.pisoEtekaDiscount > 0">
+
+                  <small>Descuento Piso Eteka ({{(order.pisoEtekaDiscount / order.productsTotal * 100).toFixed(2)}}%):</small>                 
+
+                  <span>{{order.pisoEtekaDiscount | currency}}</span>
+                </li>
+                
               </ul>
             </div>
-            <li ng-show="order.discountPercent && !(order.discountPercentBalance > 0 || order.discountPercentShutter > 0 || order.discountPercentEnrollable > 0 || order.discountPercentFiltrasol > 0 || order.discountPercentCortina > 0 || order.discountPercentPiso > 0 || order.discountPercentMoldura > 0 )">
+            <li ng-show="order.discountPercent && !(order.discountPercentBalance > 0 || order.discountPercentShutter > 0 ||
+               order.discountPercentEnrollable > 0 || order.discountPercentFiltrasol > 0 || order.discountPercentCortina > 0 || 
+               order.discountPercentPiso > 0 || order.discountPercentMoldura > 0 )">
               <small>{{getMatchDiscount()}} ({{order.discountPercent}}%):</small>
               <span>{{order.discount | currency}}</span>
             </li>
-            <li ng-show="order.discountPercentBalance > 0 || order.discountPercentShutter > 0 || order.discountPercentEnrollable > 0 || order.discountPercentFiltrasol > 0  || order.discountPercentCortina > 0 || order.discountPercentPiso > 0 || order.discountPercentMoldura > 0">
+            <li ng-show="order.discountPercentBalance > 0 || order.discountPercentShutter > 0 || order.discountPercentEnrollable > 0 || 
+              order.discountPercentFiltrasol > 0  || order.discountPercentCortina > 0 || order.discountPercentPiso > 0 
+              ||order.discountPercentPisoEteka > 0 || order.discountPercentMoldura > 0">
               <small><%= htmlWebpackPlugin.options.payments.discount%>:</small>
               <span>{{order.discount | currency}}</span>
             </li>
@@ -590,7 +602,7 @@
           <span class="btn-icon glyphicon glyphicon-th-large"></span>
           <%= htmlWebpackPlugin.options.order_details.send_back%> </button>
 
-          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canProduction  && (order.providerStatus=='AUTHORIZED' || !order.provider )&& !isMaster" ng-click="changeStatusDialog('PRODUCTION')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_prod%>  </button>
+          <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="(permissions.canProduction|| currentUser.role == 'CONSULTANT_MAYOR' ) && (order.providerStatus=='AUTHORIZED' || !order.provider )&& !isMaster" ng-click="changeStatusDialog('PRODUCTION')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.send_prod%>  </button>
           
           <!-- <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
           ng-show="permissions.canBackorder  && !isMaster" 
@@ -603,7 +615,7 @@
 
 
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
-          ng-show="permissions.canTransit  && !isMaster" 
+          ng-show="(permissions.canTransit || currentUser.role == 'CONSULTANT_MAYOR' ) && !isMaster" 
           ng-click="changeStatusDialog('TRANSIT')">
           <span class="btn-icon glyphicon glyphicon-th-large">
           </span><%= htmlWebpackPlugin.options.order_details.send_transit%>  
@@ -638,7 +650,7 @@
 
           
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square"
-           ng-show="permissions.canFinish  && !isMaster" ng-click="changeStatusDialog('FINISHED')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.finish%>  </button>
+           ng-show="(permissions.canFinish || currentUser.role == 'CONSULTANT_MAYOR' ) && !isMaster" ng-click="changeStatusDialog('FINISHED')"><span class="btn-icon glyphicon glyphicon-th-large"></span><%= htmlWebpackPlugin.options.order_details.finish%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canSetInstallDate  && !isMaster" ng-click="dateDialog('install')"><span class="btn-icon glyphicon glyphicon-calendar "></span><%= htmlWebpackPlugin.options.order_details.inst_date%>  </button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="permissions.canFinish  && !isMaster && !external" ng-click="shipmentDialog()"><span class="btn-icon glyphicon glyphicon-tags"></span> Generar Etiquetas</button>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" ng-show="!order.provider && !external && (currentUser.role == 'BUYER' || currentUser.role == 'MANAGER' || currentUser.role == 'SUPERADMIN') && order.status=='LINE' && needsProviderAssigned"                   ng-click="selectProvidersTrigger()"><span class="btn-icon glyphicon glyphicon-tags"></span> Asignar Proveedor</button>
@@ -683,7 +695,7 @@
             </div>
           </div>
           <button type="button" class="btn btn-secondary-actions btn-sm btn-square" 
-          ng-show="permissions.canInstall  && !isMaster" 
+          ng-show="(permissions.canInstall || currentUser.role == 'CONSULTANT_MAYOR' ) && !isMaster" 
           ng-click="changeStatusDialog('INSTALLED')"><span class="btn-icon glyphicon glyphicon-th"></span>
           
           <%= htmlWebpackPlugin.options.order_details.installed%>  </button>
@@ -749,10 +761,10 @@
 
          </span><%= htmlWebpackPlugin.options.order_details.change_state%> 
         </button> -->
-
+          <!-- CAMBIO DE ESTADO PARA ASESOR DE MAYOREO -->
 
           <button type="button"
-           ng-show="order.status ==  'QUOTE' && permissions.canCancel" 
+           ng-show="order.status ==  'QUOTE' &&( permissions.canCancel|| currentUser.role == 'CONSULTANT_MAYOR' )" 
            class="btn btn-tertiary-actions btn-sm btn-square"
             ng-click="changeStatusDialog('CANCELED')"><span class="btn-icon glyphicon glyphicon-remove   "></span><%= htmlWebpackPlugin.options.general.cancel%>  </button>
           <button type="button" ng-show="order.status !=  'QUOTE' && order.orderParent == null && order.status !=  'ORDER_CANCELED' && permissions.canCancel && order.balance >= 0.1" class="btn btn-tertiary-actions btn-sm btn-square" ng-click="changeStatusDialog('ORDER_CANCELED')">

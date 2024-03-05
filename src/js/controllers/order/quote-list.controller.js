@@ -26,7 +26,6 @@ pdApp.controller(
        
       switch(name[0]){
         case "Persianas":
-         
           return "Shades"
         case "Producto para el Exterior":
           return "Exterior Products"
@@ -48,7 +47,7 @@ pdApp.controller(
     $timeout(function () {
       if (
         $scope.currentUser.role !== "SUPERADMIN" &&
-        $scope.currentUser.role !== "CONSULTANT" &&
+        $scope.currentUser.role !== "CONSULTANT" && 
         $scope.currentUser.role !== "SALES_MANAGER"
       ) {
         $state.go("console.quote-list")
@@ -547,6 +546,8 @@ $scope.getSubQuoteDiscount = function (product, model) {
       model.discountPercent = $scope.quote.discountPercentCortina
     case "Piso":
       model.discountPercent = $scope.quote.discountPercentPiso
+    case "Piso Eteka":
+      model.discountPercent = $scope.quote.discountPercentPisoEteka
     case "Moldura":
       model.discountPercent = $scope.quote.discountPercentMoldura
   }

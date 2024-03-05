@@ -157,6 +157,20 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
             >% <%= htmlWebpackPlugin.options.quotes.percentages %>
             </li>
 
+                <li
+                class="discount"
+                ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[10].products.length > 0"
+            ><input
+                max="{{currentUser.canAdmin ? quote.clientMaxDiscount  : 15}}"
+                min="0"
+                ng-change="validateDiscounts()"
+                ng-disabled="fixedDiscounts"
+                ng-model="quote.discountPercentPisoEteka"
+                type="number"
+            >
+            % <%= htmlWebpackPlugin.options.quotes.percentages %>
+            </li>
+
 
             <li
             class="discount"
@@ -420,7 +434,10 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
         <li ng-show="quote.motorTotal">
           <small><%= htmlWebpackPlugin.options.quotes.motor %> </small><span>{{quote.motorTotal | currency}}</span>
         </li>
-        <li ng-show="quote.discountPercent || quote.discountPercentBalance || quote.discountPercentShutter || quote.discountPercentEnrollable || quote.discountPercentFiltrasol || quote.discountPercentCortina || quote.discountPercentPiso || quote.discountPercentMoldura">
+        <li ng-show="quote.discountPercent || quote.discountPercentBalance || 
+        quote.discountPercentShutter || quote.discountPercentEnrollable || 
+        quote.discountPercentFiltrasol || quote.discountPercentCortina || 
+        quote.discountPercentPiso || quote.discountPercentMoldura ||quote.discountPercentPisoEteka">
           <small><%= htmlWebpackPlugin.options.quotes.discount %>: </small><span>{{quote.discount | currency}}</span>
         </li>
         <li ng-show="quote.installationTotal"><small><%= htmlWebpackPlugin.options.quotes.installation %>: </small>
