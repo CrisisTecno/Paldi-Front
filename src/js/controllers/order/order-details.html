@@ -263,9 +263,8 @@
             <tbody ng-repeat="event in order.events">
               <tr>
                 <td>{{event.date | date : 'dd/MM/yyyy HH:mm'}}</td>
-                <td> <%= htmlWebpackPlugin.options.order_details.event%></td>
-                <td>{{event.user.name}} {{event.user.lastName}}</td>
-                <td>{{event.notes}}</td>
+                <td> {{event.action}}</td>
+                <td>{{event.userName}}</td>
               </tr>
             </tbody>
           </table>

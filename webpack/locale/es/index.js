@@ -1169,7 +1169,6 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
     <th>Fecha</th>
     <th>Acción</th>
     <th>Usuario</th>
-    <th>Observaciones</th>
     `,
     hide_history:"Ocultar Historial",
     products:"Productos",
