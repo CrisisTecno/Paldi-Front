@@ -73,7 +73,7 @@
                 <li>-{{quote.client.address}}</li>
                 <li
                     class="discount"
-ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULTANT'].includes(roleUser.role) && quote.user && quote.user.id == roleUser.id)"                ><input
+                    ng-show="!isMultiple || (product == 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULTANT'].includes(roleUser.role) && quote.user && quote.user.id == roleUser.id)"                ><input
                     max="{{quote.clientMaxDiscount}}"
                     min="0"
                     ng-change="validateDiscounts()"
@@ -159,7 +159,7 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
 
                 <li
                 class="discount"
-                ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[10].products.length > 0"
+                ng-show=" (quote.clientMaxDiscount ||currentUser.role == 'CONSULTANT_MAYOR'||currentUser.role == 'CONSULTANT')&& product != 'Custom' && isMultiple && productsSorted[10].products.length > 0"
             ><input
                 max="{{currentUser.canAdmin ? quote.clientMaxDiscount  : 15}}"
                 min="0"
@@ -174,7 +174,7 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
 
             <li
             class="discount"
-            ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[8].products.length > 0"
+            ng-show=" (quote.clientMaxDiscount ||currentUser.role == 'CONSULTANT_MAYOR'||currentUser.role == 'CONSULTANT') && product != 'Custom' && isMultiple && productsSorted[8].products.length > 0"
         ><input
             max="{{currentUser.canAdmin ? quote.clientMaxDiscount  : 15}}"
             min="0"
