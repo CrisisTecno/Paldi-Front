@@ -479,7 +479,7 @@ modals:{
     discounts:`
     <li
                     class="discount"
-ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULTANT'].includes(roleUser.role) && quote.user && quote.user.id == roleUser.id)" 
+ng-show="!isMultiple || (product == 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULTANT'].includes(roleUser.role) && quote.user && quote.user.id == roleUser.id)" 
                ><small>Descuento:</small></li>
                 <li
                     class="discount"
@@ -509,11 +509,11 @@ ng-show="!isMultiple || (product != 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
                 ><small>Desc. Piso :</small></li>
                 <li
                     class="discount"
-                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[10].products.length > 0"
+                    ng-show="(quote.clientMaxDiscount||currentUser.role == 'CONSULTANT_MAYOR'||currentUser.role == 'CONSULTANT')  && product != 'Custom' && isMultiple && productsSorted[10].products.length > 0"
                 ><small>Desc. Pisos Eteka:</small></li>
                 <li
                     class="discount"
-                    ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[8].products.length > 0"
+                    ng-show="(quote.clientMaxDiscount||currentUser.role == 'CONSULTANT_MAYOR'||currentUser.role == 'CONSULTANT') && product != 'Custom' && isMultiple && productsSorted[8].products.length > 0"
                 ><small>Desc. Molduras :</small></li>
     `,
     percentages:"(Max {{quote.clientMaxDiscount}}%)",
