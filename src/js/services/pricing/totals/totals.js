@@ -164,13 +164,33 @@ const getInstallationTotal = (order) => {
 
 
 const getProductsTotal = (order) => {
-  const productTotal = order.products.reduce((prev, prod) => prod.total + prev, 0)
+  // console.log(order)
+  // const productTotal = order.products.reduce((prev, prod) => prod.total + prev, 0)
+  const productTotal = order.products.reduce((prev, prod) => {
+      // console.log('Valor acumulado hasta el momento:', prev);
+      if (typeof prod.total === 'string') {
+              prod.total = parseFloat(prod.total);
+            }
+      return prod.total + prev;
+  }, 0);
+  // console.log(productTotal)
+  // const getSubProductTotal = (name) => order.products.reduce((prev, {
+  //   productType,
+  //   total
+  // }) => prev + ((total || 0) * (productType === name)), 0)
+  const getSubProductTotal = (name) => {
+    const subProductTotal = order.products.reduce((prev, { productType, total }) => {
+      const subTotal = (total || 0) * (productType === name);
+      // console.log(`Producto: ${productType}, Total: ${subTotal}`);
+      return prev + subTotal;
+    }, 0);
+    
+    // console.log(`Total del subproducto "${name}": ${subProductTotal}`);
+    
+    return subProductTotal;
+  }
   
-  const getSubProductTotal = (name) => order.products.reduce((prev, {
-    productType,
-    total
-  }) => prev + ((total || 0) * (productType === name)), 0)
-
+  
   const isMixed = order.type == "Mixta"
   
   return {
@@ -182,7 +202,8 @@ const getProductsTotal = (order) => {
     cortinaTotal: isMixed ? getSubProductTotal('Cortina') : undefined,
     molduraTotal: isMixed ? getSubProductTotal('Moldura') : undefined,
     pisoTotal: isMixed ? getSubProductTotal("Piso") : undefined,
-    pisoetekaTotal: isMixed ? getSubProductTotal("Piso Eteka") : undefined
+    pisoetekaTotal: isMixed ? getSubProductTotal("Piso Eteka") : undefined,
+    papelTapizTotal: isMixed ? getSubProductTotal("Papel Tapiz") : undefined
   }
 }
 
@@ -214,6 +235,7 @@ const getDiscounts = (order, totals) => {
   const cortinaDiscount = getDiscount('Cortina')
   const pisoDiscount = getDiscount("Piso")
   const pisoEtekaDiscount = getDiscount("PisoEteka")
+  const papelTapizDiscount = getDiscount("PapelTapiz")
   const molduraDiscount = getDiscount("Moldura")
   const additionalsDiscount = order.products.map(product => getAdditionalDiscount(product,order)).reduce((p, c) => p + c, 0)
   const motorsDiscount = getMotorsTotalDiscount(order)

@@ -548,6 +548,8 @@ $scope.getSubQuoteDiscount = function (product, model) {
       model.discountPercent = $scope.quote.discountPercentPiso
     case "Piso Eteka":
       model.discountPercent = $scope.quote.discountPercentPisoEteka
+    case "Papel Tapiz":
+      model.discountPercent = $scope.quote.discountPercentPapelTapiz
     case "Moldura":
       model.discountPercent = $scope.quote.discountPercentMoldura
   }

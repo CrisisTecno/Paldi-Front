@@ -1,0 +1,188 @@
+
+    <div class="quote-view">
+        <h3 class="form-title"><%= htmlWebpackPlugin.options.papers.papers %></h3>
+
+        <small class="error-message alert" ng-if="papelTapiz.doable==false"><%= htmlWebpackPlugin.options.quote_commons.no_doable %></small>
+        <small class="error-message alert" ng-if="papelTapiz.clientError"><%= htmlWebpackPlugin.options.general.select_a_client %></small>
+
+        <form name="papelTapizForm" role="form" novalidate ng-submit="addProduct('Papel Tapiz', papelTapizForm, papelTapiz)" autocomplete="off">
+
+            <div class="form-group">
+                <label><%= htmlWebpackPlugin.options.papers.option1 %></label>
+                <input type="number" name="altoPared" id="altoPared" ng-change="completeRegister('Papel Tapiz', papelTapizForm,papelTapiz)" ng-model="papelTapiz.altoPared" min="0.1" class="form-control" required="" step="0.1">
+                <small class="error-message" ng-if="papelTapizForm.$validated && papelTapizForm.altoPared.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+            </div>
+            <div class="form-group">
+                <label><%= htmlWebpackPlugin.options.papers.option2 %></label>
+                <input type="number" name="anchoPared" id="anchoPared" ng-change="completeRegister('Papel Tapiz',papelTapizForm, papelTapiz)" ng-model="papelTapiz.anchoPared"  min="0.1" class="form-control" required="" step="0.1">
+                <small class="error-message" ng-if="papelTapizForm.$validated && papelTapizForm.anchoPared.$error.required"><%= htmlWebpackPlugin.options.general.required_field %></small>
+            </div>
+
+              <div class="form-group">
+                        <label>Linea</label>
+                        <select id="line" name="line" 
+                        ng-model="papelTapiz.line" class="form-control"  ng-change="obtainColors('Papel Tapiz',papelTapizForm, papelTapiz)">
+                            <option value={{value}} ng-repeat="(key,value) in papelTapiz.typePapel">{{value}}</option>
+                          </select>
+                        <small class="error-message" ng-if="papelTapizForm.$validated && papelTapizForm.typePapel.$error.required">
+                            <%= htmlWebpackPlugin.options.general.required_field %></small>
+            </div>
+
+              <div class="form-group">
+                        <label>Color</label>
+                        <select id="colorPapel" name="colorPapel" ng-model="papelTapiz.color" class="form-control" 
+                        ng-change="obtainPrices('Papel Tapiz',papelTapizForm, papelTapiz)">
+                            <option value={{value}} ng-repeat="(key,value) in papelTapiz.colors">{{value}}</option>
+                          </select>
+                        <small class="error-message" ng-if="papelTapizForm.$validated && papelTapizForm.typePapel.$error.required">
+                            <%= htmlWebpackPlugin.options.general.required_field %></small>
+            </div>
+            <div class="form-group">
+                            <label><%=  htmlWebpackPlugin.options.papers.option3  %></label>
+                            <input type="number" name="altoRollo" ng-model="papelTapiz.altoRollo" class="form-control" required=""
+                             disabled placeholder="{{papelTapiz.altoRollo}}">
+                            <small class="error-message" ng-if="papelTapizForm.$validated && papelTapizForm.altoRollo.$error.required">
+                                <%= htmlWebpackPlugin.options.general.required_field %></small>
+                        </div>
+            <div class="form-group">
+                            <label><%=  htmlWebpackPlugin.options.papers.option4  %></label>
+                            <input type="number" name="anchoRollo" ng-model="papelTapiz.anchoRollo" class="form-control" required="" 
+                            disabled placeholder="{{papelTapiz.anchoRollo}}">
+                            <small class="error-message" ng-if="papelTapizForm.$validated && papelTapizForm.anchoRollo.$error.required">
+                                <%= htmlWebpackPlugin.options.general.required_field %></small>
+                        </div>
+            <div class="form-group">
+                            <label><%=  htmlWebpackPlugin.options.papers.option5  %></label>
+                            <input type="number" name="rapport"
+                             ng-model="papelTapiz.rapport" class="form-control" required="" 
+                            disabled placeholder="{{papelTapiz.rapport}}">
+                            <small class="error-message" ng-if="papelTapizForm.$validated && 
+                            papelTapizForm.rapport.$error.required">
+                                <%= htmlWebpackPlugin.options.general.required_field %></small>
+                        </div>
+            
+                      
+          
+
+          
+            <!-- <div class="form-group">
+                <label><%= htmlWebpackPlugin.options.papers.option5  %></label>
+                <input type="number" name="rapport" ng-model="papelTapiz.rapport" class="form-control" required=""
+                 disabled placeholder="{{papelTapiz.rapport}}">
+                <small class="error-message" ng-if="papelTapizForm.$validated && papelTapizForm.quantity.$error.required">
+                <%= htmlWebpackPlugin.options.general.required_field %></small>
+
+            </div> -->
+            
+    
+            <div class="form-group">
+                <label><%=  htmlWebpackPlugin.options.papers.option6  %></label>
+                <input type="number" name="altoTotal" ng-model="papelTapiz.altoTotal" class="form-control" required="" disabled
+                 placeholder="{{papelTapiz.altoTotal}}">
+                <small class="error-message" ng-if="papelTapizForm.$validated && papelTapizForm.altoTotal.$error.required">
+                    <%= htmlWebpackPlugin.options.general.required_field %></small>
+            </div>
+            <div class="form-group">
+                <label><%=  htmlWebpackPlugin.options.papers.option7  %></label>
+                <input type="number" name="nroLienzos" ng-model="papelTapiz.nroLienzos" class="form-control" required=""  disabled
+                 placeholder="{{papelTapiz.nroLienzos}}">
+                <small class="error-message" ng-if="papelTapizForm.$validated && papelTapizForm.nroLienzos.$error.required">
+                    <%= htmlWebpackPlugin.options.general.required_field %></small>
+            </div>
+       
+            <div class="form-group">
+                <label><%=  htmlWebpackPlugin.options.papers.option8  %></label>
+                <input type="number" name="lienzosRollo" ng-model="papelTapiz.lienzosRollo" class="form-control" required="" 
+                disabled placeholder="{{papelTapiz.lienzosRollo}}">
+                <small class="error-message" ng-if="papelTapizForm.$validated && papelTapizForm.lienzosRollo.$error.required">
+                    <%= htmlWebpackPlugin.options.general.required_field %></small>
+            </div>
+            <div class="form-group">
+                <label><%=  htmlWebpackPlugin.options.papers.option9  %></label>
+                <input type="number" name="nroRollos" ng-model="papelTapiz.nroRollos" class="form-control" required=""
+                 disabled placeholder="{{papelTapiz.nroRollos}}">
+                <small class="error-message" ng-if="papelTapizForm.$validated && papelTapizForm.nroRollos.$error.required">
+                    <%= htmlWebpackPlugin.options.general.required_field %></small>
+            </div>
+
+            
+    
+            
+            <div ng-show="addingPlus == false && papelTapiz.plusList.length > 0">
+            <hr/>
+                <button type="button" class="btn btn-default" ng-click="addPlus()"><%= htmlWebpackPlugin.options.floors.add_moldind %></button>
+            <hr/>
+            </div>
+            <div class="form-adding" ng-show="addingPlus == true && papelTapiz.plusList.length > 0">
+                <label class="title"><%= htmlWebpackPlugin.options.floors.moldind %></label>
+                <div class="form-group">
+                    <label><%= htmlWebpackPlugin.options.quote_commons.quantity %></label>
+                    <input type="number" ng-model="papelTapiz.plusQuantity" name="plusQuantity" id="plusQuantity" class="form-control" pattern="[0-9]*">
+                </div>
+                <div class="form-group">
+                    <label> <%= htmlWebpackPlugin.options.quote_commons.name%></label>
+                    <input type="text" ng-model="papelTapiz.plus" name="plus" id="plus" class="form-control"
+                     uib-typeahead="plus as plus.label for plus in papelTapiz.plusList | filter:$viewValue | limitTo:12" typeahead-editable="false">
+                </div>
+                <div>
+                    <button type="button" class="btn btn-secondary-left" ng-click="addPlus(papelTapiz.plus, papelTapiz.plusQuantity)"><%= htmlWebpackPlugin.options.general.add %></button>
+                    <button type="button" class="btn btn-tertiary-left" ng-click="cancelPlus()"><%= htmlWebpackPlugin.options.general.cancel %></button>
+                </div>
+                <hr/>
+            </div>
+            <div ng-show="plusList.length > 0">
+                <div ng-include="'js/controllers/order/products/additional-details.html'"></div>
+            </div>
+    
+            <div ng-show="addingInstallationPlus == false && papelTapiz.installationPlusList.length > 0">
+                <button type="button" class="btn btn-default" ng-click="addInstallationPlus()">
+                    <%= htmlWebpackPlugin.options.floors.add_installation_additional %></button>
+            <hr/>
+            </div>
+            <div class="form-adding" ng-show="addingInstallationPlus == true && papelTapiz.installationPlusList.length > 0">
+                <label class="title"><%= htmlWebpackPlugin.options.floors.installation_additional %>:</label>
+                <div class="form-group">
+                    <label><%= htmlWebpackPlugin.options.quote_commons.quantity %></label>
+                    <input type="number" ng-model="papelTapiz.installationPlusQuantity" name="installationPlusQuantity" id="installationPlusQuantity" class="form-control" pattern="[0-9]*">
+                </div>
+                <div class="form-group">
+                    <label><%= htmlWebpackPlugin.options.quote_commons.name %></label>
+                    <input type="text" ng-model="papelTapiz.installationPlus" name="installationPlus" id="installationPlus" class="form-control" uib-typeahead="installationPlus as installationPlus.label for installationPlus in piso.installationPlusList | filter:$viewValue | limitTo:12" typeahead-editable="false">
+                </div>
+                <div>
+                    <button type="button" class="btn btn-secondary-left" ng-click="addInstallationPlus(papelTapiz.installationPlus, papelTapiz.installationPlusQuantity)"><%= htmlWebpackPlugin.options.general.add %></button>
+                    <button type="button" class="btn btn-tertiary-left" ng-click="cancelInstallationPlus()"><%= htmlWebpackPlugin.options.general.cancel %></button>
+                </div>
+                <hr/>
+            </div>
+            <div ng-show="installationPlusList.length > 0">
+                <div ng-include="'js/controllers/order/products/installationPlus-details.html'"></div>
+            </div>
+    
+            <div class="form-group notes">
+                <label><%= htmlWebpackPlugin.options.quote_commons.notes %></label>
+                <textarea name="notes" ng-model="papelTapiz.notes" class="form-control"></textarea>
+            </div>
+    
+            <div class="total-configuration">
+                <div class="form-group" ng-show="papelTapiz.unit">
+                    <label><%= htmlWebpackPlugin.options.quote_commons.price_per_box %></label>
+                    <input ng-currency type="text" name="unit" ng-model="papelTapiz.unit" class="form-control" disabled="disabled" placeholder="{{papelTapiz.total}}">
+                </div>
+                <div class="form-group" ng-show="papelTapiz.install && papelTapiz.installationPrice">
+                    <label><%= htmlWebpackPlugin.options.quote_commons.installation_price %></label>
+                    <input ng-currency type="text" name="unit" ng-model="papelTapiz.installationPrice" class="form-control" disabled="disabled" placeholder="{{papelTapiz.installationPrice}}">
+                </div>
+                <div class="form-group" ng-show="papelTapiz.total">
+                    <label><%= htmlWebpackPlugin.options.quote_commons.total %></label>
+                    <input ng-currency type="text" name="total" ng-model="papelTapiz.total" class="form-control" disabled="disabled" placeholder="{{papelTapiz.total}}">
+                </div>
+            </div>
+    
+            <div>
+                <button type="submit" class="btn btn-primary-left"><%= htmlWebpackPlugin.options.general.add %></button>
+                <button type="button" class="btn btn-tertiary-left" ng-click="cancelProduct(papelTapizForm)"><%= htmlWebpackPlugin.options.general.cancel %></button>
+            </div>
+        </form>
+    </div>
+    

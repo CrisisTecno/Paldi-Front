@@ -1,0 +1,32 @@
+<table class="table table-striped  table-hover" datatable="ng" dt-options="tableOptions" id="productsTable">
+    <thead>
+        <tr>
+            
+            <th><%= htmlWebpackPlugin.options.details_headers.item %></th>
+         
+            <th>Alto Pared</th>
+            <th>Ancho Pared</th>
+            <th>Material</th>
+            <th>Color</th>
+            <th>Cant Rollos</th>
+            <th>Precio U.</th>
+            <th>Precio Total</th>
+
+
+        </tr>
+    </thead>
+    <tbody ng-repeat="p in productTypeList.products">
+        <tr>
+            <td>{{p.item}}</td>
+            <td>{{p.altoPared}}</td>
+            <td>{{p.anchoPared}}</td>
+            <td>{{p.line}}</td>
+            <td>{{p.color}}</td>
+            <td>{{p.nroRollos}}</td>
+            <td>{{p.price}}</td>
+            <td>{{p.total}}</td>
+
+            <td><button class="btn btn-info" ng-disabled="!p.notes" ng-click="showProductNotes(p.notes)"><%= htmlWebpackPlugin.options.details_headers.view %></button></td>
+        </tr>
+    </tbody>
+</table>

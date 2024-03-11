@@ -486,7 +486,6 @@ ng-show="!isMultiple || (product == 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple && productsSorted[0].products.length > 0"
                 ><small>Desc. Balance & Cornizas:</small></li>
                 
-                
                 <li
                     class="discount"
                     ng-show="quote.clientMaxDiscount && product != 'Custom' && isMultiple  && productsSorted[1].products.length > 0"
@@ -591,6 +590,8 @@ ng-show="!isMultiple || (product == 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
             >Persianas Wolken y Platinum
             </button>
 
+           
+
             <button
                 class="btn btn-default"
                 ng-click="addProduct('Filtrasol')"
@@ -615,6 +616,23 @@ ng-show="!isMultiple || (product == 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
                           "
             >Pisos
             </button>
+            <button
+                class="btn btn-default"
+                ng-click="addProduct('Papel Tapiz')"
+                ng-show=" 
+                           ( !(currentUser.role == 'CONSULTANT_MAYOR') &&  
+                            (!quote.type || 
+                                quote.type=='Papel Tapiz' ||
+                                
+                                (
+                                  quote.type=='Mixta' && pisoMolduraQuote()
+                                )
+                            )
+                            && !(productetk2) && !productetk4)
+                          
+                          "
+            >Papel Tapiz
+            </button>
 
             <button
                 class="btn btn-default"
@@ -628,6 +646,7 @@ ng-show="!isMultiple || (product == 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
             
                 >Pisos Eteka
             </button>
+            
 
             <button
                 class="btn btn-default"
@@ -890,6 +909,34 @@ ng-show="!isMultiple || (product == 'Custom' && ['CONSULTANT', 'EXTERNAL_CONSULT
     squared:true
   },
   floors:{
+    floors:"Pisos",
+    type_options:`
+   
+    <option value="Vinil">Vinil</option>
+    <option value="Ingenieria">Ingeniería</option>
+    `,
+    squared_per_box:true,
+    installed:"Instalación",
+    add_moldind:"Agregar Moldura/Adicional",
+    moldind:"Moldura/Adicional:",
+    quantity:"Cantidad",
+    name:"Nombre",
+    add_installation_additional:"Agregar Adicional de Instalación",
+    installation_additional:"Adicional de Instalación",
+    code:" Codigo",
+    line:"Línea",
+  },
+  papers:{
+    papers:"Papel Tapiz",
+    option1:"Alto de la Pared (mts)",
+    option2:"Ancho de la Pared (mts)",
+    option3:"Alto del Rollo (mts)",
+    option4:"Ancho del Rollo (mts)",
+    option5:"Rapport (mts)",
+    option6:"Alto Total",
+    option7:"Nro. de Lienzos",
+    option8:"Lienzos por Rollo",
+    option9:"Nro. de Rollos",
     floors:"Pisos",
     type_options:`
    

@@ -445,6 +445,7 @@ pdApp.controller(
       $scope.productsSorted.push({ type: "Moldura", products: [] });
       $scope.productsSorted.push({ type: "Custom", products: [] });
       $scope.productsSorted.push({ type: "Piso Eteka", products: [] });
+      $scope.productsSorted.push({ type: "Papel Tapiz", products: [] });
       console.log($scope.productsSorted)
       $scope.suborders = [];
       $scope.limitDays = 20;
