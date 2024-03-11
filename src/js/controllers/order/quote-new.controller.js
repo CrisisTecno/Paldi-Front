@@ -512,15 +512,18 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     if (model.line && model.altoPared && model.anchoPared && model.color) {
       try {
         const papelTapiz = await colorPriceService.getPapelTapizPrice(model.line, model.color);
-        model.total = papelTapiz.price;
         model.rapport = papelTapiz.rappot;
         model.altoRollo = papelTapiz.heigth;
         model.anchoRollo = papelTapiz.width;
-        model.price= papelTapiz.price;
         model.altoTotal = parseFloat((model.altoPared + model.rapport).toFixed(2));
         model.nroLienzos = parseFloat((model.anchoPared / model.anchoRollo).toFixed(2));
         model.lienzosRollo = parseFloat((model.altoRollo / model.altoTotal).toFixed(2));
-        model.nroRollos = parseFloat((model.nroLienzos / model.lienzosRollo).toFixed(2));
+        var division = model.nroLienzos / model.lienzosRollo;
+
+        model.nroRollos = Math.ceil(division);
+        model.price= parseFloat(papelTapiz.price);
+        model.quantity=model.nroRollos
+        model.total =model.price*model.quantity;
         // console.log("Tenemos el precio y los detalles del papel tapiz", papelTapiz);
         // console.log("Tenemos el precio y los detalles del papel tapiz", model);
       } catch (error) {
@@ -546,15 +549,17 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     if (model.line && model.altoPared && model.anchoPared && model.color) {
       try {
         const papelTapiz = await colorPriceService.getPapelTapizPrice(model.line, model.color);
-        model.total = papelTapiz.price;
-        model.price= papelTapiz.price;
         model.rapport = papelTapiz.rappot;
         model.altoRollo = papelTapiz.heigth;
         model.anchoRollo = papelTapiz.width;
         model.altoTotal = parseFloat((model.altoPared + model.rapport).toFixed(2));
         model.nroLienzos = parseFloat((model.anchoPared / model.anchoRollo).toFixed(2));
         model.lienzosRollo = parseFloat((model.altoRollo / model.altoTotal).toFixed(2));
-        model.nroRollos = parseFloat((model.nroLienzos / model.lienzosRollo).toFixed(2));
+        var division = model.nroLienzos / model.lienzosRollo;
+        model.nroRollos = Math.ceil(division);
+        model.price= parseFloat(papelTapiz.price);
+        model.quantity=model.nroRollos
+        model.total =model.price*model.quantity;
         // console.log("Tenemos el precio y los detalles del papel tapiz", papelTapiz);
         // console.log("Tenemos el precio y los detalles del papel tapiz", model);
       } catch (error) {
@@ -578,16 +583,20 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     if (model.line && model.altoPared && model.anchoPared && model.color) {
       try {
         const papelTapiz = await colorPriceService.getPapelTapizPrice(model.line, model.color);
-        model.total = papelTapiz.price;
-        model.quantity=1
-        model.price= papelTapiz.price;
+        
         model.rapport = papelTapiz.rappot;
         model.altoRollo = papelTapiz.heigth;
         model.anchoRollo = papelTapiz.width;
         model.altoTotal = parseFloat((model.altoPared + model.rapport).toFixed(2));
         model.nroLienzos = parseFloat((model.anchoPared / model.anchoRollo).toFixed(2));
         model.lienzosRollo = parseFloat((model.altoRollo / model.altoTotal).toFixed(2));
-        model.nroRollos = parseFloat((model.nroLienzos / model.lienzosRollo).toFixed(2));
+        var division = model.nroLienzos / model.lienzosRollo;
+        model.nroRollos = Math.ceil(division);
+        model.price= parseFloat(papelTapiz.price);
+        model.quantity=model.nroRollos
+        model.total =model.price*model.quantity;
+       
+       
         // console.log("Tenemos el precio y los detalles del papel tapiz", papelTapiz);
         // console.log("Tenemos el precio y los detalles del papel tapiz", model);
       } catch (error) {
