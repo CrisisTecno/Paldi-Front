@@ -227,19 +227,19 @@ pdApp.controller(
         
         const orders = await paldiService.orders.getBatchOrders(ids)
          
-        const errors = orders.map(order=>{
+        /* const errors = orders.map(order=>{
           return order._id
-        })
+        }) */
         
       
         
         result.data = result.data
           .map((order) => ({
             ...order,
-            real: orders.filter(({_id}) => {
+            real: {}/* orders.filter(({_id}) => {
               
               return _id === order.id
-            })[0],
+            })[0] */,
           }))
           .map((order) => {
            
