@@ -224,12 +224,12 @@ pdApp.controller(
 
       if (true) {
         const ids = result.data.map(({id}) => id)
-        console.log('result.data', result.data)
-        console.log('ids', ids)
+        console.log('result', result)
+        /* console.log('ids', ids)
         
         const orders = await paldiService.orders.getBatchOrders(ids)
          
-        /* const errors = orders.map(order=>{
+        const errors = orders.map(order=>{
           return order._id
         }) */
         
