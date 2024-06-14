@@ -7,7 +7,7 @@ import { console_costing, reports } from "../../../webpack/locale/es";
 import { inches_to_meters, meters_to_inches, sq_inches_to_meters, sq_meters_to_inches } from "../utils/units";
 const PRODUCTS = ['pisos', 'enrollables', 'filtrasoles', 'balances', 'shutters', 'toldos', 'moldings','cortinas']
 // TODO: Agregar esto a un modulo
-
+console.log("globals.api.orders.byStatus", globals.api.orders.byStatus);
 function toFraction(amt) {
       
   const tags = ["0", "0.125", "0.25", "0.375", "0.5", "0.625", "0.75", "0.875"]
