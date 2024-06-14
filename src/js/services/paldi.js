@@ -1214,6 +1214,7 @@ pdApp.factory("paldiService", function ($http, $q, $rootScope) {
           params: params,
         })
         .then(function (response) {
+              console.log('response', response);
           return response.data.response;
         });
     },
