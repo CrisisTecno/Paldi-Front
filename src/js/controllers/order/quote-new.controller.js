@@ -17,7 +17,7 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
   }, 1000);
 
   $scope.originalMix = false;
-  $scope.needsLoadProjects = true;
+  $scope.needsLoadProjects = false;
 
   $scope.ngDialog = ngDialog;
   $scope.isInternalEnv = EXECUTION_ENV == "INTERNAL"
@@ -313,8 +313,10 @@ pdApp.controller("QuoteNewCtrl", function ($scope, $rootScope, $state, $statePar
     }
     updateDiscount()
 
-    if (client.bitrixId != null && $scope.needsLoadProjects) $scope.bitrixProjectExists = true
-    else $scope.bitrixProjectExists = false
+    if (client.bitrixId != null && $scope.needsLoadProjects) 
+      $scope.bitrixProjectExists = true
+    else 
+      $scope.bitrixProjectExists = false
     //$scope.bitrixProjectExists = true
     $scope.loadProjects(client.bitrixId)
     $scope.clientStep = "selected"
