@@ -8,19 +8,23 @@ import { getExtraNames, getInstallationSheetSaveHandler, getObjName, isExtraPres
 
 let  verify = async(addr) => {
   var geocoder = new google.maps.Geocoder();
-  var res =null;
-  await geocoder.geocode({
-    address: addr
-  }, function(responses) {
-    
-    if (responses && responses.length > 0) {
-     
-      res =true
-    } else {
-      res =null
-     
-    }
-  });
+  var res = null;
+  try {
+    await geocoder.geocode({
+      address: addr
+    }, function(responses) {
+      
+      if (responses && responses.length > 0) {
+      
+        res = true
+      } else {
+        res = null
+      
+      }
+    });
+  } catch(error) {
+    console.log('---- ERROR - ', error);
+  }
   return res;
 };
 const getInstallationSheetState = async ($scope, order) => {
@@ -90,7 +94,6 @@ export const showCreateInstallationSheetDialog = async (
       let vald = await verify(data.address)
       if(vald==null){
         $scope.error.address.invalid=true
-        return
       }else{
         $scope.error.address.invalid=false
       }
