@@ -3,32 +3,32 @@
 **Paldi-Front** es la interfaz de usuario de **Paldi**, una aplicación diseñada para la gestión y control de cortinas, persianas, enrollables y demas para la empresa PALDI. Esta herramienta permite a los usuarios, servidores manejar de manera eficiente y centralizada las ventas de la empresa cotizaciones y generacion de reportes.
 
 <p align="center">
-  <img src="public/assets/readme/pp0.png" alt="Mockup 1" width="45%" />
-  <img src="public/assets/readme/pp1.png" alt="Mockup 2" width="45%" />
+  <img src="/public/assets/readme/pp0.png" alt="Mockup 1" width="45%" />
+  <img src="/public/assets/readme/pp1.png" alt="Mockup 2" width="45%" />
 </p>
 <p align="center">
-  <img src="public/assets/readme/pp2.png" alt="Mockup 1" width="45%" />
-  <img src="public/assets/readme/pp3.png" alt="Mockup 2" width="45%" />
+  <img src="/public/assets/readme/pp2.png" alt="Mockup 1" width="45%" />
+  <img src="/public/assets/readme/pp3.png" alt="Mockup 2" width="45%" />
 </p>
 <p align="center">
-  <img src="public/assets/readme/pp4.png" alt="Mockup 1" width="45%" />
-  <img src="public/assets/readme/pp5.png" alt="Mockup 2" width="45%" />
+  <img src="/public/assets/readme/pp4.png" alt="Mockup 1" width="45%" />
+  <img src="/public/assets/readme/pp5.png" alt="Mockup 2" width="45%" />
 </p>
 <p align="center">
-  <img src="public/assets/readme/pp6.png" alt="Mockup 1" width="45%" />
-  <img src="public/assets/readme/pp7.png" alt="Mockup 2" width="45%" />
+  <img src="/public/assets/readme/pp6.png" alt="Mockup 1" width="45%" />
+  <img src="/public/assets/readme/pp7.png" alt="Mockup 2" width="45%" />
 </p>
 <p align="center">
-  <img src="public/assets/readme/pp8.png" alt="Mockup 1" width="45%" />
-  <img src="public/assets/readme/pp9.png" alt="Mockup 2" width="45%" />
+  <img src="/public/assets/readme/pp8.png" alt="Mockup 1" width="45%" />
+  <img src="/public/assets/readme/pp9.png" alt="Mockup 2" width="45%" />
 </p>
 <p align="center">
-  <img src="public/assets/readme/pp11.png" alt="Mockup 1" width="45%" />
-  <img src="public/assets/readme/pp12.png" alt="Mockup 2" width="45%" />
+  <img src="/public/assets/readme/pp11.png" alt="Mockup 1" width="45%" />
+  <img src="/public/assets/readme/pp12.png" alt="Mockup 2" width="45%" />
 </p>
 <p align="center">
-  <img src="public/assets/readme/pp13.png" alt="Mockup 1" width="45%" />
-  <img src="public/assets/readme/pp14.png" alt="Mockup 2" width="45%" />
+  <img src="/public/assets/readme/pp13.png" alt="Mockup 1" width="45%" />
+  <img src="/public/assets/readme/pp14.png" alt="Mockup 2" width="45%" />
 </p>
 
 ## Tecnologías Utilizadas
